@@ -109,6 +109,8 @@ export interface StrapiResponse<T> {
   meta: any;
 }
 
+
+
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
 export async function fetchStrapiData<T>(endpoint: string): Promise<T> {

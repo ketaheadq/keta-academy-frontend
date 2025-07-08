@@ -65,7 +65,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
     let earnedPoints = 0
     let totalPoints = 0
 
-    quiz.questions.forEach((question) => {
+    quiz.questions.forEach((question: StrapiQuizQuestion) => {
       totalPoints += question.points
       const userAnswer = answers[question.id]
       let isCorrect = false
