@@ -89,12 +89,16 @@ export default async function MainLayout({ children }: MainLayoutProps) {
             </nav>
 
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="text-text hover:text-primary font-medium transition-colors">
-                Giriş Yap
-              </Button>
-              <Button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Üye Ol
-              </Button>
+              <Link href="/giris">
+                <Button variant="ghost" className="text-text hover:text-primary font-medium transition-colors">
+                  Giriş Yap
+                </Button>
+              </Link>
+              <Link href="/kayit-ol">
+                <Button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  Üye Ol
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

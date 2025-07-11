@@ -8,17 +8,25 @@ import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Play, Pause, Clock, BookOpen, CheckCircle, Circle, GraduationCap, Target } from "lucide-react"
 import Image from "next/image"
-import Quiz from "@/components/quiz"
-import type { StrapiCourse, StrapiLesson, StrapiQuiz, QuizResult } from "@/types/strapi"
-import Navbar from "@/components/navbar"
+import Quiz, { type QuizResult } from "@/components/quiz"
+import type { StrapiCourse, StrapiLesson, StrapiQuiz, StrapiImage, StrapiSubject, StrapiGrade, StrapiQuestion, StrapiAnswerOption } from "@/lib/strapi"
 
-// Mock data - replace with actual API calls
+// Extended lesson interface for mock data with additional properties
+interface ExtendedLesson extends StrapiLesson {
+  duration: number;
+  order: number;
+  youtubeVideoId: string;
+  isCompleted: boolean;
+  quiz?: StrapiQuiz;
+}
+
+// Mock data - updated to match Strapi interfaces
 const mockCourse: StrapiCourse = {
   id: 1,
   documentId: "course_123",
-  title: "Algebra I: Linear Equations and Functions",
+  title: "Cebir I: Doğrusal Denklemler ve Fonksiyonlar",
   description:
-    "Master the fundamentals of linear equations, graphing, and function analysis. This comprehensive course covers everything from basic algebraic manipulation to advanced function transformations.",
+    "Doğrusal denklemler, grafik çizimi ve fonksiyon analizinin temellerinde uzmanlaşın. Bu kapsamlı kurs, temel cebirsel işlemlerden ileri fonksiyon dönüşümlerine kadar her şeyi kapsar.",
   duration: 480, // minutes
   createdAt: "2024-01-01T00:00:00Z",
   updatedAt: "2024-01-15T00:00:00Z",
@@ -26,61 +34,90 @@ const mockCourse: StrapiCourse = {
   slug: "algebra-1-linear-equations",
   thumbnail: {
     id: 1,
+    documentId: "img_123",
     name: "algebra-thumbnail.jpg",
-    url: "/placeholder.svg?height=400&width=600",
-    alternativeText: "Algebra course thumbnail",
+    alternativeText: "Cebir kursu küçük resmi",
+    caption: null,
     width: 600,
     height: 400,
-  },
+    formats: {},
+    hash: "algebra_hash",
+    ext: ".jpg",
+    mime: "image/jpeg",
+    size: 125.5,
+    url: "/placeholder.svg?height=400&width=600",
+    previewUrl: null,
+    provider: "local",
+    provider_metadata: {
+      public_id: "algebra_thumb",
+      resource_type: "image",
+    },
+    createdAt: "2024-01-01T00:00:00Z",
+    updatedAt: "2024-01-01T00:00:00Z",
+    publishedAt: "2024-01-01T00:00:00Z",
+  } as StrapiImage,
   subject: {
     id: 1,
     documentId: "math_subject",
-    name: "Mathematics",
+    name: "Matematik",
     slug: "mathematics",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z",
     publishedAt: "2024-01-01T00:00:00Z",
-    description: "Mathematical concepts and problem solving",
+    description: "Matematiksel kavramlar ve problem çözme",
     icon: {
       id: 1,
       name: "calculator",
     },
-  },
-  grade: [
+  } as StrapiSubject,
+  grades: [
     {
       id: 1,
       documentId: "grade_9",
-      name: "9th Grade",
+      name: "9. Sınıf",
       slug: "9th-grade",
       createdAt: "2024-01-01T00:00:00Z",
       updatedAt: "2024-01-01T00:00:00Z",
       publishedAt: "2024-01-01T00:00:00Z",
       order: 9,
-    },
+    } as StrapiGrade,
   ],
+  isPopular: true,
+  course_lessons: [],
 }
 
 const mockQuizzes: Record<number, StrapiQuiz> = {
   1: {
     id: 1,
     documentId: "quiz_1",
-    title: "Linear Equations Basics Quiz",
-    description: "Test your understanding of basic linear equations",
+    title: "Doğrusal Denklemler Temel Quiz",
+    description: "Temel doğrusal denklemler konusundaki bilginizi test edin",
     passingScore: 70,
     timeLimit: 15,
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z",
     publishedAt: "2024-01-01T00:00:00Z",
+    slug: "linear-equations-quiz",
     maxAttempts: 3,
     questions: [
       {
         id: 1,
         documentId: "question_1",
-        question: "What is the slope of the line y = 2x + 3?",
-        type: "multiple_choice",
+        text: [
+          {
+            type: "paragraph",
+            children: [{ text: "y = 2x + 3 doğrusunun eğimi nedir?" }],
+          },
+        ],
+        type: "multipleChoice",
         order: 1,
         points: 10,
-        explanation: "In the slope-intercept form y = mx + b, the coefficient of x (m) represents the slope.",
+        explanation: [
+          {
+            type: "paragraph",
+            children: [{ text: "Eğim-kesim formunda y = mx + b, x'in katsayısı (m) eğimi temsil eder." }],
+          },
+        ],
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: "2024-01-01T00:00:00Z",
         publishedAt: "2024-01-01T00:00:00Z",
@@ -89,45 +126,46 @@ const mockQuizzes: Record<number, StrapiQuiz> = {
           { id: 2, text: "3", isCorrect: false, order: 2 },
           { id: 3, text: "-2", isCorrect: false, order: 3 },
           { id: 4, text: "5", isCorrect: false, order: 4 },
-        ],
-      },
+        ] as StrapiAnswerOption[],
+      } as StrapiQuestion,
       {
         id: 2,
         documentId: "question_2",
-        question: "Is the equation 3x + 4 = 7 a linear equation?",
-        type: "true_false",
+        text: [
+          {
+            type: "paragraph",
+            children: [{ text: "3x + 4 = 7 denklemi doğrusal bir denklem midir?" }],
+          },
+        ],
+        type: "trueFalse",
         order: 2,
         points: 10,
-        explanation: "Yes, this is a linear equation because the variable x has a degree of 1.",
+        explanation: [
+          {
+            type: "paragraph",
+            children: [{ text: "Evet, bu doğrusal bir denklemdir çünkü x değişkeninin derecesi 1'dir." }],
+          },
+        ],
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: "2024-01-01T00:00:00Z",
         publishedAt: "2024-01-01T00:00:00Z",
-        correctAnswer: "true",
-      },
-      {
-        id: 3,
-        documentId: "question_3",
-        question: "Solve for x: 2x + 6 = 14",
-        type: "fill_blank",
-        order: 3,
-        points: 15,
-        explanation: "Subtract 6 from both sides: 2x = 8, then divide by 2: x = 4",
-        createdAt: "2024-01-01T00:00:00Z",
-        updatedAt: "2024-01-01T00:00:00Z",
-        publishedAt: "2024-01-01T00:00:00Z",
-        correctAnswer: "4",
-      },
-    ],
-  },
+        options: [
+          { id: 5, text: "Doğru", isCorrect: true, order: 1 },
+          { id: 6, text: "Yanlış", isCorrect: false, order: 2 },
+        ] as StrapiAnswerOption[],
+      } as StrapiQuestion,
+    ] as StrapiQuestion[],
+  } as StrapiQuiz,
 }
 
 // Update mockLessons to include quiz references
-const mockLessons: StrapiLesson[] = [
+const mockLessons: ExtendedLesson[] = [
   {
     id: 1,
     documentId: "lesson_1",
-    title: "Introduction to Linear Equations",
-    description: "Learn the basics of linear equations and how to identify them",
+    title: "Doğrusal Denklemlere Giriş",
+    description: "Doğrusal denklemlerin temellerini öğrenin ve nasıl tanımlayacağınızı keşfedin",
+    videoURL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     duration: 25,
     order: 1,
     youtubeVideoId: "dQw4w9WgXcQ",
@@ -140,8 +178,9 @@ const mockLessons: StrapiLesson[] = [
   {
     id: 2,
     documentId: "lesson_2",
-    title: "Solving One-Step Equations",
-    description: "Master the fundamentals of solving simple linear equations",
+    title: "Tek Adımlı Denklem Çözme",
+    description: "Basit doğrusal denklemleri çözmenin temellerinde ustalaşın",
+    videoURL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     duration: 30,
     order: 2,
     youtubeVideoId: "dQw4w9WgXcQ",
@@ -153,8 +192,9 @@ const mockLessons: StrapiLesson[] = [
   {
     id: 3,
     documentId: "lesson_3",
-    title: "Solving Multi-Step Equations",
-    description: "Learn to solve complex equations with multiple operations",
+    title: "Çok Adımlı Denklem Çözme",
+    description: "Birden fazla işlem içeren karmaşık denklemleri çözmeyi öğrenin",
+    videoURL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     duration: 35,
     order: 3,
     youtubeVideoId: "dQw4w9WgXcQ",
@@ -166,8 +206,9 @@ const mockLessons: StrapiLesson[] = [
   {
     id: 4,
     documentId: "lesson_4",
-    title: "Graphing Linear Equations",
-    description: "Understand how to graph linear equations on a coordinate plane",
+    title: "Doğrusal Denklemlerin Grafiği",
+    description: "Koordinat düzleminde doğrusal denklemlerin nasıl grafik çizileceğini anlayın",
+    videoURL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     duration: 40,
     order: 4,
     youtubeVideoId: "dQw4w9WgXcQ",
@@ -179,8 +220,9 @@ const mockLessons: StrapiLesson[] = [
   {
     id: 5,
     documentId: "lesson_5",
-    title: "Slope and Y-Intercept",
-    description: "Learn about slope-intercept form and how to find slope",
+    title: "Eğim ve Y-Kesimi",
+    description: "Eğim-kesim formu hakkında bilgi edinin ve eğimi nasıl bulacağınızı öğrenin",
+    videoURL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     duration: 32,
     order: 5,
     youtubeVideoId: "dQw4w9WgXcQ",
@@ -192,8 +234,9 @@ const mockLessons: StrapiLesson[] = [
   {
     id: 6,
     documentId: "lesson_6",
-    title: "Writing Linear Equations",
-    description: "Practice writing equations in different forms",
+    title: "Doğrusal Denklem Yazma",
+    description: "Farklı formlarda denklem yazmayı pratik yapın",
+    videoURL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     duration: 28,
     order: 6,
     youtubeVideoId: "dQw4w9WgXcQ",
@@ -205,10 +248,10 @@ const mockLessons: StrapiLesson[] = [
 ]
 
 export default function CoursePage({ params }: { params: { slug: string } }) {
-  const [currentLesson, setCurrentLesson] = useState<StrapiLesson>(mockLessons[0])
+  const [currentLesson, setCurrentLesson] = useState<ExtendedLesson>(mockLessons[0])
   const [isPlaying, setIsPlaying] = useState(false)
   const [course] = useState<StrapiCourse>(mockCourse)
-  const [lessons] = useState<StrapiLesson[]>(mockLessons)
+  const [lessons] = useState<ExtendedLesson[]>(mockLessons)
   const [showQuiz, setShowQuiz] = useState(false)
   const [currentQuiz, setCurrentQuiz] = useState<StrapiQuiz | null>(null)
 
@@ -225,7 +268,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
     return `${mins}m`
   }
 
-  const handleLessonSelect = (lesson: StrapiLesson) => {
+  const handleLessonSelect = (lesson: ExtendedLesson) => {
     setCurrentLesson(lesson)
     setIsPlaying(false)
   }
@@ -248,7 +291,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
 
   const markLessonComplete = (lessonId: number) => {
     // In a real app, this would make an API call to update lesson completion status
-    console.log(`Marking lesson ${lessonId} as complete`)
+    console.log(`Ders ${lessonId} tamamlandı olarak işaretleniyor`)
   }
 
   const handleStartQuiz = (quiz: StrapiQuiz) => {
@@ -257,7 +300,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
   }
 
   const handleQuizComplete = (result: QuizResult) => {
-    console.log("Quiz completed with result:", result)
+    console.log("Quiz tamamlandı, sonuç:", result)
     // In a real app, save the result to the backend
   }
 
@@ -268,7 +311,6 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar currentPath={`/course/${params.slug}`} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content - Video Player */}
@@ -307,39 +349,41 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                         onClick={handlePreviousLesson}
                         disabled={lessons.findIndex((l) => l.id === currentLesson.id) === 0}
                       >
-                        Previous
+                        Önceki
                       </Button>
                       <Button onClick={() => setIsPlaying(!isPlaying)} className="flex items-center space-x-2">
                         {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                        <span>{isPlaying ? "Pause" : "Play"}</span>
+                        <span>{isPlaying ? "Duraklat" : "Oynat"}</span>
                       </Button>
                       <Button
                         variant="outline"
                         onClick={handleNextLesson}
                         disabled={lessons.findIndex((l) => l.id === currentLesson.id) === lessons.length - 1}
                       >
-                        Next
+                        Sonraki
                       </Button>
                     </div>
 
-                    <Button
-                      variant={currentLesson.isCompleted ? "secondary" : "default"}
-                      onClick={() => markLessonComplete(currentLesson.id)}
-                      className="flex items-center space-x-2"
-                    >
-                      {currentLesson.isCompleted ? <CheckCircle className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
-                      <span>{currentLesson.isCompleted ? "Completed" : "Mark Complete"}</span>
-                    </Button>
-                    {currentLesson.quiz && (
+                    <div className="flex items-center space-x-2">
                       <Button
-                        variant="outline"
-                        onClick={() => handleStartQuiz(currentLesson.quiz!)}
+                        variant={currentLesson.isCompleted ? "secondary" : "default"}
+                        onClick={() => markLessonComplete(currentLesson.id)}
                         className="flex items-center space-x-2"
                       >
-                        <Target className="h-4 w-4" />
-                        <span>Take Quiz</span>
+                        {currentLesson.isCompleted ? <CheckCircle className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
+                        <span>{currentLesson.isCompleted ? "Tamamlandı" : "Tamamlandı İşaretle"}</span>
                       </Button>
-                    )}
+                      {currentLesson.quiz && (
+                        <Button
+                          variant="outline"
+                          onClick={() => handleStartQuiz(currentLesson.quiz!)}
+                          className="flex items-center space-x-2"
+                        >
+                          <Target className="h-4 w-4" />
+                          <span>Quiz Çöz</span>
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -350,33 +394,33 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <BookOpen className="h-5 w-5" />
-                  <span>About This Course</span>
+                  <span>Bu Kurs Hakkında</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Course Description</h3>
+                    <h3 className="font-semibold text-gray-900 mb-2">Kurs Açıklaması</h3>
                     <p className="text-gray-600 mb-4">{course.description}</p>
 
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <Target className="h-4 w-4 text-gray-500" />
-                        <span className="text-sm text-gray-600">Subject: {course.subject.name}</span>
+                        <span className="text-sm text-gray-600">Konu: {course.subject.name}</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <GraduationCap className="h-4 w-4 text-gray-500" />
                         <span className="text-sm text-gray-600">
-                          Grade: {course.grade.map((g) => g.name).join(", ")}
+                          Sınıf: {course.grades.map((g: StrapiGrade) => g.name).join(", ")}
                         </span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Clock className="h-4 w-4 text-gray-500" />
-                        <span className="text-sm text-gray-600">Total Duration: {formatDuration(course.duration)}</span>
+                        <span className="text-sm text-gray-600">Toplam Süre: {formatDuration(course.duration)}</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <BookOpen className="h-4 w-4 text-gray-500" />
-                        <span className="text-sm text-gray-600">{totalLessons} Lessons</span>
+                        <span className="text-sm text-gray-600">{totalLessons} Ders</span>
                       </div>
                     </div>
                   </div>
@@ -400,12 +444,12 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
             <Card className="sticky top-6">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  <span>Course Lessons</span>
+                  <span>Kurs Dersleri</span>
                   <Badge variant="secondary">
                     {completedLessons}/{totalLessons}
                   </Badge>
                 </CardTitle>
-                <CardDescription>Track your progress through the course</CardDescription>
+                <CardDescription>Kurstaki ilerlemenizi takip edin</CardDescription>
               </CardHeader>
               <CardContent className="p-0">
                 <ScrollArea className="h-96">

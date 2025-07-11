@@ -20,13 +20,41 @@ import {
   AlertCircle,
   Target,
 } from "lucide-react"
-import type { StrapiQuiz, QuizAttempt, QuizResult } from "@/types/strapi"
+import type { StrapiQuiz, StrapiQuestion, StrapiBlock } from "@/lib/strapi"
+
+// Frontend-only types for quiz functionality
+interface QuizAttempt {
+  questionId: number;
+  selectedAnswer: string | boolean;
+  isCorrect: boolean;
+  points: number;
+}
+
+export interface QuizResult {
+  totalQuestions: number;
+  correctAnswers: number;
+  totalPoints: number;
+  earnedPoints: number;
+  percentage: number;
+  passed: boolean;
+  attempts: QuizAttempt[];
+}
 
 interface QuizProps {
   quiz: StrapiQuiz
   onComplete: (result: QuizResult) => void
   onClose: () => void
 }
+
+// Helper function to extract text from StrapiBlock array
+const extractTextFromBlocks = (blocks: StrapiBlock[] | string | undefined): string => {
+  if (!blocks) return "";
+  if (typeof blocks === "string") return blocks;
+  
+  return blocks.map(block => 
+    block.children?.map(child => child.text).join("") || ""
+  ).join(" ");
+};
 
 export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
@@ -65,35 +93,36 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
     let earnedPoints = 0
     let totalPoints = 0
 
-    quiz.questions.forEach((question: StrapiQuizQuestion) => {
-      totalPoints += question.points
+    quiz.questions.forEach((question: StrapiQuestion) => {
+      const questionPoints = 10; // Default points if not specified
+      totalPoints += questionPoints
       const userAnswer = answers[question.id]
       let isCorrect = false
 
-      if (question.type === "multiple_choice") {
+      if (question.type === "multipleChoice") {
         const correctOption = question.options?.find((opt) => opt.isCorrect)
         isCorrect = userAnswer === correctOption?.text
-      } else if (question.type === "true_false") {
-        isCorrect = userAnswer === (question.correctAnswer === "true")
-      } else if (question.type === "fill_blank") {
-        isCorrect = userAnswer?.toString().toLowerCase().trim() === question.correctAnswer?.toLowerCase().trim()
+      } else if (question.type === "trueFalse") {
+        // For true/false, compare boolean values
+        const correctAnswer = question.options?.find((opt) => opt.isCorrect)?.text
+        isCorrect = userAnswer?.toString().toLowerCase() === correctAnswer?.toLowerCase()
       }
 
       if (isCorrect) {
         correctAnswers++
-        earnedPoints += question.points
+        earnedPoints += questionPoints
       }
 
       attempts.push({
         questionId: question.id,
         selectedAnswer: userAnswer,
         isCorrect,
-        points: isCorrect ? question.points : 0,
+        points: isCorrect ? questionPoints : 0,
       })
     })
 
     const percentage = totalPoints > 0 ? (earnedPoints / totalPoints) * 100 : 0
-    const passed = percentage >= quiz.passingScore
+    const passed = percentage >= (quiz.passingScore || 70)
 
     return {
       totalQuestions,
@@ -155,11 +184,11 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
               </div>
             )}
           </div>
-          <CardTitle className="text-2xl">{quizResult.passed ? "Congratulations! 🎉" : "Keep Trying! 💪"}</CardTitle>
+          <CardTitle className="text-2xl">{quizResult.passed ? "Tebrikler! 🎉" : "Tekrar Deneyin! 💪"}</CardTitle>
           <CardDescription>
             {quizResult.passed
-              ? "You've successfully completed the quiz!"
-              : `You need ${quiz.passingScore}% to pass. You scored ${quizResult.percentage.toFixed(1)}%`}
+              ? "Quizi başarıyla tamamladınız!"
+              : `Geçmek için %${quiz.passingScore || 70} gerekli. Puanınız %${quizResult.percentage.toFixed(1)}`}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -167,31 +196,34 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
               <div className="text-2xl font-bold text-blue-600">{quizResult.percentage.toFixed(1)}%</div>
-              <div className="text-sm text-gray-600">Final Score</div>
+              <div className="text-sm text-gray-600">Final Puan</div>
             </div>
             <div className="text-center p-4 bg-green-50 rounded-lg">
               <div className="text-2xl font-bold text-green-600">{quizResult.correctAnswers}</div>
-              <div className="text-sm text-gray-600">Correct</div>
+              <div className="text-sm text-gray-600">Doğru</div>
             </div>
             <div className="text-center p-4 bg-red-50 rounded-lg">
               <div className="text-2xl font-bold text-red-600">
                 {quizResult.totalQuestions - quizResult.correctAnswers}
               </div>
-              <div className="text-sm text-gray-600">Incorrect</div>
+              <div className="text-sm text-gray-600">Yanlış</div>
             </div>
             <div className="text-center p-4 bg-purple-50 rounded-lg">
               <div className="text-2xl font-bold text-purple-600">
                 {quizResult.earnedPoints}/{quizResult.totalPoints}
               </div>
-              <div className="text-sm text-gray-600">Points</div>
+              <div className="text-sm text-gray-600">Puan</div>
             </div>
           </div>
 
           {/* Question Review */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Question Review</h3>
+            <h3 className="text-lg font-semibold">Soru İncelemesi</h3>
             {quiz.questions.map((question, index) => {
               const attempt = quizResult.attempts.find((a) => a.questionId === question.id)
+              const questionText = extractTextFromBlocks(question.text)
+              const explanationText = extractTextFromBlocks(question.explanation)
+              
               return (
                 <Card
                   key={question.id}
@@ -208,11 +240,11 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
                       </div>
                       <div className="flex-1">
                         <p className="font-medium text-gray-900 mb-2">
-                          {index + 1}. {question.question}
+                          {index + 1}. {questionText}
                         </p>
                         <div className="space-y-2 text-sm">
                           <div>
-                            <span className="text-gray-600">Your answer: </span>
+                            <span className="text-gray-600">Cevabınız: </span>
                             <span
                               className={attempt?.isCorrect ? "text-green-600 font-medium" : "text-red-600 font-medium"}
                             >
@@ -221,17 +253,17 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
                           </div>
                           {!attempt?.isCorrect && (
                             <div>
-                              <span className="text-gray-600">Correct answer: </span>
+                              <span className="text-gray-600">Doğru cevap: </span>
                               <span className="text-green-600 font-medium">
-                                {question.type === "multiple_choice"
+                                {question.type === "multipleChoice"
                                   ? question.options?.find((opt) => opt.isCorrect)?.text
-                                  : question.correctAnswer}
+                                  : question.options?.find((opt) => opt.isCorrect)?.text}
                               </span>
                             </div>
                           )}
-                          {question.explanation && (
+                          {explanationText && (
                             <div className="mt-2 p-2 bg-blue-50 rounded text-blue-800">
-                              <strong>Explanation:</strong> {question.explanation}
+                              <strong>Açıklama:</strong> {explanationText}
                             </div>
                           )}
                         </div>
@@ -245,14 +277,14 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 
           {/* Action Buttons */}
           <div className="flex justify-center space-x-4">
-            {!quizResult.passed && quiz.maxAttempts && (quiz.attempts || 0) < quiz.maxAttempts && (
+            {!quizResult.passed && quiz.maxAttempts && (quiz.maxAttempts || 0) > 1 && (
               <Button onClick={handleRetakeQuiz} className="flex items-center space-x-2">
                 <RotateCcw className="h-4 w-4" />
-                <span>Retake Quiz</span>
+                <span>Tekrar Dene</span>
               </Button>
             )}
             <Button variant="outline" onClick={onClose}>
-              Close Quiz
+              Quizi Kapat
             </Button>
           </div>
         </CardContent>
@@ -279,7 +311,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
               </div>
             )}
             <Badge variant="outline">
-              {currentQuestionIndex + 1} of {totalQuestions}
+              {currentQuestionIndex + 1} / {totalQuestions}
             </Badge>
           </div>
         </div>
@@ -292,17 +324,19 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
           <div className="flex items-start space-x-3">
             <Badge className="mt-1">{currentQuestionIndex + 1}</Badge>
             <div className="flex-1">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">{currentQuestion.question}</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                {extractTextFromBlocks(currentQuestion.text)}
+              </h3>
 
               {/* Multiple Choice */}
-              {currentQuestion.type === "multiple_choice" && currentQuestion.options && (
+              {currentQuestion.type === "multipleChoice" && currentQuestion.options && (
                 <RadioGroup
                   value={answers[currentQuestion.id]?.toString() || ""}
                   onValueChange={(value) => handleAnswerChange(currentQuestion.id, value)}
                 >
                   <div className="space-y-3">
                     {currentQuestion.options
-                      .sort((a, b) => a.order - b.order)
+                      .sort((a, b) => (a.order || 0) - (b.order || 0))
                       .map((option) => (
                         <div key={option.id} className="flex items-center space-x-2">
                           <RadioGroupItem value={option.text} id={`option-${option.id}`} />
@@ -316,44 +350,32 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
               )}
 
               {/* True/False */}
-              {currentQuestion.type === "true_false" && (
+              {currentQuestion.type === "trueFalse" && currentQuestion.options && (
                 <RadioGroup
                   value={answers[currentQuestion.id]?.toString() || ""}
-                  onValueChange={(value) => handleAnswerChange(currentQuestion.id, value === "true")}
+                  onValueChange={(value) => handleAnswerChange(currentQuestion.id, value)}
                 >
                   <div className="space-y-3">
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="true" id="true" />
-                      <Label htmlFor="true" className="cursor-pointer">
-                        True
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="false" id="false" />
-                      <Label htmlFor="false" className="cursor-pointer">
-                        False
-                      </Label>
-                    </div>
+                    {currentQuestion.options
+                      .sort((a, b) => (a.order || 0) - (b.order || 0))
+                      .map((option) => (
+                        <div key={option.id} className="flex items-center space-x-2">
+                          <RadioGroupItem value={option.text} id={`option-${option.id}`} />
+                          <Label htmlFor={`option-${option.id}`} className="cursor-pointer">
+                            {option.text}
+                          </Label>
+                        </div>
+                      ))}
                   </div>
                 </RadioGroup>
               )}
 
-              {/* Fill in the Blank */}
-              {currentQuestion.type === "fill_blank" && (
-                <Input
-                  placeholder="Type your answer here..."
-                  value={answers[currentQuestion.id]?.toString() || ""}
-                  onChange={(e) => handleAnswerChange(currentQuestion.id, e.target.value)}
-                  className="max-w-md"
-                />
-              )}
-
               <div className="flex items-center space-x-2 mt-4 text-sm text-gray-600">
-                <span>Points: {currentQuestion.points}</span>
+                <span>Puan: 1</span>
                 {isAnswered(currentQuestion.id) && (
                   <Badge variant="secondary" className="text-xs">
                     <CheckCircle className="h-3 w-3 mr-1" />
-                    Answered
+                    Cevaplanmış
                   </Badge>
                 )}
               </div>
@@ -372,14 +394,14 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
             className="flex items-center space-x-2 bg-transparent"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Previous</span>
+            <span>Önceki</span>
           </Button>
 
           <div className="flex items-center space-x-4">
             {!allQuestionsAnswered && (
               <div className="flex items-center space-x-2 text-sm text-amber-600">
                 <AlertCircle className="h-4 w-4" />
-                <span>Answer all questions to submit</span>
+                <span>Göndermek için tüm soruları cevaplayın</span>
               </div>
             )}
 
@@ -392,12 +414,12 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    <span>Submitting...</span>
+                    <span>Gönderiliyor...</span>
                   </>
                 ) : (
                   <>
                     <Trophy className="h-4 w-4" />
-                    <span>Submit Quiz</span>
+                    <span>Quizi Gönder</span>
                   </>
                 )}
               </Button>
@@ -407,7 +429,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
                 disabled={currentQuestionIndex === totalQuestions - 1}
                 className="flex items-center space-x-2"
               >
-                <span>Next</span>
+                <span>Sonraki</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
             )}
