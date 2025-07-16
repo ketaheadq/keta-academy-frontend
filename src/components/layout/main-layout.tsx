@@ -1,15 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getSettings } from "@/lib/strapi";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, User, LogOut } from "lucide-react";
+import { getPageCategories, getSettings } from "@/lib/strapi";
+import AuthSection from "./auth-section";
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 export default async function MainLayout({ children }: MainLayoutProps) {
-  const settings = await getSettings();
+  // Fetch settings server-side for better SEO
+  const settings = await getSettings().catch(() => ({
+    siteName: "Keta Akademi",
+    logo: null
+  }));
+
+  const pageCategories = await getPageCategories();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -34,72 +41,27 @@ export default async function MainLayout({ children }: MainLayoutProps) {
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center space-x-8">
               {/* Blog Sayfası Dropdown */}
-              <div className="relative group">
-                <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                  <span>Blog Sayfası</span>
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="py-2">
-                    <Link href="/blog/mufredat" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600">
-                      Müfredat Bilgileri
-                    </Link>
-                    <Link href="/blog/konular" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600">
-                      Konu Listeleri
-                    </Link>
+                {pageCategories.map((category) => (
+              <div key={`category-${category.id}`} className="relative group">
+                    <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                      <span>{category.title}</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                      <div className="py-2">
+                        {category.pages.map((page) => (
+                          <Link key={`page-${page.id}`} href={`/sayfalar/${page.slug}`} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600">
+                            {page.title}
+                          </Link>
+                        ))}
+                      </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Puan Hesaplama Dropdown */}
-              <div className="relative group">
-                <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                  <span>Puan Hesaplama</span>
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="py-2">
-                    <Link href="/puan-hesaplama/yks" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600">
-                      YKS Puan Hesaplama
-                    </Link>
-                    <Link href="/puan-hesaplama/lgs" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600">
-                      LGS Puan Hesaplama
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              {/* Kişisel Gelişim Dropdown */}
-              <div className="relative group">
-                <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                  <span>Kişisel Gelişim</span>
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="py-2">
-                    <Link href="/kisisel-gelisim/sinav-teknikleri" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600">
-                      Sınav Nasıl Kazanılır
-                    </Link>
-                    <Link href="/kisisel-gelisim/motivasyon" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600">
-                      Motivasyon Videoları
-                    </Link>
-                  </div>
-                </div>
-              </div>
+                ))}
             </nav>
 
-            <div className="flex items-center space-x-4">
-              <Link href="/giris">
-                <Button variant="ghost" className="text-text hover:text-primary font-medium transition-colors">
-                  Giriş Yap
-                </Button>
-              </Link>
-              <Link href="/kayit-ol">
-                <Button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                  Üye Ol
-                </Button>
-              </Link>
-            </div>
+            {/* Authentication Section - Client Component */}
+            <AuthSection />
           </div>
         </div>
       </header>

@@ -26,95 +26,119 @@ export interface AuthError {
   };
 }
 
-// Get Google OAuth URL from Strapi
+// Get Google OAuth URL from your custom implementation
 export function getGoogleAuthUrl(): string {
   const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
   
   // Debug: Log the URL being used
   console.log('🔍 Strapi URL:', strapiUrl);
-  console.log('🔍 Full Google OAuth URL:', `${strapiUrl}/api/connect/google`);
+  console.log('🔍 Custom Google OAuth URL:', `${strapiUrl}/api/auth/google`);
   
-  // Strapi's Google OAuth endpoint - redirect URL is configured in Strapi admin panel
-  return `${strapiUrl}/api/connect/google`;
+  // Your custom Google OAuth endpoint
+  return `${strapiUrl}/api/auth/google`;
 }
 
 // Debug function to help identify the redirect URI issue
 export function debugGoogleOAuthConfig() {
   const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
-  const expectedRedirectUri = `${strapiUrl}/api/connect/google/callback`;
+  const expectedRedirectUri = `${strapiUrl}/api/auth/google/callback`;
   
   console.log('🔍 Expected Google redirect URI should be:', expectedRedirectUri);
   console.log('🔍 Make sure this EXACT URL is in your Google Cloud Console');
-  console.log('🔍 Also check Strapi admin panel Settings → Providers → Google');
+  console.log('🔍 Using custom Google OAuth implementation');
   
   return {
     strapiUrl,
     expectedRedirectUri,
-    googleOAuthUrl: `${strapiUrl}/api/connect/google`
+    googleOAuthUrl: `${strapiUrl}/api/auth/google`
   };
 }
 
-// Handle auth result when user is redirected back from Strapi
+// Handle auth result when user is redirected back from your custom implementation
 export async function handleAuthRedirect(searchParams: URLSearchParams): Promise<StrapiAuthResponse | AuthError> {
   try {
     // Debug: Log all parameters received
     console.log('🔍 Auth redirect parameters:', Object.fromEntries(searchParams.entries()));
     
-    // Strapi typically redirects with these parameters after successful OAuth
-    const jwt = searchParams.get('jwt') || searchParams.get('access_token');
+    // Your custom implementation sends these parameters
+    const token = searchParams.get('token');
+    const userParam = searchParams.get('user');
+    const success = searchParams.get('success');
     const error = searchParams.get('error');
+    const message = searchParams.get('message');
     
-    if (error) {
-      console.error('❌ OAuth error from URL:', error);
+    if (error || success === 'false') {
+      console.error('❌ OAuth error from URL:', error, message);
       return {
         error: {
           status: 400,
           name: 'OAuthError', 
-          message: error || 'OAuth authentication failed'
+          message: message || error || 'OAuth authentication failed'
         }
       };
     }
     
-    if (!jwt) {
-      console.error('❌ No JWT token found in callback URL');
+    if (!token || success !== 'true') {
+      console.error('❌ No JWT token found in callback URL or success !== true');
       return {
         error: {
           status: 400,
           name: 'AuthError',
-          message: 'No authentication token received'
+          message: 'No authentication token received or authentication was not successful'
         }
       };
     }
 
-    console.log('✅ JWT token received, fetching user info...');
+    console.log('✅ JWT token received from URL parameters');
 
-    // Get user info with the JWT token
-    const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
-    const response = await fetch(`${strapiUrl}/api/users/me`, {
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('❌ Failed to get user info:', errorData);
-      return { 
-        error: { 
-          status: response.status, 
-          name: 'AuthError', 
-          message: 'Failed to get user info',
-          details: errorData
-        } 
-      };
+    // Parse user data from URL parameter
+    let user;
+    if (userParam) {
+      try {
+        user = JSON.parse(decodeURIComponent(userParam));
+        console.log('✅ User data parsed from URL parameter:', user);
+      } catch (parseError) {
+        console.error('❌ Failed to parse user data from URL:', parseError);
+        return {
+          error: {
+            status: 400,
+            name: 'ParseError',
+            message: 'Failed to parse user data from callback URL'
+          }
+        };
+      }
     }
 
-    const user = await response.json();
-    console.log('✅ User info received:', user);
+    // If user data is not in URL, fetch it using the token
+    if (!user) {
+      console.log('🔍 User data not in URL, fetching from API...');
+      const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+      const response = await fetch(`${strapiUrl}/api/users/me`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('❌ Failed to get user info:', errorData);
+        return { 
+          error: { 
+            status: response.status, 
+            name: 'AuthError', 
+            message: 'Failed to get user info',
+            details: errorData
+          } 
+        };
+      }
+
+      user = await response.json();
+      console.log('✅ User info fetched from API:', user);
+    }
     
     return {
-      jwt,
+      jwt: token,
       user
     };
   } catch (error) {
@@ -204,11 +228,11 @@ export function convertStrapiUser(strapiUser: StrapiUser): {
   verified: boolean;
 } {
   return {
-    id: strapiUser.documentId,
     email: strapiUser.email,
     name: strapiUser.username,
     verified: strapiUser.confirmed,
-    // Strapi doesn't provide picture by default, you might need to add this field
+    id: strapiUser.id.toString(),
+    // Your custom implementation might include profile picture from Google
     picture: undefined
   };
 } 
