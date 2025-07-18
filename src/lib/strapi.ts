@@ -79,6 +79,7 @@ export interface StrapiVideo {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+  SEO?: StrapiSEO;
 }
 
 // Blog Types
@@ -91,6 +92,36 @@ export interface StrapiBlog {
   related_datas?: StrapiBlog[];
   page?: StrapiPage;
   isPopular: boolean;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  SEO?: StrapiSEO;
+}
+
+// University Types
+export interface StrapiUniversity {
+  id: number;
+  documentId: string;
+  title: string;
+  description?: string;
+  content?: StrapiBlock[];
+  slug: string;
+  ranking?: number;
+  seoTitle?: string;
+  seoDescription?: string;
+  admission_score?: StrapiAdmissionScore;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+// Department Types  
+export interface StrapiDepartment {
+  id: number;
+  documentId: string;
+  titile: string; // Note: keeping the typo "titile" as per the schema
+  content?: StrapiBlock[];
+  admission_score?: StrapiAdmissionScore;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
@@ -110,6 +141,43 @@ export interface StrapiAdmissionScore {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+  university: StrapiUniversity;
+  department: StrapiDepartment;
+  SEO?: StrapiSEO;
+}
+
+// SEO Component Types (to be created in Strapi)
+export interface StrapiSEO {
+  id: number;
+  metaTitle: string;
+  metaDescription: string;
+  keywords?: string;
+  metaRobots?: string;
+  structuredData?: any;
+  metaViewport?: string;
+  canonicalURL?: string;
+  metaImage?: StrapiImage;
+  preventIndexing?: boolean;
+}
+
+export interface StrapiSocialMedia {
+  id: number;
+  socialNetwork: 'Facebook' | 'Twitter' | 'LinkedIn' | 'Instagram';
+  title: string;
+  description: string;
+  image?: StrapiImage;
+}
+
+export interface StrapiPageSEO {
+  id: number;
+  metaTitle: string;
+  metaDescription: string;
+  keywords?: string;
+  canonicalURL?: string;
+  preventIndexing?: boolean;
+  metaImage?: StrapiImage;
+  socialMedia?: StrapiSocialMedia[];
+  structuredData?: any;
 }
 
 export interface StrapiPage {
@@ -121,11 +189,11 @@ export interface StrapiPage {
   updatedAt: string;
   publishedAt: string;
   pageType: 'Üniversite Taban Puanları' | 'Bölüm Taban Puanları' | 'Videolar' | 'Bloglar' | 'Hesaplama Araçları';
-  content: string;
   page_category?: StrapiPageCategory;
   admission_scores?: StrapiAdmissionScore[];
   videos?: StrapiVideo[];
   blogs?: StrapiBlog[];
+  SEO?: StrapiPageSEO; // SEO component
 }
 
 export interface StrapiSubject {
@@ -826,6 +894,48 @@ export async function getAdmissionScoresByPage(pageSlug: string): Promise<Strapi
   }
 }
 
+// University API functions
+export async function getUniversities(): Promise<StrapiUniversity[]> {
+  try {
+    const response = await fetchStrapiData<StrapiResponse<StrapiUniversity[]>>('universities?populate=*');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching universities - check Strapi permissions:', error);
+    return [];
+  }
+}
+
+export async function getUniversityBySlug(slug: string): Promise<StrapiUniversity | null> {
+  try {
+    const response = await fetchStrapiData<StrapiResponse<StrapiUniversity[]>>(`universities?filters[slug][$eq]=${slug}&populate=*`);
+    return response.data.length > 0 ? response.data[0] : null;
+  } catch (error) {
+    console.error('Error fetching university by slug - check Strapi permissions:', error);
+    return null;
+  }
+}
+
+// Department API functions
+export async function getDepartments(): Promise<StrapiDepartment[]> {
+  try {
+    const response = await fetchStrapiData<StrapiResponse<StrapiDepartment[]>>('departments?populate=*');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching departments - check Strapi permissions:', error);
+    return [];
+  }
+}
+
+export async function getDepartmentBySlug(slug: string): Promise<StrapiDepartment | null> {
+  try {
+    const response = await fetchStrapiData<StrapiResponse<StrapiDepartment[]>>(`departments?filters[slug][$eq]=${slug}&populate=*`);
+    return response.data.length > 0 ? response.data[0] : null;
+  } catch (error) {
+    console.error('Error fetching department by slug - check Strapi permissions:', error);
+    return null;
+  }
+}
+
 // Video API functions
 export async function getVideos(): Promise<StrapiVideo[]> {
   try {
@@ -885,5 +995,74 @@ export async function getBlogsByPage(pageSlug: string): Promise<StrapiBlog[]> {
   } catch (error) {
     console.error('Error fetching blogs by page - check Strapi permissions for blogs collection:', error);
     return [];
+  }
+}
+
+// Tutoring Profile Types
+export interface StrapiTutoringProfile {
+  id: number;
+  documentId: string;
+  name: string;
+  title: string;
+  content: StrapiBlock[];
+  experties: string; // Note: keeping the typo from API
+  price: number;
+  successRate: number;
+  studentCount: number;
+  exprienceYears: number; // Note: keeping the typo from API
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  subjects: StrapiSubject[];
+  profilePicture: StrapiImage;
+}
+
+// Tutoring Profile API functions
+export async function getTutoringProfiles(): Promise<StrapiTutoringProfile[]> {
+  try {
+    const response = await fetchStrapiData<StrapiResponse<StrapiTutoringProfile[]>>('tutoring-profiles?populate=*');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching tutoring profiles - check Strapi permissions:', error);
+    return [];
+  }
+}
+
+// Contact Page Types
+export interface StrapiSocialMediaLink {
+  id: number;
+  platform: string;
+  url: string;
+}
+
+export interface StrapiContactPage {
+  id: number;
+  documentId: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  phone: string;
+  email: string;
+  address: string;
+  socialMediaLinks: StrapiSocialMediaLink[];
+}
+
+export interface ContactFormData {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  category: string;
+}
+
+// Contact Page API functions
+export async function getContactPage(): Promise<StrapiContactPage> {
+  try {
+    const response = await fetchStrapiData<StrapiResponse<StrapiContactPage>>('contact-page?populate=*');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching contact page - check Strapi permissions:', error);
+    throw error;
   }
 }

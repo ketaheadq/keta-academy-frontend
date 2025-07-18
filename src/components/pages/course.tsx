@@ -255,7 +255,7 @@ export default function CoursePage({ course, lessons, ders_ismi, searchParams }:
           {/* Main Content - Video Player */}
           <div className="lg:col-span-2 space-y-6">
             {/* Video Player */}
-            <Card>
+            <Card className="py-0">
               <CardContent className="p-0">
                 <div className="aspect-video bg-black rounded-t-lg relative overflow-hidden">
                   {currentLesson.youtubeVideoId ? (

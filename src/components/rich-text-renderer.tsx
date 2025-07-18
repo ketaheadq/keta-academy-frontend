@@ -2,6 +2,7 @@
 
 import React from "react"
 import { BlocksRenderer } from "@strapi/blocks-react-renderer"
+import Image from "next/image"
 
 interface RichTextRendererProps {
   content: any[] // Using any to avoid type conflicts with BlocksRenderer
@@ -64,6 +65,30 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
               {children}
             </a>
           ),
+          image: ({ image }) => {
+            if (!image?.url) return null
+            
+            return (
+              <div className="my-6">
+                <Image
+                  src={image.url}
+                  alt={image.alternativeText || ""}
+                  width={image.width || 800}
+                  height={image.height || 600}
+                  className="rounded-lg shadow-md w-full h-auto"
+                  style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                  }}
+                />
+                {image.caption && (
+                  <p className="text-sm text-gray-600 text-center mt-2 italic">
+                    {image.caption}
+                  </p>
+                )}
+              </div>
+            )
+          },
         }}
         modifiers={{
           bold: ({ children }) => <strong>{children}</strong>,

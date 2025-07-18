@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { StrapiAdmissionScore } from "@/lib/strapi"
-import { Calendar, FileText, Table, ExternalLink } from "lucide-react"
+import { Calendar, FileText, Table, ExternalLink, Star } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
 
 interface AdmissionScoreCardProps {
   admissionScore: StrapiAdmissionScore
@@ -16,6 +17,7 @@ export default function AdmissionScoreCard({
   admissionScore, 
   showRelatedData = false 
 }: AdmissionScoreCardProps) {
+    const pathname = usePathname()
   return (
     <Card className="hover:shadow-lg transition-shadow cursor-pointer">
       <CardHeader className="pb-3">
@@ -26,16 +28,16 @@ export default function AdmissionScoreCard({
                 <Calendar className="h-3 w-3 mr-1" />
                 {new Date(admissionScore.publishedAt).toLocaleDateString('tr-TR')}
               </Badge>
-              {admissionScore.tableData && (
-                <Badge className="bg-blue-500">
-                  <Table className="h-3 w-3 mr-1" />
-                  Tablo Verisi
-                </Badge>
-              )}
               {admissionScore.content && admissionScore.content.length > 0 && (
                 <Badge className="bg-green-500">
                   <FileText className="h-3 w-3 mr-1" />
-                  İçerik
+                  Taban Puanları
+                </Badge>
+              )}
+              {admissionScore.isPopular && (
+                <Badge className="bg-blue-500">
+                  <Star className="h-3 w-3 mr-1" />
+                  Popüler
                 </Badge>
               )}
             </div>
@@ -85,7 +87,7 @@ export default function AdmissionScoreCard({
       </CardHeader>
       
       <CardContent>
-        <Link href={`/admission-scores/${admissionScore.slug}`}>
+        <Link href={`${pathname}/${admissionScore.slug}`}>
           <Button className="w-full">
             <ExternalLink className="h-4 w-4 mr-2" />
             Detayları Gör

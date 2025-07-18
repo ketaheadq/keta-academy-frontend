@@ -96,7 +96,7 @@ export default function BlogCard({
       </CardHeader>
       
       <CardContent>
-        <Link href={`/blogs/${blog.slug}`}>
+        <Link href={`/sayfalar/${blog.page?.slug}/${blog.slug}`}>
           <Button className="w-full">
             <ExternalLink className="h-4 w-4 mr-2" />
             Yazıyı Oku

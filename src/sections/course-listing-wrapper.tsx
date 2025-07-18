@@ -2,7 +2,7 @@
 
 import { StrapiCourse } from "@/lib/strapi";
 import CourseCard from "@/components/course-card";
-import DynamicListing from "./course-listing";
+import DynamicListing from "./dynamic-listing";
 
 interface ListCoursesProps {
     courses: StrapiCourse[];
