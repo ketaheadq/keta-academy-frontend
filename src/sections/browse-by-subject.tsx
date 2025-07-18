@@ -24,7 +24,7 @@ export default function BrowseBySubject({ subjects }: { subjects: StrapiSubject[
                     <div className="inline-flex p-3 rounded-full mb-3 bg-blue-100">
                       {IconComponent && <IconComponent className="h-6 w-6 text-blue-600" />}
                     </div>
-                    <h3 className="font-semibold text-gray-900">{subject.name}</h3>
+                    <h3 className="font-semibold text-gray-900">{subject.title}</h3>
                   </CardContent>
                 </Card>
               )

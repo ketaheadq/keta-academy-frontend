@@ -1,65 +1,70 @@
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav"
-import CourseGrid from "@/components/course-grid"
-import CourseListing from "@/sections/course-listing"
-import { getSubjectBySlug, StrapiCourse } from "@/lib/strapi"
-import Continue from "@/sections/continiue"
-import { getCourses } from "@/lib/strapi"
-const grades = ["All Grades", "9th Grade", "10th Grade", "11th Grade", "12th Grade"]
-const topics = ["All Topics", "Algebra", "Geometry", "Calculus", "Statistics"]
+import CourseGrid from "@/components/grids/course-grid-wrapper"
+import CourseListing from "@/sections/course-listing-wrapper"
+import { getSubjectBySlug, getCourses, getGrades, StrapiCourse, getCoursesBySubject } from "@/lib/strapi"
+import Continue from "@/sections/continue-wrapper"
+import { getCourseIcon } from "@/lib/icons"
 
 export default async function CoursePage(props: { params: Promise<{ slug: string }> }) {
-  const courses = await getCourses()
-  const mathCourses = courses.filter((course) => course.subject.name === "Matematik")
-  const continueCourses = mathCourses.filter((course) => course.progress > 0)
-
   const params = await props.params
   const slug = params.slug
-  const subject = await getSubjectBySlug(slug)
+  
+  // Fetch data from Strapi
+  const [subject, grades] = await Promise.all([
+    getSubjectBySlug(slug),
+    getGrades()
+  ])
+  const courses = subject?.slug ? await getCoursesBySubject(subject?.slug) : undefined
+  if (!courses) {
+    return <div>No courses found</div>
+  }
+
+  const IconComponent = subject?.icon?.name ? getCourseIcon(subject.icon?.name) : undefined;
+
+  // Filter courses by the current subject
+  const subjectCourses = courses.filter((course) => course.subject.slug === slug)
+  
+  // For now, we'll use empty array for continue courses since progress is handled client-side
+  const continueCourses: (StrapiCourse & { progress: number })[] = []
+
+  // Extract grade titles as strings
+  const gradeTitles = grades.map(grade => grade.title)
+
+  // Create topics array from subject courses (you might want to fetch this from Strapi)
+  const topics = subjectCourses.map(course => course.subject.title)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <BreadcrumbNav breadcrumbs={[{ label: subject?.name || "", href: `/konular/${slug}` }]} />
+      <BreadcrumbNav breadcrumbs={[{ label: subject?.title || "", href: `/konular/${slug}` }]} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">📐 {subject?.name} Öğren</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <div className="inline-flex p-3 rounded-full mb-3 bg-blue-100">
+                      {IconComponent && <IconComponent className="h-6 w-6 text-blue-600" />} 
+           </div>
+           {subject?.title} Öğren
+           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {subject?.name} dersinde başarı elde et. 
+            {subject?.title} dersinde başarı elde et. 
           </p>
         </div>
 
-        {/* Math Topics Overview
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">🎯 Explore Math Topics</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {mathTopics.map((topic) => {
-              const IconComponent = topic.icon
-              return (
-                <Card key={topic.name} className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="p-6 text-center">
-                    <div className={`inline-flex p-3 rounded-full ${topic.color} mb-3`}>
-                      <IconComponent className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-1">{topic.name}</h3>
-                    <p className="text-sm text-gray-600">{topic.courses} courses</p>
-                  </CardContent>
-                </Card>
-              )
-            })}
-          </div>
-        </section> */}
-
-        {/* Continue Learning */}
-        <Continue courses={continueCourses as unknown as (StrapiCourse & { progress: number })[]} />
+          <Continue courses={courses} />
 
         {/* Popular Courses */}
-        <CourseListing courses={mathCourses as unknown as StrapiCourse[]} title="Popüler Matematik Dersleri" />
+        <CourseListing 
+          courses={subjectCourses} 
+          title={`Popüler ${subject?.title} Dersleri`} 
+        />
+
         {/* Course Grid Component */}
         <CourseGrid 
-          courses={mathCourses}
-          grades={grades}
+          courses={subjectCourses}
+          grades={gradeTitles}
           topics={topics}
-          title={`Tüm ${subject?.name} Dersleri`}
+          title={`Tüm ${subject?.title} Dersleri`}
         />
       </main>
     </div>

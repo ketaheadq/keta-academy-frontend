@@ -1,69 +1,70 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calculator } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Progress } from "@/components/ui/progress";
-import { ArrowRight } from "lucide-react";
-import { StrapiCourse } from "@/lib/strapi";
+import { useState } from "react"
+import Link from "next/link"
 
-interface ContinueProps {
-    courses: (StrapiCourse & { progress: number })[];
+// Generic interfaces for dynamic continue functionality
+interface ContinuableItem {
+  id: string | number
+  progress: number
+  [key: string]: any
 }
 
-export default function Continue({ courses }: ContinueProps) {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    
-    // Filter all courses with progress > 0
-    const continueCourses = courses.filter(course => course.progress > 0);
-    
-    // Don't show if no courses in progress
-    if (continueCourses.length === 0) {
-        return null;
-    }
-    
-    return (
-        <>
-        {isLoggedIn && (
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
-              📈 Kaldığın Yerden Devam Et:
-            </h2>
-            <div className={`grid ${continueCourses.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1'} gap-6`}>
-            {continueCourses.map((course) => (
-                  <Card key={course.id} className="hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="p-2 bg-green-100 rounded-lg">
-                            <Calculator className="h-5 w-5 text-green-600" />
-                          </div>
-                          <div>
-                            <CardTitle className="text-lg">{course.title}</CardTitle>
-                            <CardDescription>
-                              {course.subject.name}
-                            </CardDescription>
-                          </div>
-                        </div>
-                        <Button size="sm">Resume</Button>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm text-gray-600">
-                          <span>Progress</span>
-                          <span>{course.progress}%</span>
-                        </div>
-                        <Progress value={course.progress} className="h-2" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-            </div>
-          </section>
-        )}
+interface DynamicContinueProps<T extends ContinuableItem> {
+  items: T[]
+  renderItem: (item: T) => React.ReactNode
+  title?: React.ReactNode
+  maxItems?: number
+  viewAllLink?: {
+    href: string
+    label: string
+  }
+  className?: string
+  isLoading?: boolean
+}
 
-        </>
-    )
+export default function DynamicContinue<T extends ContinuableItem>({ 
+  items,
+  renderItem,
+  title = "📈 Kaldığın Yerden Devam Et:",
+  maxItems = 2,
+  viewAllLink = { href: "/derslerim", label: "Hepsini Gör" },
+  className = "",
+  isLoading = false
+}: DynamicContinueProps<T>) {
+  // Filter items with progress > 0
+  const continueItems = items.filter(item => item.progress > 0)
+  
+  // Don't show if no items in progress
+  if (continueItems.length === 0) {
+    return null
+  }
+  
+  // Show at most maxItems cards
+  const displayedItems = continueItems.slice(0, maxItems)
+  const hasMoreItems = continueItems.length > maxItems
+  
+  return (
+    <section className={`mb-12 ${className}`}>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+          {title}
+          {isLoading && <span className="ml-2 text-blue-500">(Yükleniyor...)</span>}
+        </h2>
+        {hasMoreItems && viewAllLink && (
+          <div className="mt-6 text-center">
+            <Link 
+              href={viewAllLink.href} 
+              className="text-gray-600 hover:text-blue-800 underline"
+            >
+              {viewAllLink.label} ({continueItems.length} ders)
+            </Link>
+          </div>
+        )}
+      </div>
+      <div className={`grid ${displayedItems.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1'} gap-6`}>
+        {displayedItems.map((item) => renderItem(item))}
+      </div>
+    </section>
+  )
 }

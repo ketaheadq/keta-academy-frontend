@@ -59,7 +59,7 @@ export default function CourseSelection({ grades, subjects, coursesByGrade }: Co
             onClick={() => setSelectedSubject(subject.slug)}
             className="text-sm"
           >
-            {subject.name}
+            {subject.title}
           </Button>
         ))}
       </div>
@@ -79,7 +79,7 @@ export default function CourseSelection({ grades, subjects, coursesByGrade }: Co
                   <div>
                     <CardTitle className="text-lg">{course.title}</CardTitle>
                     <CardDescription>
-                      {course.subject.name} • {course.duration} dakika
+                      {course.subject.title} • {course.duration} dakika
                     </CardDescription>
                   </div>
                 </div>
