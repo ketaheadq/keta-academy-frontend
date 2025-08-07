@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const settings = await getSettings();
-    
+
     return {
       title: settings.siteName,
       description: settings.defaultSEODescription || "Empowering students to learn and grow through interactive education across all subjects and grades.",
@@ -59,7 +59,6 @@ export default function RootLayout({
         <MainLayout>
           {children}
         </MainLayout>
-        
       </body>
     </html>
   );

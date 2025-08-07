@@ -42,7 +42,7 @@ export default async function Home() {
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl font-bold text-text mb-6">
-            👋 {settings.siteName}'ye hoşgeldiniz!
+            👋 {settings.siteName}'ye hoş geldiniz!
           </h1>
           <h2 className="text-2xl font-bold text-text mb-6">
             Bugün ne öğrenmek istersin?
@@ -52,15 +52,15 @@ export default async function Home() {
 
       {/* Show Continue section - authentication check moved to Continue component */}
       <Continue courses={courses} />
-      
-      <CourseGrid 
+
+      <CourseGrid
         courses={courses}
         grades={gradeNames}
         topics={subjects.map((subject) => subject.title)}
         title="📚 Tüm Dersler"
       />
-      
-      <ListCourses 
+
+      <ListCourses
         courses={courses.filter((course) => course.isPopular)}
         title="🔥 Popüler Dersler"
       />
