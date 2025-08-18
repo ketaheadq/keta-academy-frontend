@@ -10,7 +10,7 @@ import { generateSEOMetadata, generateStructuredData } from "@/lib/seo"
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const content = await getContent(params) // Your content fetching
-  
+
   return generateSEOMetadata(content, {
     url: `${process.env.NEXT_PUBLIC_SITE_URL}/your-path/${params.slug}`,
     type: 'article' // or 'website'
@@ -28,7 +28,7 @@ import { getCourse } from "@/lib/strapi"
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const course = await getCourse(slug)
-  
+
   if (!course) {
     return { title: 'Kurs Bulunamadı' }
   }
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const course = await getCourse(slug)
-  
+
   if (!course) notFound()
 
   const structuredData = generateStructuredData(course, {
@@ -72,7 +72,7 @@ import { getBlogBySlug } from "@/lib/strapi"
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const blog = await getBlogBySlug(slug)
-  
+
   if (!blog) {
     return { title: 'Blog Yazısı Bulunamadı' }
   }
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function BlogPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const blog = await getBlogBySlug(slug)
-  
+
   if (!blog) notFound()
 
   const structuredData = generateStructuredData(blog, {
@@ -115,7 +115,7 @@ import { getVideoBySlug } from "@/lib/strapi"
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const video = await getVideoBySlug(slug)
-  
+
   if (!video) {
     return { title: 'Video Bulunamadı' }
   }
@@ -158,7 +158,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // When you need to override specific SEO fields
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const content = await getContent(params.slug)
-  
+
   return generateSEOMetadata(content, {
     url: `${process.env.NEXT_PUBLIC_SITE_URL}/custom/${params.slug}`,
     type: 'article',
@@ -176,7 +176,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export async function generateMetadata({ params }: { params: Promise<{ slug: string, locale: string }> }): Promise<Metadata> {
   const { slug, locale } = await params
   const content = await getContent(slug, locale)
-  
+
   return generateSEOMetadata(content, {
     url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${slug}`,
     locale: locale === 'en' ? 'en_US' : 'tr_TR',
@@ -223,4 +223,4 @@ To migrate existing pages:
 4. **Add structured data**: Include the JSON-LD script
 5. **Test**: Check that SEO data appears correctly
 
-This approach makes your entire application SEO-consistent with minimal code duplication! 
+This approach makes your entire application SEO-consistent with minimal code duplication!

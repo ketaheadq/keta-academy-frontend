@@ -1,72 +1,83 @@
-import { BreadcrumbNav } from "@/components/layout/breadcrum-nav"
-import CourseGrid from "@/components/grids/course-grid-wrapper"
-import CourseListing from "@/sections/course-listing-wrapper"
-import { getSubjectBySlug, getCourses, getGrades, StrapiCourse, getCoursesBySubject } from "@/lib/strapi"
-import Continue from "@/sections/continue-wrapper"
-import { getCourseIcon } from "@/lib/icons"
+import CourseGrid from "@/components/grids/course-grid-wrapper";
+import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
+import { getCourseIcon } from "@/lib/icons";
+import { getCoursesBySubject, getGrades, getSubjectBySlug } from "@/lib/strapi";
+import Continue from "@/sections/continue-wrapper";
+import CourseListing from "@/sections/course-listing-wrapper";
 
-export default async function CoursePage(props: { params: Promise<{ slug: string }> }) {
-  const params = await props.params
-  const slug = params.slug
-  
-  // Fetch data from Strapi
-  const [subject, grades] = await Promise.all([
-    getSubjectBySlug(slug),
-    getGrades()
-  ])
-  const courses = subject?.slug ? await getCoursesBySubject(subject?.slug) : undefined
-  if (!courses) {
-    return <div>No courses found</div>
-  }
+export default async function CoursePage(props: {
+	params: Promise<{ slug: string }>;
+}) {
+	const params = await props.params;
+	const slug = params.slug;
 
-  const IconComponent = subject?.icon?.name ? getCourseIcon(subject.icon?.name) : undefined;
+	// Fetch data from Strapi
+	const [subject, grades] = await Promise.all([
+		getSubjectBySlug(slug),
+		getGrades(),
+	]);
+	const courses = subject?.slug
+		? await getCoursesBySubject(subject?.slug)
+		: undefined;
+	if (!courses) {
+		return <div>No courses found</div>;
+	}
 
-  // Filter courses by the current subject
-  const subjectCourses = courses.filter((course) => course.subject.slug === slug)
-  
-  // For now, we'll use empty array for continue courses since progress is handled client-side
-  const continueCourses: (StrapiCourse & { progress: number })[] = []
+	const IconComponent = subject?.icon?.name
+		? getCourseIcon(subject.icon?.name)
+		: undefined;
 
-  // Extract grade titles as strings
-  const gradeTitles = grades.map(grade => grade.title)
+	// Filter courses by the current subject
+	const subjectCourses = courses.filter(
+		(course) => course.subject.slug === slug,
+	);
 
-  // Create topics array from subject courses (you might want to fetch this from Strapi)
-  const topics = subjectCourses.map(course => course.subject.title)
+	// Extract grade titles as strings
+	const gradeTitles = grades.map((grade) => grade.title);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <BreadcrumbNav breadcrumbs={[{ label: subject?.title || "", href: `/konular/${slug}` }]} />
+	// Create topics array from subject courses (you might want to fetch this from Strapi)
+	const topics = subjectCourses.map((course) => course.subject.title);
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          <div className="inline-flex p-3 rounded-full mb-3 bg-blue-100">
-                      {IconComponent && <IconComponent className="h-6 w-6 text-blue-600" />} 
-           </div>
-           {subject?.title} Öğren
-           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {subject?.title} dersinde başarı elde et. 
-          </p>
-        </div>
+	return (
+		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+			<BreadcrumbNav
+				breadcrumbs={[
+					{ label: subject?.title || "", href: `/konular/${slug}` },
+				]}
+			/>
 
-          <Continue courses={courses} />
+			<main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				{/* Hero Section */}
+				<div className="mb-12 text-center">
+					<h1 className="mb-4 font-bold text-4xl text-gray-900">
+						<div className="mb-3 inline-flex rounded-full bg-blue-100 p-3">
+							{IconComponent && (
+								<IconComponent className="h-6 w-6 text-blue-600" />
+							)}
+						</div>
+						{subject?.title} Öğren
+					</h1>
+					<p className="mx-auto max-w-3xl text-gray-600 text-xl">
+						{subject?.title} dersinde başarı elde et.
+					</p>
+				</div>
 
-        {/* Popular Courses */}
-        <CourseListing 
-          courses={subjectCourses} 
-          title={`Popüler ${subject?.title} Dersleri`} 
-        />
+				<Continue courses={courses} />
 
-        {/* Course Grid Component */}
-        <CourseGrid 
-          courses={subjectCourses}
-          grades={gradeTitles}
-          topics={topics}
-          title={`Tüm ${subject?.title} Dersleri`}
-        />
-      </main>
-    </div>
-  )
+				{/* Popular Courses */}
+				<CourseListing
+					courses={subjectCourses}
+					title={`Popüler ${subject?.title} Dersleri`}
+				/>
+
+				{/* Course Grid Component */}
+				<CourseGrid
+					courses={subjectCourses}
+					grades={gradeTitles}
+					topics={topics}
+					title={`Tüm ${subject?.title} Dersleri`}
+				/>
+			</main>
+		</div>
+	);
 }
