@@ -32,6 +32,7 @@ export function useLessonProgress({
 	useEffect(() => {
 		const fetchProgress = async () => {
 			if (!isAuthenticated || !jwt || !user || documentIds.length === 0) {
+				setLessonProgress({});
 				return;
 			}
 
@@ -39,17 +40,14 @@ export function useLessonProgress({
 			try {
 				const progressData = await getUserLessonProgress(documentIds, jwt);
 
-				// Convert progress data to simple mapping
 				const progressMap: Record<string, boolean> = {};
 				progressData.forEach((progress) => {
-					// Extract document ID from composite ID (user_id_documentId)
 					const parts = progress.user_plus_lesson_id.split("_");
 					if (parts.length >= 2) {
 						const userId = parts[0];
 						const documentId = parts[1];
 
-						// Only include progress for the current user
-						if (userId === user.id) {
+						if (userId === user.id.toString()) {
 							progressMap[documentId] = progress.isCompleted;
 						}
 					}
@@ -57,13 +55,8 @@ export function useLessonProgress({
 
 				setLessonProgress(progressMap);
 
-				// Update course progress to 'in_progress' when user starts viewing
-				await updateUserCourseProgress(
-					documentId.toString(),
-					user.id,
-					"in_progress",
-					jwt,
-				);
+				// Optional: update course status to "in_progress" when viewing
+				await updateUserCourseProgress(documentId, user.id, "in_progress", jwt);
 			} catch (error) {
 				console.error("Failed to fetch progress:", error);
 			} finally {
@@ -71,16 +64,14 @@ export function useLessonProgress({
 			}
 		};
 
+		// Only re-fetch if auth state, user ID, or document IDs (values) change
 		fetchProgress();
 	}, [
 		isAuthenticated,
 		jwt,
 		user?.id,
-		documentId,
-		documentIds.length,
-		documentIds,
-		user,
-	]); // Simplified dependencies
+		JSON.stringify(documentIds.sort()), // Stable dep based on value
+	]);
 
 	const markLessonComplete = async (documentId: string) => {
 		if (!isAuthenticated || !jwt || !user) {

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/components/layout/main-layout";
 import { getSettings } from "@/lib/strapi";
+import { Providers } from "./provider";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -59,7 +60,9 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<MainLayout>{children}</MainLayout>
+				<MainLayout>
+					<Providers>{children}</Providers>
+				</MainLayout>
 			</body>
 		</html>
 	);

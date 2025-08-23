@@ -530,7 +530,7 @@ export default function CoursePage({
 											<div key={`${lesson.id}-${lesson.documentId}-${index}`}>
 												<button
 													type="button"
-													className={`cursor-pointer rounded-lg p-3 transition-colors ${
+													className={`w-full cursor-pointer rounded-lg p-3 transition-colors ${
 														currentLesson?.id === lesson.id
 															? "border-2 border-blue-200 bg-blue-50"
 															: "border-2 border-transparent hover:bg-gray-50"
