@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +15,15 @@ export default async function MainLayout({ children }: MainLayoutProps) {
 		siteName: "Keta Akademi",
 		logo: null,
 	}));
+
+	// Fetch settings to get Google Analytics ID
+	let analyticsID = "";
+	try {
+		const settings = await getSettings();
+		analyticsID = settings.analyticsID || "";
+	} catch (error) {
+		console.error("Failed to fetch settings for Google Analytics:", error);
+	}
 
 	const pageCategories = await getPageCategories();
 
@@ -77,6 +87,7 @@ export default async function MainLayout({ children }: MainLayoutProps) {
 			{/* Main Content */}
 			<main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 				{children}
+				{analyticsID && <GoogleAnalytics gaId={analyticsID} />}
 			</main>
 
 			{/* Footer */}
@@ -146,7 +157,10 @@ export default async function MainLayout({ children }: MainLayoutProps) {
 									</Link>
 								</li>
 								<li>
-									<Link href="/gizlilik-politikasi" className="hover:text-white">
+									<Link
+										href="/gizlilik-politikasi"
+										className="hover:text-white"
+									>
 										Gizlilik Politikası
 									</Link>
 								</li>

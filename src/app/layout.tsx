@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import CookieConsent from "@/components/cookie-consent";
 import MainLayout from "@/components/layout/main-layout";
 import { getSettings } from "@/lib/strapi";
 import { Providers } from "./provider";
-import CookieConsent from "@/components/cookie-consent";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -58,6 +58,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+			<head>
+				<link rel="preconnect" href="https://www.google-analytics.com" />
+			</head>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>

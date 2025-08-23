@@ -1159,7 +1159,7 @@ export interface StrapiTutoringProfile {
 	name: string;
 	title: string;
 	content: StrapiBlock[];
-	experties: string; // Note: keeping the typo from API
+	expertise: string; // Note: keeping the typo from API
 	price: number;
 	successRate: number;
 	studentCount: number;

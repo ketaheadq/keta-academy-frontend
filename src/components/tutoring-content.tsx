@@ -10,6 +10,7 @@ import {
 	Star,
 	Users,
 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { StrapiTutoringProfile } from "@/lib/strapi";
@@ -19,8 +20,8 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 	const [showDetails, setShowDetails] = useState(false);
 	const [isFavorite, setIsFavorite] = useState(false);
 
-	// Parse experties string into array
-	const expertiseList = tutor.experties ? tutor.experties.split(", ") : [];
+	// Parse expertise string into array
+	const expertiseList = tutor.expertise ? tutor.expertise.split(", ") : [];
 
 	const router = useRouter();
 	return (
@@ -29,11 +30,14 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 			<div className="relative p-6 pb-4">
 				<div className="flex items-start gap-4">
 					<div className="relative">
-						<img
-							src={tutor.profilePicture?.url || "/placeholder.svg"}
-							alt={tutor.name}
-							className="h-20 w-20 rounded-full border-4 border-white object-cover shadow-lg"
-						/>
+						<div className="relative h-20 w-20">
+							<Image
+								src={tutor.profilePicture?.url || "/placeholder.svg"}
+								alt={tutor.name}
+								fill
+								className="rounded-full border-4 border-white object-cover shadow-lg"
+							/>
+						</div>
 						<div className="-bottom-1 -right-1 absolute h-6 w-6 rounded-full border-2 border-white bg-green-500" />
 						<div className="-top-1 -right-1 absolute flex h-6 w-6 items-center justify-center rounded-full bg-blue-500">
 							<Shield className="h-3 w-3 text-white" />
@@ -83,7 +87,7 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 				</div>
 
 				<p className="mt-3 text-gray-600 text-sm leading-relaxed">
-					{tutor.experties} alanlarında uzman öğretmen. {tutor.exprienceYears}{" "}
+					{tutor.expertise} alanlarında uzman öğretmen. {tutor.exprienceYears}{" "}
 					yıllık deneyimle öğrencilere kaliteli eğitim sunmaktadır.
 				</p>
 			</div>
@@ -272,7 +276,7 @@ export default function TutoringContent({
 			const matchesSearch =
 				tutor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				tutor.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				tutor.experties.toLowerCase().includes(searchQuery.toLowerCase());
+				tutor.expertise.toLowerCase().includes(searchQuery.toLowerCase());
 			return matchesSubject && matchesSearch;
 		})
 		.sort((a, b) => {
