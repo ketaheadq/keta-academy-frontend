@@ -24,10 +24,16 @@ Your Strapi backend should have the custom authentication controller implemented
 
 ### 3. Environment Variables
 
-**Frontend (.env.local):**
+**Development Frontend (.env.local):**
 ```env
 NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
 NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
+```
+
+**Production Frontend (.env.production):**
+```env
+NEXT_PUBLIC_STRAPI_URL=https://your-strapi-backend.com
+NEXT_PUBLIC_FRONTEND_URL=https://your-frontend.com
 ```
 
 **Backend (.env in Strapi):**
@@ -123,7 +129,7 @@ http://localhost:1337/api/auth/google/callback
 3. Navigate to: `http://localhost:3000/giris`
 4. Click "Google ile Devam Et"
 5. Complete Google OAuth
-6. **You should be redirected to:** 
+6. **You should be redirected to:**
    ```
    http://localhost:3000/auth/callback?token=eyJhbG...&user=%7B%22id%22...&success=true
    ```
@@ -194,19 +200,19 @@ NEXT_PUBLIC_FRONTEND_URL=https://your-nextjs-domain.com
 
 Your custom implementation is working when you see:
 
-✅ Console logs showing custom OAuth URLs  
-✅ Successful redirect to Google  
-✅ **Callback URL contains token, user data, and success=true**  
-✅ User data automatically parsed from URL  
-✅ Authentication working in frontend without additional API calls  
-✅ User created/updated in Strapi database  
+✅ Console logs showing custom OAuth URLs
+✅ Successful redirect to Google
+✅ **Callback URL contains token, user data, and success=true**
+✅ User data automatically parsed from URL
+✅ Authentication working in frontend without additional API calls
+✅ User created/updated in Strapi database
 
 ## Architecture Benefits
 
 This implementation provides a **seamless frontend experience**:
 
 - 🚀 **No loading states** - User data is immediately available
-- 🔒 **Secure** - JWT token generated server-side  
+- 🔒 **Secure** - JWT token generated server-side
 - 📱 **Mobile-friendly** - Works with any frontend framework
 - 🐛 **Easy debugging** - All data visible in URL parameters
-- ⚡ **Fast** - No additional API calls needed after callback 
+- ⚡ **Fast** - No additional API calls needed after callback
