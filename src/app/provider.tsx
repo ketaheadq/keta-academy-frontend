@@ -1,12 +1,12 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Toaster, toast } from "sonner";
 import errors from "../lib/errors";
 
-export function Providers({ children }: { children: React.ReactNode }) {
-	const searchParams = useSearchParams(); // ✅ Move to top level
+function ProvidersContent({ children }: { children: React.ReactNode }) {
+	const searchParams = useSearchParams();
 
 	useEffect(() => {
 		const errorMessage = searchParams.get("error_message");
@@ -17,12 +17,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				duration: 4000,
 			});
 		}
-	}, [searchParams]); // Add dependency if needed
+	}, [searchParams]);
 
 	return (
 		<>
 			<Toaster position="top-right" richColors />
 			{children}
 		</>
+	);
+}
+
+export function Providers({ children }: { children: React.ReactNode }) {
+	return (
+		<Suspense fallback={<div>Loading...</div>}>
+			<ProvidersContent>{children}</ProvidersContent>
+		</Suspense>
 	);
 }
