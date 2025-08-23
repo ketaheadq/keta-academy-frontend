@@ -32,6 +32,7 @@ import type {
 	StrapiQuiz,
 } from "@/lib/strapi";
 import { updateQuizProgress } from "@/lib/strapi";
+import { extractYouTubeVideoId } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth-store";
 
 // Extended lesson interface for mock data with additional properties
@@ -158,35 +159,6 @@ export default function CoursePage({
 		console.log("Initial lesson:", initialLesson?.title);
 		console.log("Current lesson:", currentLesson?.title);
 	}, [searchParams?.ders_ismi, initialLesson, currentLesson]);
-
-	// Helper function to extract YouTube video ID from URL
-	function extractYouTubeVideoId(url: string): string | null {
-		console.log("🔍 Extracting video ID from URL:", url);
-
-		// Handle different YouTube URL formats
-		const patterns = [
-			// youtube.com/watch?v=VIDEO_ID
-			/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-			// youtube.com/v/VIDEO_ID
-			/youtube\.com\/v\/([^&\n?#]+)/,
-			// youtube.com/embed/VIDEO_ID
-			/youtube\.com\/embed\/([^&\n?#]+)/,
-			// youtu.be/VIDEO_ID
-			/youtu\.be\/([^&\n?#]+)/,
-		];
-
-		for (const pattern of patterns) {
-			const match = url.match(pattern);
-			if (match?.[1]) {
-				const videoId = match[1];
-				console.log("✅ Extracted video ID:", videoId);
-				return videoId;
-			}
-		}
-
-		console.log("❌ Could not extract video ID from URL:", url);
-		return null;
-	}
 
 	const completedLessons = extendedLessons.filter(
 		(lesson) => lessonProgress[lesson.documentId],
@@ -432,7 +404,9 @@ export default function CoursePage({
 											{currentLesson.quiz && (
 												<Button
 													variant="outline"
-													onClick={() => handleStartQuiz(currentLesson.quiz!)}
+													onClick={() =>
+														handleStartQuiz(currentLesson.quiz as StrapiQuiz)
+													}
 													className="flex items-center space-x-2"
 												>
 													<Target className="h-4 w-4" />

@@ -25,7 +25,8 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import type { StrapiBlock, StrapiQuestion, StrapiQuiz } from "@/lib/strapi";
+import type { StrapiQuestion, StrapiQuiz } from "@/lib/strapi";
+import { extractTextFromBlocks } from "@/lib/utils";
 
 // Frontend-only types for quiz functionality
 interface QuizAttempt {
@@ -50,18 +51,6 @@ interface QuizProps {
 	onComplete: (result: QuizResult) => void;
 	onClose: () => void;
 }
-
-// Helper function to extract text from StrapiBlock array
-const extractTextFromBlocks = (
-	blocks: StrapiBlock[] | string | undefined,
-): string => {
-	if (!blocks) return "";
-	if (typeof blocks === "string") return blocks;
-
-	return blocks
-		.map((block) => block.children?.map((child) => child.text).join("") || "")
-		.join(" ");
-};
 
 export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -243,7 +232,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 							);
 							const questionText = extractTextFromBlocks(question.text);
 							const explanationText = extractTextFromBlocks(
-								question.explanation,
+								question.explanation ?? [],
 							);
 
 							return (

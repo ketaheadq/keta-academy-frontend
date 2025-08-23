@@ -30,7 +30,9 @@ export interface SEOConfig {
 }
 
 // Default SEO configuration
-const DEFAULT_SEO: SEOConfig = {
+const DEFAULT_SEO: Required<
+	Pick<SEOConfig, "siteName" | "twitterHandle" | "locale" | "type">
+> = {
 	siteName: "Keta Akademi",
 	twitterHandle: "@ketaakademi",
 	locale: "tr_TR",
@@ -48,13 +50,13 @@ export function generateSEOMetadata(
 
 	// Extract SEO data if available (for pages)
 	const seoData: StrapiPageSEO | undefined =
-		"SEO" in content ? content.SEO : undefined;
+		"SEO" in content && content.SEO ? content.SEO : undefined;
 
 	// Generate title
 	const title =
 		seoData?.metaTitle ||
 		config.title ||
-		generateDefaultTitle(content, seoConfig.siteName!);
+		generateDefaultTitle(content, seoConfig.siteName);
 
 	// Generate description
 	const description =
@@ -65,7 +67,7 @@ export function generateSEOMetadata(
 	// Generate keywords
 	const keywords =
 		seoData?.keywords ||
-		config.keywords?.join(", ") ||
+		(config.keywords ? config.keywords.join(", ") : undefined) ||
 		generateDefaultKeywords(content);
 
 	// Generate canonical URL
@@ -106,9 +108,9 @@ export function generateSEOMetadata(
 
 	return {
 		title,
-		description: description.substring(0, 160),
+		description: description?.substring(0, 160) || "",
 		keywords,
-		authors: [{ name: seoConfig.siteName! }],
+		authors: [{ name: seoConfig.siteName }],
 		robots: {
 			index: !preventIndexing,
 			follow: !preventIndexing,
@@ -122,18 +124,18 @@ export function generateSEOMetadata(
 		},
 		openGraph: {
 			title: ogTitle,
-			description: ogDescription.substring(0, 160),
-			type: seoConfig.type!,
-			locale: seoConfig.locale!,
+			description: ogDescription?.substring(0, 160) || "",
+			type: seoConfig.type,
+			locale: seoConfig.locale,
 			url: canonicalUrl,
-			siteName: seoConfig.siteName!,
+			siteName: seoConfig.siteName,
 			...(ogImage && {
 				images: [
 					{
 						url: ogImage.url,
 						width: ogImage.width,
 						height: ogImage.height,
-						alt: ogImage.alternativeText || title,
+						alt: ogImage.alternativeText || title || "",
 					},
 				],
 			}),
@@ -141,13 +143,13 @@ export function generateSEOMetadata(
 		twitter: {
 			card: "summary_large_image",
 			title: twitterTitle,
-			description: twitterDescription.substring(0, 160),
-			site: seoConfig.twitterHandle!,
+			description: twitterDescription?.substring(0, 160) || "",
+			site: seoConfig.twitterHandle,
 			...(twitterImage && {
 				images: [
 					{
 						url: twitterImage.url,
-						alt: twitterImage.alternativeText || title,
+						alt: twitterImage.alternativeText || title || "",
 					},
 				],
 			}),
@@ -168,7 +170,7 @@ export function generateStructuredData(
 	const seoConfig = { ...DEFAULT_SEO, ...config };
 
 	// Safely resolve required fields with fallbacks
-	const siteName = seoConfig.siteName ?? "Keta Akademi";
+	const siteName = seoConfig.siteName || "Keta Akademi";
 	const baseUrl = (
 		process.env.NEXT_PUBLIC_SITE_URL || "https://ketaakademi.com"
 	).trim();
@@ -260,7 +262,7 @@ function generateDefaultDescription(content: SEOContent): string {
 				return `${content.title} - Keta Akademi`;
 		}
 	}
-	if ("description" in content) {
+	if ("description" in content && content.description) {
 		// Course or other content with description
 		return content.description;
 	}

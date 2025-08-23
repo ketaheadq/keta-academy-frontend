@@ -11,6 +11,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { normalizeTurkish } from "@/lib/utils";
 
 // Generic interfaces for dynamic filtering
 interface FilterableItem {
@@ -66,26 +67,6 @@ export default function DynamicGrid<T extends FilterableItem>({
 		return initialFilters;
 	});
 	const [showFilters, setShowFilters] = useState(false);
-
-	// Helper function to normalize Turkish characters for search
-	const normalizeTurkish = (str: string): string => {
-		if (!str) return "";
-		return str
-			.replace(/ğ/g, "g")
-			.replace(/ü/g, "u")
-			.replace(/ş/g, "s")
-			.replace(/ı/g, "i")
-			.replace(/ö/g, "o")
-			.replace(/ç/g, "c")
-			.replace(/İ/g, "i")
-			.replace(/Ğ/g, "g")
-			.replace(/Ü/g, "u")
-			.replace(/Ş/g, "s")
-			.replace(/I/g, "i")
-			.replace(/Ö/g, "o")
-			.replace(/Ç/g, "c")
-			.toLowerCase();
-	};
 
 	// Helper function to get nested property value
 	const getNestedValue = (obj: any, path: string): any => {

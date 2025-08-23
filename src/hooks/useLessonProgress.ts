@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
 	getUserLessonProgress,
 	updateLessonProgress,
@@ -7,14 +7,14 @@ import {
 import { useAuthStore } from "@/stores/auth-store";
 
 interface UseLessonProgressProps {
-	documentIds: string[]; // Changed from lessonIds to documentIds
+	documentIds: string[];
 	documentId: string;
 }
 
 interface UseLessonProgressReturn {
-	lessonProgress: Record<string, boolean>; // documentId -> isCompleted (changed from lessonId)
+	lessonProgress: Record<string, boolean>;
 	isLoading: boolean;
-	markLessonComplete: (documentId: string) => Promise<void>; // Changed parameter type
+	markLessonComplete: (documentId: string) => Promise<void>;
 	refreshProgress: () => Promise<void>;
 }
 
@@ -27,6 +27,17 @@ export function useLessonProgress({
 		{},
 	);
 	const [isLoading, setIsLoading] = useState(false);
+	const prevDependencies = useRef<string | null>(null);
+
+	// Create a stable dependency string
+	const dependencies = JSON.stringify([
+		isAuthenticated,
+		jwt,
+		user?.id,
+		documentIds
+			.slice()
+			.sort(), // Create a copy before sorting
+	]);
 
 	// Fetch initial progress
 	useEffect(() => {
@@ -45,81 +56,107 @@ export function useLessonProgress({
 					const parts = progress.user_plus_lesson_id.split("_");
 					if (parts.length >= 2) {
 						const userId = parts[0];
-						const documentId = parts[1];
+						const docId = parts[1];
 
-						if (userId === user.id.toString()) {
-							progressMap[documentId] = progress.isCompleted;
+						if (userId === user?.id?.toString()) {
+							progressMap[docId] = progress.isCompleted;
 						}
 					}
 				});
 
 				setLessonProgress(progressMap);
 
-				// Optional: update course status to "in_progress" when viewing
-				await updateUserCourseProgress(documentId, user.id, "in_progress", jwt);
+				// Update course status to "in_progress" when viewing
+				try {
+					if (user?.id) {
+						await updateUserCourseProgress(
+							documentId,
+							user.id,
+							"in_progress",
+							jwt,
+						);
+					}
+				} catch (courseError) {
+					console.warn("Failed to update course progress:", courseError);
+				}
 			} catch (error) {
 				console.error("Failed to fetch progress:", error);
+				setLessonProgress({});
 			} finally {
 				setIsLoading(false);
 			}
 		};
 
-		// Only re-fetch if auth state, user ID, or document IDs (values) change
-		fetchProgress();
-	}, [
-		isAuthenticated,
-		jwt,
-		user?.id,
-		JSON.stringify(documentIds.sort()), // Stable dep based on value
-	]);
-
-	const markLessonComplete = async (documentId: string) => {
-		if (!isAuthenticated || !jwt || !user) {
-			console.log("User not authenticated, cannot mark lesson as complete");
-			return;
+		// Only re-fetch if dependencies have actually changed
+		if (prevDependencies.current !== dependencies) {
+			prevDependencies.current = dependencies;
+			fetchProgress();
 		}
+	}, [dependencies, documentId, documentIds, isAuthenticated, jwt, user]); // Added all missing dependencies
 
-		try {
-			const currentStatus = lessonProgress[documentId] || false;
-			const newStatus = !currentStatus;
-
-			// Update local state immediately for better UX
-			setLessonProgress((prev) => ({
-				...prev,
-				[documentId]: newStatus,
-			}));
-
-			// Update progress in backend
-			await updateLessonProgress(documentId, user.id, newStatus, jwt);
-
-			// Check if all lessons are completed and update course progress
-			const updatedProgress = { ...lessonProgress, [documentId]: newStatus };
-			const allCompleted = documentIds.every((id) => updatedProgress[id]);
-
-			if (allCompleted) {
-				await updateUserCourseProgress(
-					documentId.toString(),
-					user.id,
-					"completed",
-					jwt,
-				);
+	const markLessonComplete = useCallback(
+		async (docId: string) => {
+			if (!isAuthenticated || !jwt || !user) {
+				console.log("User not authenticated, cannot mark lesson as complete");
+				return;
 			}
 
-			console.log(
-				`Document ${documentId} marked as ${newStatus ? "completed" : "incomplete"}`,
-			);
-		} catch (error) {
-			console.error("Failed to update lesson progress:", error);
-			// Revert local state on error
-			setLessonProgress((prev) => ({
-				...prev,
-				[documentId]: !prev[documentId],
-			}));
-		}
-	};
+			try {
+				const currentStatus = lessonProgress[docId] || false;
+				const newStatus = !currentStatus;
 
-	const refreshProgress = async () => {
-		if (!isAuthenticated || !jwt || !user || documentIds.length === 0) return;
+				// Update local state immediately for better UX
+				setLessonProgress((prev) => ({
+					...prev,
+					[docId]: newStatus,
+				}));
+
+				// Update progress in backend
+				if (user?.id) {
+					await updateLessonProgress(docId, user.id, newStatus, jwt);
+				}
+
+				// Check if all lessons are completed and update course progress
+				const updatedProgress = { ...lessonProgress, [docId]: newStatus };
+				const allCompleted = documentIds.every((id) => updatedProgress[id]);
+
+				if (allCompleted) {
+					try {
+						if (user?.id) {
+							await updateUserCourseProgress(
+								documentId,
+								user.id,
+								"completed",
+								jwt,
+							);
+						}
+					} catch (courseError) {
+						console.warn(
+							"Failed to update course completion status:",
+							courseError,
+						);
+					}
+				}
+
+				console.log(
+					`Document ${docId} marked as ${newStatus ? "completed" : "incomplete"}`,
+				);
+			} catch (error) {
+				console.error("Failed to update lesson progress:", error);
+				// Revert local state on error
+				setLessonProgress((prev) => ({
+					...prev,
+					[docId]: !prev[docId],
+				}));
+			}
+		},
+		[isAuthenticated, jwt, user, lessonProgress, documentIds, documentId],
+	);
+
+	const refreshProgress = useCallback(async () => {
+		if (!isAuthenticated || !jwt || !user || documentIds.length === 0) {
+			return;
+		}
 
 		setIsLoading(true);
 		try {
@@ -127,15 +164,13 @@ export function useLessonProgress({
 
 			const progressMap: Record<string, boolean> = {};
 			progressData.forEach((progress) => {
-				// Extract document ID from composite ID (user_id_documentId)
 				const parts = progress.user_plus_lesson_id.split("_");
 				if (parts.length >= 2) {
 					const userId = parts[0];
-					const documentId = parts[1];
+					const docId = parts[1];
 
-					// Only include progress for the current user
-					if (userId === user.id) {
-						progressMap[documentId] = progress.isCompleted;
+					if (userId === user?.id?.toString()) {
+						progressMap[docId] = progress.isCompleted;
 					}
 				}
 			});
@@ -144,10 +179,11 @@ export function useLessonProgress({
 			setLessonProgress(progressMap);
 		} catch (error) {
 			console.error("Failed to refresh progress:", error);
+			setLessonProgress({});
 		} finally {
 			setIsLoading(false);
 		}
-	};
+	}, [isAuthenticated, jwt, user, documentIds]);
 
 	return {
 		lessonProgress,

@@ -3,17 +3,9 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { StrapiBlock, StrapiTermsOfService } from "@/lib/strapi";
+import type { StrapiTermsOfService } from "@/lib/strapi";
 import { getTermsAndCondition } from "@/lib/strapi";
-
-// Helper function to extract text from StrapiBlock array
-const extractTextFromBlocks = (blocks: StrapiBlock[]): string => {
-	if (!blocks || !Array.isArray(blocks)) return "";
-
-	return blocks
-		.map((block) => block.children?.map((child) => child.text).join("") || "")
-		.join("\n\n");
-};
+import { extractTextFromBlocks } from "@/lib/utils";
 
 async function TermsOfServiceContent() {
 	try {

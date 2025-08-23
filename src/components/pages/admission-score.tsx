@@ -22,7 +22,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import type { StrapiAdmissionScore } from "@/lib/strapi";
-import { cn } from "@/lib/utils";
+import { cn, normalizeTurkish } from "@/lib/utils";
 
 // Types
 interface AdmissionScorePageProps {
@@ -156,26 +156,6 @@ export default function AdmissionScorePage({
 				: prev;
 		});
 	}, [filterableColumns]);
-
-	// Turkish search normalization
-	const normalizeTurkish = (str: string): string => {
-		if (!str) return "";
-		return str
-			.toLowerCase()
-			.replace(/ğ/g, "g")
-			.replace(/ü/g, "u")
-			.replace(/ş/g, "s")
-			.replace(/ı/g, "i")
-			.replace(/ö/g, "o")
-			.replace(/ç/g, "c")
-			.replace(/İ/g, "i")
-			.replace(/Ğ/g, "g")
-			.replace(/Ü/g, "u")
-			.replace(/Ş/g, "s")
-			.replace(/I/g, "i")
-			.replace(/Ö/g, "o")
-			.replace(/Ç/g, "c");
-	};
 
 	// Filter and sort data
 	const filteredData = useMemo(() => {

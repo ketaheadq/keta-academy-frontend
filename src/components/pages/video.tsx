@@ -2,7 +2,7 @@
 
 import { BookOpen, Eye, Play, Target, Video } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import ShareButton from "@/components/ui/share-button";
 import type { StrapiVideo } from "@/lib/strapi";
+import { extractYouTubeVideoId } from "@/lib/utils";
 
 interface VideoPageProps {
 	video: StrapiVideo;
@@ -26,8 +27,10 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	// All videos (main video + related videos)
-	const allVideos = [video, ...(video.related_datas || [])];
+	// Memoize all videos to prevent re-creation on every render
+	const allVideos = useMemo(() => {
+		return [video, ...(video.related_datas || [])];
+	}, [video]);
 
 	// Determine starting video
 	const [currentVideo, setCurrentVideo] = useState<StrapiVideo | null>(null);
@@ -39,35 +42,6 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 
 		setCurrentVideo(targetVideo || video);
 	}, [currentVideoSlug, video, allVideos]);
-
-	// Helper function to extract YouTube video ID from URL
-	function extractYouTubeVideoId(url: string): string | null {
-		console.log("🔍 Extracting video ID from URL:", url);
-
-		// Handle different YouTube URL formats
-		const patterns = [
-			// youtube.com/watch?v=VIDEO_ID
-			/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-			// youtube.com/v/VIDEO_ID
-			/youtube\.com\/v\/([^&\n?#]+)/,
-			// youtube.com/embed/VIDEO_ID
-			/youtube\.com\/embed\/([^&\n?#]+)/,
-			// youtu.be/VIDEO_ID
-			/youtu\.be\/([^&\n?#]+)/,
-		];
-
-		for (const pattern of patterns) {
-			const match = url.match(pattern);
-			if (match?.[1]) {
-				const videoId = match[1];
-				console.log("✅ Extracted video ID:", videoId);
-				return videoId;
-			}
-		}
-
-		console.log("❌ Could not extract video ID from URL:", url);
-		return null;
-	}
 
 	// Helper function to get YouTube thumbnail
 	function getYouTubeThumbnail(url: string): string {

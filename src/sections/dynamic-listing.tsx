@@ -5,8 +5,8 @@ interface ListableItem {
 	id: string | number;
 	[key: string]: any;
 }
-// TODO: Refactor to use generics for better type safety
-interface DynamicListingProps<T extends { id: string | number }> {
+
+interface DynamicListingProps<T extends ListableItem> {
 	items: T[];
 	title: React.ReactNode;
 	renderItem: (item: T) => React.ReactNode;
