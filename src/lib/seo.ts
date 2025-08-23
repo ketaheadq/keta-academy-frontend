@@ -330,7 +330,8 @@ function generateDefaultKeywords(content: SEOContent): string {
 }
 
 function generateDefaultURL(content: SEOContent): string {
-	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
+	const baseUrl =
+		process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
 
 	if ("pageType" in content) {
 		return `${baseUrl}/sayfalar/${content.slug}`;
