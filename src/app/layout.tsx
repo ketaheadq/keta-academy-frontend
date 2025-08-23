@@ -4,6 +4,7 @@ import "./globals.css";
 import MainLayout from "@/components/layout/main-layout";
 import { getSettings } from "@/lib/strapi";
 import { Providers } from "./provider";
+import CookieConsent from "@/components/cookie-consent";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -63,6 +64,7 @@ export default function RootLayout({
 				<MainLayout>
 					<Providers>{children}</Providers>
 				</MainLayout>
+				<CookieConsent />
 			</body>
 		</html>
 	);

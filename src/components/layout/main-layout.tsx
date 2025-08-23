@@ -141,17 +141,12 @@ export default async function MainLayout({ children }: MainLayoutProps) {
 							<h4 className="mb-4 font-semibold">Destek</h4>
 							<ul className="space-y-2 text-gray-400">
 								<li>
-									<Link href="/yardim" className="hover:text-white">
-										Yardım Merkezi
-									</Link>
-								</li>
-								<li>
 									<Link href="/iletisim" className="hover:text-white">
 										İletişim
 									</Link>
 								</li>
 								<li>
-									<Link href="/gizlilik" className="hover:text-white">
+									<Link href="/gizlilik-politikasi" className="hover:text-white">
 										Gizlilik Politikası
 									</Link>
 								</li>
