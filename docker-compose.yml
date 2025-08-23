@@ -1,27 +1,11 @@
 version: "3.8"
 
 services:
-  strapi:
+  frontend:
     build: .
-    container_name: strapi
+    container_name: nextjs
     restart: always
-    env_file: .env
     ports:
-      - "1337:1337"
-    depends_on:
-      - db
-
-  db:
-    image: postgres:15
-    container_name: postgres
-    restart: always
-    env_file: .env
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - db-data:/var/lib/postgresql/data
-
-volumes:
-  db-data:
+      - "3000:3000"
+    env_file:
+      - .env
