@@ -29,7 +29,7 @@ export default async function Home() {
 	}
 
 	const gradeNames = grades
-		.filter((grade: StrapiGrade) => grade && grade.title) // Filter out null/undefined grades and titles
+		.filter((grade: StrapiGrade) => grade?.title) // Filter out null/undefined grades and titles
 		.sort((a: StrapiGrade, b: StrapiGrade) => a.order - b.order)
 		.map((grade: StrapiGrade) => grade.title)
 		.filter((title, index, array) => array.indexOf(title) === index); // Remove duplicates

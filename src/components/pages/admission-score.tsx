@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpDown, Filter, School, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,7 +22,9 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import type { StrapiAdmissionScore } from "@/lib/strapi";
+import { cn } from "@/lib/utils";
 
+// Types
 interface AdmissionScorePageProps {
 	admissionScore: StrapiAdmissionScore;
 }
@@ -49,7 +51,7 @@ export default function AdmissionScorePage({
 	const [sortField, setSortField] = useState<string | null>(null);
 	const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
-	// Parse CSV data and extract columns dynamically
+	// Parse CSV data
 	const { parsedData, columns, filterableColumns } = useMemo(() => {
 		if (!admissionScore.tableData)
 			return { parsedData: [], columns: [], filterableColumns: [] };
@@ -59,7 +61,6 @@ export default function AdmissionScorePage({
 			if (lines.length < 2)
 				return { parsedData: [], columns: [], filterableColumns: [] };
 
-			// Parse header line to get column names
 			const headerLine = lines[0];
 			const headerMatches = headerLine.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g);
 			if (!headerMatches)
@@ -69,15 +70,12 @@ export default function AdmissionScorePage({
 				match.replace(/^"(.*)"$/, "$1").trim(),
 			);
 
-			// Create column info with smart typing
 			const columns: ColumnInfo[] = headers.map((header, index) => {
 				const key = `col_${index}`;
 				const label = header;
-
-				// Determine column type based on header content
-				let type: "text" | "number" | "badge" = "text";
 				const lowerHeader = header.toLowerCase();
 
+				let type: "text" | "number" | "badge" = "text";
 				if (
 					lowerHeader.includes("puan") ||
 					lowerHeader.includes("sıra") ||
@@ -96,7 +94,6 @@ export default function AdmissionScorePage({
 				return { key, label, type };
 			});
 
-			// Parse data lines
 			const dataLines = lines.slice(1);
 			const parsedData: DynamicTableData[] = dataLines
 				.map((line, index) => {
@@ -104,66 +101,67 @@ export default function AdmissionScorePage({
 					if (!matches) return null;
 
 					const rowData: DynamicTableData = { id: index };
-
 					matches.forEach((match, colIndex) => {
 						const value = match.replace(/^"(.*)"$/, "$1").trim();
-						const colKey = `col_${colIndex}`;
-						rowData[colKey] = value;
+						rowData[`col_${colIndex}`] = value;
 					});
-
 					return rowData;
 				})
-				.filter(Boolean) as DynamicTableData[];
+				.filter((row): row is DynamicTableData => row !== null);
 
-			// Identify filterable columns (text columns with reasonable number of unique values)
 			const filterableColumns = columns.filter((col) => {
-				if (col.type === "number") return false;
-
-				const uniqueValues = [
-					...new Set(parsedData.map((row) => row[col.key])),
-				];
-				return uniqueValues.length > 1 && uniqueValues.length <= 50; // Reasonable filter limit
+				if (col.type !== "text") return false;
+				const values = parsedData.map((row) => row[col.key]);
+				const uniqueValues = new Set(values.filter(Boolean));
+				return uniqueValues.size > 1 && uniqueValues.size <= 50;
 			});
 
 			return { parsedData, columns, filterableColumns };
 		} catch (error) {
-			console.error("Error parsing admission score data:", error);
+			console.error("Error parsing admission score ", error);
 			return { parsedData: [], columns: [], filterableColumns: [] };
 		}
 	}, [admissionScore.tableData]);
 
-	// Get unique values for each filterable column
+	// Filter options
 	const filterOptions = useMemo(() => {
 		const options: Record<string, string[]> = {};
-
 		filterableColumns.forEach((col) => {
-			const uniqueValues = [...new Set(parsedData.map((row) => row[col.key]))];
-			options[col.key] = uniqueValues
+			const values = parsedData
+				.map((row) => row[col.key])
 				.filter(
 					(value): value is string =>
 						Boolean(value) && typeof value === "string",
-				)
-				.sort();
+				);
+			options[col.key] = [...new Set(values)].sort((a, b) =>
+				a.localeCompare(b, "tr"),
+			);
 		});
-
 		return options;
 	}, [parsedData, filterableColumns]);
 
 	// Initialize filters
-	useMemo(() => {
-		const initialFilters: Record<string, string> = {};
-		filterableColumns.forEach((col) => {
-			if (!selectedFilters[col.key]) {
-				initialFilters[col.key] = `Tüm ${col.label}`;
-			}
+	useEffect(() => {
+		if (filterableColumns.length === 0) return;
+
+		setSelectedFilters((prev) => {
+			const newFilters: Record<string, string> = {};
+			filterableColumns.forEach((col) => {
+				if (!(col.key in prev)) {
+					newFilters[col.key] = `Tüm ${col.label}`;
+				}
+			});
+			return Object.keys(newFilters).length > 0
+				? { ...prev, ...newFilters }
+				: prev;
 		});
-		setSelectedFilters((prev) => ({ ...prev, ...initialFilters }));
 	}, [filterableColumns]);
 
-	// Helper function to normalize Turkish characters for search
+	// Turkish search normalization
 	const normalizeTurkish = (str: string): string => {
 		if (!str) return "";
 		return str
+			.toLowerCase()
 			.replace(/ğ/g, "g")
 			.replace(/ü/g, "u")
 			.replace(/ş/g, "s")
@@ -176,14 +174,12 @@ export default function AdmissionScorePage({
 			.replace(/Ş/g, "s")
 			.replace(/I/g, "i")
 			.replace(/Ö/g, "o")
-			.replace(/Ç/g, "c")
-			.toLowerCase();
+			.replace(/Ç/g, "c");
 	};
 
-	// Filter and search data
+	// Filter and sort data
 	const filteredData = useMemo(() => {
 		const filtered = parsedData.filter((item) => {
-			// Search filter - search across all text columns
 			const matchesSearch =
 				!searchTerm ||
 				columns.some((col) => {
@@ -196,286 +192,280 @@ export default function AdmissionScorePage({
 					);
 				});
 
-			// Filter by selected filters
 			const matchesFilters = filterableColumns.every((col) => {
-				const selectedValue = selectedFilters[col.key];
+				const selected = selectedFilters[col.key];
 				const allLabel = `Tüm ${col.label}`;
-
-				if (!selectedValue || selectedValue === allLabel) return true;
-
-				return item[col.key] === selectedValue;
+				return !selected || selected === allLabel || item[col.key] === selected;
 			});
 
 			return matchesSearch && matchesFilters;
 		});
 
-		// Sort data
 		if (sortField) {
+			const column = columns.find((col) => col.key === sortField);
 			filtered.sort((a, b) => {
-				const aVal = a[sortField];
-				const bVal = b[sortField];
-
-				// Find column type for smart sorting
-				const column = columns.find((col) => col.key === sortField);
+				const av = a[sortField];
+				const bv = b[sortField];
 
 				if (column?.type === "number") {
-					// Handle numeric sorting
-					const aNum = Number.parseFloat(
-						String(aVal)?.replace(/[",]/g, "") || "0",
-					);
-					const bNum = Number.parseFloat(
-						String(bVal)?.replace(/[",]/g, "") || "0",
-					);
-					if (!isNaN(aNum) && !isNaN(bNum)) {
-						return sortDirection === "asc" ? aNum - bNum : bNum - aNum;
-					}
+					const an = Number.parseFloat(String(av).replace(/[",]/g, "")) || 0;
+					const bn = Number.parseFloat(String(bv).replace(/[",]/g, "")) || 0;
+					return sortDirection === "asc" ? an - bn : bn - an;
 				}
 
-				// String sorting
-				const aStr = String(aVal || "");
-				const bStr = String(bVal || "");
-				const comparison = aStr.localeCompare(bStr, "tr");
-				return sortDirection === "asc" ? comparison : -comparison;
+				const astr = String(av || "");
+				const bstr = String(bv || "");
+				const cmp = astr.localeCompare(bstr, "tr");
+				return sortDirection === "asc" ? cmp : -cmp;
 			});
 		}
 
 		return filtered;
 	}, [
 		parsedData,
-		searchTerm,
-		selectedFilters,
-		sortField,
-		sortDirection,
 		columns,
 		filterableColumns,
+		selectedFilters,
+		searchTerm,
+		sortField,
+		sortDirection,
+		normalizeTurkish,
 	]);
 
 	const handleSort = (field: string) => {
-		if (sortField === field) {
-			setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-		} else {
-			setSortField(field);
-			setSortDirection("asc");
-		}
+		setSortField(field);
+		setSortDirection((prev) =>
+			sortField === field ? (prev === "asc" ? "desc" : "asc") : "asc",
+		);
 	};
 
 	const getSortIcon = (field: string) => {
-		if (sortField !== field) return <ArrowUpDown className="h-4 w-4" />;
+		if (sortField !== field)
+			return (
+				<ArrowUpDown className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
+			);
 		return (
 			<ArrowUpDown
-				className={`h-4 w-4 ${sortDirection === "desc" ? "rotate-180" : ""}`}
+				className={cn(
+					"h-4 w-4 transition-transform",
+					sortDirection === "desc" ? "rotate-180" : "",
+				)}
 			/>
 		);
 	};
 
 	const handleFilterChange = (columnKey: string, value: string) => {
-		setSelectedFilters((prev) => ({
-			...prev,
-			[columnKey]: value,
-		}));
+		setSelectedFilters((prev) => ({ ...prev, [columnKey]: value }));
 	};
 
 	const clearAllFilters = () => {
-		const clearedFilters: Record<string, string> = {};
-		filterableColumns.forEach((col) => {
-			clearedFilters[col.key] = `Tüm ${col.label}`;
-		});
-		setSelectedFilters(clearedFilters);
+		const resetFilters = Object.fromEntries(
+			filterableColumns.map((col) => [col.key, `Tüm ${col.label}`]),
+		);
+		setSelectedFilters(resetFilters);
 		setSearchTerm("");
 		setSortField(null);
 	};
 
 	const renderCellValue = (value: any, column: ColumnInfo) => {
-		if (!value) return "-";
+		if (!value) return <span className="text-muted-foreground">—</span>;
 
 		const stringValue = String(value);
 
 		switch (column.type) {
 			case "badge":
-				return <Badge variant="outline">{stringValue}</Badge>;
+				return (
+					<Badge variant="outline" className="font-medium">
+						{stringValue}
+					</Badge>
+				);
 			case "number":
-				if (stringValue.toLowerCase() === "dolmadı") {
-					return <Badge variant="secondary">Dolmadı</Badge>;
-				}
-				return <span className="font-bold text-grey-400">{stringValue}</span>;
+				return stringValue.toLowerCase() === "dolmadı" ? (
+					<Badge
+						variant="secondary"
+						className="bg-orange-100 text-orange-800 hover:bg-orange-100"
+					>
+						Dolmadı
+					</Badge>
+				) : (
+					<span className="font-medium font-mono text-foreground">
+						{stringValue}
+					</span>
+				);
 			default:
 				return (
-					<div className="max-w-xs whitespace-normal break-words">
-						<span>{stringValue}</span>
-					</div>
+					<span
+						className="block max-w-xs truncate md:max-w-none"
+						title={stringValue}
+					>
+						{stringValue}
+					</span>
 				);
 		}
 	};
 
+	// Render
 	return (
-		<div className="container mx-auto px-4 py-8">
-			{/* Show message if no data available */}
-			{parsedData.length === 0 && (
-				<div className="py-12 text-center">
-					<School className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-					<h3 className="mb-2 font-semibold text-gray-900 text-lg">
-						Veri Bulunamadı
-					</h3>
-					<p className="text-gray-600">
+		<div className="container mx-auto max-w-7xl px-4 py-8">
+			{/* Header */}
+			<div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+				<h1 className="font-bold text-3xl text-foreground tracking-tight">
+					{admissionScore.title}
+				</h1>
+				<div className="flex items-center gap-3">
+					<div className="relative">
+						<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
+						<Input
+							placeholder="Ara..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							className="w-full pl-10 md:w-64 lg:w-72"
+						/>
+					</div>
+					{filterableColumns.length > 0 && (
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => setShowFilters(!showFilters)}
+							className="gap-2"
+						>
+							<Filter className="h-4 w-4" />
+							Filtreler
+						</Button>
+					)}
+				</div>
+			</div>
+
+			{/* Filters */}
+			{showFilters && filterableColumns.length > 0 && (
+				<Card className="mb-6 overflow-hidden">
+					<CardContent className="p-4">
+						<div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+							{filterableColumns.map((column) => {
+								const selectId = `filter-${column.key}`; // Unique ID for this select
+
+								return (
+									<div key={column.key} className="space-y-1.5">
+										<label
+											htmlFor={selectId}
+											className="block font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+										>
+											{column.label}
+										</label>
+										<Select
+											value={
+												selectedFilters[column.key] ?? `Tüm ${column.label}`
+											}
+											onValueChange={(value) =>
+												handleFilterChange(column.key, value)
+											}
+										>
+											<SelectTrigger id={selectId} className="h-10">
+												<SelectValue />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectItem value={`Tüm ${column.label}`}>
+													Tüm {column.label}
+												</SelectItem>
+												{filterOptions[column.key]?.map((opt) => (
+													<SelectItem key={opt} value={opt}>
+														{opt}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+									</div>
+								);
+							})}
+						</div>
+						<Button
+							variant="ghost"
+							size="sm"
+							onClick={clearAllFilters}
+							className="text-muted-foreground hover:text-foreground"
+						>
+							Filtreleri Temizle
+						</Button>
+					</CardContent>
+				</Card>
+			)}
+
+			{/* No Data */}
+			{parsedData.length === 0 ? (
+				<div className="flex flex-col items-center justify-center py-16 text-center">
+					<School className="mb-4 h-16 w-16 text-muted-foreground" />
+					<h3 className="mb-1 font-semibold text-xl">Veri Bulunamadı</h3>
+					<p className="text-muted-foreground">
 						Bu sayfa için henüz tablo verisi mevcut değil.
 					</p>
 				</div>
-			)}
-
-			{/* Only show table interface if we have data */}
-			{parsedData.length > 0 && (
+			) : (
 				<>
-					{/* Search and Filter Section */}
-					<section className="mb-8">
-						<div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-							<h2 className="font-semibold text-2xl text-gray-900">
-								{admissionScore.title}
-							</h2>
-							<div className="flex items-center space-x-4">
-								<div className="relative">
-									<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 transform text-gray-400" />
-									<Input
-										placeholder="Tabloda ara..."
-										value={searchTerm}
-										onChange={(e) => setSearchTerm(e.target.value)}
-										className="w-64 pl-10"
-									/>
-								</div>
-								{filterableColumns.length > 0 && (
-									<Button
-										variant="outline"
-										onClick={() => setShowFilters(!showFilters)}
-										className="flex items-center space-x-2"
-									>
-										<Filter className="h-4 w-4" />
-										<span>Filtreler</span>
-									</Button>
-								)}
-							</div>
-						</div>
-
-						{/* Filter Controls */}
-						{showFilters && filterableColumns.length > 0 && (
-							<div className="mt-4 rounded-lg border bg-white p-4">
-								<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-									{filterableColumns.map((column) => {
-										const selectId = `filter-${column.key}`; // Unique ID for this select
-
-										return (
-											<div key={column.key}>
-												<label
-													htmlFor={selectId}
-													className="mb-2 block font-medium text-gray-700 text-sm"
-												>
-													{column.label}
-												</label>
-												<Select
-													value={
-														selectedFilters[column.key] || `Tüm ${column.label}`
-													}
-													onValueChange={(value) =>
-														handleFilterChange(column.key, value)
-													}
-												>
-													<SelectTrigger id={selectId}>
-														<SelectValue />
-													</SelectTrigger>
-													<SelectContent>
-														<SelectItem value={`Tüm ${column.label}`}>
-															Tüm {column.label}
-														</SelectItem>
-														{filterOptions[column.key]?.map((option) => (
-															<SelectItem key={option} value={option}>
-																{option}
-															</SelectItem>
-														))}
-													</SelectContent>
-												</Select>
-											</div>
-										);
-									})}
-								</div>
-								<div className="mt-4">
-									<Button
-										variant="outline"
-										onClick={clearAllFilters}
-										className="w-full md:w-auto"
-									>
-										Filtreleri Temizle
-									</Button>
-								</div>
-							</div>
-						)}
-					</section>
-
 					{/* Results Count */}
-					<div className="mb-4">
-						<p className="text-gray-600">
-							<span className="font-semibold">{filteredData.length}</span> sonuç
-							bulundu
-							{parsedData.length !== filteredData.length && (
-								<span> (toplam {parsedData.length} kayıt)</span>
-							)}
-						</p>
-					</div>
+					<p className="mb-4 text-muted-foreground text-sm">
+						<span className="font-medium">{filteredData.length}</span> sonuç
+						bulundu
+						{filteredData.length !== parsedData.length && (
+							<span className="text-muted-foreground">
+								{" "}
+								(toplam {parsedData.length})
+							</span>
+						)}
+					</p>
 
-					{/* Dynamic Table */}
-					<section className="mb-12">
-						<Card>
-							<CardContent className="p-0">
-								<div className="overflow-x-auto">
-									<Table>
-										<TableHeader>
-											<TableRow>
-												{columns.map((column, index) => (
-													<TableHead
-														key={column.key}
-														className={`cursor-pointer hover:bg-gray-50 ${index === 0 ? "pl-4 text-left" : "text-center"}`}
-														onClick={() => handleSort(column.key)}
-													>
-														<div
-															className={`flex items-center space-x-2 ${index === 0 ? "justify-start" : "justify-center"}`}
-														>
-															<span>{column.label}</span>
-															{getSortIcon(column.key)}
-														</div>
-													</TableHead>
-												))}
-											</TableRow>
-										</TableHeader>
-										<TableBody>
-											{filteredData.map((row) => (
-												<TableRow key={row.id} className="hover:bg-gray-50">
-													{columns.map((column, index) => (
+					{/* Table */}
+					<Card>
+						<CardContent className="p-0">
+							<div className="overflow-x-auto rounded-lg border">
+								<Table>
+									<TableHeader>
+										<TableRow className="bg-muted hover:bg-muted">
+											{columns.map((column) => (
+												<TableHead
+													key={column.key}
+													onClick={() => handleSort(column.key)}
+													className="group cursor-pointer select-none text-left font-semibold text-muted-foreground transition-colors first:pl-6 last:pr-6 hover:bg-accent"
+												>
+													<div className="flex items-center gap-1">
+														<span>{column.label}</span>
+														{getSortIcon(column.key)}
+													</div>
+												</TableHead>
+											))}
+										</TableRow>
+									</TableHeader>
+									<TableBody>
+										{filteredData.length > 0 ? (
+											filteredData.map((row) => (
+												<TableRow
+													key={row.id}
+													className="transition-colors hover:bg-accent"
+												>
+													{columns.map((column) => (
 														<TableCell
 															key={column.key}
-															className={
-																index === 0 ? "pl-4 text-left" : "text-center"
-															}
+															className="py-3 text-left first:pl-6 last:pr-6"
 														>
 															{renderCellValue(row[column.key], column)}
 														</TableCell>
 													))}
 												</TableRow>
-											))}
-										</TableBody>
-									</Table>
-								</div>
-							</CardContent>
-						</Card>
-
-						{filteredData.length === 0 && (
-							<div className="py-12 text-center">
-								<School className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-								<h3 className="mb-2 font-semibold text-gray-900 text-lg">
-									Sonuç bulunamadı
-								</h3>
-								<p className="text-gray-600">
-									Arama kriterlerinizi değiştirmeyi deneyin.
-								</p>
+											))
+										) : (
+											<TableRow>
+												<TableCell
+													colSpan={columns.length}
+													className="h-24 text-center text-muted-foreground"
+												>
+													Sonuç bulunamadı. Arama kriterlerinizi değiştirin.
+												</TableCell>
+											</TableRow>
+										)}
+									</TableBody>
+								</Table>
 							</div>
-						)}
-					</section>
+						</CardContent>
+					</Card>
 				</>
 			)}
 		</div>

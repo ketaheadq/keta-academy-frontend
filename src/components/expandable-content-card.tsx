@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown, ChevronUp, FileText, School } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RichTextRenderer from "@/components/rich-text-renderer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,79 +17,133 @@ export default function ExpandableContentCard({
 	content,
 }: ExpandableContentCardProps) {
 	const [isExpanded, setIsExpanded] = useState(false);
+	const [previewContent, setPreviewContent] = useState<StrapiBlock[]>([]);
+
+	useEffect(() => {
+		if (!content || content.length === 0) return;
+
+		// Create preview content with only the first paragraph truncated
+		const generatePreviewContent = () => {
+			const previewBlocks: StrapiBlock[] = [];
+			let foundFirstParagraph = false;
+
+			for (const block of content) {
+				if (block.type === "paragraph" && !foundFirstParagraph) {
+					if (block.children && block.children.length > 0) {
+						// Find the first text node with content
+						const firstTextChild = block.children.find(
+							(child) => child.text && child.text.trim() !== "",
+						);
+
+						if (firstTextChild) {
+							const text = firstTextChild.text;
+							const sentenceEndRegex = /[.!?]+/;
+							const match = sentenceEndRegex.exec(text);
+
+							if (match && match.index < text.length - 1) {
+								// Truncate after first sentence
+								const sentenceEndIndex = match.index + 1;
+								const truncatedText = text.substring(0, sentenceEndIndex);
+
+								// Create new paragraph with truncated text
+								const truncatedChildren = block.children.map((child) =>
+									child === firstTextChild
+										? { ...child, text: truncatedText }
+										: child,
+								);
+
+								previewBlocks.push({
+									...block,
+									children: truncatedChildren,
+								});
+								foundFirstParagraph = true;
+							} else {
+								// If no sentence break, show the whole paragraph
+								previewBlocks.push(block);
+							}
+						} else {
+							previewBlocks.push(block);
+						}
+					} else {
+						previewBlocks.push(block);
+					}
+				} else if (block.type !== "paragraph" && !foundFirstParagraph) {
+					// Include other blocks (headings, lists, etc.) before first paragraph
+					previewBlocks.push(block);
+				} else if (foundFirstParagraph) {
+					// Stop after processing the first paragraph
+					break;
+				}
+			}
+
+			setPreviewContent(previewBlocks);
+		};
+
+		generatePreviewContent();
+	}, [content]);
 
 	if (!content || content.length === 0) {
 		return null;
 	}
 
-	// Extract preview text from the first few blocks
-	const getPreviewText = (blocks: StrapiBlock[], maxLength = 200): string => {
-		let previewText = "";
-
-		for (const block of blocks) {
-			if (block.type === "paragraph" && block.children) {
-				for (const child of block.children) {
-					if (child.text) {
-						previewText += `${child.text} `;
-						if (previewText.length >= maxLength) break;
-					}
-				}
-				if (previewText.length >= maxLength) break;
-			}
-		}
-
-		if (previewText.length > maxLength) {
-			return `${previewText.substring(0, maxLength).trim()}...`;
-		}
-
-		return previewText.trim();
-	};
-
-	const previewText = getPreviewText(content);
+	const hasMoreContent =
+		JSON.stringify(content) !== JSON.stringify(previewContent);
 
 	return (
-		<Card className="mb-6 w-full">
-			<CardHeader>
+		<Card className="mb-6 w-full overflow-hidden transition-all duration-300 hover:shadow-md">
+			<CardHeader className="pb-3">
 				<div className="flex items-center justify-between">
-					<CardTitle className="flex items-center space-x-2">
-						<School className="h-5 w-5 text-blue-600" />
+					<CardTitle className="flex items-center space-x-2 text-lg">
+						<School className="h-5 w-5 text-primary" />
 						<span>{title}</span>
 					</CardTitle>
-					<Button
-						variant="outline"
-						onClick={() => setIsExpanded(!isExpanded)}
-						className="flex items-center space-x-2"
-					>
-						<span>{isExpanded ? "Gizle" : "Daha Fazla Göster"}</span>
-						{isExpanded ? (
-							<ChevronUp className="h-4 w-4" />
-						) : (
-							<ChevronDown className="h-4 w-4" />
-						)}
-					</Button>
+					{hasMoreContent && (
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => setIsExpanded(!isExpanded)}
+							className="flex items-center space-x-1 transition-all duration-300"
+							aria-expanded={isExpanded}
+						>
+							<span className="text-sm">
+								{isExpanded ? "Daha Az Göster" : "Devamını Oku"}
+							</span>
+							{isExpanded ? (
+								<ChevronUp className="h-4 w-4 transition-transform duration-300" />
+							) : (
+								<ChevronDown className="h-4 w-4 transition-transform duration-300" />
+							)}
+						</Button>
+					)}
 				</div>
 			</CardHeader>
 
-			{isExpanded && (
-				<CardContent className="pt-0">
-					<RichTextRenderer content={content} />
-				</CardContent>
-			)}
-
-			{!isExpanded && (
-				<CardContent className="pt-0">
-					<div className="text-gray-700 leading-relaxed">
-						{previewText ? (
-							<p>{previewText}</p>
+			<CardContent className="pt-0">
+				{isExpanded ? (
+					<div className="fade-in animate-in duration-300">
+						<RichTextRenderer content={content} />
+					</div>
+				) : (
+					<div className="space-y-4">
+						{previewContent.length > 0 ? (
+							<div className="fade-in animate-in duration-300">
+								<RichTextRenderer content={previewContent} />
+								{hasMoreContent && (
+									<p className="mt-2 flex items-center font-medium text-primary">
+										<ChevronDown className="mr-1 h-4 w-4" />
+										Devamını görmek için tıklayın
+									</p>
+								)}
+							</div>
 						) : (
-							<div className="text-center text-gray-500">
-								<FileText className="mx-auto mb-2 h-8 w-8 text-gray-400" />
-								<p>İçeriği görmek için yukarıdaki butona tıklayın.</p>
+							<div className="py-6 text-center text-muted-foreground">
+								<FileText className="mx-auto mb-2 h-8 w-8" />
+								<p>İçerik bulunamadı</p>
 							</div>
 						)}
 					</div>
-				</CardContent>
-			)}
+				)}
+			</CardContent>
 		</Card>
 	);
 }

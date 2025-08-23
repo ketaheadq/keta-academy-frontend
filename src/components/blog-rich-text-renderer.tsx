@@ -133,7 +133,7 @@ const BlogRichTextRenderer: React.FC<BlogRichTextRendererProps> = ({
 				}}
 				modifiers={{
 					bold: ({ children }) => (
-						<strong className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-bold text-gray-900 text-transparent">
+						<strong className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-bold text-gray-900">
 							{children}
 						</strong>
 					),
@@ -163,7 +163,7 @@ const BlogRichTextRenderer: React.FC<BlogRichTextRendererProps> = ({
           font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
           line-height: 1.8;
         }
-        
+
         .blog-content h1,
         .blog-content h2,
         .blog-content h3,
@@ -173,20 +173,20 @@ const BlogRichTextRenderer: React.FC<BlogRichTextRendererProps> = ({
           font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
           letter-spacing: -0.025em;
         }
-        
+
         .blog-content p:first-of-type {
           font-size: 1.25rem;
           color: #374151;
           margin-bottom: 2rem;
         }
-        
+
         .blog-content a:hover {
           background: linear-gradient(120deg, #3b82f6 0%, #8b5cf6 100%);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
-        
+
         @media (max-width: 768px) {
           .blog-content h1 {
             font-size: 2.5rem;

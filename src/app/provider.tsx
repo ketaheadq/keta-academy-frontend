@@ -17,7 +17,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				duration: 4000,
 			});
 		}
-	}, [searchParams, toast]);
+		// TODO check if we need toast here
+	}, [searchParams]);
 
 	return (
 		<>

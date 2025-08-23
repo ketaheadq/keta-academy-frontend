@@ -166,27 +166,32 @@ export function generateStructuredData(
 	config: Partial<SEOConfig> = {},
 ): object {
 	const seoConfig = { ...DEFAULT_SEO, ...config };
-	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ketaakademi.com";
+
+	// Safely resolve required fields with fallbacks
+	const siteName = seoConfig.siteName ?? "Keta Akademi";
+	const baseUrl = (
+		process.env.NEXT_PUBLIC_SITE_URL || "https://ketaakademi.com"
+	).trim();
+	const contentUrl = config.url || generateDefaultURL(content);
 
 	const baseSchema = {
 		"@context": "https://schema.org",
 		"@type": "WebPage",
 		name: content.title,
 		description: generateDefaultDescription(content),
-		url: config.url || generateDefaultURL(content),
+		url: contentUrl,
 		inLanguage: "tr-TR",
 		isPartOf: {
 			"@type": "WebSite",
-			name: seoConfig.siteName!,
+			name: siteName,
 			url: baseUrl,
 		},
 	};
 
-	// Add specific schema based on content type
 	if ("pageType" in content) {
-		// Page content
 		return {
 			...baseSchema,
+			"@type": "WebPage",
 			breadcrumb: {
 				"@type": "BreadcrumbList",
 				itemListElement: [
@@ -200,24 +205,24 @@ export function generateStructuredData(
 						"@type": "ListItem",
 						position: 2,
 						name: content.title,
-						item: config.url || generateDefaultURL(content),
+						item: contentUrl,
 					},
 				],
 			},
 		};
 	}
+
 	if ("videoURL" in content || "href" in content) {
-		// Video content
 		return {
 			...baseSchema,
 			"@type": "VideoObject",
 			name: content.title,
 			description: generateDefaultDescription(content),
-			uploadDate: content.publishedAt,
+			uploadDate: content.publishedAt || new Date().toISOString(),
 		};
 	}
+
 	if ("content" in content && Array.isArray(content.content)) {
-		// Blog/Article content
 		return {
 			...baseSchema,
 			"@type": "Article",
@@ -226,7 +231,7 @@ export function generateStructuredData(
 			dateModified: content.updatedAt,
 			author: {
 				"@type": "Organization",
-				name: seoConfig.siteName!,
+				name: siteName,
 			},
 		};
 	}
