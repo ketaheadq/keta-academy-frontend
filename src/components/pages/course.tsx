@@ -528,7 +528,8 @@ export default function CoursePage({
 									<div className="space-y-2 p-4">
 										{extendedLessons.map((lesson, index) => (
 											<div key={`${lesson.id}-${lesson.documentId}-${index}`}>
-												<div
+												<button
+													type="button"
 													className={`cursor-pointer rounded-lg p-3 transition-colors ${
 														currentLesson?.id === lesson.id
 															? "border-2 border-blue-200 bg-blue-50"
@@ -559,7 +560,7 @@ export default function CoursePage({
 															</p>
 														</div>
 													</div>
-												</div>
+												</button>
 												{lesson.quiz && (
 													<Badge variant="outline" className="ml-2 text-xs">
 														Quiz

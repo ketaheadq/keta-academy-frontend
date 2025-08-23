@@ -358,35 +358,42 @@ export default function AdmissionScorePage({
 						{showFilters && filterableColumns.length > 0 && (
 							<div className="mt-4 rounded-lg border bg-white p-4">
 								<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-									{filterableColumns.map((column) => (
-										<div key={column.key}>
-											<label className="mb-2 block font-medium text-gray-700 text-sm">
-												{column.label}
-											</label>
-											<Select
-												value={
-													selectedFilters[column.key] || `Tüm ${column.label}`
-												}
-												onValueChange={(value) =>
-													handleFilterChange(column.key, value)
-												}
-											>
-												<SelectTrigger>
-													<SelectValue />
-												</SelectTrigger>
-												<SelectContent>
-													<SelectItem value={`Tüm ${column.label}`}>
-														Tüm {column.label}
-													</SelectItem>
-													{filterOptions[column.key]?.map((option) => (
-														<SelectItem key={option} value={option}>
-															{option}
+									{filterableColumns.map((column) => {
+										const selectId = `filter-${column.key}`; // Unique ID for this select
+
+										return (
+											<div key={column.key}>
+												<label
+													htmlFor={selectId}
+													className="mb-2 block font-medium text-gray-700 text-sm"
+												>
+													{column.label}
+												</label>
+												<Select
+													value={
+														selectedFilters[column.key] || `Tüm ${column.label}`
+													}
+													onValueChange={(value) =>
+														handleFilterChange(column.key, value)
+													}
+												>
+													<SelectTrigger id={selectId}>
+														<SelectValue />
+													</SelectTrigger>
+													<SelectContent>
+														<SelectItem value={`Tüm ${column.label}`}>
+															Tüm {column.label}
 														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
-										</div>
-									))}
+														{filterOptions[column.key]?.map((option) => (
+															<SelectItem key={option} value={option}>
+																{option}
+															</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+											</div>
+										);
+									})}
 								</div>
 								<div className="mt-4">
 									<Button
