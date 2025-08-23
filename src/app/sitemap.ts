@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getPageCategories } from "@/lib/strapi";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ketaakademi.com";
+	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
 
 	// Static pages
 	const staticPages: MetadataRoute.Sitemap = [

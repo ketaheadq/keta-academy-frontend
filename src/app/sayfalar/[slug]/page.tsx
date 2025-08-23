@@ -37,7 +37,7 @@ export async function generateMetadata({
 		}
 
 		return generateSEOMetadata(page, {
-			url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ketaakademi.com"}/sayfalar/${slug}`,
+			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"}/sayfalar/${slug}`,
 			type: "website",
 		});
 	} catch (error) {
@@ -195,7 +195,7 @@ export default async function Page({ params }: PageProps) {
 
 		// Generate structured data using the utility
 		const structuredData = generateStructuredData(page, {
-			url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://ketaakademi.com"}/sayfalar/${slug}`,
+			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"}/sayfalar/${slug}`,
 		}) as any;
 
 		// Add item count to structured data if available

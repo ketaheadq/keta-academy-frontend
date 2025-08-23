@@ -172,7 +172,7 @@ export function generateStructuredData(
 	// Safely resolve required fields with fallbacks
 	const siteName = seoConfig.siteName || "Keta Akademi";
 	const baseUrl = (
-		process.env.NEXT_PUBLIC_SITE_URL || "https://ketaakademi.com"
+		process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"
 	).trim();
 	const contentUrl = config.url || generateDefaultURL(content);
 
@@ -330,7 +330,7 @@ function generateDefaultKeywords(content: SEOContent): string {
 }
 
 function generateDefaultURL(content: SEOContent): string {
-	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ketaakademi.com";
+	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
 
 	if ("pageType" in content) {
 		return `${baseUrl}/sayfalar/${content.slug}`;

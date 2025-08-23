@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const content = await getContent(params) // Your content fetching
 
   return generateSEOMetadata(content, {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/your-path/${params.slug}`,
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/your-path/${params.slug}`,
     type: 'article' // or 'website'
   })
 }
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return generateSEOMetadata(course, {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/kurslar/${slug}`,
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/kurslar/${slug}`,
     type: 'website',
     description: `${course.title} - ${course.description} ${course.subject.title} dersi.`
   })
@@ -47,7 +47,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   if (!course) notFound()
 
   const structuredData = generateStructuredData(course, {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/kurslar/${slug}`
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/kurslar/${slug}`
   })
 
   return (
@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return generateSEOMetadata(blog, {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/blogs/${slug}`,
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blogs/${slug}`,
     type: 'article'
   })
 }
@@ -90,7 +90,7 @@ export default async function BlogPage({ params }: { params: Promise<{ slug: str
   if (!blog) notFound()
 
   const structuredData = generateStructuredData(blog, {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/blogs/${slug}`
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blogs/${slug}`
   })
 
   return (
@@ -121,7 +121,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return generateSEOMetadata(video, {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/videos/${slug}`,
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/videos/${slug}`,
     type: 'article', // Videos use article type for better social sharing
     description: `${video.title} - Eğitim videosu`
   })
@@ -144,7 +144,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return generateSEOMetadata(homepage, {
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ketaakademi.com',
+    url: process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://ketaakademi.com',
     type: 'website',
     description: 'Keta Akademi ile online eğitim alın. Üniversite hazırlık, taban puanları, videolar ve daha fazlası.',
     keywords: ['online eğitim', 'üniversite hazırlık', 'taban puanları', 'eğitim videoları', 'YKS']
@@ -160,7 +160,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const content = await getContent(params.slug)
 
   return generateSEOMetadata(content, {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/custom/${params.slug}`,
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/custom/${params.slug}`,
     type: 'article',
     title: 'Custom Override Title', // Overrides Strapi SEO
     description: 'Custom description', // Overrides Strapi SEO
@@ -178,7 +178,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const content = await getContent(slug, locale)
 
   return generateSEOMetadata(content, {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${slug}`,
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${locale}/${slug}`,
     locale: locale === 'en' ? 'en_US' : 'tr_TR',
     type: 'website'
   })
