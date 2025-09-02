@@ -273,9 +273,15 @@ export default function AdmissionScorePage({
 					</span>
 				);
 			default:
+				const shouldWrap = stringValue.length > 30;
 				return (
 					<span
-						className="block max-w-xs truncate md:max-w-none"
+						className={cn(
+							"block",
+							shouldWrap 
+								? "whitespace-normal break-words" 
+								: "max-w-xs truncate md:max-w-none"
+						)}
 						title={stringValue}
 					>
 						{stringValue}
@@ -286,7 +292,7 @@ export default function AdmissionScorePage({
 
 	// Render
 	return (
-		<div className="container mx-auto max-w-7xl px-4 py-8">
+		<div className="container mx-auto max-w-7xl">
 			{/* Header */}
 			<div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 				<h1 className="font-bold text-3xl text-foreground tracking-tight">
@@ -393,55 +399,57 @@ export default function AdmissionScorePage({
 						)}
 					</p>
 
-					{/* Table */}
+										{/* Table */}
 					<CardContent className="rounded-lg border bg-white p-0">
-						<div className="overflow-x-auto rounded-lg border">
-							<Table>
-								<TableHeader>
-									<TableRow className="bg-muted hover:bg-muted">
-										{columns.map((column) => (
-											<TableHead
-												key={column.key}
-												onClick={() => handleSort(column.key)}
-												className="group cursor-pointer select-none text-left font-semibold text-muted-foreground transition-colors first:pl-6 last:pr-6 hover:bg-accent"
-											>
-												<div className="flex items-center gap-1">
-													<span>{column.label}</span>
-													{getSortIcon(column.key)}
-												</div>
-											</TableHead>
-										))}
-									</TableRow>
-								</TableHeader>
-								<TableBody>
-									{filteredData.length > 0 ? (
-										filteredData.map((row) => (
-											<TableRow
-												key={row.id}
-												className="transition-colors hover:bg-accent"
-											>
-												{columns.map((column) => (
-													<TableCell
-														key={column.key}
-														className="py-3 text-left first:pl-6 last:pr-6"
-													>
-														{renderCellValue(row[column.key], column)}
-													</TableCell>
-												))}
-											</TableRow>
-										))
-									) : (
-										<TableRow>
-											<TableCell
-												colSpan={columns.length}
-												className="h-24 text-center text-muted-foreground"
-											>
-												Sonuç bulunamadı. Arama kriterlerinizi değiştirin.
-											</TableCell>
+						<div className="overflow-auto max-h-96 rounded-lg border">
+							<div className="min-w-full">
+								<Table>
+									<TableHeader className="sticky top-0 z-10 bg-white">
+										<TableRow className="bg-muted hover:bg-muted">
+											{columns.map((column) => (
+												<TableHead
+													key={column.key}
+													onClick={() => handleSort(column.key)}
+													className="group cursor-pointer select-none text-left font-semibold text-muted-foreground transition-colors first:pl-6 last:pr-6 hover:bg-accent bg-muted"
+												>
+													<div className="flex items-center gap-1">
+														<span>{column.label}</span>
+														{getSortIcon(column.key)}
+													</div>
+												</TableHead>
+											))}
 										</TableRow>
-									)}
-								</TableBody>
-							</Table>
+									</TableHeader>
+									<TableBody>
+										{filteredData.length > 0 ? (
+											filteredData.map((row) => (
+												<TableRow
+													key={row.id}
+													className="transition-colors hover:bg-accent"
+												>
+													{columns.map((column) => (
+														<TableCell
+															key={column.key}
+															className="py-3 text-left first:pl-6 last:pr-6"
+														>
+															{renderCellValue(row[column.key], column)}
+														</TableCell>
+													))}
+												</TableRow>
+											))
+										) : (
+											<TableRow>
+												<TableCell
+													colSpan={columns.length}
+													className="h-24 text-center text-muted-foreground"
+												>
+													Sonuç bulunamadı. Arama kriterlerinizi değiştirin.
+												</TableCell>
+											</TableRow>
+										)}
+									</TableBody>
+								</Table>
+							</div>
 						</div>
 					</CardContent>
 				</>

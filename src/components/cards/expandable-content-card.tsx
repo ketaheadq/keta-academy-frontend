@@ -91,37 +91,38 @@ export default function ExpandableContentCard({
 
 	return (
 		<Card className="mb-6 w-full overflow-hidden transition-all duration-300 hover:shadow-md">
-			<CardHeader className="pb-3">
+			<CardHeader className="pb-0">
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center space-x-2 text-lg">
 						<School className="h-5 w-5 text-primary" />
 						<span>{title}</span>
 					</CardTitle>
-					{hasMoreContent && (
-						<Button
-							variant="outline"
-							size="sm"
-							onClick={() => setIsExpanded(!isExpanded)}
-							className="flex items-center space-x-1 transition-all duration-300"
-							aria-expanded={isExpanded}
-						>
-							<span className="text-sm">
-								{isExpanded ? "Daha Az Göster" : "Devamını Oku"}
-							</span>
-							{isExpanded ? (
-								<ChevronUp className="h-4 w-4 transition-transform duration-300" />
-							) : (
-								<ChevronDown className="h-4 w-4 transition-transform duration-300" />
-							)}
-						</Button>
-					)}
 				</div>
 			</CardHeader>
 
-			<CardContent className="pt-0">
+			<CardContent className="-mt-10 pt-0">
 				{isExpanded ? (
 					<div className="fade-in animate-in duration-300">
 						<RichTextRenderer content={content} />
+						{hasMoreContent && (
+									<div className="flex justify-between">
+									<p>. . .</p>
+									<Button
+										variant="outline"
+										size="sm"
+										onClick={() => setIsExpanded(!isExpanded)}
+										className="flex items-center space-x-1 transition-all duration-300"
+										aria-expanded={isExpanded}
+									>
+										<span className="text-sm">
+											Daha Az Göster
+										</span>
+										{isExpanded && (
+											<ChevronUp className="h-4 w-4 transition-transform duration-300" />
+										)}
+									</Button>
+									</div>
+								)}
 					</div>
 				) : (
 					<div className="space-y-4">
@@ -129,10 +130,23 @@ export default function ExpandableContentCard({
 							<div className="fade-in animate-in duration-300">
 								<RichTextRenderer content={previewContent} />
 								{hasMoreContent && (
-									<p className="mt-2 flex items-center font-medium text-primary">
-										<ChevronDown className="mr-1 h-4 w-4" />
-										Devamını görmek için tıklayın
-									</p>
+									<div className="flex justify-between">
+									<p>...</p>
+									<Button
+										variant="outline"
+										size="sm"
+										onClick={() => setIsExpanded(!isExpanded)}
+										className="flex items-center space-x-1 transition-all duration-300"
+										aria-expanded={isExpanded}
+									>
+										<span className="text-sm">
+											Devamını Oku
+										</span>
+										{!isExpanded && (
+											<ChevronDown className="h-4 w-4 transition-transform duration-300" />
+										)}
+									</Button>
+									</div>
 								)}
 							</div>
 						) : (

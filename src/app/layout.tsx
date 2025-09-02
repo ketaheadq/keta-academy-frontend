@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
 			title: settings.siteName,
 			description:
 				settings.defaultSEODescription ||
-				"Empowering students to learn and grow through interactive education across all subjects and grades.",
+				"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu",
 			icons: {
 				icon: [
 					{
