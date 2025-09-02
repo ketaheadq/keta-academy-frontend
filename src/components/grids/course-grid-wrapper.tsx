@@ -2,8 +2,8 @@
 
 import { Calculator } from "lucide-react";
 import type { StrapiCourse } from "@/lib/strapi";
-import CourseCard from "../course-card";
-import DynamicGrid from "../dynamic-grid";
+import CourseCard from "../cards/course-card";
+import DynamicGrid from "./dynamic-grid";
 
 interface CourseGridProps {
 	courses: StrapiCourse[];

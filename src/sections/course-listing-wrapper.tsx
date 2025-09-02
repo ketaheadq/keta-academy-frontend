@@ -1,6 +1,6 @@
 "use client";
 
-import CourseCard from "@/components/course-card";
+import CourseCard from "@/components/cards/course-card";
 import type { StrapiCourse } from "@/lib/strapi";
 import DynamicListing from "./dynamic-listing";
 

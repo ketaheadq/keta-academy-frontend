@@ -1,4 +1,4 @@
-import ExpandableContentCard from "@/components/expandable-content-card";
+import ExpandableContentCard from "@/components/cards/expandable-content-card";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
 import AdmissionScorePage from "@/components/pages/admission-score";
 import BlogPage from "@/components/pages/blog";

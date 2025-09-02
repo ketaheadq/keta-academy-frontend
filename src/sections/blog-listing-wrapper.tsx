@@ -1,6 +1,6 @@
 "use client";
 
-import BlogCard from "@/components/blog-card";
+import BlogCard from "@/components/cards/blog-card";
 import type { StrapiBlog } from "@/lib/strapi";
 import DynamicListing from "./dynamic-listing";
 

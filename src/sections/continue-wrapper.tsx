@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CourseCard from "@/components/course-card";
+import CourseCard from "@/components/cards/course-card";
 import { calculateCoursesProgress } from "@/lib/progress-utils";
 import {
 	getAllCourseLessons,

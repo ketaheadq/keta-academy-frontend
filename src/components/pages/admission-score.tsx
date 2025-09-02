@@ -394,58 +394,56 @@ export default function AdmissionScorePage({
 					</p>
 
 					{/* Table */}
-					<Card>
-						<CardContent className="p-0">
-							<div className="overflow-x-auto rounded-lg border">
-								<Table>
-									<TableHeader>
-										<TableRow className="bg-muted hover:bg-muted">
-											{columns.map((column) => (
-												<TableHead
-													key={column.key}
-													onClick={() => handleSort(column.key)}
-													className="group cursor-pointer select-none text-left font-semibold text-muted-foreground transition-colors first:pl-6 last:pr-6 hover:bg-accent"
-												>
-													<div className="flex items-center gap-1">
-														<span>{column.label}</span>
-														{getSortIcon(column.key)}
-													</div>
-												</TableHead>
-											))}
-										</TableRow>
-									</TableHeader>
-									<TableBody>
-										{filteredData.length > 0 ? (
-											filteredData.map((row) => (
-												<TableRow
-													key={row.id}
-													className="transition-colors hover:bg-accent"
-												>
-													{columns.map((column) => (
-														<TableCell
-															key={column.key}
-															className="py-3 text-left first:pl-6 last:pr-6"
-														>
-															{renderCellValue(row[column.key], column)}
-														</TableCell>
-													))}
-												</TableRow>
-											))
-										) : (
-											<TableRow>
-												<TableCell
-													colSpan={columns.length}
-													className="h-24 text-center text-muted-foreground"
-												>
-													Sonuç bulunamadı. Arama kriterlerinizi değiştirin.
-												</TableCell>
+					<CardContent className="rounded-lg border bg-white p-0">
+						<div className="overflow-x-auto rounded-lg border">
+							<Table>
+								<TableHeader>
+									<TableRow className="bg-muted hover:bg-muted">
+										{columns.map((column) => (
+											<TableHead
+												key={column.key}
+												onClick={() => handleSort(column.key)}
+												className="group cursor-pointer select-none text-left font-semibold text-muted-foreground transition-colors first:pl-6 last:pr-6 hover:bg-accent"
+											>
+												<div className="flex items-center gap-1">
+													<span>{column.label}</span>
+													{getSortIcon(column.key)}
+												</div>
+											</TableHead>
+										))}
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{filteredData.length > 0 ? (
+										filteredData.map((row) => (
+											<TableRow
+												key={row.id}
+												className="transition-colors hover:bg-accent"
+											>
+												{columns.map((column) => (
+													<TableCell
+														key={column.key}
+														className="py-3 text-left first:pl-6 last:pr-6"
+													>
+														{renderCellValue(row[column.key], column)}
+													</TableCell>
+												))}
 											</TableRow>
-										)}
-									</TableBody>
-								</Table>
-							</div>
-						</CardContent>
-					</Card>
+										))
+									) : (
+										<TableRow>
+											<TableCell
+												colSpan={columns.length}
+												className="h-24 text-center text-muted-foreground"
+											>
+												Sonuç bulunamadı. Arama kriterlerinizi değiştirin.
+											</TableCell>
+										</TableRow>
+									)}
+								</TableBody>
+							</Table>
+						</div>
+					</CardContent>
 				</>
 			)}
 		</div>

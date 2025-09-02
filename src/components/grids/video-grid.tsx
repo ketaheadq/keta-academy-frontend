@@ -1,8 +1,8 @@
 "use client";
 
 import { Play } from "lucide-react";
-import DynamicGrid from "@/components/dynamic-grid";
-import VideoCard from "@/components/video-card";
+import VideoCard from "@/components/cards/video-card";
+import DynamicGrid from "@/components/grids/dynamic-grid";
 import type { StrapiVideo } from "@/lib/strapi";
 
 interface VideoGridProps {

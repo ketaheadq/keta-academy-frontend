@@ -1,6 +1,6 @@
 "use client";
 
-import AdmissionScoreCard from "@/components/admission-score-card";
+import AdmissionScoreCard from "@/components/cards/admission-score-card";
 import type { StrapiAdmissionScore } from "@/lib/strapi";
 import DynamicListing from "./dynamic-listing";
 

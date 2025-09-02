@@ -8,6 +8,13 @@ const config: Config = {
 	],
 	theme: {
 		extend: {
+			keyframes: {
+				gradient: {
+					"0%": { backgroundPosition: "0% 50%" },
+					"50%": { backgroundPosition: "100% 50%" },
+					"100%": { backgroundPosition: "0% 50%" },
+				},
+			},
 			colors: {
 				background: "#f4f6fb", // very light blue-gray
 				primary: "#2563eb", // blue-600
@@ -16,6 +23,9 @@ const config: Config = {
 				secondary: "#64748b", // slate-500
 				success: "#22c55e", // green-500
 				danger: "#ef4444", // red-500
+			},
+			animation: {
+				gradient: "gradient 8s linear infinite",
 			},
 		},
 	},
