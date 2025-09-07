@@ -38,7 +38,7 @@ export default async function Home() {
 		<>
 			{/* Hero Section */}
 			<section className="px-4 py-16 sm:px-6 lg:px-8">
-				<div className="mx-auto max-w-7xl text-center">
+				<div className="mx-auto text-center">
 					<h1 className="mb-6 font-bold text-4xl text-text">
 						👋 {settings.siteName}'ye hoş geldiniz!
 					</h1>

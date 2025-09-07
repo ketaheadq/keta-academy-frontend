@@ -272,27 +272,28 @@ export default function AdmissionScorePage({
 						{stringValue}
 					</span>
 				);
-			default:
+			default: {
 				const shouldWrap = stringValue.length > 30;
 				return (
 					<span
 						className={cn(
 							"block",
-							shouldWrap 
-								? "whitespace-normal break-words" 
-								: "max-w-xs truncate md:max-w-none"
+							shouldWrap
+								? "whitespace-normal break-words"
+								: "max-w-xs truncate md:max-w-none",
 						)}
 						title={stringValue}
 					>
 						{stringValue}
 					</span>
 				);
+			}
 		}
 	};
 
 	// Render
 	return (
-		<div className="container mx-auto max-w-7xl">
+		<div className="container mx-auto">
 			{/* Header */}
 			<div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 				<h1 className="font-bold text-3xl text-foreground tracking-tight">
@@ -399,9 +400,9 @@ export default function AdmissionScorePage({
 						)}
 					</p>
 
-										{/* Table */}
+					{/* Table */}
 					<CardContent className="rounded-lg border bg-white p-0">
-						<div className="overflow-auto max-h-96 rounded-lg border">
+						<div className="max-h-96 overflow-auto rounded-lg border">
 							<div className="min-w-full">
 								<Table>
 									<TableHeader className="sticky top-0 z-10 bg-white">
@@ -410,7 +411,7 @@ export default function AdmissionScorePage({
 												<TableHead
 													key={column.key}
 													onClick={() => handleSort(column.key)}
-													className="group cursor-pointer select-none text-left font-semibold text-muted-foreground transition-colors first:pl-6 last:pr-6 hover:bg-accent bg-muted"
+													className="group cursor-pointer select-none bg-muted text-left font-semibold text-muted-foreground transition-colors first:pl-6 last:pr-6 hover:bg-accent"
 												>
 													<div className="flex items-center gap-1">
 														<span>{column.label}</span>

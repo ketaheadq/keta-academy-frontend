@@ -105,24 +105,22 @@ export default function ExpandableContentCard({
 					<div className="fade-in animate-in duration-300">
 						<RichTextRenderer content={content} />
 						{hasMoreContent && (
-									<div className="flex justify-between">
-									<p>. . .</p>
-									<Button
-										variant="outline"
-										size="sm"
-										onClick={() => setIsExpanded(!isExpanded)}
-										className="flex items-center space-x-1 transition-all duration-300"
-										aria-expanded={isExpanded}
-									>
-										<span className="text-sm">
-											Daha Az Göster
-										</span>
-										{isExpanded && (
-											<ChevronUp className="h-4 w-4 transition-transform duration-300" />
-										)}
-									</Button>
-									</div>
-								)}
+							<div className="flex justify-between">
+								<p>. . .</p>
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() => setIsExpanded(!isExpanded)}
+									className="flex items-center space-x-1 transition-all duration-300"
+									aria-expanded={isExpanded}
+								>
+									<span className="text-sm">Daha Az Göster</span>
+									{isExpanded && (
+										<ChevronUp className="h-4 w-4 transition-transform duration-300" />
+									)}
+								</Button>
+							</div>
+						)}
 					</div>
 				) : (
 					<div className="space-y-4">
@@ -131,21 +129,19 @@ export default function ExpandableContentCard({
 								<RichTextRenderer content={previewContent} />
 								{hasMoreContent && (
 									<div className="flex justify-between">
-									<p>...</p>
-									<Button
-										variant="outline"
-										size="sm"
-										onClick={() => setIsExpanded(!isExpanded)}
-										className="flex items-center space-x-1 transition-all duration-300"
-										aria-expanded={isExpanded}
-									>
-										<span className="text-sm">
-											Devamını Oku
-										</span>
-										{!isExpanded && (
-											<ChevronDown className="h-4 w-4 transition-transform duration-300" />
-										)}
-									</Button>
+										<p>...</p>
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={() => setIsExpanded(!isExpanded)}
+											className="flex items-center space-x-1 transition-all duration-300"
+											aria-expanded={isExpanded}
+										>
+											<span className="text-sm">Devamını Oku</span>
+											{!isExpanded && (
+												<ChevronDown className="h-4 w-4 transition-transform duration-300" />
+											)}
+										</Button>
 									</div>
 								)}
 							</div>

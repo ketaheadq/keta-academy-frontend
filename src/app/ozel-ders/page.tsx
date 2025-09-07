@@ -11,7 +11,7 @@ export default async function TutoringPage() {
 			{/* Hero Section */}
 			<div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white">
 				<div className="absolute inset-0 bg-black opacity-10" />
-				<div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+				<div className="relative mx-auto px-4 py-20 sm:px-6 lg:px-8">
 					<div className="text-center">
 						<h1 className="mb-6 font-bold text-5xl leading-tight md:text-6xl">
 							Uzman Öğretmenlerle
@@ -66,7 +66,7 @@ export default async function TutoringPage() {
 			<TutoringContent data={tutoringProfiles} />
 
 			{/* How It Works Section */}
-			<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+			<div className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
 				<div className="mb-12 rounded-3xl bg-gradient-to-r from-purple-600 to-blue-600 p-8 text-white md:p-12">
 					<div className="mb-12 text-center">
 						<h2 className="mb-4 font-bold text-3xl md:text-4xl">

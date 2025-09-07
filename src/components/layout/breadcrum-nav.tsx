@@ -19,7 +19,7 @@ interface BreadcrumbNavProps {
 export function BreadcrumbNav({ breadcrumbs }: BreadcrumbNavProps) {
 	return (
 		<div className="border-gray-200 border-b px-4">
-			<div className="mx-auto max-w-7xl">
+			<div className="mx-auto">
 				<Breadcrumb>
 					<BreadcrumbList>
 						{/* Home */}

@@ -5,7 +5,6 @@ import type {
 	StrapiCourse,
 	StrapiPage,
 	StrapiPageSEO,
-	StrapiSocialMedia,
 	StrapiVideo,
 } from "./strapi";
 
@@ -77,35 +76,6 @@ export function generateSEOMetadata(
 	// Check if indexing is prevented
 	const preventIndexing = seoData?.preventIndexing || false;
 
-	// Get images
-	const metaImage = seoData?.metaImage;
-	const ogImage =
-		seoData?.socialMedia?.find(
-			(sm: StrapiSocialMedia) => sm.socialNetwork === "Facebook",
-		)?.image || metaImage;
-	const twitterImage =
-		seoData?.socialMedia?.find(
-			(sm: StrapiSocialMedia) => sm.socialNetwork === "Twitter",
-		)?.image || metaImage;
-
-	// Generate social media content
-	const ogTitle =
-		seoData?.socialMedia?.find(
-			(sm: StrapiSocialMedia) => sm.socialNetwork === "Facebook",
-		)?.title || title;
-	const ogDescription =
-		seoData?.socialMedia?.find(
-			(sm: StrapiSocialMedia) => sm.socialNetwork === "Facebook",
-		)?.description || description;
-	const twitterTitle =
-		seoData?.socialMedia?.find(
-			(sm: StrapiSocialMedia) => sm.socialNetwork === "Twitter",
-		)?.title || title;
-	const twitterDescription =
-		seoData?.socialMedia?.find(
-			(sm: StrapiSocialMedia) => sm.socialNetwork === "Twitter",
-		)?.description || description;
-
 	return {
 		title,
 		description: description?.substring(0, 160) || "",
@@ -123,33 +93,19 @@ export function generateSEOMetadata(
 			},
 		},
 		openGraph: {
-			title: ogTitle,
-			description: ogDescription?.substring(0, 160) || "",
+			title: seoConfig.title,
+			description: seoData?.metaDescription?.substring(0, 160) || "",
 			type: seoConfig.type,
 			locale: seoConfig.locale,
 			url: canonicalUrl,
 			siteName: seoConfig.siteName,
-			...(ogImage && {
+			...(seoData?.metaImage && {
 				images: [
 					{
-						url: ogImage.url,
-						width: ogImage.width,
-						height: ogImage.height,
-						alt: ogImage.alternativeText || title || "",
-					},
-				],
-			}),
-		},
-		twitter: {
-			card: "summary_large_image",
-			title: twitterTitle,
-			description: twitterDescription?.substring(0, 160) || "",
-			site: seoConfig.twitterHandle,
-			...(twitterImage && {
-				images: [
-					{
-						url: twitterImage.url,
-						alt: twitterImage.alternativeText || title || "",
+						url: seoData?.metaImage?.url,
+						width: seoData?.metaImage?.width,
+						height: seoData?.metaImage?.height,
+						alt: seoData?.metaImage?.alternativeText || title || "",
 					},
 				],
 			}),

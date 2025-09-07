@@ -6,7 +6,7 @@ export default function CourseLoading() {
 		<div className="min-h-screen bg-gray-50">
 			{/* Header Skeleton */}
 			<header className="border-b bg-white shadow-sm">
-				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div className="mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex h-16 items-center justify-between">
 						<div className="flex items-center space-x-4">
 							<Skeleton className="h-5 w-20" />
@@ -21,7 +21,7 @@ export default function CourseLoading() {
 				</div>
 			</header>
 
-			<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+			<div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
 				<div className="grid gap-6 lg:grid-cols-3">
 					{/* Main Content Skeleton */}
 					<div className="space-y-6 lg:col-span-2">

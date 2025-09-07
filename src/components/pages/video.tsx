@@ -97,7 +97,7 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 	const youtubeVideoId = extractYouTubeVideoId(currentVideo.href);
 
 	return (
-		<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+		<div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
 			<div className="grid gap-6 lg:grid-cols-3">
 				{/* Main Content - Video Player */}
 				<div className="space-y-6 lg:col-span-2">

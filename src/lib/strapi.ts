@@ -153,19 +153,7 @@ export interface StrapiSEO {
 	metaDescription: string;
 	keywords?: string;
 	metaRobots?: string;
-	structuredData?: any;
-	metaViewport?: string;
-	canonicalURL?: string;
 	metaImage?: StrapiImage;
-	preventIndexing?: boolean;
-}
-
-export interface StrapiSocialMedia {
-	id: number;
-	socialNetwork: "Facebook" | "Twitter" | "LinkedIn" | "Instagram";
-	title: string;
-	description: string;
-	image?: StrapiImage;
 }
 
 export interface StrapiPageSEO {
@@ -176,7 +164,6 @@ export interface StrapiPageSEO {
 	canonicalURL?: string;
 	preventIndexing?: boolean;
 	metaImage?: StrapiImage;
-	socialMedia?: StrapiSocialMedia[];
 	structuredData?: any;
 }
 
@@ -469,7 +456,9 @@ export async function fetchStrapiDataUsingToken<T>(
 }
 export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 	try {
-		const response = await fetch(`${STRAPI_URL}/api/${endpoint}`, {
+		const fullUrl = `${STRAPI_URL}/api/${endpoint}`;
+
+		const response = await fetch(fullUrl, {
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -485,6 +474,10 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 		}
 
 		if (!response.ok) {
+			console.error(
+				`❌ Strapi API error: ${response.status} ${response.statusText}`,
+			);
+			console.error(`Endpoint: ${endpoint}`);
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
 
@@ -512,7 +505,7 @@ export async function getPageCategories() {
 export async function getPageBySlug(slug: string): Promise<StrapiPage | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiPage[]>>(
-			`pages?filters[slug][$eq]=${slug}`,
+			`pages?filters[slug][$eq]=${slug}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
@@ -598,6 +591,35 @@ export interface StrapiUserCourseProgress {
 	course_status: "not_started" | "in_progress" | "completed";
 	createdAt: string;
 	updatedAt: string;
+}
+
+// Debug function to test available Strapi collections
+export async function testStrapiCollections(): Promise<void> {
+	const collections = [
+		"pages",
+		"admission-scores",
+		"videos",
+		"blogs",
+		"universities",
+		"departments",
+		"courses",
+		"subjects",
+	];
+
+	console.log("🔍 Testing Strapi collections...");
+
+	for (const collection of collections) {
+		try {
+			const response = await fetch(
+				`${STRAPI_URL}/api/${collection}?populate=*`,
+			);
+			console.log(
+				`✅ ${collection}: ${response.status} ${response.statusText}`,
+			);
+		} catch (error) {
+			console.log(`❌ ${collection}: Error - ${error}`);
+		}
+	}
 }
 
 export interface StrapiLessonProgress {
@@ -968,9 +990,13 @@ export async function getAdmissionScoreBySlug(
 	slug: string,
 ): Promise<StrapiAdmissionScore | null> {
 	try {
+		console.log(`🔍 Fetching admission score for slug: ${slug}`);
 		const response = await fetchStrapiData<
 			StrapiResponse<StrapiAdmissionScore[]>
 		>(`admission-scores?filters[slug][$eq]=${slug}&populate=*`);
+		console.log(
+			`✅ Admission score found: ${response.data.length > 0 ? "Yes" : "No"}`,
+		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
 		console.error(

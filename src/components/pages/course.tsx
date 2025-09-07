@@ -269,7 +269,7 @@ export default function CoursePage({
 
 	return (
 		<div className="min-h-screen bg-gray-50">
-			<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+			<div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
 				{/* Show authentication notice if not logged in */}
 				{!isAuthenticated && (
 					<div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">

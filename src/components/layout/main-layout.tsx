@@ -31,7 +31,7 @@ export default async function MainLayout({ children }: MainLayoutProps) {
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
 			{/* Header */}
 			<header className="border-gray-200 border-b bg-white shadow-sm">
-				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div className="mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between py-6">
 						<Link href="/" className="flex items-center">
 							{settings.logo && (
@@ -85,14 +85,14 @@ export default async function MainLayout({ children }: MainLayoutProps) {
 			</header>
 
 			{/* Main Content */}
-			<main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+			<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				{children}
 				{analyticsID && <GoogleAnalytics gaId={analyticsID} />}
 			</main>
 
 			{/* Footer */}
 			<footer className="bg-gray-900 py-12 text-white">
-				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div className="mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="grid gap-8 md:grid-cols-4">
 						<div>
 							<div className="mb-4 flex items-center space-x-2">

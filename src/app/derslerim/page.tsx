@@ -81,7 +81,7 @@ export default function DerslerimPage() {
 				<BreadcrumbNav
 					breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]}
 				/>
-				<main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 					<div className="text-center">
 						<h1 className="mb-4 font-bold text-3xl text-gray-900">Derslerim</h1>
 						<p className="mb-8 text-gray-600 text-lg">
@@ -99,7 +99,7 @@ export default function DerslerimPage() {
 				breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]}
 			/>
 
-			<main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+			<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				{/* Hero Section */}
 				<div className="mb-12 text-center">
 					<h1 className="mb-4 font-bold text-4xl text-gray-900">
