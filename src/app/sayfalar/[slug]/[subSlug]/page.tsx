@@ -55,7 +55,9 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 						]}
 					/>
 					<div className="container mx-auto px-4 py-6">
-						{admissionScore.university || admissionScore.department || admissionScore.content? (
+						{admissionScore.university ||
+						admissionScore.department ||
+						admissionScore.content ? (
 							<ExpandableContentCard
 								title={
 									admissionScore.university
