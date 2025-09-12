@@ -46,11 +46,11 @@ export default function DynamicGrid<T extends FilterableItem>({
 	filterConfigs,
 	searchFields,
 	renderItem,
-	title = <h1 className="font-semibold text-2xl text-gray-900">📚 Items</h1>,
+	title = <h1 className="font-semibold text-2xl text-gray-900">📚 Öğeler</h1>,
 	emptyStateConfig = {
 		icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-gray-400" />,
-		title: "No items found",
-		description: "Try adjusting your filters to find what you're looking for.",
+		title: "Sonuç bulunamadı",
+		description: "Aradığınızı bulmak için filtrelerinizi ayarlayın.",
 	},
 	className = "",
 }: DynamicGridProps<T>) {
@@ -147,7 +147,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 							<div className="relative">
 								<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 transform text-gray-400" />
 								<Input
-									placeholder="Search..."
+									placeholder="Ara..."
 									value={searchTerm}
 									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 										setSearchTerm(e.target.value)
@@ -163,7 +163,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 								className="flex items-center space-x-2"
 							>
 								<Filter className="h-4 w-4" />
-								<span>Filters</span>
+								<span>Filtreler</span>
 							</Button>
 						)}
 					</div>

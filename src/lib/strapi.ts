@@ -993,7 +993,7 @@ export async function getAdmissionScoreBySlug(
 		console.log(`🔍 Fetching admission score for slug: ${slug}`);
 		const response = await fetchStrapiData<
 			StrapiResponse<StrapiAdmissionScore[]>
-		>(`admission-scores?filters[slug][$eq]=${slug}&populate=*`);
+		>(`admission-scores?filters[slug][$eq]=${slug}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`);
 		console.log(
 			`✅ Admission score found: ${response.data.length > 0 ? "Yes" : "No"}`,
 		);
@@ -1013,7 +1013,7 @@ export async function getAdmissionScoresByPage(
 	try {
 		const response = await fetchStrapiData<
 			StrapiResponse<StrapiAdmissionScore[]>
-		>(`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate=*`);
+		>(`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`);
 		return response.data;
 	} catch (error) {
 		console.error(
@@ -1021,6 +1021,49 @@ export async function getAdmissionScoresByPage(
 			error,
 		);
 		return [];
+	}
+}
+
+export async function getAdmissionScoreTableDataBySlug(
+	slug: string,
+): Promise<string | null> {
+	try {
+		console.log(`🔍 Fetching table data for admission score slug: ${slug}`);
+		
+		const fullUrl = `${STRAPI_URL}/api/admission-scores?filters[slug][$eq]=${slug}&fields[0]=tableData`;
+
+		const response = await fetch(fullUrl, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+			next: { revalidate: 3600 }, // Cache for 1 hour
+		});
+
+		if (response.status === 403) {
+			console.warn(
+				`⚠️ Permission denied for table data endpoint: ${slug}. Please check Strapi permissions.`,
+			);
+			return null;
+		}
+
+		if (!response.ok) {
+			console.error(
+				`❌ Strapi API error: ${response.status} ${response.statusText}`,
+			);
+			throw new Error(`Failed to fetch table data: ${response.statusText}`);
+		}
+
+		const data = await response.json();
+		console.log(
+			`✅ Table data found: ${data.data && data.data.length > 0 ? "Yes" : "No"}`,
+		);
+		return data.data && data.data.length > 0 ? data.data[0].tableData : null;
+	} catch (error) {
+		console.error(
+			"Error fetching admission score table data by slug - check Strapi permissions:",
+			error,
+		);
+		return null;
 	}
 }
 

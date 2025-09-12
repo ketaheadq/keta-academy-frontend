@@ -51,22 +51,10 @@ export default function AuthSection() {
 									<p className="text-gray-500 text-xs">{user.email}</p>
 								</div>
 								<Link
-									href="/profil"
-									className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100 hover:text-blue-600"
-								>
-									Profilim
-								</Link>
-								<Link
 									href="/derslerim"
 									className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100 hover:text-blue-600"
 								>
 									Derslerim
-								</Link>
-								<Link
-									href="/ayarlar"
-									className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100 hover:text-blue-600"
-								>
-									Ayarlar
 								</Link>
 								<button
 									type="button"

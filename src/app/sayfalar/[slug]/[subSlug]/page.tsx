@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ExpandableContentCard from "@/components/cards/expandable-content-card";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
-import AdmissionScorePage from "@/components/pages/admission-score";
+import AdmissionScoreTableServer from "@/components/pages/admission-score-table-server";
+import AdmissionScoreTableLoading from "@/components/pages/admission-score-table-loading";
 import BlogPage from "@/components/pages/blog";
 import VideoPage from "@/components/pages/video";
 import { generateSEOMetadata } from "@/lib/seo";
@@ -137,7 +139,12 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 									}
 								/>
 							) : null}
-							<AdmissionScorePage admissionScore={admissionScore} />
+							<Suspense fallback={<AdmissionScoreTableLoading />}>
+								<AdmissionScoreTableServer 
+									slug={admissionScore.slug} 
+									title={admissionScore.title} 
+								/>
+							</Suspense>
 						</div>
 						{relatedData && (
 							<RelatedDataSection title="İlgili Sayfalar" items={relatedData} />
