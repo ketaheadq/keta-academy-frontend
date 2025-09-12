@@ -1,69 +1,87 @@
 {
-	"vcs": {
-		"enabled": false,
-		"clientKind": "git",
-		"useIgnoreFile": false
-	},
-	"files": {
-		"ignoreUnknown": false,
-		"includes": ["**", "!**/node_modules", "!**/.next"]
-	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab",
-		"attributePosition": "auto"
-	},
-	"assist": {
-		"actions": {
-			"source": {
-				"organizeImports": "on"
-			}
-		}
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"suspicious": {
-				"noExplicitAny": "off",
-				"noUnknownAtRules": "off",
-				"noArrayIndexKey": "off"
-			},
-			"nursery": {
-				"useSortedClasses": {
-					"level": "warn",
-					"fix": "safe",
-					"options": {
-						"attributes": ["className"],
-						"functions": ["cn"]
-					}
-				}
-			},
-			"recommended": true,
-			"correctness": {
-				"noUnusedImports": "error",
-				"noUnusedVariables": "error",
-				"useExhaustiveDependencies": "warn"
-			},
-			"style": {
-				"noParameterAssign": "error",
-				"useAsConstAssertion": "error",
-				"useDefaultParameterLast": "error",
-				"useEnumInitializers": "error",
-				"useSelfClosingElements": "error",
-				"useSingleVarDeclarator": "error",
-				"noUnusedTemplateLiteral": "error",
-				"useNumberNamespace": "error",
-				"noInferrableTypes": "error",
-				"noUselessElse": "error"
-			},
-			"security": {
-				"noDangerouslySetInnerHtml": "off"
-			}
-		}
-	},
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "double"
-		}
-	}
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/.next"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "ignore": [],
+    "attributePosition": "auto",
+    "indentStyle": "tab",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noUnknownAtRules": "off",
+        "noArrayIndexKey": "off"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {
+            "recommended": true,
+            "attributes": [
+              "className"
+            ],
+            "functions": [
+              "cn",
+              "clsx",
+              "twMerge"
+            ]
+          }
+        }
+      },
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies": "warn"
+      },
+      "style": {
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error",
+        "useImportType": "error",
+        "useExportType": "error"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "performance": {
+        "noDelete": "warn"
+      },
+      "a11y": {
+        "recommended": true
+      }
+    }
+  }
 }
