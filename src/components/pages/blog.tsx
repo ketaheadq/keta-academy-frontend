@@ -1,8 +1,8 @@
 "use client";
 
-import { Calendar, Clock, Share2, User } from "lucide-react";
+import { Calendar, Clock, User } from "lucide-react";
 import BlogRichTextRenderer from "@/components/blog-rich-text-renderer";
-import { Button } from "@/components/ui/button";
+import ShareComponent from "@/components/ui/share-component";
 import type { StrapiBlog } from "@/lib/strapi";
 
 interface BlogPageProps {
@@ -10,18 +10,6 @@ interface BlogPageProps {
 }
 
 export default function BlogPage({ blog }: BlogPageProps) {
-	const handleShare = () => {
-		if (navigator.share) {
-			navigator.share({
-				title: blog.title,
-				text: `${blog.title} - Keta Akademi Blog`,
-				url: window.location.href,
-			});
-		} else {
-			navigator.clipboard.writeText(window.location.href);
-			alert("Link kopyalandı!");
-		}
-	};
 
 	const formatDate = (dateString: string) => {
 		return new Date(dateString).toLocaleDateString("tr-TR", {
@@ -80,17 +68,9 @@ export default function BlogPage({ blog }: BlogPageProps) {
 							</div>
 						</div>
 
-						{/* Share Button */}
+						{/* Share Component */}
 						<div className="flex justify-center">
-							<Button
-								onClick={handleShare}
-								variant="outline"
-								size="lg"
-								className="flex items-center gap-2 border-blue-200 bg-white text-blue-600 shadow-sm transition-all duration-200 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md"
-							>
-								<Share2 className="h-4 w-4" />
-								Paylaş
-							</Button>
+							<ShareComponent className="gap-2" />
 						</div>
 					</header>
 
@@ -108,12 +88,7 @@ export default function BlogPage({ blog }: BlogPageProps) {
 							<p className="mb-6 font-light text-blue-100 text-lg">
 								Daha fazla eğitim içeriği için blog sayfamızı takip edin.
 							</p>
-							<Button
-								onClick={handleShare}
-								className="rounded-xl bg-white px-8 py-3 font-semibold text-blue-600 shadow-lg transition-all duration-200 hover:bg-blue-50 hover:shadow-xl"
-							>
-								Arkadaşlarınla Paylaş
-							</Button>
+							<ShareComponent className="justify-center gap-4" />
 						</div>
 					</footer>
 				</div>

@@ -54,6 +54,7 @@ export default async function Page({ params }: PageProps) {
 
 	try {
 		const page = await getPageBySlug(slug);
+		console.log(page.pageType);
 
 		if (!page) {
 			notFound();
@@ -65,7 +66,6 @@ export default async function Page({ params }: PageProps) {
 		let itemCount = 0;
 
 		switch (page.pageType) {
-			case "Üniversite Taban Puanları":
 			case "Bölüm Taban Puanları": {
 				const admissionScores = await getAdmissionScoresByPage(slug);
 				itemCount = admissionScores.length;
