@@ -961,8 +961,8 @@ export async function getAdmissionScoreBySlug(slug: string): Promise<StrapiAdmis
 export async function getAdmissionScoresByPage(pageSlug: string): Promise<StrapiAdmissionScore[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
-			`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`,
-		);
+			`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`,
+		); 
 		return response.data;
 	} catch (error) {
 		console.error(
