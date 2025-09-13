@@ -21,7 +21,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { cn, normalizeTurkish } from "@/lib/utils";
+import { cn, normalizeTurkish, parseCSVLine } from "@/lib/utils";
 
 // Types
 interface AdmissionScoreTableProps {
@@ -40,36 +40,32 @@ interface ColumnInfo {
 	type: "text" | "number" | "badge";
 }
 
-export default function AdmissionScoreTable({
-	tableData,
-	title,
-}: AdmissionScoreTableProps) {
+export default function AdmissionScoreTable({ tableData, title }: AdmissionScoreTableProps) {
 	const [searchTerm, setSearchTerm] = useState("");
-	const [selectedFilters, setSelectedFilters] = useState<
-		Record<string, string>
-	>({});
+	const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({});
 	const [showFilters, setShowFilters] = useState(false);
 	const [sortField, setSortField] = useState<string | null>(null);
 	const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
 	// Parse CSV data
 	const { parsedData, columns, filterableColumns } = useMemo(() => {
-		if (!tableData)
+		if (!tableData) {
 			return { parsedData: [], columns: [], filterableColumns: [] };
+		}
 
 		try {
 			const lines = tableData.trim().split("\n");
-			if (lines.length < 2)
+			if (lines.length < 2) {
 				return { parsedData: [], columns: [], filterableColumns: [] };
+			}
 
 			const headerLine = lines[0];
-			const headerMatches = headerLine.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g);
-			if (!headerMatches)
+			const headerMatches = parseCSVLine(headerLine);
+			if (!headerMatches) {
 				return { parsedData: [], columns: [], filterableColumns: [] };
+			}
 
-			const headers = headerMatches.map((match) =>
-				match.replace(/^"(.*)"$/, "$1").trim(),
-			);
+			const headers = headerMatches.map((match) => match.replace(/^"(.*)"$/, "$1").trim());
 
 			const columns: ColumnInfo[] = headers.map((header, index) => {
 				const key = `col_${index}`;
@@ -98,7 +94,7 @@ export default function AdmissionScoreTable({
 			const dataLines = lines.slice(1);
 			const parsedData: DynamicTableData[] = dataLines
 				.map((line, index) => {
-					const matches = line.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g);
+					const matches = parseCSVLine(line);
 					if (!matches) return null;
 
 					const rowData: DynamicTableData = { id: index };
@@ -130,13 +126,8 @@ export default function AdmissionScoreTable({
 		filterableColumns.forEach((col) => {
 			const values = parsedData
 				.map((row) => row[col.key])
-				.filter(
-					(value): value is string =>
-						Boolean(value) && typeof value === "string",
-				);
-			options[col.key] = [...new Set(values)].sort((a, b) =>
-				a.localeCompare(b, "tr"),
-			);
+				.filter((value): value is string => Boolean(value) && typeof value === "string");
+			options[col.key] = [...new Set(values)].sort((a, b) => a.localeCompare(b, "tr"));
 		});
 		return options;
 	}, [parsedData, filterableColumns]);
@@ -152,9 +143,7 @@ export default function AdmissionScoreTable({
 					newFilters[col.key] = `Tüm ${col.label}`;
 				}
 			});
-			return Object.keys(newFilters).length > 0
-				? { ...prev, ...newFilters }
-				: prev;
+			return Object.keys(newFilters).length > 0 ? { ...prev, ...newFilters } : prev;
 		});
 	}, [filterableColumns]);
 
@@ -165,12 +154,7 @@ export default function AdmissionScoreTable({
 				!searchTerm ||
 				columns.some((col) => {
 					const value = item[col.key];
-					return (
-						value &&
-						normalizeTurkish(String(value)).includes(
-							normalizeTurkish(searchTerm),
-						)
-					);
+					return value && normalizeTurkish(String(value)).includes(normalizeTurkish(searchTerm));
 				});
 
 			const matchesFilters = filterableColumns.every((col) => {
@@ -214,22 +198,18 @@ export default function AdmissionScoreTable({
 
 	const handleSort = (field: string) => {
 		setSortField(field);
-		setSortDirection((prev) =>
-			sortField === field ? (prev === "asc" ? "desc" : "asc") : "asc",
-		);
+		setSortDirection((prev) => (sortField === field ? (prev === "asc" ? "desc" : "asc") : "asc"));
 	};
 
 	const getSortIcon = (field: string) => {
-		if (sortField !== field)
+		if (sortField !== field) {
 			return (
 				<ArrowUpDown className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
 			);
+		}
 		return (
 			<ArrowUpDown
-				className={cn(
-					"h-4 w-4 transition-transform",
-					sortDirection === "desc" ? "rotate-180" : "",
-				)}
+				className={cn("h-4 w-4 transition-transform", sortDirection === "desc" ? "rotate-180" : "")}
 			/>
 		);
 	};
@@ -261,16 +241,11 @@ export default function AdmissionScoreTable({
 				);
 			case "number":
 				return stringValue.toLowerCase() === "dolmadı" ? (
-					<Badge
-						variant="secondary"
-						className="bg-orange-100 text-orange-800 hover:bg-orange-100"
-					>
+					<Badge variant="secondary" className="bg-orange-100 text-orange-800 hover:bg-orange-100">
 						Dolmadı
 					</Badge>
 				) : (
-					<span className="font-medium font-mono text-foreground">
-						{stringValue}
-					</span>
+					<span className="font-medium font-mono text-foreground">{stringValue}</span>
 				);
 			default: {
 				const shouldWrap = stringValue.length > 30;
@@ -278,9 +253,7 @@ export default function AdmissionScoreTable({
 					<span
 						className={cn(
 							"block",
-							shouldWrap
-								? "whitespace-normal break-words"
-								: "max-w-xs truncate md:max-w-none",
+							shouldWrap ? "whitespace-normal break-words" : "max-w-xs truncate md:max-w-none",
 						)}
 						title={stringValue}
 					>
@@ -296,14 +269,11 @@ export default function AdmissionScoreTable({
 		return null;
 	}
 
-	// Render
 	return (
 		<div className="space-y-6">
 			{/* Table Controls */}
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-				<h2 className="font-semibold text-xl text-foreground">
-					{title} Detayları
-				</h2>
+				<h2 className="font-semibold text-foreground text-xl">{title} Detayları</h2>
 				<div className="flex items-center gap-3">
 					<div className="relative">
 						<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
@@ -334,7 +304,7 @@ export default function AdmissionScoreTable({
 					<CardContent className="p-4">
 						<div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 							{filterableColumns.map((column) => {
-								const selectId = `filter-${column.key}`; // Unique ID for this select
+								const selectId = `filter-${column.key}`;
 
 								return (
 									<div key={column.key} className="space-y-1.5">
@@ -345,20 +315,14 @@ export default function AdmissionScoreTable({
 											{column.label}
 										</label>
 										<Select
-											value={
-												selectedFilters[column.key] ?? `Tüm ${column.label}`
-											}
-											onValueChange={(value) =>
-												handleFilterChange(column.key, value)
-											}
+											value={selectedFilters[column.key] ?? `Tüm ${column.label}`}
+											onValueChange={(value) => handleFilterChange(column.key, value)}
 										>
 											<SelectTrigger id={selectId} className="h-10">
 												<SelectValue />
 											</SelectTrigger>
 											<SelectContent>
-												<SelectItem value={`Tüm ${column.label}`}>
-													Tüm {column.label}
-												</SelectItem>
+												<SelectItem value={`Tüm ${column.label}`}>Tüm {column.label}</SelectItem>
 												{filterOptions[column.key]?.map((opt) => (
 													<SelectItem key={opt} value={opt}>
 														{opt}
@@ -384,13 +348,9 @@ export default function AdmissionScoreTable({
 
 			{/* Results Count */}
 			<p className="text-muted-foreground text-sm">
-				<span className="font-medium">{filteredData.length}</span> sonuç
-				bulundu
+				<span className="font-medium">{filteredData.length}</span> sonuç bulundu
 				{filteredData.length !== parsedData.length && (
-					<span className="text-muted-foreground">
-						{" "}
-						(toplam {parsedData.length})
-					</span>
+					<span className="text-muted-foreground"> (toplam {parsedData.length})</span>
 				)}
 			</p>
 
@@ -418,15 +378,9 @@ export default function AdmissionScoreTable({
 							<TableBody>
 								{filteredData.length > 0 ? (
 									filteredData.map((row) => (
-										<TableRow
-											key={row.id}
-											className="transition-colors hover:bg-accent"
-										>
+										<TableRow key={row.id} className="transition-colors hover:bg-accent">
 											{columns.map((column) => (
-												<TableCell
-													key={column.key}
-													className="py-3 text-left first:pl-6 last:pr-6"
-												>
+												<TableCell key={column.key} className="py-3 text-left first:pl-6 last:pr-6">
 													{renderCellValue(row[column.key], column)}
 												</TableCell>
 											))}
