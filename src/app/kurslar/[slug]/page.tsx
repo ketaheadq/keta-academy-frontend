@@ -1,17 +1,13 @@
 import { RedirectType, redirect } from "next/navigation";
 import CoursePage from "@/components/pages/course";
 import { getCourse, getLessonsByCourseId } from "@/lib/strapi";
-
-// or
-// redirect('/redirect-to', RedirectType.push)
-
 export default async function DerslerPage({
 	params,
 	searchParams,
-}: {
+}: Readonly<{
 	params: Promise<{ slug: string }>;
 	searchParams: Promise<{ ders_ismi?: string }>;
-}) {
+}>) {
 	const { slug } = await params;
 	const { ders_ismi } = await searchParams;
 

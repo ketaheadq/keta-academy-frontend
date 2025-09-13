@@ -5,7 +5,7 @@ import { Suspense, useEffect } from "react";
 import { Toaster, toast } from "sonner";
 import errors from "../lib/errors";
 
-function ProvidersContent({ children }: { children: React.ReactNode }) {
+function ProvidersContent({ children }: Readonly<{ children: React.ReactNode }>) {
 	const searchParams = useSearchParams();
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ function ProvidersContent({ children }: { children: React.ReactNode }) {
 	);
 }
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<Suspense fallback={<div>Loading...</div>}>
 			<ProvidersContent>{children}</ProvidersContent>

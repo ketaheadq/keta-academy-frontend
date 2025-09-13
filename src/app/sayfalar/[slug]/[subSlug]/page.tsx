@@ -72,7 +72,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 	}
 }
 
-export default async function SayfaDetayi({ params, searchParams }: PageProps) {
+export default async function SayfaDetayi({ params, searchParams }: Readonly<PageProps>) {
 	const { slug, subSlug } = await params;
 	const { video: videoParam } = await searchParams;
 

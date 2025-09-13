@@ -16,7 +16,7 @@ interface AdmissionScoreCardProps {
 export default function AdmissionScoreCard({
 	admissionScore,
 	showRelatedData = false,
-}: AdmissionScoreCardProps) {
+}: Readonly<AdmissionScoreCardProps>) {
 	const pathname = usePathname();
 	return (
 		<Card className="cursor-pointer transition-shadow hover:shadow-lg">

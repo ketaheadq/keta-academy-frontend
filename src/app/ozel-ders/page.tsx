@@ -14,8 +14,7 @@ export default async function TutoringPage() {
 				<div className="relative mx-auto px-4 py-20 sm:px-6 lg:px-8">
 					<div className="text-center">
 						<h1 className="mb-6 font-bold text-5xl leading-tight md:text-6xl">
-							Uzman Öğretmenlerle
-							<span className="block text-yellow-300">Birebir Eğitim</span>
+							Uzman Öğretmenlerle <span className="block text-yellow-300">Birebir Eğitim</span>
 						</h1>
 						<p className="mx-auto mb-8 max-w-3xl text-blue-100 text-xl leading-relaxed">
 							Alanında uzman, deneyimli öğretmenlerle birebir ders alın. Kişiselleştirilmiş öğrenme

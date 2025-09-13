@@ -28,16 +28,32 @@ export async function generateMetadata(): Promise<Metadata> {
 				"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu",
 			icons: {
 				icon: [
+					{ url: "/favicon/favicon.ico" },
+					{ url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+					{ url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
 					{
-						url: settings.favicon?.url || "/logo.svg",
-						type: "image/svg+xml",
+						url: "/favicon/android-chrome-192x192.png",
+						sizes: "192x192",
+						type: "image/png",
+					},
+					{
+						url: "/favicon/android-chrome-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
 					},
 				],
-				shortcut: settings.favicon?.url || "/logo.svg",
-				apple: settings.favicon?.url || "/logo.svg",
+				apple: [
+					{
+						url: "/favicon/apple-touch-icon.png",
+						sizes: "180x180",
+						type: "image/png",
+					},
+				],
 			},
+			manifest: "/favicon/site.webmanifest",
 		};
-	} catch (_error) {
+	} catch (error) {
+		console.error("Failed to fetch settings for metadata:", error);
 		// Fallback metadata if Strapi is not available
 		return {
 			title: "LearnHub - Interactive Learning Platform",

@@ -25,8 +25,6 @@ export default function LoginPage() {
 
 		try {
 			await signInWithGoogle();
-		} catch (_err) {
-			// Error is handled in the store
 		} finally {
 			setIsSigningIn(false);
 		}

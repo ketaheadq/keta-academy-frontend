@@ -5,7 +5,7 @@ import { getCoursesBySubject, getGrades, getSubjectBySlug } from "@/lib/strapi";
 import Continue from "@/sections/continue-wrapper";
 import CourseListing from "@/sections/course-listing-wrapper";
 
-export default async function CoursePage(props: { params: Promise<{ slug: string }> }) {
+export default async function CoursePage(props: Readonly<{ params: Promise<{ slug: string }> }>) {
 	const params = await props.params;
 	const slug = params.slug;
 
