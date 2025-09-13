@@ -2,6 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { getSettings } from "@/lib/strapi";
 
+// Define reusable menu items
+const lessons = [
+  { name: "Matematik", href: "/konular/matematik" },
+  { name: "Fizik", href: "/konular/fizik" },
+  { name: "Kimya", href: "/konular/kimya" },
+  { name: "Programlama", href: "/konular/programlama" },
+];
+
+const levels = ["Orta Okul", "Lise", "Üniversite"];
+
+const supportLinks = [
+  { name: "İletişim", href: "/iletisim" },
+  { name: "Gizlilik Politikası", href: "/gizlilik-politikasi" },
+  { name: "Hizmet Şartları", href: "/hizmet-sartlari" },
+];
+
 export default async function Footer() {
   const settings = await getSettings().catch(() => ({
     siteName: "Keta Akademi",
@@ -9,83 +25,88 @@ export default async function Footer() {
   }));
 
   return (
-    <footer className="bg-gray-900 py-12 text-white">
-      <div className="max-w-6xl mx-auto sm:px-6 md:px-4 lg:px-2 xl:px-0">
-        <div className="grid gap-8 md:grid-cols-4">
-          <div>
-            <div className="mb-4 flex items-center space-x-2">
+    <footer className="bg-gray-900 text-white" aria-labelledby="footer-heading">
+      <h2 id="footer-heading" className="sr-only">Site Alt Bilgisi</h2>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-9 gap-8 md:gap-12 lg:gap-14 xl:gap-16">
+
+          {/* Logo and Description */}
+          <section aria-labelledby="about-heading" className="lg:col-span-3">
+            <h3 id="about-heading" className="sr-only">Hakkımızda</h3>
+            <div className="flex items-center space-x-3 mb-4">
               {settings.logo && (
-                <Image
-                  src={settings.logo.url}
-                  alt={settings.siteName}
-                  width={32}
-                  height={32}
-                  className="h-8 w-8"
-                />
+                <div className="relative h-10 w-10 flex-shrink-0">
+                  <Image
+                    src={settings.logo.url}
+                    alt={`${settings.siteName} logosu`}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               )}
-              <span className="font-bold text-lg">{settings.siteName}</span>
+              <span className="font-bold text-xl">{settings.siteName}</span>
             </div>
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               {settings.siteName}, öğrencilerin öğrenme sürecini destekleyen bir
               platformdur.
             </p>
-          </div>
-          <div>
-            <h4 className="mb-4 font-semibold">Dersler</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <Link href="/konular/matematik" className="hover:text-white">
-                  Matematik
-                </Link>
-              </li>
-              <li>
-                <Link href="/konular/fizik" className="hover:text-white">
-                  Fizik
-                </Link>
-              </li>
-              <li>
-                <Link href="/konular/kimya" className="hover:text-white">
-                  Kimya
-                </Link>
-              </li>
-              <li>
-                <Link href="/konular/programlama" className="hover:text-white">
-                  Programlama
-                </Link>
-              </li>
+          </section>
+
+          {/* Lessons */}
+          <nav aria-labelledby="lessons-heading" className="lg:col-span-2">
+            <h4 id="lessons-heading" className="mb-4 font-semibold text-base">Dersler</h4>
+            <ul className="space-y-2">
+              {lessons.map((lesson) => (
+                <li key={lesson.href}>
+                  <Link
+                    href={lesson.href}
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    {lesson.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
-          <div>
-            <h4 className="mb-4 font-semibold">Seviye</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>Orta Okul</li>
-              <li>Lise</li>
-              <li>Üniversite</li>
+          </nav>
+
+          {/* Levels */}
+          <section aria-labelledby="levels-heading" className="lg:col-span-2">
+            <h4 id="levels-heading" className="mb-4 font-semibold text-base">Seviye</h4>
+            <ul className="space-y-2">
+              {levels.map((level) => (
+                <li key={level}>
+                  <span className="text-gray-400 text-sm">{level}</span>
+                </li>
+              ))}
             </ul>
-          </div>
-          <div>
-            <h4 className="mb-4 font-semibold">Destek</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <Link href="/iletisim" className="hover:text-white">
-                  İletişim
-                </Link>
-              </li>
-              <li>
-                <Link href="/gizlilik-politikasi" className="hover:text-white">
-                  Gizlilik Politikası
-                </Link>
-              </li>
-              <li>
-                <Link href="/hizmet-sartlari" className="hover:text-white">
-                  Hizmet Şartları
-                </Link>
-              </li>
+          </section>
+
+          {/* Support */}
+          <nav aria-labelledby="support-heading" className="lg:col-span-2">
+            <h4 id="support-heading" className="mb-4 font-semibold text-base">Destek</h4>
+            <ul className="space-y-2">
+              {supportLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
         </div>
-        <div className="mt-8 border-gray-800 border-t pt-8 text-center text-gray-400">
-          <p>&copy; 2024 {settings.siteName}. Tüm hakları saklıdır.</p>
+
+        {/* Copyright */}
+        <div className="mt-10 border-t border-gray-800 pt-8 pb-2">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-500 text-sm mx-auto">
+              &copy; {new Date().getFullYear()} {settings.siteName}. Tüm hakları saklıdır.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
