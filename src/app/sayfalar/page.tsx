@@ -27,13 +27,9 @@ export default async function SayfalarPage() {
 											href={`/sayfalar/${page.slug}`}
 											className="block rounded-lg border border-gray-200 p-3 transition-colors hover:border-blue-300 hover:bg-blue-50"
 										>
-											<h3 className="font-medium text-gray-900">
-												{page.title}
-											</h3>
+											<h3 className="font-medium text-gray-900">{page.title}</h3>
 											{page.pageType && (
-												<p className="mt-1 text-gray-500 text-sm">
-													Tür: {page.pageType}
-												</p>
+												<p className="mt-1 text-gray-500 text-sm">Tür: {page.pageType}</p>
 											)}
 										</Link>
 									))}

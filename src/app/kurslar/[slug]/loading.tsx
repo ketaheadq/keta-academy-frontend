@@ -75,10 +75,7 @@ export default function CourseLoading() {
 							<CardContent className="space-y-4">
 								{/* eslint-disable-next-line lint/suspicious/noArrayIndexKey */}
 								{Array.from({ length: 6 }).map((_, i) => (
-									<div
-										key={`skeleton-${i}`}
-										className="flex items-start space-x-3 p-3"
-									>
+									<div key={`skeleton-${i}`} className="flex items-start space-x-3 p-3">
 										<Skeleton className="mt-1 h-5 w-5 flex-shrink-0 rounded-full" />
 										<div className="flex-1 space-y-2">
 											<Skeleton className="h-4 w-full" />

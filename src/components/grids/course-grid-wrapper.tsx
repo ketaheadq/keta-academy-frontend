@@ -41,11 +41,7 @@ export default function CourseGrid({
 				},
 			]}
 			renderItem={(course) => (
-				<CourseCard
-					key={course.id}
-					course={course}
-					showProgress={showProgress}
-				/>
+				<CourseCard key={course.id} course={course} showProgress={showProgress} />
 			)}
 			title={title}
 			emptyStateConfig={{

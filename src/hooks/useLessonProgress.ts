@@ -23,9 +23,7 @@ export function useLessonProgress({
 	documentId,
 }: UseLessonProgressProps): UseLessonProgressReturn {
 	const { user, jwt, isAuthenticated } = useAuthStore();
-	const [lessonProgress, setLessonProgress] = useState<Record<string, boolean>>(
-		{},
-	);
+	const [lessonProgress, setLessonProgress] = useState<Record<string, boolean>>({});
 	const [isLoading, setIsLoading] = useState(false);
 	const prevDependencies = useRef<string | null>(null);
 
@@ -69,12 +67,7 @@ export function useLessonProgress({
 				// Update course status to "in_progress" when viewing
 				try {
 					if (user?.id) {
-						await updateUserCourseProgress(
-							documentId,
-							user.id,
-							"in_progress",
-							jwt,
-						);
+						await updateUserCourseProgress(documentId, user.id, "in_progress", jwt);
 					}
 				} catch (courseError) {
 					console.warn("Failed to update course progress:", courseError);
@@ -123,24 +116,14 @@ export function useLessonProgress({
 				if (allCompleted) {
 					try {
 						if (user?.id) {
-							await updateUserCourseProgress(
-								documentId,
-								user.id,
-								"completed",
-								jwt,
-							);
+							await updateUserCourseProgress(documentId, user.id, "completed", jwt);
 						}
 					} catch (courseError) {
-						console.warn(
-							"Failed to update course completion status:",
-							courseError,
-						);
+						console.warn("Failed to update course completion status:", courseError);
 					}
 				}
 
-				console.log(
-					`Document ${docId} marked as ${newStatus ? "completed" : "incomplete"}`,
-				);
+				console.log(`Document ${docId} marked as ${newStatus ? "completed" : "incomplete"}`);
 			} catch (error) {
 				console.error("Failed to update lesson progress:", error);
 				// Revert local state on error

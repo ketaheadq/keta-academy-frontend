@@ -33,13 +33,9 @@ export default function DynamicListing<T extends ListableItem>({
 	return (
 		<section className={`mb-12 ${className}`}>
 			<div className="mb-6">
-				<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">
-					{title}
-				</h2>
+				<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">{title}</h2>
 			</div>
-			<div className={gridClasses}>
-				{displayedItems.map((item) => renderItem(item))}
-			</div>
+			<div className={gridClasses}>{displayedItems.map((item) => renderItem(item))}</div>
 		</section>
 	);
 }

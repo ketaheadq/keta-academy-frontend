@@ -35,9 +35,7 @@ export default function RelatedDataSection({
 								className="group flex items-center space-x-2 rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
 							>
 								<ExternalLink className="h-4 w-4 shrink-0 text-blue-600" />
-								<span className="truncate font-medium text-gray-900 text-sm">
-									{item.title}
-								</span>
+								<span className="truncate font-medium text-gray-900 text-sm">{item.title}</span>
 							</Link>
 						))}
 					</div>

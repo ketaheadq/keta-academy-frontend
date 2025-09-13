@@ -45,9 +45,7 @@ export default function AuthSection() {
 						<div className="invisible absolute top-full right-0 z-50 mt-2 w-48 rounded-md border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
 							<div className="py-2">
 								<div className="border-gray-100 border-b px-4 py-2">
-									<p className="font-medium text-gray-900 text-sm">
-										{user.name}
-									</p>
+									<p className="font-medium text-gray-900 text-sm">{user.name}</p>
 									<p className="text-gray-500 text-xs">{user.email}</p>
 								</div>
 								<Link

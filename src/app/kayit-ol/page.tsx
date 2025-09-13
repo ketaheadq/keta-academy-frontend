@@ -1,40 +1,20 @@
 "use client";
 
-import {
-	BookOpen,
-	Chrome,
-	Loader2,
-	Shield,
-	Star,
-	Target,
-	Trophy,
-	Users,
-} from "lucide-react";
+import { BookOpen, Chrome, Loader2, Shield, Star, Target, Trophy, Users } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import {
-	useAuthError,
-	useAuthLoading,
-	useAuthStore,
-} from "@/stores/auth-store";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuthError, useAuthLoading, useAuthStore } from "@/stores/auth-store";
 
 const features = [
 	{
 		id: 1,
 		icon: BookOpen,
 		title: "1000+ Kursa Erişim",
-		description:
-			"YKS, AYT, LGS, KPSS, DGS ve daha fazlası için hazırlanmış kurslar",
+		description: "YKS, AYT, LGS, KPSS, DGS ve daha fazlası için hazırlanmış kurslar",
 		color: "text-blue-600",
 	},
 	{
@@ -95,16 +75,14 @@ export default function SignUpPage() {
 							<div>
 								<div className="mb-4 flex items-center space-x-2">
 									<Badge className="bg-blue-600">Yeni</Badge>
-									<span className="text-gray-600 text-sm">
-										Binlerce başarılı öğrenciye katılın
-									</span>
+									<span className="text-gray-600 text-sm">Binlerce başarılı öğrenciye katılın</span>
 								</div>
 								<h1 className="mb-4 font-bold text-4xl text-gray-900">
 									Öğrenme Yolculuğunuza Bugün Başlayın
 								</h1>
 								<p className="text-gray-600 text-xl">
-									Premium kurslara erişim sağlayın, ilerlemenizi takip edin ve
-									akademik hedeflerinize ulaşın.
+									Premium kurslara erişim sağlayın, ilerlemenizi takip edin ve akademik
+									hedeflerinize ulaşın.
 								</p>
 							</div>
 
@@ -121,12 +99,8 @@ export default function SignUpPage() {
 												<IconComponent className={`h-5 w-5 ${feature.color}`} />
 											</div>
 											<div>
-												<h3 className="font-semibold text-gray-900 text-sm">
-													{feature.title}
-												</h3>
-												<p className="mt-1 text-gray-600 text-xs">
-													{feature.description}
-												</p>
+												<h3 className="font-semibold text-gray-900 text-sm">{feature.title}</h3>
+												<p className="mt-1 text-gray-600 text-xs">{feature.description}</p>
 											</div>
 										</div>
 									);
@@ -148,15 +122,11 @@ export default function SignUpPage() {
 								<div>
 									<div className="flex items-center space-x-1">
 										{[1, 2, 3, 4, 5].map((star) => (
-											<Star
-												key={star}
-												className="h-4 w-4 fill-yellow-400 text-yellow-400"
-											/>
+											<Star key={star} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
 										))}
 									</div>
 									<p className="text-gray-600 text-sm">
-										<span className="font-semibold">4.9/5</span> 50.000+
-										öğrenciden
+										<span className="font-semibold">4.9/5</span> 50.000+ öğrenciden
 									</p>
 								</div>
 							</div>
@@ -166,9 +136,7 @@ export default function SignUpPage() {
 						<div className="space-y-8">
 							<Card className="shadow-xl">
 								<CardHeader className="pb-4 text-center">
-									<CardTitle className="text-2xl">
-										Hesabınızı Oluşturun
-									</CardTitle>
+									<CardTitle className="text-2xl">Hesabınızı Oluşturun</CardTitle>
 									<CardDescription>
 										Keta Academy'ye katılın ve potansiyelinizi açığa çıkarın
 									</CardDescription>
@@ -202,9 +170,7 @@ export default function SignUpPage() {
 
 									{/* Benefits */}
 									<div className="space-y-3 border-gray-200 border-t pt-4">
-										<h4 className="font-medium text-gray-900 text-sm">
-											Neler elde edeceksiniz:
-										</h4>
+										<h4 className="font-medium text-gray-900 text-sm">Neler elde edeceksiniz:</h4>
 										<div className="space-y-2">
 											<div className="flex items-center space-x-3 text-gray-600 text-sm">
 												<Shield className="h-4 w-4 flex-shrink-0 text-green-600" />
@@ -225,10 +191,7 @@ export default function SignUpPage() {
 									<div className="border-gray-200 border-t pt-4 text-center">
 										<p className="text-gray-600 text-sm">
 											Zaten hesabınız var mı?{" "}
-											<Link
-												href="/giris"
-												className="font-medium text-blue-600 hover:text-blue-500"
-											>
+											<Link href="/giris" className="font-medium text-blue-600 hover:text-blue-500">
 												Buradan giriş yapın
 											</Link>
 										</p>
@@ -239,17 +202,11 @@ export default function SignUpPage() {
 							{/* Terms */}
 							<p className="text-center text-gray-500 text-xs">
 								Hesap oluşturarak{" "}
-								<Link
-									href="/hizmet-sartlari"
-									className="text-blue-600 hover:text-blue-500"
-								>
+								<Link href="/hizmet-sartlari" className="text-blue-600 hover:text-blue-500">
 									Hizmet Şartlarımızı
 								</Link>{" "}
 								ve{" "}
-								<Link
-									href="/gizlilik-politikasi"
-									className="text-blue-600 hover:text-blue-500"
-								>
+								<Link href="/gizlilik-politikasi" className="text-blue-600 hover:text-blue-500">
 									Gizlilik Politikamızı
 								</Link>{" "}
 								kabul etmiş olursunuz

@@ -1,29 +1,12 @@
 "use client";
 
-import {
-	BookOpen,
-	Chrome,
-	GraduationCap,
-	Loader2,
-	Shield,
-	Users,
-} from "lucide-react";
+import { BookOpen, Chrome, GraduationCap, Loader2, Shield, Users } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import {
-	useAuthError,
-	useAuthLoading,
-	useAuthStore,
-} from "@/stores/auth-store";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuthError, useAuthLoading, useAuthStore } from "@/stores/auth-store";
 
 export default function LoginPage() {
 	const { signInWithGoogle, clearError } = useAuthStore();
@@ -59,12 +42,8 @@ export default function LoginPage() {
 						<div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600">
 							<GraduationCap className="h-8 w-8 text-white" />
 						</div>
-						<h2 className="mb-2 font-bold text-3xl text-gray-900">
-							Tekrar Hoşgeldiniz!
-						</h2>
-						<p className="text-gray-600">
-							Öğrenme yolculuğunuza devam etmek için giriş yapın
-						</p>
+						<h2 className="mb-2 font-bold text-3xl text-gray-900">Tekrar Hoşgeldiniz!</h2>
+						<p className="text-gray-600">Öğrenme yolculuğunuza devam etmek için giriş yapın</p>
 					</div>
 
 					{/* Login Card */}
@@ -72,8 +51,7 @@ export default function LoginPage() {
 						<CardHeader className="pb-4 text-center">
 							<CardTitle className="text-xl">Keta Academy'ye Giriş</CardTitle>
 							<CardDescription>
-								Kurslarınıza erişin, ilerlemenizi takip edin ve öğrenmeye devam
-								edin
+								Kurslarınıza erişin, ilerlemenizi takip edin ve öğrenmeye devam edin
 							</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
@@ -109,9 +87,7 @@ export default function LoginPage() {
 									<div className="w-full border-gray-300 border-t" />
 								</div>
 								<div className="relative flex justify-center text-sm">
-									<span className="bg-white px-2 text-gray-500">
-										Neden Google Girişi?
-									</span>
+									<span className="bg-white px-2 text-gray-500">Neden Google Girişi?</span>
 								</div>
 							</div>
 
@@ -135,10 +111,7 @@ export default function LoginPage() {
 							<div className="border-gray-200 border-t pt-4 text-center">
 								<p className="text-gray-600 text-sm">
 									Hesabınız yok mu?{" "}
-									<Link
-										href="/kayit-ol"
-										className="font-medium text-blue-600 hover:text-blue-500"
-									>
+									<Link href="/kayit-ol" className="font-medium text-blue-600 hover:text-blue-500">
 										Buradan kayıt olun
 									</Link>
 								</p>
@@ -149,17 +122,11 @@ export default function LoginPage() {
 					{/* Terms */}
 					<p className="text-center text-gray-500 text-xs">
 						Giriş yaparak{" "}
-						<Link
-							href="/hizmet-sartlari"
-							className="text-blue-600 hover:text-blue-500"
-						>
+						<Link href="/hizmet-sartlari" className="text-blue-600 hover:text-blue-500">
 							Hizmet Şartlarımızı
 						</Link>{" "}
 						ve{" "}
-						<Link
-							href="/gizlilik-politikasi"
-							className="text-blue-600 hover:text-blue-500"
-						>
+						<Link href="/gizlilik-politikasi" className="text-blue-600 hover:text-blue-500">
 							Gizlilik Politikamızı
 						</Link>{" "}
 						kabul etmiş olursunuz

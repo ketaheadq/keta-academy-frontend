@@ -22,11 +22,7 @@ export default function VideoGrid({
 			searchFields={["title"]}
 			filterConfigs={[]}
 			renderItem={(video: StrapiVideo) => (
-				<VideoCard
-					key={video.id}
-					video={video}
-					showRelatedData={showRelatedData}
-				/>
+				<VideoCard key={video.id} video={video} showRelatedData={showRelatedData} />
 			)}
 			title={title}
 			emptyStateConfig={{

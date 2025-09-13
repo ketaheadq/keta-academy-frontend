@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import ExpandableContentCard from "@/components/cards/expandable-content-card";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
-import AdmissionScoreTableServer from "@/components/pages/admission-score-table-server";
 import AdmissionScoreTableLoading from "@/components/pages/admission-score-table-loading";
+import AdmissionScoreTableServer from "@/components/pages/admission-score-table-server";
 import BlogPage from "@/components/pages/blog";
 import VideoPage from "@/components/pages/video";
 import { generateSEOMetadata } from "@/lib/seo";
@@ -20,9 +20,7 @@ interface PageProps {
 	searchParams: Promise<{ video?: string }>;
 }
 
-export async function generateMetadata({
-	params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
 	const { slug, subSlug } = await params;
 
 	try {
@@ -54,10 +52,7 @@ export async function generateMetadata({
 				}
 			}
 		} catch (contentError) {
-			console.warn(
-				`Warning: Could not fetch content for ${page.pageType}:`,
-				contentError,
-			);
+			console.warn(`Warning: Could not fetch content for ${page.pageType}:`, contentError);
 			// Continue with page-level SEO if content fetch fails
 		}
 
@@ -117,9 +112,7 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 							]}
 						/>
 						<div className="container mx-auto px-4 py-6">
-							{admissionScore.university ||
-							admissionScore.department ||
-							admissionScore.content ? (
+							{admissionScore.university || admissionScore.department || admissionScore.content ? (
 								<ExpandableContentCard
 									title={
 										admissionScore.university
@@ -140,15 +133,13 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 								/>
 							) : null}
 							<Suspense fallback={<AdmissionScoreTableLoading />}>
-								<AdmissionScoreTableServer 
-									slug={admissionScore.slug} 
-									title={admissionScore.title} 
+								<AdmissionScoreTableServer
+									slug={admissionScore.slug}
+									title={admissionScore.title}
 								/>
 							</Suspense>
 						</div>
-						{relatedData && (
-							<RelatedDataSection title="İlgili Sayfalar" items={relatedData} />
-						)}
+						{relatedData && <RelatedDataSection title="İlgili Sayfalar" items={relatedData} />}
 					</div>
 				);
 			} catch (error) {
@@ -162,8 +153,8 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 									Veri Yüklenirken Hata Oluştu
 								</h1>
 								<p className="text-gray-600">
-									{page.pageType} verisi yüklenirken bir hata oluştu. Lütfen
-									daha sonra tekrar deneyin.
+									{page.pageType} verisi yüklenirken bir hata oluştu. Lütfen daha sonra tekrar
+									deneyin.
 								</p>
 							</div>
 						</div>
@@ -193,10 +184,7 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 						<VideoPage video={video} currentVideoSlug={videoParam} />
 						{relatedData && (
 							<div className="container mx-auto px-4 py-6">
-								<RelatedDataSection
-									title="İlgili Videolar"
-									items={relatedData}
-								/>
+								<RelatedDataSection title="İlgili Videolar" items={relatedData} />
 							</div>
 						)}
 					</div>
@@ -212,8 +200,7 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 									Veri Yüklenirken Hata Oluştu
 								</h1>
 								<p className="text-gray-600">
-									Video verisi yüklenirken bir hata oluştu. Lütfen daha sonra
-									tekrar deneyin.
+									Video verisi yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.
 								</p>
 							</div>
 						</div>
@@ -243,10 +230,7 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 						<BlogPage blog={blog} />
 						{relatedData && (
 							<div className="container mx-auto px-6">
-								<RelatedDataSection
-									title="İlgili Blog Yazıları"
-									items={relatedData}
-								/>
+								<RelatedDataSection title="İlgili Blog Yazıları" items={relatedData} />
 							</div>
 						)}
 					</div>
@@ -262,8 +246,7 @@ export default async function SayfaDetayi({ params, searchParams }: PageProps) {
 									Veri Yüklenirken Hata Oluştu
 								</h1>
 								<p className="text-gray-600">
-									Blog verisi yüklenirken bir hata oluştu. Lütfen daha sonra
-									tekrar deneyin.
+									Blog verisi yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.
 								</p>
 							</div>
 						</div>

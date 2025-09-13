@@ -4,13 +4,7 @@ import { BookOpen, Clock, Play } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { StrapiCourse } from "@/lib/strapi";
 import { useAuthStore } from "@/stores/auth-store";
 
@@ -20,11 +14,7 @@ interface CourseCardProps {
 	showProgress?: boolean;
 }
 
-export default function CourseCard({
-	course,
-	title,
-	showProgress = false,
-}: CourseCardProps) {
+export default function CourseCard({ course, title, showProgress = false }: CourseCardProps) {
 	const router = useRouter();
 	const { isAuthenticated } = useAuthStore();
 
@@ -40,10 +30,7 @@ export default function CourseCard({
 	};
 
 	return (
-		<Card
-			className="cursor-pointer transition-shadow hover:shadow-lg"
-			onClick={handleCourseClick}
-		>
+		<Card className="cursor-pointer transition-shadow hover:shadow-lg" onClick={handleCourseClick}>
 			<CardHeader className="pb-3">
 				<div className="flex items-start justify-between">
 					<div className="flex-1">
@@ -52,13 +39,9 @@ export default function CourseCard({
 								{course.grades.map((grade) => grade.title).join(", ")}
 							</Badge>
 							<Badge variant="outline">{course.subject.title}</Badge>
-							{course.isPopular && (
-								<Badge className="bg-orange-500">Popüler</Badge>
-							)}
+							{course.isPopular && <Badge className="bg-orange-500">Popüler</Badge>}
 						</div>
-						<CardTitle className="mb-2 text-lg">
-							{title || course.title}
-						</CardTitle>
+						<CardTitle className="mb-2 text-lg">{title || course.title}</CardTitle>
 						<CardDescription>{course.description}</CardDescription>
 					</div>
 				</div>

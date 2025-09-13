@@ -47,9 +47,7 @@ export default function ExpandableContentCard({
 
 								// Create new paragraph with truncated text
 								const truncatedChildren = block.children.map((child) =>
-									child === firstTextChild
-										? { ...child, text: truncatedText }
-										: child,
+									child === firstTextChild ? { ...child, text: truncatedText } : child,
 								);
 
 								previewBlocks.push({
@@ -86,8 +84,7 @@ export default function ExpandableContentCard({
 		return null;
 	}
 
-	const hasMoreContent =
-		JSON.stringify(content) !== JSON.stringify(previewContent);
+	const hasMoreContent = JSON.stringify(content) !== JSON.stringify(previewContent);
 
 	return (
 		<Card className="mb-6 w-full overflow-hidden transition-all duration-300 hover:shadow-md">

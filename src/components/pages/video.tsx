@@ -5,13 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import ShareButton from "@/components/ui/share-button";
@@ -46,9 +40,7 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 	// Helper function to get YouTube thumbnail
 	function getYouTubeThumbnail(url: string): string {
 		const videoId = extractYouTubeVideoId(url);
-		return videoId
-			? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
-			: "/placeholder.svg";
+		return videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : "/placeholder.svg";
 	}
 
 	const getCurrentVideoUrl = () => {
@@ -131,9 +123,7 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 							<div className="p-6">
 								<div className="mb-4 flex items-center justify-between">
 									<div className="flex-1">
-										<h1 className="mb-2 font-bold text-2xl text-gray-900">
-											{currentVideo.title}
-										</h1>
+										<h1 className="mb-2 font-bold text-2xl text-gray-900">{currentVideo.title}</h1>
 										{currentVideo.isPopular && (
 											<Badge variant="secondary" className="mb-2">
 												Popüler
@@ -147,11 +137,7 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 										<Button
 											variant="outline"
 											onClick={handlePreviousVideo}
-											disabled={
-												allVideos.findIndex(
-													(v) => v.id === currentVideo?.id,
-												) === 0
-											}
+											disabled={allVideos.findIndex((v) => v.id === currentVideo?.id) === 0}
 										>
 											Önceki
 										</Button>
@@ -159,9 +145,7 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 											variant="outline"
 											onClick={handleNextVideo}
 											disabled={
-												allVideos.findIndex(
-													(v) => v.id === currentVideo?.id,
-												) ===
+												allVideos.findIndex((v) => v.id === currentVideo?.id) ===
 												allVideos.length - 1
 											}
 										>
@@ -192,27 +176,20 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 						<CardContent>
 							<div className="grid gap-6 md:grid-cols-2">
 								<div>
-									<h3 className="mb-2 font-semibold text-gray-900">
-										Video Açıklaması
-									</h3>
+									<h3 className="mb-2 font-semibold text-gray-900">Video Açıklaması</h3>
 									<p className="mb-4 text-gray-600">{currentVideo.title}</p>
 
 									<div className="space-y-2">
 										<div className="flex items-center space-x-2">
 											<Eye className="h-4 w-4 text-gray-500" />
 											<span className="text-gray-600 text-sm">
-												Yayınlanma:{" "}
-												{new Date(currentVideo.publishedAt).toLocaleDateString(
-													"tr-TR",
-												)}
+												Yayınlanma: {new Date(currentVideo.publishedAt).toLocaleDateString("tr-TR")}
 											</span>
 										</div>
 										{currentVideo.isPopular && (
 											<div className="flex items-center space-x-2">
 												<Video className="h-4 w-4 text-orange-500" />
-												<span className="text-orange-600 text-sm">
-													Popüler İçerik
-												</span>
+												<span className="text-orange-600 text-sm">Popüler İçerik</span>
 											</div>
 										)}
 										{currentVideo.page && (
@@ -269,9 +246,7 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 							<ScrollArea className="h-96">
 								<div className="space-y-3 p-4">
 									{allVideos.map((videoItem, index) => (
-										<div
-											key={`${videoItem.id}-${videoItem.documentId}-${index}`}
-										>
+										<div key={`${videoItem.id}-${videoItem.documentId}-${index}`}>
 											<button
 												type="button"
 												className={`cursor-pointer rounded-lg p-3 transition-colors ${
@@ -306,30 +281,21 @@ export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
 																{videoItem.title}
 															</p>
 															{videoItem.isPopular && (
-																<Badge
-																	variant="outline"
-																	className="ml-2 flex-shrink-0 text-xs"
-																>
+																<Badge variant="outline" className="ml-2 flex-shrink-0 text-xs">
 																	Popüler
 																</Badge>
 															)}
 														</div>
 														<p className="mb-1 text-gray-500 text-xs">
-															{index === 0
-																? "Ana Video"
-																: `İlgili Video ${index}`}
+															{index === 0 ? "Ana Video" : `İlgili Video ${index}`}
 														</p>
 														<p className="text-gray-400 text-xs">
-															{new Date(
-																videoItem.publishedAt,
-															).toLocaleDateString("tr-TR")}
+															{new Date(videoItem.publishedAt).toLocaleDateString("tr-TR")}
 														</p>
 													</div>
 												</div>
 											</button>
-											{index < allVideos.length - 1 && (
-												<Separator className="my-3" />
-											)}
+											{index < allVideos.length - 1 && <Separator className="my-3" />}
 										</div>
 									))}
 								</div>

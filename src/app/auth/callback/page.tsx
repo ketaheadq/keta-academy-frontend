@@ -34,9 +34,7 @@ export default function AuthCallbackPage() {
 				<Card className="w-full max-w-md">
 					<CardContent className="p-6 text-center">
 						<AlertCircle className="mx-auto mb-4 h-12 w-12 text-red-500" />
-						<h2 className="mb-2 font-semibold text-gray-900 text-xl">
-							Giriş Başarısız
-						</h2>
+						<h2 className="mb-2 font-semibold text-gray-900 text-xl">Giriş Başarısız</h2>
 						<p className="mb-4 text-gray-600">{error}</p>
 						<div className="space-y-2">
 							<Button
@@ -69,12 +67,8 @@ export default function AuthCallbackPage() {
 				<Card className="w-full max-w-md">
 					<CardContent className="p-6 text-center">
 						<Loader2 className="mx-auto mb-4 h-12 w-12 animate-spin text-blue-500" />
-						<h2 className="mb-2 font-semibold text-gray-900 text-xl">
-							Giriş Yapılıyor...
-						</h2>
-						<p className="text-gray-600">
-							Hesabınız doğrulanıyor, lütfen bekleyin.
-						</p>
+						<h2 className="mb-2 font-semibold text-gray-900 text-xl">Giriş Yapılıyor...</h2>
+						<p className="text-gray-600">Hesabınız doğrulanıyor, lütfen bekleyin.</p>
 					</CardContent>
 				</Card>
 			</div>
@@ -87,9 +81,7 @@ export default function AuthCallbackPage() {
 			<Card className="w-full max-w-md">
 				<CardContent className="p-6 text-center">
 					<CheckCircle className="mx-auto mb-4 h-12 w-12 text-green-500" />
-					<h2 className="mb-2 font-semibold text-gray-900 text-xl">
-						Giriş Başarılı!
-					</h2>
+					<h2 className="mb-2 font-semibold text-gray-900 text-xl">Giriş Başarılı!</h2>
 					<p className="text-gray-600">Yönlendiriliyorsunuz...</p>
 				</CardContent>
 			</Card>

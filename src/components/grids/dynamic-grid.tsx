@@ -55,9 +55,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 	className = "",
 }: DynamicGridProps<T>) {
 	const [searchTerm, setSearchTerm] = useState("");
-	const [selectedFilters, setSelectedFilters] = useState<
-		Record<string, string>
-	>(() => {
+	const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>(() => {
 		const initialFilters: Record<string, string> = {};
 		filterConfigs.forEach((config) => {
 			if (config.type === "select") {
@@ -114,15 +112,11 @@ export default function DynamicGrid<T extends FilterableItem>({
 			searchFields.length === 0 ||
 			searchFields.some((field) => {
 				const value = getNestedValue(item, field);
-				return normalizeTurkish(String(value)).includes(
-					normalizeTurkish(searchTerm),
-				);
+				return normalizeTurkish(String(value)).includes(normalizeTurkish(searchTerm));
 			});
 
 		// Other filters
-		const matchesFilters = filterConfigs.every((config) =>
-			matchesFilter(item, config),
-		);
+		const matchesFilters = filterConfigs.every((config) => matchesFilter(item, config));
 
 		return matchesSearch && matchesFilters;
 	});
@@ -139,9 +133,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 			{/* Search and Filter Section */}
 			<section className="mb-8">
 				<div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-					<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">
-						{title}
-					</h2>
+					<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">{title}</h2>
 					<div className="flex items-center space-x-4">
 						{searchFields.length > 0 && (
 							<div className="relative">
@@ -185,9 +177,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 									</label>
 									<Select
 										value={selectedFilters[config.field]}
-										onValueChange={(value) =>
-											handleFilterChange(config.field, value)
-										}
+										onValueChange={(value) => handleFilterChange(config.field, value)}
 									>
 										<SelectTrigger id={selectId}>
 											<SelectValue />
@@ -200,10 +190,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 												{config.allLabel || `All ${config.label}`}
 											</SelectItem>
 											{config.options?.filter(Boolean).map((option, index) => (
-												<SelectItem
-													key={`${config.field}-${index}-${option}`}
-													value={option}
-												>
+												<SelectItem key={`${config.field}-${index}-${option}`} value={option}>
 													{option}
 												</SelectItem>
 											))}
@@ -225,9 +212,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 				{filteredItems.length === 0 && (
 					<div className="py-12 text-center">
 						{emptyStateConfig.icon}
-						<h3 className="mb-2 font-semibold text-gray-900 text-lg">
-							{emptyStateConfig.title}
-						</h3>
+						<h3 className="mb-2 font-semibold text-gray-900 text-lg">{emptyStateConfig.title}</h3>
 						<p className="text-gray-600">{emptyStateConfig.description}</p>
 					</div>
 				)}

@@ -53,12 +53,8 @@ export default function CookieConsent() {
 					</div>
 
 					<p className="mb-4 text-gray-600 text-sm">
-						Çerezleri kullanarak deneyiminizi ve site kullanımınızı iyileştirmek
-						için kullanıyoruz.
-						<a
-							href="/gizlilik-politikasi"
-							className="underline hover:text-gray-800"
-						>
+						Çerezleri kullanarak deneyiminizi ve site kullanımınızı iyileştirmek için kullanıyoruz.
+						<a href="/gizlilik-politikasi" className="underline hover:text-gray-800">
 							Daha fazla bilgi al
 						</a>
 					</p>
@@ -67,12 +63,7 @@ export default function CookieConsent() {
 						<Button onClick={handleAccept} size="sm" className="flex-1">
 							Kabul Et
 						</Button>
-						<Button
-							onClick={handleDecline}
-							variant="outline"
-							size="sm"
-							className="flex-1"
-						>
+						<Button onClick={handleDecline} variant="outline" size="sm" className="flex-1">
 							Reddet
 						</Button>
 					</div>

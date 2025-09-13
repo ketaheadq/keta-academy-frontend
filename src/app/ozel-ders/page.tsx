@@ -18,16 +18,14 @@ export default async function TutoringPage() {
 							<span className="block text-yellow-300">Birebir Eğitim</span>
 						</h1>
 						<p className="mx-auto mb-8 max-w-3xl text-blue-100 text-xl leading-relaxed">
-							Alanında uzman, deneyimli öğretmenlerle birebir ders alın.
-							Kişiselleştirilmiş öğrenme deneyimi ile hedeflerinize ulaşın.
+							Alanında uzman, deneyimli öğretmenlerle birebir ders alın. Kişiselleştirilmiş öğrenme
+							deneyimi ile hedeflerinize ulaşın.
 						</p>
 
 						{/* Stats */}
 						<div className="mb-8 flex flex-wrap justify-center gap-8">
 							<div className="text-center">
-								<div className="font-bold text-3xl text-yellow-300">
-									{tutoringProfiles.length}+
-								</div>
+								<div className="font-bold text-3xl text-yellow-300">{tutoringProfiles.length}+</div>
 								<div className="text-blue-100">Uzman Öğretmen</div>
 							</div>
 							<div className="text-center">
@@ -69,9 +67,7 @@ export default async function TutoringPage() {
 			<div className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
 				<div className="mb-12 rounded-3xl bg-gradient-to-r from-purple-600 to-blue-600 p-8 text-white md:p-12">
 					<div className="mb-12 text-center">
-						<h2 className="mb-4 font-bold text-3xl md:text-4xl">
-							Nasıl Çalışır?
-						</h2>
+						<h2 className="mb-4 font-bold text-3xl md:text-4xl">Nasıl Çalışır?</h2>
 						<p className="mx-auto max-w-2xl text-lg text-purple-100">
 							Sadece 3 adımda uzman öğretmeninizle tanışın ve öğrenmeye başlayın
 						</p>
@@ -112,21 +108,17 @@ export default async function TutoringPage() {
 								<Video className="h-8 w-8" />
 							</div>
 							<h3 className="mb-2 font-bold text-xl">3. Öğrenmeye Başla</h3>
-							<p className="text-purple-100">
-								Birebir online derslerle hedeflerinize ulaşın
-							</p>
+							<p className="text-purple-100">Birebir online derslerle hedeflerinize ulaşın</p>
 						</div>
 					</div>
 				</div>
 
 				{/* CTA Section */}
 				<div className="rounded-3xl bg-gradient-to-r from-green-500 to-emerald-600 p-8 text-center text-white md:p-12">
-					<h2 className="mb-4 font-bold text-3xl md:text-4xl">
-						Hayalinizdeki Başarıya Ulaşın
-					</h2>
+					<h2 className="mb-4 font-bold text-3xl md:text-4xl">Hayalinizdeki Başarıya Ulaşın</h2>
 					<p className="mx-auto mb-8 max-w-2xl text-green-100 text-lg">
-						Uzman öğretmenlerimizle birebir çalışarak akademik hedeflerinizi
-						gerçekleştirin. İlk dersinizi ücretsiz deneyin!
+						Uzman öğretmenlerimizle birebir çalışarak akademik hedeflerinizi gerçekleştirin. İlk
+						dersinizi ücretsiz deneyin!
 					</p>
 					<div className="flex flex-col justify-center gap-4 sm:flex-row">
 						<button

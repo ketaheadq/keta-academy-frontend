@@ -26,9 +26,7 @@ export default function AdmissionScoreCard({
 						<div className="mb-2 flex items-center space-x-2">
 							<Badge variant="secondary">
 								<Calendar className="mr-1 h-3 w-3" />
-								{new Date(admissionScore.publishedAt).toLocaleDateString(
-									"tr-TR",
-								)}
+								{new Date(admissionScore.publishedAt).toLocaleDateString("tr-TR")}
 							</Badge>
 							{admissionScore.content && admissionScore.content.length > 0 && (
 								<Badge className="bg-green-500">
@@ -44,16 +42,13 @@ export default function AdmissionScoreCard({
 							)}
 						</div>
 
-						<CardTitle className="mb-2 text-lg">
-							{admissionScore.title}
-						</CardTitle>
+						<CardTitle className="mb-2 text-lg">{admissionScore.title}</CardTitle>
 
 						{/* Content Preview */}
 						{admissionScore.content && admissionScore.content.length > 0 && (
 							<div className="mb-3 text-gray-600 text-sm">
 								<p className="line-clamp-2">
-									{admissionScore.content[0]?.children?.[0]?.text ||
-										"İçerik mevcut"}
+									{admissionScore.content[0]?.children?.[0]?.text || "İçerik mevcut"}
 								</p>
 							</div>
 						)}
@@ -68,11 +63,7 @@ export default function AdmissionScoreCard({
 									</span>
 									<div className="flex flex-wrap gap-1">
 										{admissionScore.related_datas.slice(0, 2).map((related) => (
-											<Badge
-												key={related.id}
-												variant="outline"
-												className="text-xs"
-											>
+											<Badge key={related.id} variant="outline" className="text-xs">
 												{related.title}
 											</Badge>
 										))}

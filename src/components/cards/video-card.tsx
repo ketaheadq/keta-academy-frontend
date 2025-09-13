@@ -73,9 +73,7 @@ export default function VideoCard({ video }: VideoCardProps) {
 					</div>
 				</div>
 				<div className="p-4">
-					<h3 className="mb-2 line-clamp-2 font-semibold text-gray-900">
-						{video.title}
-					</h3>
+					<h3 className="mb-2 line-clamp-2 font-semibold text-gray-900">{video.title}</h3>
 
 					{/* Page Reference */}
 					{video.page && (

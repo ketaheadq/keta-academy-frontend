@@ -64,10 +64,7 @@ export function debugGoogleOAuthConfig() {
 
 	const expectedRedirectUri = `${strapiUrl}/api/auth/google/callback`;
 
-	console.log(
-		"🔍 Expected Google redirect URI should be:",
-		expectedRedirectUri,
-	);
+	console.log("🔍 Expected Google redirect URI should be:", expectedRedirectUri);
 	console.log("🔍 Make sure this EXACT URL is in your Google Cloud Console");
 	console.log("🔍 Using custom Google OAuth implementation");
 
@@ -84,10 +81,7 @@ export async function handleAuthRedirect(
 ): Promise<StrapiAuthResponse | AuthError> {
 	try {
 		// Debug: Log all parameters received
-		console.log(
-			"🔍 Auth redirect parameters:",
-			Object.fromEntries(searchParams.entries()),
-		);
+		console.log("🔍 Auth redirect parameters:", Object.fromEntries(searchParams.entries()));
 
 		// Your custom implementation sends these parameters
 		const token = searchParams.get("token");
@@ -108,15 +102,12 @@ export async function handleAuthRedirect(
 		}
 
 		if (!token || success !== "true") {
-			console.error(
-				"❌ No JWT token found in callback URL or success !== true",
-			);
+			console.error("❌ No JWT token found in callback URL or success !== true");
 			return {
 				error: {
 					status: 400,
 					name: "AuthError",
-					message:
-						"No authentication token received or authentication was not successful",
+					message: "No authentication token received or authentication was not successful",
 				},
 			};
 		}
@@ -131,9 +122,7 @@ export async function handleAuthRedirect(
 				if (isValidStrapiUser(parsed)) {
 					user = parsed;
 				} else {
-					console.error(
-						"❌ Parsed user data does not match StrapiUser structure",
-					);
+					console.error("❌ Parsed user data does not match StrapiUser structure");
 					return {
 						error: {
 							status: 0,

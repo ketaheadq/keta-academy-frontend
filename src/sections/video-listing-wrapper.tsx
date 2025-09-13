@@ -14,9 +14,7 @@ export default function VideoListing({ videos, title }: VideoListingProps) {
 		<DynamicListing
 			items={videos}
 			title={title}
-			renderItem={(video) => (
-				<VideoCard key={video.id} video={video} showRelatedData={true} />
-			)}
+			renderItem={(video) => <VideoCard key={video.id} video={video} showRelatedData={true} />}
 			maxItems={3}
 			gridColumns={{ md: 2, lg: 3 }}
 		/>

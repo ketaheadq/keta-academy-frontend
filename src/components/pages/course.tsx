@@ -1,36 +1,18 @@
 "use client";
 
-import {
-	BookOpen,
-	CheckCircle,
-	Circle,
-	Clock,
-	GraduationCap,
-	Target,
-} from "lucide-react";
+import { BookOpen, CheckCircle, Circle, Clock, GraduationCap, Target } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Quiz, { type QuizResult } from "@/components/quiz";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import ShareButton from "@/components/ui/share-button";
 import { useLessonProgress } from "@/hooks/useLessonProgress";
-import type {
-	StrapiCourse,
-	StrapiGrade,
-	StrapiLesson,
-	StrapiQuiz,
-} from "@/lib/strapi";
+import type { StrapiCourse, StrapiGrade, StrapiLesson, StrapiQuiz } from "@/lib/strapi";
 import { updateQuizProgress } from "@/lib/strapi";
 import { extractYouTubeVideoId } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth-store";
@@ -50,12 +32,7 @@ interface CoursePageProps {
 	searchParams?: { ders_ismi?: string };
 }
 
-export default function CoursePage({
-	course,
-	lessons,
-	ders_ismi,
-	searchParams,
-}: CoursePageProps) {
+export default function CoursePage({ course, lessons, ders_ismi, searchParams }: CoursePageProps) {
 	console.log("lessons", lessons);
 	const router = useRouter();
 	const pathname = usePathname();
@@ -82,9 +59,7 @@ export default function CoursePage({
 
 	// Check for duplicate lesson IDs
 	const lessonIds = lessons.map((lesson) => lesson.id);
-	const duplicateIds = lessonIds.filter(
-		(id, index) => lessonIds.indexOf(id) !== index,
-	);
+	const duplicateIds = lessonIds.filter((id, index) => lessonIds.indexOf(id) !== index);
 	if (duplicateIds.length > 0) {
 		console.warn("⚠️ Duplicate lesson IDs found:", duplicateIds);
 		console.log("All lesson IDs:", lessonIds);
@@ -103,9 +78,7 @@ export default function CoursePage({
 	}, [lessons]);
 
 	// Determine starting lesson after extendedLessons are initialized
-	const [initialLesson, setInitialLesson] = useState<ExtendedLesson | null>(
-		null,
-	);
+	const [initialLesson, setInitialLesson] = useState<ExtendedLesson | null>(null);
 
 	useEffect(() => {
 		if (extendedLessons.length > 0) {
@@ -125,29 +98,19 @@ export default function CoursePage({
 			console.log("Found target lesson:", targetLesson?.title || "NOT FOUND");
 
 			const lessonToSet = targetLesson || extendedLessons[0];
-			console.log(
-				"Setting initial lesson:",
-				lessonToSet.title,
-				"from slug:",
-				targetSlug,
-			);
+			console.log("Setting initial lesson:", lessonToSet.title, "from slug:", targetSlug);
 			setInitialLesson(lessonToSet);
 		}
 	}, [extendedLessons, searchParams?.ders_ismi, ders_ismi]);
 
-	const [currentLesson, setCurrentLesson] = useState<ExtendedLesson | null>(
-		null,
-	);
+	const [currentLesson, setCurrentLesson] = useState<ExtendedLesson | null>(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [showQuiz, setShowQuiz] = useState(false);
 	const [currentQuiz, setCurrentQuiz] = useState<StrapiQuiz | null>(null);
 
 	// Update current lesson when initial lesson changes
 	useEffect(() => {
-		if (
-			initialLesson &&
-			(!currentLesson || initialLesson.id !== currentLesson.id)
-		) {
+		if (initialLesson && (!currentLesson || initialLesson.id !== currentLesson.id)) {
 			console.log("Setting current lesson to:", initialLesson.title);
 			setCurrentLesson(initialLesson);
 		}
@@ -189,9 +152,7 @@ export default function CoursePage({
 	};
 
 	const handleNextLesson = () => {
-		const currentIndex = extendedLessons.findIndex(
-			(lesson) => lesson.id === currentLesson?.id,
-		);
+		const currentIndex = extendedLessons.findIndex((lesson) => lesson.id === currentLesson?.id);
 		if (currentIndex < extendedLessons.length - 1) {
 			const nextLesson = extendedLessons[currentIndex + 1];
 			setCurrentLesson(nextLesson);
@@ -204,9 +165,7 @@ export default function CoursePage({
 	};
 
 	const handlePreviousLesson = () => {
-		const currentIndex = extendedLessons.findIndex(
-			(lesson) => lesson.id === currentLesson?.id,
-		);
+		const currentIndex = extendedLessons.findIndex((lesson) => lesson.id === currentLesson?.id);
 		if (currentIndex > 0) {
 			const prevLesson = extendedLessons[currentIndex - 1];
 			setCurrentLesson(prevLesson);
@@ -238,12 +197,7 @@ export default function CoursePage({
 		// Update quiz progress to 'completed' with score
 		if (isAuthenticated && jwt && currentQuiz) {
 			try {
-				await updateQuizProgress(
-					currentQuiz.id,
-					"completed",
-					result.earnedPoints,
-					jwt,
-				);
+				await updateQuizProgress(currentQuiz.id, "completed", result.earnedPoints, jwt);
 			} catch (error) {
 				console.error("Failed to update quiz progress:", error);
 			}
@@ -319,9 +273,7 @@ export default function CoursePage({
 											<h1 className="mb-2 font-bold text-2xl text-gray-900">
 												{currentLesson.title}
 											</h1>
-											<p className="text-gray-600">
-												{currentLesson.description}
-											</p>
+											<p className="text-gray-600">{currentLesson.description}</p>
 										</div>
 										<div className="flex items-center space-x-2">
 											<Clock className="h-4 w-4 text-gray-500" />
@@ -337,9 +289,7 @@ export default function CoursePage({
 												variant="outline"
 												onClick={handlePreviousLesson}
 												disabled={
-													extendedLessons.findIndex(
-														(l) => l.id === currentLesson?.id,
-													) === 0
+													extendedLessons.findIndex((l) => l.id === currentLesson?.id) === 0
 												}
 											>
 												Önceki
@@ -348,9 +298,7 @@ export default function CoursePage({
 												variant="outline"
 												onClick={handleNextLesson}
 												disabled={
-													extendedLessons.findIndex(
-														(l) => l.id === currentLesson?.id,
-													) ===
+													extendedLessons.findIndex((l) => l.id === currentLesson?.id) ===
 													extendedLessons.length - 1
 												}
 											>
@@ -367,15 +315,12 @@ export default function CoursePage({
 											{user ? (
 												<Button
 													variant={
-														lessonProgress[currentLesson.documentId]
-															? "secondary"
-															: "default"
+														lessonProgress[currentLesson.documentId] ? "secondary" : "default"
 													}
 													onClick={
 														lessonProgress[currentLesson.documentId]
 															? () => {}
-															: () =>
-																	markLessonComplete(currentLesson.documentId)
+															: () => markLessonComplete(currentLesson.documentId)
 													}
 													className="flex items-center space-x-2"
 													disabled={!isAuthenticated}
@@ -404,9 +349,7 @@ export default function CoursePage({
 											{currentLesson.quiz && (
 												<Button
 													variant="outline"
-													onClick={() =>
-														handleStartQuiz(currentLesson.quiz as StrapiQuiz)
-													}
+													onClick={() => handleStartQuiz(currentLesson.quiz as StrapiQuiz)}
 													className="flex items-center space-x-2"
 												>
 													<Target className="h-4 w-4" />
@@ -430,25 +373,18 @@ export default function CoursePage({
 							<CardContent>
 								<div className="grid gap-6 md:grid-cols-2">
 									<div>
-										<h3 className="mb-2 font-semibold text-gray-900">
-											Kurs Açıklaması
-										</h3>
+										<h3 className="mb-2 font-semibold text-gray-900">Kurs Açıklaması</h3>
 										<p className="mb-4 text-gray-600">{course.description}</p>
 
 										<div className="space-y-2">
 											<div className="flex items-center space-x-2">
 												<Target className="h-4 w-4 text-gray-500" />
-												<span className="text-gray-600 text-sm">
-													Konu: {course.subject.title}
-												</span>
+												<span className="text-gray-600 text-sm">Konu: {course.subject.title}</span>
 											</div>
 											<div className="flex items-center space-x-2">
 												<GraduationCap className="h-4 w-4 text-gray-500" />
 												<span className="text-gray-600 text-sm">
-													Sınıf:{" "}
-													{course.grades
-														.map((g: StrapiGrade) => g.title)
-														.join(", ")}
+													Sınıf: {course.grades.map((g: StrapiGrade) => g.title).join(", ")}
 												</span>
 											</div>
 											<div className="flex items-center space-x-2">
@@ -459,9 +395,7 @@ export default function CoursePage({
 											</div>
 											<div className="flex items-center space-x-2">
 												<BookOpen className="h-4 w-4 text-gray-500" />
-												<span className="text-gray-600 text-sm">
-													{totalLessons} Ders
-												</span>
+												<span className="text-gray-600 text-sm">{totalLessons} Ders</span>
 											</div>
 										</div>
 									</div>
@@ -492,9 +426,7 @@ export default function CoursePage({
 								</CardTitle>
 								<CardDescription>
 									Kurstaki ilerlemenizi takip edin
-									{isLoadingProgress && (
-										<span className="ml-2 text-blue-500">(Yükleniyor...)</span>
-									)}
+									{isLoadingProgress && <span className="ml-2 text-blue-500">(Yükleniyor...)</span>}
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="p-0">
@@ -540,9 +472,7 @@ export default function CoursePage({
 														Quiz
 													</Badge>
 												)}
-												{index < extendedLessons.length - 1 && (
-													<Separator className="my-2" />
-												)}
+												{index < extendedLessons.length - 1 && <Separator className="my-2" />}
 											</div>
 										))}
 									</div>
@@ -556,11 +486,7 @@ export default function CoursePage({
 				{showQuiz && currentQuiz && (
 					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
 						<div className="max-h-[90vh] overflow-y-auto">
-							<Quiz
-								quiz={currentQuiz}
-								onComplete={handleQuizComplete}
-								onClose={handleCloseQuiz}
-							/>
+							<Quiz quiz={currentQuiz} onComplete={handleQuizComplete} onClose={handleCloseQuiz} />
 						</div>
 					</div>
 				)}

@@ -22,8 +22,7 @@ async function PrivacyPolicyContent() {
 						<div>
 							<CardTitle className="text-2xl">Gizlilik Politikası</CardTitle>
 							<p className="mt-1 text-gray-600 text-sm">
-								Son güncelleme:{" "}
-								{new Date(privacyPolicy.updatedAt).toLocaleDateString("tr-TR")}
+								Son güncelleme: {new Date(privacyPolicy.updatedAt).toLocaleDateString("tr-TR")}
 							</p>
 						</div>
 					</div>
@@ -34,10 +33,7 @@ async function PrivacyPolicyContent() {
 							{contentText.split("\n\n").map(
 								(paragraph, index) =>
 									paragraph.trim() && (
-										<p
-											key={index}
-											className="mb-4 text-gray-700 leading-relaxed"
-										>
+										<p key={index} className="mb-4 text-gray-700 leading-relaxed">
 											{paragraph.trim()}
 										</p>
 									),
@@ -49,9 +45,7 @@ async function PrivacyPolicyContent() {
 							<h3 className="mb-2 font-medium text-gray-900 text-lg">
 								Gizlilik Politikası Yükleniyor
 							</h3>
-							<p className="text-gray-600">
-								Gizlilik politikası içeriği hazırlanıyor...
-							</p>
+							<p className="text-gray-600">Gizlilik politikası içeriği hazırlanıyor...</p>
 						</div>
 					)}
 				</CardContent>
@@ -63,12 +57,8 @@ async function PrivacyPolicyContent() {
 			<Card className="shadow-lg">
 				<CardContent className="p-8 text-center">
 					<Shield className="mx-auto mb-4 h-12 w-12 text-gray-300" />
-					<h3 className="mb-2 font-medium text-gray-900 text-lg">
-						Yükleme Hatası
-					</h3>
-					<p className="mb-4 text-gray-600">
-						Gizlilik politikası yüklenirken bir hata oluştu.
-					</p>
+					<h3 className="mb-2 font-medium text-gray-900 text-lg">Yükleme Hatası</h3>
+					<p className="mb-4 text-gray-600">Gizlilik politikası yüklenirken bir hata oluştu.</p>
 					<Button
 						variant="outline"
 						onClick={() => {
@@ -135,10 +125,7 @@ export default function PrivacyPolicyPage() {
 				<div className="mt-8 text-center">
 					<p className="text-gray-600 text-sm">
 						Sorularınız için{" "}
-						<a
-							href="mailto:destek@ketaacademy.com"
-							className="text-blue-600 hover:text-blue-500"
-						>
+						<a href="mailto:destek@ketaacademy.com" className="text-blue-600 hover:text-blue-500">
 							destek@ketaacademy.com
 						</a>{" "}
 						adresinden bize ulaşabilirsiniz.

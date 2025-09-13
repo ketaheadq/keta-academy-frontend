@@ -28,18 +28,14 @@ async function TermsOfServiceContent() {
 						<div>
 							<CardTitle className="text-2xl">Hizmet Şartları</CardTitle>
 							<p className="mt-1 text-gray-600 text-sm">
-								Son güncelleme:{" "}
-								{new Date(termsOfService.updatedAt).toLocaleDateString("tr-TR")}
+								Son güncelleme: {new Date(termsOfService.updatedAt).toLocaleDateString("tr-TR")}
 							</p>
 						</div>
 					</div>
 				</CardHeader>
 				<CardContent className="p-6 sm:p-8">
 					{paragraphs.length > 0 ? (
-						<div
-							className="prose prose-sm sm:prose-base max-w-none"
-							style={{ hyphens: "auto" }}
-						>
+						<div className="prose prose-sm sm:prose-base max-w-none" style={{ hyphens: "auto" }}>
 							{paragraphs.map(({ text, key }) => (
 								<p
 									key={key}
@@ -64,12 +60,8 @@ async function TermsOfServiceContent() {
 			<Card className="shadow-lg">
 				<CardContent className="p-8 text-center">
 					<FileText className="mx-auto mb-4 h-12 w-12 text-gray-300" />
-					<h3 className="mb-2 font-medium text-gray-900 text-lg">
-						Yükleme Hatası
-					</h3>
-					<p className="mb-4 text-gray-600">
-						Hizmet şartları yüklenirken bir hata oluştu.
-					</p>
+					<h3 className="mb-2 font-medium text-gray-900 text-lg">Yükleme Hatası</h3>
+					<p className="mb-4 text-gray-600">Hizmet şartları yüklenirken bir hata oluştu.</p>
 					<Button
 						variant="outline"
 						onClick={() => {
@@ -104,9 +96,7 @@ function LoadingSkeleton() {
 						<div key={`skeleton-${i}`} className="space-y-2">
 							<div className="h-4 w-full animate-pulse rounded bg-gray-200" />
 							<div className="h-4 w-5/6 animate-pulse rounded bg-gray-200" />
-							{i % 2 === 0 && (
-								<div className="h-4 w-4/6 animate-pulse rounded bg-gray-200" />
-							)}
+							{i % 2 === 0 && <div className="h-4 w-4/6 animate-pulse rounded bg-gray-200" />}
 						</div>
 					))}
 				</div>

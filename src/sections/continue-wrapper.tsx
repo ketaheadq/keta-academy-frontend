@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react";
 import CourseCard from "@/components/cards/course-card";
 import { calculateCoursesProgress } from "@/lib/progress-utils";
-import {
-	getAllCourseLessons,
-	getUserLessonProgress,
-	type StrapiCourse,
-} from "@/lib/strapi";
+import { getAllCourseLessons, getUserLessonProgress, type StrapiCourse } from "@/lib/strapi";
 import { useAuthStore } from "@/stores/auth-store";
 import DynamicContinue from "./continiue";
 
@@ -28,9 +24,7 @@ export default function Continue({ courses }: ContinueProps) {
 			if (!isAuthenticated || !jwt || !user || courses.length === 0) {
 				console.log("No courses found");
 				// Initialize courses with 0 progress for non-authenticated users
-				setCoursesWithProgress(
-					courses.map((course) => ({ ...course, progress: 0 })),
-				);
+				setCoursesWithProgress(courses.map((course) => ({ ...course, progress: 0 })));
 				return;
 			}
 
@@ -45,10 +39,7 @@ export default function Continue({ courses }: ContinueProps) {
 				);
 				console.log("allLessonDocumentIds", allLessonDocumentIds);
 				// Fetch all lesson progress data
-				const lessonProgressData = await getUserLessonProgress(
-					allLessonDocumentIds,
-					jwt,
-				);
+				const lessonProgressData = await getUserLessonProgress(allLessonDocumentIds, jwt);
 				console.log("lessonProgressData", lessonProgressData);
 				// Calculate progress for all courses using the utility function
 				const updatedCoursesWithProgress = calculateCoursesProgress(
@@ -62,9 +53,7 @@ export default function Continue({ courses }: ContinueProps) {
 			} catch (error) {
 				console.error("Error fetching user progress:", error);
 				// Fallback to courses with 0 progress
-				setCoursesWithProgress(
-					courses.map((course) => ({ ...course, progress: 0 })),
-				);
+				setCoursesWithProgress(courses.map((course) => ({ ...course, progress: 0 })));
 			} finally {
 				setIsLoading(false);
 			}
@@ -81,9 +70,7 @@ export default function Continue({ courses }: ContinueProps) {
 	return (
 		<DynamicContinue
 			items={coursesWithProgress}
-			renderItem={(course) => (
-				<CourseCard key={course.id} course={course} showProgress={true} />
-			)}
+			renderItem={(course) => <CourseCard key={course.id} course={course} showProgress={true} />}
 			title="📈 Kaldığın Yerden Devam Et:"
 			maxItems={2}
 			viewAllLink={{ href: "/derslerim", label: "Hepsini Gör" }}

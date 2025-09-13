@@ -46,10 +46,7 @@ export default function DerslerimPage() {
 				);
 
 				// Fetch all lesson progress data
-				const lessonProgressData = await getUserLessonProgress(
-					allLessonDocumentIds,
-					jwt,
-				);
+				const lessonProgressData = await getUserLessonProgress(allLessonDocumentIds, jwt);
 
 				// Calculate progress for all courses using the utility function
 				const updatedCoursesWithProgress = calculateCoursesProgress(
@@ -78,9 +75,7 @@ export default function DerslerimPage() {
 	if (!isAuthenticated) {
 		return (
 			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-				<BreadcrumbNav
-					breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]}
-				/>
+				<BreadcrumbNav breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]} />
 				<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 					<div className="text-center">
 						<h1 className="mb-4 font-bold text-3xl text-gray-900">Derslerim</h1>
@@ -95,16 +90,12 @@ export default function DerslerimPage() {
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-			<BreadcrumbNav
-				breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]}
-			/>
+			<BreadcrumbNav breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]} />
 
 			<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				{/* Hero Section */}
 				<div className="mb-12 text-center">
-					<h1 className="mb-4 font-bold text-4xl text-gray-900">
-						📚 Derslerim
-					</h1>
+					<h1 className="mb-4 font-bold text-4xl text-gray-900">📚 Derslerim</h1>
 					<p className="mx-auto max-w-3xl text-gray-600 text-xl">
 						Başladığın derslerin ve ilerleme durumun
 					</p>
@@ -155,19 +146,13 @@ export default function DerslerimPage() {
 					(continueCourses.length > 0 ? (
 						<div className="grid gap-6 pt-0 md:grid-cols-2 lg:grid-cols-3">
 							{continueCourses.map((course) => (
-								<CourseCard
-									key={course.id}
-									course={course}
-									showProgress={true}
-								/>
+								<CourseCard key={course.id} course={course} showProgress={true} />
 							))}
 						</div>
 					) : (
 						<div className="py-12 text-center">
 							<div className="rounded-md border border-gray-200 bg-gray-50 p-8">
-								<h3 className="mb-2 font-medium text-gray-900 text-lg">
-									Henüz ders başlatmadınız
-								</h3>
+								<h3 className="mb-2 font-medium text-gray-900 text-lg">Henüz ders başlatmadınız</h3>
 								<p className="mb-4 text-gray-600">
 									İlk dersinizi başlatmak için konular sayfasına gidin.
 								</p>

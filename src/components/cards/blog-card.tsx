@@ -12,10 +12,7 @@ interface BlogCardProps {
 	showRelatedData?: boolean;
 }
 
-export default function BlogCard({
-	blog,
-	showRelatedData = false,
-}: BlogCardProps) {
+export default function BlogCard({ blog, showRelatedData = false }: BlogCardProps) {
 	// Extract text from blog content blocks for preview
 	const getContentPreview = (): string => {
 		if (!blog.content || blog.content.length === 0) return "İçerik mevcut";
@@ -61,31 +58,25 @@ export default function BlogCard({
 						</div>
 
 						{/* Related Data */}
-						{showRelatedData &&
-							blog.related_datas &&
-							blog.related_datas.length > 0 && (
-								<div className="space-y-1">
-									<span className="block font-medium text-gray-700 text-sm">
-										İlgili Blog Yazıları ({blog.related_datas.length})
-									</span>
-									<div className="flex flex-wrap gap-1">
-										{blog.related_datas.slice(0, 2).map((related) => (
-											<Badge
-												key={related.id}
-												variant="outline"
-												className="text-xs"
-											>
-												{related.title}
-											</Badge>
-										))}
-										{blog.related_datas.length > 2 && (
-											<Badge variant="outline" className="text-xs">
-												+{blog.related_datas.length - 2} daha
-											</Badge>
-										)}
-									</div>
+						{showRelatedData && blog.related_datas && blog.related_datas.length > 0 && (
+							<div className="space-y-1">
+								<span className="block font-medium text-gray-700 text-sm">
+									İlgili Blog Yazıları ({blog.related_datas.length})
+								</span>
+								<div className="flex flex-wrap gap-1">
+									{blog.related_datas.slice(0, 2).map((related) => (
+										<Badge key={related.id} variant="outline" className="text-xs">
+											{related.title}
+										</Badge>
+									))}
+									{blog.related_datas.length > 2 && (
+										<Badge variant="outline" className="text-xs">
+											+{blog.related_datas.length - 2} daha
+										</Badge>
+									)}
 								</div>
-							)}
+							</div>
+						)}
 
 						{/* Page Reference */}
 						{blog.page && (

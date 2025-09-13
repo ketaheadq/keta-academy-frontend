@@ -1,8 +1,4 @@
-import type {
-	StrapiCourse,
-	StrapiCourseLesson,
-	StrapiLessonProgress,
-} from "@/lib/strapi";
+import type { StrapiCourse, StrapiCourseLesson, StrapiLessonProgress } from "@/lib/strapi";
 
 /**
  * Calculate course progress based on lesson completion ratio
@@ -78,12 +74,7 @@ export function calculateCourseProgressWithFallback(
 ): number {
 	// If we have lesson progress data, calculate based on lesson completion
 	if (lessonProgressData.length > 0) {
-		return calculateCourseProgress(
-			course,
-			courseLessons,
-			lessonProgressData,
-			userId,
-		);
+		return calculateCourseProgress(course, courseLessons, lessonProgressData, userId);
 	}
 
 	// Fallback to course status if no lesson progress data
@@ -117,11 +108,6 @@ export function calculateCoursesProgress(
 ): (StrapiCourse & { progress: number })[] {
 	return courses.map((course) => ({
 		...course,
-		progress: calculateCourseProgress(
-			course,
-			courseLessons,
-			lessonProgressData,
-			userId,
-		),
+		progress: calculateCourseProgress(course, courseLessons, lessonProgressData, userId),
 	}));
 }

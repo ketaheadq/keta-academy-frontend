@@ -9,10 +9,7 @@ interface RichTextRendererProps {
 	className?: string;
 }
 
-const RichTextRenderer: React.FC<RichTextRendererProps> = ({
-	content,
-	className = "",
-}) => {
+const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className = "" }) => {
 	return (
 		<div className={`prose prose-lg max-w-none ${className}`}>
 			<BlocksRenderer
@@ -56,9 +53,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({
 								: "list-disc list-inside mb-4 space-y-2";
 						return <Tag className={listClass}>{children}</Tag>;
 					},
-					"list-item": ({ children }) => (
-						<li className="text-gray-700">{children}</li>
-					),
+					"list-item": ({ children }) => <li className="text-gray-700">{children}</li>,
 					quote: ({ children }) => (
 						<blockquote className="mb-4 border-blue-500 border-l-4 bg-blue-50 py-2 pl-4 text-gray-700 italic">
 							{children}
@@ -96,9 +91,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({
 									}}
 								/>
 								{image.caption && (
-									<p className="mt-2 text-center text-gray-600 text-sm italic">
-										{image.caption}
-									</p>
+									<p className="mt-2 text-center text-gray-600 text-sm italic">{image.caption}</p>
 								)}
 							</div>
 						);
@@ -110,9 +103,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({
 					underline: ({ children }) => <u>{children}</u>,
 					strikethrough: ({ children }) => <s>{children}</s>,
 					code: ({ children }) => (
-						<code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm">
-							{children}
-						</code>
+						<code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm">{children}</code>
 					),
 				}}
 			/>

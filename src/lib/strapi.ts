@@ -396,9 +396,7 @@ export interface AnswerOptionFormData {
 }
 
 // Type guards
-export const isQuizResponse = (
-	data: any,
-): data is StrapiResponse<StrapiQuiz> => {
+export const isQuizResponse = (data: any): data is StrapiResponse<StrapiQuiz> => {
 	return data?.data && typeof data.data.id === "number" && data.data.title;
 };
 
@@ -410,8 +408,7 @@ export const isQuizCollectionResponse = (
 
 // Quiz-related API functions
 export async function getQuizzes() {
-	const response =
-		await fetchStrapiData<StrapiResponse<StrapiQuiz[]>>("quizzes?populate=*");
+	const response = await fetchStrapiData<StrapiResponse<StrapiQuiz[]>>("quizzes?populate=*");
 	return response.data;
 }
 
@@ -431,10 +428,7 @@ export async function getQuizzesBySubject(subjectSlug: string) {
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
 
-export async function fetchStrapiDataUsingToken<T>(
-	endpoint: string,
-	token: string,
-): Promise<T> {
+export async function fetchStrapiDataUsingToken<T>(endpoint: string, token: string): Promise<T> {
 	try {
 		const response = await fetch(`${STRAPI_URL}/api/${endpoint}`, {
 			headers: {
@@ -474,9 +468,7 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 		}
 
 		if (!response.ok) {
-			console.error(
-				`❌ Strapi API error: ${response.status} ${response.statusText}`,
-			);
+			console.error(`❌ Strapi API error: ${response.status} ${response.statusText}`);
 			console.error(`Endpoint: ${endpoint}`);
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
@@ -490,8 +482,7 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 }
 
 export async function getSettings(): Promise<StrapiSettings> {
-	const response =
-		await fetchStrapiData<StrapiResponse<StrapiSettings>>("setting?populate=*");
+	const response = await fetchStrapiData<StrapiResponse<StrapiSettings>>("setting?populate=*");
 	return response.data;
 }
 
@@ -522,35 +513,32 @@ export async function getCourse(slug: string) {
 }
 
 export async function getLessonsByCourseId(courseId: number) {
-	const response = await fetchStrapiData<
-		StrapiCollectionResponse<StrapiCourseLesson>
-	>(`course-lessons?populate=*&filters[course][id][$eq]=${courseId}`);
+	const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourseLesson>>(
+		`course-lessons?populate=*&filters[course][id][$eq]=${courseId}`,
+	);
 	return response.data.sort((a, b) => a.order - b.order);
 }
 
 export async function getAllCourseLessons(token: string) {
-	const response = await fetchStrapiDataUsingToken<
-		StrapiCollectionResponse<StrapiCourseLesson>
-	>("course-lessons?populate=*", token);
+	const response = await fetchStrapiDataUsingToken<StrapiCollectionResponse<StrapiCourseLesson>>(
+		"course-lessons?populate=*",
+		token,
+	);
 	return response.data.sort((a, b) => a.order - b.order);
 }
 
 export async function getSubjects() {
-	const response = await fetchStrapiData<StrapiResponse<StrapiSubject[]>>(
-		"subjects?populate=icon",
-	);
+	const response = await fetchStrapiData<StrapiResponse<StrapiSubject[]>>("subjects?populate=icon");
 	return response.data;
 }
 
 export async function getGrades() {
-	const response =
-		await fetchStrapiData<StrapiResponse<StrapiGrade[]>>("grades");
+	const response = await fetchStrapiData<StrapiResponse<StrapiGrade[]>>("grades");
 	return response.data;
 }
 
 export async function getCourses() {
-	const response =
-		await fetchStrapiData<StrapiResponse<StrapiCourse[]>>("courses?populate=*");
+	const response = await fetchStrapiData<StrapiResponse<StrapiCourse[]>>("courses?populate=*");
 	return response.data;
 }
 
@@ -568,18 +556,13 @@ export async function getSubjectBySlug(slug: string) {
 
 // Privacy Policy and Terms API functions
 export async function getPrivacyPolicy(): Promise<StrapiPrivacyPolicy> {
-	const response =
-		await fetchStrapiData<StrapiResponse<StrapiPrivacyPolicy>>(
-			"privacy-policy",
-		);
+	const response = await fetchStrapiData<StrapiResponse<StrapiPrivacyPolicy>>("privacy-policy");
 	return response.data;
 }
 
 export async function getTermsAndCondition(): Promise<StrapiTermsOfService> {
 	const response =
-		await fetchStrapiData<StrapiResponse<StrapiTermsOfService>>(
-			"term-and-condition",
-		);
+		await fetchStrapiData<StrapiResponse<StrapiTermsOfService>>("term-and-condition");
 	return response.data;
 }
 
@@ -610,12 +593,8 @@ export async function testStrapiCollections(): Promise<void> {
 
 	for (const collection of collections) {
 		try {
-			const response = await fetch(
-				`${STRAPI_URL}/api/${collection}?populate=*`,
-			);
-			console.log(
-				`✅ ${collection}: ${response.status} ${response.statusText}`,
-			);
+			const response = await fetch(`${STRAPI_URL}/api/${collection}?populate=*`);
+			console.log(`✅ ${collection}: ${response.status} ${response.statusText}`);
 		} catch (error) {
 			console.log(`❌ ${collection}: Error - ${error}`);
 		}
@@ -661,9 +640,7 @@ export async function getUserCourseProgress(
 	token: string,
 ): Promise<StrapiUserCourseProgress | null> {
 	try {
-		const response = await fetchStrapiDataUsingToken<
-			StrapiResponse<StrapiUserCourseProgress[]>
-		>(
+		const response = await fetchStrapiDataUsingToken<StrapiResponse<StrapiUserCourseProgress[]>>(
 			`user-course-progresses?filters[user_plus_course_id][$eq]=${user_id}_${documentId}`,
 			token,
 		);
@@ -686,11 +663,7 @@ export async function updateUserCourseProgress(
 		console.log("compositeId", compositeId);
 
 		// First, try to get existing progress
-		const existingProgress = await getUserCourseProgress(
-			documentId,
-			user_id,
-			token,
-		);
+		const existingProgress = await getUserCourseProgress(documentId, user_id, token);
 
 		console.log("Existing progress:", existingProgress);
 		if (existingProgress) {
@@ -712,9 +685,7 @@ export async function updateUserCourseProgress(
 			);
 
 			if (!response.ok) {
-				throw new Error(
-					`Failed to update course progress: ${response.statusText}`,
-				);
+				throw new Error(`Failed to update course progress: ${response.statusText}`);
 			}
 
 			return await response.json();
@@ -735,9 +706,7 @@ export async function updateUserCourseProgress(
 		});
 
 		if (!response.ok) {
-			throw new Error(
-				`Failed to create course progress: ${response.statusText}`,
-			);
+			throw new Error(`Failed to create course progress: ${response.statusText}`);
 		}
 
 		return await response.json();
@@ -799,9 +768,7 @@ export async function updateLessonProgress(
 		);
 
 		if (!response.ok) {
-			throw new Error(
-				`Failed to fetch lesson progress: ${response.statusText}`,
-			);
+			throw new Error(`Failed to fetch lesson progress: ${response.statusText}`);
 		}
 
 		const data = await response.json();
@@ -826,9 +793,7 @@ export async function updateLessonProgress(
 			);
 
 			if (!updateResponse.ok) {
-				throw new Error(
-					`Failed to update lesson progress: ${updateResponse.statusText}`,
-				);
+				throw new Error(`Failed to update lesson progress: ${updateResponse.statusText}`);
 			}
 
 			return await updateResponse.json();
@@ -849,9 +814,7 @@ export async function updateLessonProgress(
 		});
 
 		if (!createResponse.ok) {
-			throw new Error(
-				`Failed to create lesson progress: ${createResponse.statusText}`,
-			);
+			throw new Error(`Failed to create lesson progress: ${createResponse.statusText}`);
 		}
 
 		return await createResponse.json();
@@ -931,9 +894,7 @@ export async function updateQuizProgress(
 			);
 
 			if (!response.ok) {
-				throw new Error(
-					`Failed to update quiz progress: ${response.statusText}`,
-				);
+				throw new Error(`Failed to update quiz progress: ${response.statusText}`);
 			}
 
 			return await response.json();
@@ -973,47 +934,35 @@ export async function updateQuizProgress(
 // Admission Score API functions
 export async function getAdmissionScores(): Promise<StrapiAdmissionScore[]> {
 	try {
-		const response = await fetchStrapiData<
-			StrapiResponse<StrapiAdmissionScore[]>
-		>("admission-scores?populate=*");
+		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
+			"admission-scores?populate=*",
+		);
 		return response.data;
 	} catch (error) {
-		console.error(
-			"Error fetching admission scores - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching admission scores - check Strapi permissions:", error);
 		return [];
 	}
 }
 
-export async function getAdmissionScoreBySlug(
-	slug: string,
-): Promise<StrapiAdmissionScore | null> {
+export async function getAdmissionScoreBySlug(slug: string): Promise<StrapiAdmissionScore | null> {
 	try {
 		console.log(`🔍 Fetching admission score for slug: ${slug}`);
-		const response = await fetchStrapiData<
-			StrapiResponse<StrapiAdmissionScore[]>
-		>(`admission-scores?filters[slug][$eq]=${slug}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`);
-		console.log(
-			`✅ Admission score found: ${response.data.length > 0 ? "Yes" : "No"}`,
+		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
+			`admission-scores?filters[slug][$eq]=${slug}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`,
 		);
+		console.log(`✅ Admission score found: ${response.data.length > 0 ? "Yes" : "No"}`);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
-		console.error(
-			"Error fetching admission score by slug - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching admission score by slug - check Strapi permissions:", error);
 		return null;
 	}
 }
 
-export async function getAdmissionScoresByPage(
-	pageSlug: string,
-): Promise<StrapiAdmissionScore[]> {
+export async function getAdmissionScoresByPage(pageSlug: string): Promise<StrapiAdmissionScore[]> {
 	try {
-		const response = await fetchStrapiData<
-			StrapiResponse<StrapiAdmissionScore[]>
-		>(`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`);
+		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
+			`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`,
+		);
 		return response.data;
 	} catch (error) {
 		console.error(
@@ -1024,12 +973,10 @@ export async function getAdmissionScoresByPage(
 	}
 }
 
-export async function getAdmissionScoreTableDataBySlug(
-	slug: string,
-): Promise<string | null> {
+export async function getAdmissionScoreTableDataBySlug(slug: string): Promise<string | null> {
 	try {
 		console.log(`🔍 Fetching table data for admission score slug: ${slug}`);
-		
+
 		const fullUrl = `${STRAPI_URL}/api/admission-scores?filters[slug][$eq]=${slug}&fields[0]=tableData`;
 
 		const response = await fetch(fullUrl, {
@@ -1047,16 +994,12 @@ export async function getAdmissionScoreTableDataBySlug(
 		}
 
 		if (!response.ok) {
-			console.error(
-				`❌ Strapi API error: ${response.status} ${response.statusText}`,
-			);
+			console.error(`❌ Strapi API error: ${response.status} ${response.statusText}`);
 			throw new Error(`Failed to fetch table data: ${response.statusText}`);
 		}
 
 		const data = await response.json();
-		console.log(
-			`✅ Table data found: ${data.data && data.data.length > 0 ? "Yes" : "No"}`,
-		);
+		console.log(`✅ Table data found: ${data.data && data.data.length > 0 ? "Yes" : "No"}`);
 		return data.data && data.data.length > 0 ? data.data[0].tableData : null;
 	} catch (error) {
 		console.error(
@@ -1070,32 +1013,23 @@ export async function getAdmissionScoreTableDataBySlug(
 // University API functions
 export async function getUniversities(): Promise<StrapiUniversity[]> {
 	try {
-		const response = await fetchStrapiData<StrapiResponse<StrapiUniversity[]>>(
-			"universities?populate=*",
-		);
+		const response =
+			await fetchStrapiData<StrapiResponse<StrapiUniversity[]>>("universities?populate=*");
 		return response.data;
 	} catch (error) {
-		console.error(
-			"Error fetching universities - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching universities - check Strapi permissions:", error);
 		return [];
 	}
 }
 
-export async function getUniversityBySlug(
-	slug: string,
-): Promise<StrapiUniversity | null> {
+export async function getUniversityBySlug(slug: string): Promise<StrapiUniversity | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiUniversity[]>>(
 			`universities?filters[slug][$eq]=${slug}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
-		console.error(
-			"Error fetching university by slug - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching university by slug - check Strapi permissions:", error);
 		return null;
 	}
 }
@@ -1103,32 +1037,23 @@ export async function getUniversityBySlug(
 // Department API functions
 export async function getDepartments(): Promise<StrapiDepartment[]> {
 	try {
-		const response = await fetchStrapiData<StrapiResponse<StrapiDepartment[]>>(
-			"departments?populate=*",
-		);
+		const response =
+			await fetchStrapiData<StrapiResponse<StrapiDepartment[]>>("departments?populate=*");
 		return response.data;
 	} catch (error) {
-		console.error(
-			"Error fetching departments - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching departments - check Strapi permissions:", error);
 		return [];
 	}
 }
 
-export async function getDepartmentBySlug(
-	slug: string,
-): Promise<StrapiDepartment | null> {
+export async function getDepartmentBySlug(slug: string): Promise<StrapiDepartment | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiDepartment[]>>(
 			`departments?filters[slug][$eq]=${slug}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
-		console.error(
-			"Error fetching department by slug - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching department by slug - check Strapi permissions:", error);
 		return null;
 	}
 }
@@ -1136,8 +1061,7 @@ export async function getDepartmentBySlug(
 // Video API functions
 export async function getVideos(): Promise<StrapiVideo[]> {
 	try {
-		const response =
-			await fetchStrapiData<StrapiResponse<StrapiVideo[]>>("videos?populate=*");
+		const response = await fetchStrapiData<StrapiResponse<StrapiVideo[]>>("videos?populate=*");
 		return response.data;
 	} catch (error) {
 		console.error("Error fetching videos - check Strapi permissions:", error);
@@ -1145,26 +1069,19 @@ export async function getVideos(): Promise<StrapiVideo[]> {
 	}
 }
 
-export async function getVideoBySlug(
-	slug: string,
-): Promise<StrapiVideo | null> {
+export async function getVideoBySlug(slug: string): Promise<StrapiVideo | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiVideo[]>>(
 			`videos?filters[slug][$eq]=${slug}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
-		console.error(
-			"Error fetching video by slug - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching video by slug - check Strapi permissions:", error);
 		return null;
 	}
 }
 
-export async function getVideosByPage(
-	pageSlug: string,
-): Promise<StrapiVideo[]> {
+export async function getVideosByPage(pageSlug: string): Promise<StrapiVideo[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiVideo[]>>(
 			`videos?filters[page][slug][$eq]=${pageSlug}&populate=*`,
@@ -1182,8 +1099,7 @@ export async function getVideosByPage(
 // Blog API functions
 export async function getBlogs(): Promise<StrapiBlog[]> {
 	try {
-		const response =
-			await fetchStrapiData<StrapiResponse<StrapiBlog[]>>("blogs?populate=*");
+		const response = await fetchStrapiData<StrapiResponse<StrapiBlog[]>>("blogs?populate=*");
 		return response.data;
 	} catch (error) {
 		console.error("Error fetching blogs - check Strapi permissions:", error);
@@ -1198,10 +1114,7 @@ export async function getBlogBySlug(slug: string): Promise<StrapiBlog | null> {
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
-		console.error(
-			"Error fetching blog by slug - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching blog by slug - check Strapi permissions:", error);
 		return null;
 	}
 }
@@ -1243,15 +1156,12 @@ export interface StrapiTutoringProfile {
 // Tutoring Profile API functions
 export async function getTutoringProfiles(): Promise<StrapiTutoringProfile[]> {
 	try {
-		const response = await fetchStrapiData<
-			StrapiResponse<StrapiTutoringProfile[]>
-		>("tutoring-profiles?populate=*");
+		const response = await fetchStrapiData<StrapiResponse<StrapiTutoringProfile[]>>(
+			"tutoring-profiles?populate=*",
+		);
 		return response.data;
 	} catch (error) {
-		console.error(
-			"Error fetching tutoring profiles - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching tutoring profiles - check Strapi permissions:", error);
 		return [];
 	}
 }
@@ -1287,15 +1197,11 @@ export interface ContactFormData {
 // Contact Page API functions
 export async function getContactPage(): Promise<StrapiContactPage> {
 	try {
-		const response = await fetchStrapiData<StrapiResponse<StrapiContactPage>>(
-			"contact-page?populate=*",
-		);
+		const response =
+			await fetchStrapiData<StrapiResponse<StrapiContactPage>>("contact-page?populate=*");
 		return response.data;
 	} catch (error) {
-		console.error(
-			"Error fetching contact page - check Strapi permissions:",
-			error,
-		);
+		console.error("Error fetching contact page - check Strapi permissions:", error);
 		throw error;
 	}
 }

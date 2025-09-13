@@ -14,9 +14,7 @@ export default function BlogListing({ blogs, title }: BlogListingProps) {
 		<DynamicListing
 			items={blogs}
 			title={title}
-			renderItem={(blog) => (
-				<BlogCard key={blog.id} blog={blog} showRelatedData={true} />
-			)}
+			renderItem={(blog) => <BlogCard key={blog.id} blog={blog} showRelatedData={true} />}
 			maxItems={3}
 			gridColumns={{ md: 2, lg: 3 }}
 		/>

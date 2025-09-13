@@ -96,9 +96,7 @@ export const useAuthStore = create<AuthStore>()(
 					console.error("Authentication redirect failed:", error);
 					set({
 						error:
-							error instanceof Error
-								? error.message
-								: "Authentication failed. Please try again.",
+							error instanceof Error ? error.message : "Authentication failed. Please try again.",
 						isLoading: false,
 					});
 				}
@@ -133,9 +131,7 @@ export const useAuthStore = create<AuthStore>()(
 					console.error("Authentication callback failed:", error);
 					set({
 						error:
-							error instanceof Error
-								? error.message
-								: "Authentication failed. Please try again.",
+							error instanceof Error ? error.message : "Authentication failed. Please try again.",
 						isLoading: false,
 					});
 				}
@@ -207,8 +203,7 @@ export const useAuthStore = create<AuthStore>()(
 
 // Computed selectors (keeping the same interface)
 export const useUser = () => useAuthStore((state) => state.user);
-export const useIsAuthenticated = () =>
-	useAuthStore((state) => state.isAuthenticated);
+export const useIsAuthenticated = () => useAuthStore((state) => state.isAuthenticated);
 export const useAuthLoading = () => useAuthStore((state) => state.isLoading);
 export const useAuthError = () => useAuthStore((state) => state.error);
 

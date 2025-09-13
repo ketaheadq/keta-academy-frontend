@@ -29,9 +29,7 @@ export interface SEOConfig {
 }
 
 // Default SEO configuration
-const DEFAULT_SEO: Required<
-	Pick<SEOConfig, "siteName" | "twitterHandle" | "locale" | "type">
-> = {
+const DEFAULT_SEO: Required<Pick<SEOConfig, "siteName" | "twitterHandle" | "locale" | "type">> = {
 	siteName: "Keta Akademi",
 	twitterHandle: "@ketaakademi",
 	locale: "tr_TR",
@@ -53,15 +51,11 @@ export function generateSEOMetadata(
 
 	// Generate title
 	const title =
-		seoData?.metaTitle ||
-		config.title ||
-		generateDefaultTitle(content, seoConfig.siteName);
+		seoData?.metaTitle || config.title || generateDefaultTitle(content, seoConfig.siteName);
 
 	// Generate description
 	const description =
-		seoData?.metaDescription ||
-		config.description ||
-		generateDefaultDescription(content);
+		seoData?.metaDescription || config.description || generateDefaultDescription(content);
 
 	// Generate keywords
 	const keywords =
@@ -70,8 +64,7 @@ export function generateSEOMetadata(
 		generateDefaultKeywords(content);
 
 	// Generate canonical URL
-	const canonicalUrl =
-		seoData?.canonicalURL || config.url || generateDefaultURL(content);
+	const canonicalUrl = seoData?.canonicalURL || config.url || generateDefaultURL(content);
 
 	// Check if indexing is prevented
 	const preventIndexing = seoData?.preventIndexing || false;
@@ -127,9 +120,7 @@ export function generateStructuredData(
 
 	// Safely resolve required fields with fallbacks
 	const siteName = seoConfig.siteName || "Keta Akademi";
-	const baseUrl = (
-		process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"
-	).trim();
+	const baseUrl = (process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com").trim();
 	const contentUrl = config.url || generateDefaultURL(content);
 
 	const baseSchema = {
@@ -254,20 +245,10 @@ function generateDefaultKeywords(content: SEOContent): string {
 				);
 				break;
 			case "Videolar":
-				baseKeywords.push(
-					"eğitim videoları",
-					"ders anlatımı",
-					"online ders",
-					"video dersler",
-				);
+				baseKeywords.push("eğitim videoları", "ders anlatımı", "online ders", "video dersler");
 				break;
 			case "Bloglar":
-				baseKeywords.push(
-					"blog",
-					"eğitim makaleleri",
-					"sınav ipuçları",
-					"akademik rehberlik",
-				);
+				baseKeywords.push("blog", "eğitim makaleleri", "sınav ipuçları", "akademik rehberlik");
 				break;
 		}
 	} else if ("subject" in content && content.subject) {
@@ -286,8 +267,7 @@ function generateDefaultKeywords(content: SEOContent): string {
 }
 
 function generateDefaultURL(content: SEOContent): string {
-	const baseUrl =
-		process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
+	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
 
 	if ("pageType" in content) {
 		return `${baseUrl}/sayfalar/${content.slug}`;

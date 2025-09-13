@@ -2,13 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { getCourseIcon } from "@/lib/icons";
 import type { StrapiCourse, StrapiSubject } from "@/lib/strapi";
@@ -31,9 +25,7 @@ export default function CourseSelection({
 	const filteredCourses =
 		selectedSubject === "all"
 			? coursesForGrade
-			: coursesForGrade.filter(
-					(course) => course.subject.slug === selectedSubject,
-				);
+			: coursesForGrade.filter((course) => course.subject.slug === selectedSubject);
 
 	return (
 		<section className="mb-12">
@@ -79,9 +71,7 @@ export default function CourseSelection({
 			{/* Course Grid */}
 			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 				{filteredCourses.map((course) => {
-					const IconComponent = getCourseIcon(
-						course.icon?.name || course.subject.slug,
-					);
+					const IconComponent = getCourseIcon(course.icon?.name || course.subject.slug);
 
 					return (
 						<Card key={course.id} className="transition-shadow hover:shadow-lg">
@@ -99,9 +89,7 @@ export default function CourseSelection({
 								</div>
 							</CardHeader>
 							<CardContent>
-								<p className="mb-4 text-gray-600 text-sm">
-									{course.description}
-								</p>
+								<p className="mb-4 text-gray-600 text-sm">{course.description}</p>
 								{course.progress > 0 && (
 									<div className="mb-4">
 										<div className="mb-1 flex justify-between text-gray-600 text-sm">
@@ -111,9 +99,7 @@ export default function CourseSelection({
 										<Progress value={course.progress} className="h-2" />
 									</div>
 								)}
-								<Button className="w-full">
-									{course.progress > 0 ? "Devam Et" : "Başla"}
-								</Button>
+								<Button className="w-full">{course.progress > 0 ? "Devam Et" : "Başla"}</Button>
 							</CardContent>
 						</Card>
 					);
@@ -122,9 +108,7 @@ export default function CourseSelection({
 
 			{filteredCourses.length === 0 && (
 				<div className="py-8 text-center">
-					<p className="text-gray-600">
-						Bu sınıf ve konu için henüz ders bulunmuyor.
-					</p>
+					<p className="text-gray-600">Bu sınıf ve konu için henüz ders bulunmuyor.</p>
 				</div>
 			)}
 		</section>

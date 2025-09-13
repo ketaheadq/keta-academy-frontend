@@ -43,9 +43,7 @@ export default async function Home() {
 						👋 {settings.siteName}'ye hoş geldiniz!
 					</h1>
 
-					<h2 className="mb-6 font-bold text-2xl text-text">
-						Bugün ne öğrenmek istersin?
-					</h2>
+					<h2 className="mb-6 font-bold text-2xl text-text">Bugün ne öğrenmek istersin?</h2>
 				</div>
 			</section>
 

@@ -11,12 +11,7 @@ interface ShareButtonProps {
 	className?: string;
 }
 
-export default function ShareButton({
-	url,
-	title,
-	description,
-	className,
-}: ShareButtonProps) {
+export default function ShareButton({ url, title, description, className }: ShareButtonProps) {
 	const [showShareModal, setShowShareModal] = useState(false);
 	const [copySuccess, setCopySuccess] = useState(false);
 
@@ -64,23 +59,15 @@ export default function ShareButton({
 					<div className="w-full max-w-md rounded-lg bg-white p-6">
 						<div className="mb-4 flex items-center justify-between">
 							<h3 className="font-semibold text-lg">Paylaş</h3>
-							<Button
-								variant="ghost"
-								size="sm"
-								onClick={() => setShowShareModal(false)}
-							>
+							<Button variant="ghost" size="sm" onClick={() => setShowShareModal(false)}>
 								<X className="h-4 w-4" />
 							</Button>
 						</div>
 
 						<div className="space-y-4">
 							<div className="rounded-lg bg-gray-50 p-3">
-								<p className="mb-1 font-medium text-gray-900 text-sm">
-									{title}
-								</p>
-								{description && (
-									<p className="text-gray-600 text-xs">{description}</p>
-								)}
+								<p className="mb-1 font-medium text-gray-900 text-sm">{title}</p>
+								{description && <p className="text-gray-600 text-xs">{description}</p>}
 							</div>
 
 							<div className="space-y-2">

@@ -5,13 +5,7 @@ import type React from "react";
 import { useId, useState } from "react"; // ← Add useId
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { ContactFormData } from "@/lib/strapi";
@@ -37,9 +31,7 @@ export default function ContactForm() {
 	const messageId = useId();
 
 	const handleInputChange = (
-		e: React.ChangeEvent<
-			HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-		>,
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
 	) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({
@@ -75,12 +67,9 @@ export default function ContactForm() {
 	return (
 		<Card className="border-0 bg-white/90 shadow-xl backdrop-blur-sm">
 			<CardHeader className="pb-6">
-				<CardTitle className="text-2xl text-gray-800">
-					Bize Mesaj Gönderin
-				</CardTitle>
+				<CardTitle className="text-2xl text-gray-800">Bize Mesaj Gönderin</CardTitle>
 				<CardDescription className="text-base">
-					Formu doldurarak bizimle iletişime geçebilirsiniz. En kısa sürede size
-					dönüş yapacağız.
+					Formu doldurarak bizimle iletişime geçebilirsiniz. En kısa sürede size dönüş yapacağız.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -89,9 +78,7 @@ export default function ContactForm() {
 						<div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
 							<CheckCircle className="h-10 w-10 text-green-600" />
 						</div>
-						<h3 className="mb-2 font-semibold text-2xl text-gray-800">
-							Mesajınız Gönderildi!
-						</h3>
+						<h3 className="mb-2 font-semibold text-2xl text-gray-800">Mesajınız Gönderildi!</h3>
 						<p className="mb-4 text-gray-600">
 							Teşekkür ederiz. En kısa sürede size dönüş yapacağız.
 						</p>
@@ -103,10 +90,7 @@ export default function ContactForm() {
 					<form onSubmit={handleSubmit} className="space-y-6">
 						{/* Category Selection */}
 						<div>
-							<label
-								htmlFor={categoryId}
-								className="mb-2 block font-medium text-gray-700 text-sm"
-							>
+							<label htmlFor={categoryId} className="mb-2 block font-medium text-gray-700 text-sm">
 								Konu Kategorisi
 							</label>
 							<select
@@ -128,10 +112,7 @@ export default function ContactForm() {
 						<div className="grid gap-6 md:grid-cols-2">
 							{/* Name */}
 							<div>
-								<label
-									htmlFor={nameId}
-									className="mb-2 block font-medium text-gray-700 text-sm"
-								>
+								<label htmlFor={nameId} className="mb-2 block font-medium text-gray-700 text-sm">
 									Ad Soyad *
 								</label>
 								<Input
@@ -148,10 +129,7 @@ export default function ContactForm() {
 
 							{/* Email */}
 							<div>
-								<label
-									htmlFor={emailId}
-									className="mb-2 block font-medium text-gray-700 text-sm"
-								>
+								<label htmlFor={emailId} className="mb-2 block font-medium text-gray-700 text-sm">
 									E-posta *
 								</label>
 								<Input
@@ -170,10 +148,7 @@ export default function ContactForm() {
 						<div className="grid gap-6 md:grid-cols-2">
 							{/* Phone */}
 							<div>
-								<label
-									htmlFor={phoneId}
-									className="mb-2 block font-medium text-gray-700 text-sm"
-								>
+								<label htmlFor={phoneId} className="mb-2 block font-medium text-gray-700 text-sm">
 									Telefon
 								</label>
 								<Input
@@ -189,10 +164,7 @@ export default function ContactForm() {
 
 							{/* Subject */}
 							<div>
-								<label
-									htmlFor={subjectId}
-									className="mb-2 block font-medium text-gray-700 text-sm"
-								>
+								<label htmlFor={subjectId} className="mb-2 block font-medium text-gray-700 text-sm">
 									Konu *
 								</label>
 								<Input
@@ -210,10 +182,7 @@ export default function ContactForm() {
 
 						{/* Message */}
 						<div>
-							<label
-								htmlFor={messageId}
-								className="mb-2 block font-medium text-gray-700 text-sm"
-							>
+							<label htmlFor={messageId} className="mb-2 block font-medium text-gray-700 text-sm">
 								Mesaj *
 							</label>
 							<Textarea

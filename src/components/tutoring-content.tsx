@@ -1,15 +1,6 @@
 "use client";
 
-import {
-	Award,
-	Globe,
-	Heart,
-	MessageCircle,
-	Search,
-	Shield,
-	Star,
-	Users,
-} from "lucide-react";
+import { Award, Globe, Heart, MessageCircle, Search, Shield, Star, Users } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -47,9 +38,7 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 					<div className="min-w-0 flex-1">
 						<div className="flex items-start justify-between">
 							<div>
-								<h3 className="mb-1 font-bold text-gray-900 text-xl">
-									{tutor.name}
-								</h3>
+								<h3 className="mb-1 font-bold text-gray-900 text-xl">{tutor.name}</h3>
 								<p className="mb-2 font-medium text-blue-600">{tutor.title}</p>
 							</div>
 
@@ -62,9 +51,7 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 										: "bg-gray-100 text-gray-400 hover:text-red-500"
 								}`}
 							>
-								<Heart
-									className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`}
-								/>
+								<Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
 							</button>
 						</div>
 
@@ -87,8 +74,8 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 				</div>
 
 				<p className="mt-3 text-gray-600 text-sm leading-relaxed">
-					{tutor.expertise} alanlarında uzman öğretmen. {tutor.exprienceYears}{" "}
-					yıllık deneyimle öğrencilere kaliteli eğitim sunmaktadır.
+					{tutor.expertise} alanlarında uzman öğretmen. {tutor.exprienceYears} yıllık deneyimle
+					öğrencilere kaliteli eğitim sunmaktadır.
 				</p>
 			</div>
 
@@ -96,21 +83,15 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 			<div className="px-6 pb-4">
 				<div className="grid grid-cols-3 gap-4 text-center">
 					<div className="rounded-lg bg-green-50 p-3">
-						<div className="font-bold text-green-600 text-lg">
-							{tutor.successRate}%
-						</div>
+						<div className="font-bold text-green-600 text-lg">{tutor.successRate}%</div>
 						<div className="text-gray-600 text-xs">Başarı Oranı</div>
 					</div>
 					<div className="rounded-lg bg-blue-50 p-3">
-						<div className="font-bold text-blue-600 text-lg">
-							{tutor.studentCount}
-						</div>
+						<div className="font-bold text-blue-600 text-lg">{tutor.studentCount}</div>
 						<div className="text-gray-600 text-xs">Öğrenci</div>
 					</div>
 					<div className="rounded-lg bg-purple-50 p-3">
-						<div className="font-bold text-lg text-purple-600">
-							{tutor.exprienceYears}
-						</div>
+						<div className="font-bold text-lg text-purple-600">{tutor.exprienceYears}</div>
 						<div className="text-gray-600 text-xs">Yıl Deneyim</div>
 					</div>
 				</div>
@@ -173,9 +154,7 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 
 					{/* Subjects */}
 					<div className="mb-6">
-						<h4 className="mb-3 font-semibold text-gray-900">
-							Verdiği Dersler
-						</h4>
+						<h4 className="mb-3 font-semibold text-gray-900">Verdiği Dersler</h4>
 						<div className="flex flex-wrap gap-2">
 							{tutor.subjects.map((subject, index) => (
 								<span
@@ -206,29 +185,21 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 
 					{/* Sample Testimonial */}
 					<div>
-						<h4 className="mb-3 font-semibold text-gray-900">
-							Son Değerlendirmeler
-						</h4>
+						<h4 className="mb-3 font-semibold text-gray-900">Son Değerlendirmeler</h4>
 						<div className="rounded-lg border bg-white p-4">
 							<div className="mb-2 flex items-center justify-between">
 								<div className="flex items-center gap-2">
 									<span className="font-medium text-gray-900">Öğrenci</span>
 									<div className="flex items-center gap-1">
 										{[...Array(5)].map((_, i) => (
-											<Star
-												key={i}
-												className="h-3 w-3 fill-current text-yellow-500"
-											/>
+											<Star key={i} className="h-3 w-3 fill-current text-yellow-500" />
 										))}
 									</div>
 								</div>
-								<span className="text-gray-500 text-xs">
-									{tutor.subjects[0]?.title}
-								</span>
+								<span className="text-gray-500 text-xs">{tutor.subjects[0]?.title}</span>
 							</div>
 							<p className="text-gray-700 text-sm">
-								Harika bir öğretmen! {tutor.name} sayesinde çok şey öğrendim ve
-								başarılı oldum.
+								Harika bir öğretmen! {tutor.name} sayesinde çok şey öğrendim ve başarılı oldum.
 							</p>
 						</div>
 					</div>
@@ -238,11 +209,7 @@ function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
 	);
 }
 
-export default function TutoringContent({
-	data,
-}: {
-	data: StrapiTutoringProfile[];
-}) {
+export default function TutoringContent({ data }: { data: StrapiTutoringProfile[] }) {
 	const tutors = data;
 	const [selectedSubject, setSelectedSubject] = useState("all");
 	const [searchQuery, setSearchQuery] = useState("");
@@ -354,12 +321,9 @@ export default function TutoringContent({
 					<div className="mx-auto mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-gray-100">
 						<Users className="h-12 w-12 text-gray-400" />
 					</div>
-					<h3 className="mb-4 font-bold text-2xl text-gray-900">
-						Öğretmen bulunamadı
-					</h3>
+					<h3 className="mb-4 font-bold text-2xl text-gray-900">Öğretmen bulunamadı</h3>
 					<p className="mx-auto mb-6 max-w-md text-gray-600">
-						Arama kriterlerinizi değiştirmeyi deneyin veya tüm öğretmenleri
-						görüntüleyin
+						Arama kriterlerinizi değiştirmeyi deneyin veya tüm öğretmenleri görüntüleyin
 					</p>
 					<button
 						type="button"

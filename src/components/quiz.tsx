@@ -14,13 +14,7 @@ import {
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -57,9 +51,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 	const [answers, setAnswers] = useState<Record<number, string | boolean>>({});
 	const [showResults, setShowResults] = useState(false);
 	const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
-	const [timeRemaining, setTimeRemaining] = useState(
-		quiz.timeLimit ? quiz.timeLimit * 60 : null,
-	);
+	const [timeRemaining, setTimeRemaining] = useState(quiz.timeLimit ? quiz.timeLimit * 60 : null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const currentQuestion = quiz.questions[currentQuestionIndex];
@@ -102,11 +94,8 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 				isCorrect = userAnswer === correctOption?.text;
 			} else if (question.type === "trueFalse") {
 				// For true/false, compare boolean values
-				const correctAnswer = question.options?.find(
-					(opt) => opt.isCorrect,
-				)?.text;
-				isCorrect =
-					userAnswer?.toString().toLowerCase() === correctAnswer?.toLowerCase();
+				const correctAnswer = question.options?.find((opt) => opt.isCorrect)?.text;
+				isCorrect = userAnswer?.toString().toLowerCase() === correctAnswer?.toLowerCase();
 			}
 
 			if (isCorrect) {
@@ -204,9 +193,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 							<div className="text-gray-600 text-sm">Final Puan</div>
 						</div>
 						<div className="rounded-lg bg-green-50 p-4 text-center">
-							<div className="font-bold text-2xl text-green-600">
-								{quizResult.correctAnswers}
-							</div>
+							<div className="font-bold text-2xl text-green-600">{quizResult.correctAnswers}</div>
 							<div className="text-gray-600 text-sm">Doğru</div>
 						</div>
 						<div className="rounded-lg bg-red-50 p-4 text-center">
@@ -227,13 +214,9 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 					<div className="space-y-4">
 						<h3 className="font-semibold text-lg">Soru İncelemesi</h3>
 						{quiz.questions.map((question, index) => {
-							const attempt = quizResult.attempts.find(
-								(a) => a.questionId === question.id,
-							);
+							const attempt = quizResult.attempts.find((a) => a.questionId === question.id);
 							const questionText = extractTextFromBlocks(question.text);
-							const explanationText = extractTextFromBlocks(
-								question.explanation ?? [],
-							);
+							const explanationText = extractTextFromBlocks(question.explanation ?? []);
 
 							return (
 								<Card
@@ -268,17 +251,11 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 													</div>
 													{!attempt?.isCorrect && (
 														<div>
-															<span className="text-gray-600">
-																Doğru cevap:{" "}
-															</span>
+															<span className="text-gray-600">Doğru cevap: </span>
 															<span className="font-medium text-green-600">
 																{question.type === "multipleChoice"
-																	? question.options?.find(
-																			(opt) => opt.isCorrect,
-																		)?.text
-																	: question.options?.find(
-																			(opt) => opt.isCorrect,
-																		)?.text}
+																	? question.options?.find((opt) => opt.isCorrect)?.text
+																	: question.options?.find((opt) => opt.isCorrect)?.text}
 															</span>
 														</div>
 													)}
@@ -298,17 +275,12 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 
 					{/* Action Buttons */}
 					<div className="flex justify-center space-x-4">
-						{!quizResult.passed &&
-							quiz.maxAttempts &&
-							(quiz.maxAttempts || 0) > 1 && (
-								<Button
-									onClick={handleRetakeQuiz}
-									className="flex items-center space-x-2"
-								>
-									<RotateCcw className="h-4 w-4" />
-									<span>Tekrar Dene</span>
-								</Button>
-							)}
+						{!quizResult.passed && quiz.maxAttempts && (quiz.maxAttempts || 0) > 1 && (
+							<Button onClick={handleRetakeQuiz} className="flex items-center space-x-2">
+								<RotateCcw className="h-4 w-4" />
+								<span>Tekrar Dene</span>
+							</Button>
+						)}
 						<Button variant="outline" onClick={onClose}>
 							Quizi Kapat
 						</Button>
@@ -355,70 +327,46 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 							</h3>
 
 							{/* Multiple Choice */}
-							{currentQuestion.type === "multipleChoice" &&
-								currentQuestion.options && (
-									<RadioGroup
-										value={answers[currentQuestion.id]?.toString() || ""}
-										onValueChange={(value) =>
-											handleAnswerChange(currentQuestion.id, value)
-										}
-									>
-										<div className="space-y-3">
-											{currentQuestion.options
-												.sort((a, b) => (a.order || 0) - (b.order || 0))
-												.map((option) => (
-													<div
-														key={option.id}
-														className="flex items-center space-x-2"
-													>
-														<RadioGroupItem
-															value={option.text}
-															id={`option-${option.id}`}
-														/>
-														<Label
-															htmlFor={`option-${option.id}`}
-															className="flex-1 cursor-pointer"
-														>
-															{option.text}
-														</Label>
-													</div>
-												))}
-										</div>
-									</RadioGroup>
-								)}
+							{currentQuestion.type === "multipleChoice" && currentQuestion.options && (
+								<RadioGroup
+									value={answers[currentQuestion.id]?.toString() || ""}
+									onValueChange={(value) => handleAnswerChange(currentQuestion.id, value)}
+								>
+									<div className="space-y-3">
+										{currentQuestion.options
+											.sort((a, b) => (a.order || 0) - (b.order || 0))
+											.map((option) => (
+												<div key={option.id} className="flex items-center space-x-2">
+													<RadioGroupItem value={option.text} id={`option-${option.id}`} />
+													<Label htmlFor={`option-${option.id}`} className="flex-1 cursor-pointer">
+														{option.text}
+													</Label>
+												</div>
+											))}
+									</div>
+								</RadioGroup>
+							)}
 
 							{/* True/False */}
-							{currentQuestion.type === "trueFalse" &&
-								currentQuestion.options && (
-									<RadioGroup
-										value={answers[currentQuestion.id]?.toString() || ""}
-										onValueChange={(value) =>
-											handleAnswerChange(currentQuestion.id, value)
-										}
-									>
-										<div className="space-y-3">
-											{currentQuestion.options
-												.sort((a, b) => (a.order || 0) - (b.order || 0))
-												.map((option) => (
-													<div
-														key={option.id}
-														className="flex items-center space-x-2"
-													>
-														<RadioGroupItem
-															value={option.text}
-															id={`option-${option.id}`}
-														/>
-														<Label
-															htmlFor={`option-${option.id}`}
-															className="cursor-pointer"
-														>
-															{option.text}
-														</Label>
-													</div>
-												))}
-										</div>
-									</RadioGroup>
-								)}
+							{currentQuestion.type === "trueFalse" && currentQuestion.options && (
+								<RadioGroup
+									value={answers[currentQuestion.id]?.toString() || ""}
+									onValueChange={(value) => handleAnswerChange(currentQuestion.id, value)}
+								>
+									<div className="space-y-3">
+										{currentQuestion.options
+											.sort((a, b) => (a.order || 0) - (b.order || 0))
+											.map((option) => (
+												<div key={option.id} className="flex items-center space-x-2">
+													<RadioGroupItem value={option.text} id={`option-${option.id}`} />
+													<Label htmlFor={`option-${option.id}`} className="cursor-pointer">
+														{option.text}
+													</Label>
+												</div>
+											))}
+									</div>
+								</RadioGroup>
+							)}
 
 							<div className="mt-4 flex items-center space-x-2 text-gray-600 text-sm">
 								<span>Puan: 1</span>

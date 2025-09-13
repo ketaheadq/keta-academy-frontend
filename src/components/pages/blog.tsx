@@ -10,7 +10,6 @@ interface BlogPageProps {
 }
 
 export default function BlogPage({ blog }: BlogPageProps) {
-
 	const formatDate = (dateString: string) => {
 		return new Date(dateString).toLocaleDateString("tr-TR", {
 			year: "numeric",
@@ -54,9 +53,7 @@ export default function BlogPage({ blog }: BlogPageProps) {
 						<div className="mb-8 flex flex-wrap items-center justify-center gap-8 text-gray-600">
 							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
 								<Calendar className="h-4 w-4 text-blue-500" />
-								<span className="font-medium">
-									{formatDate(blog.publishedAt)}
-								</span>
+								<span className="font-medium">{formatDate(blog.publishedAt)}</span>
 							</div>
 							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
 								<Clock className="h-4 w-4 text-green-500" />
@@ -82,9 +79,7 @@ export default function BlogPage({ blog }: BlogPageProps) {
 					{/* Blog Footer */}
 					<footer className="mt-12 rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white shadow-xl">
 						<div className="text-center">
-							<h3 className="mb-3 font-bold text-2xl">
-								Bu yazıyı beğendiniz mi?
-							</h3>
+							<h3 className="mb-3 font-bold text-2xl">Bu yazıyı beğendiniz mi?</h3>
 							<p className="mb-6 font-light text-blue-100 text-lg">
 								Daha fazla eğitim içeriği için blog sayfamızı takip edin.
 							</p>

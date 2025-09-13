@@ -20,13 +20,9 @@ export default function NotFound() {
 						</span>
 					</div>
 
-					<h1 className="mt-6 font-bold text-3xl text-gray-900 sm:text-4xl">
-						Sayfa Bulunamadı
-					</h1>
+					<h1 className="mt-6 font-bold text-3xl text-gray-900 sm:text-4xl">Sayfa Bulunamadı</h1>
 
-					<p className="mt-4 text-gray-600 text-lg">
-						Üzgünüz, aradığınız sayfayı bulamadık.
-					</p>
+					<p className="mt-4 text-gray-600 text-lg">Üzgünüz, aradığınız sayfayı bulamadık.</p>
 
 					<div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 						<Link

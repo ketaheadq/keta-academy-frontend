@@ -11,18 +11,8 @@ import {
 	Users,
 	Youtube,
 } from "lucide-react";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import {
-	getContactPage,
-	type StrapiContactPage,
-	type StrapiSocialMediaLink,
-} from "@/lib/strapi";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getContactPage, type StrapiContactPage, type StrapiSocialMediaLink } from "@/lib/strapi";
 
 const getSocialIcon = (platform: string) => {
 	switch (platform) {
@@ -98,12 +88,10 @@ export default async function ContactPage() {
 			<div className="bg-gradient-to-r from-blue-600 to-purple-600 py-16 text-white">
 				<div className="container mx-auto px-4">
 					<div className="mx-auto max-w-3xl text-center">
-						<h1 className="mb-6 font-bold text-4xl md:text-5xl">
-							Bizimle İletişime Geçin
-						</h1>
+						<h1 className="mb-6 font-bold text-4xl md:text-5xl">Bizimle İletişime Geçin</h1>
 						<p className="mb-8 text-blue-100 text-xl">
-							Sorularınız, önerileriniz veya destek talepleriniz için buradayız.
-							Size en kısa sürede dönüş yapacağız.
+							Sorularınız, önerileriniz veya destek talepleriniz için buradayız. Size en kısa sürede
+							dönüş yapacağız.
 						</p>
 						<div className="flex flex-wrap justify-center gap-6 text-sm">
 							<div className="flex items-center gap-2">
@@ -152,9 +140,7 @@ export default async function ContactPage() {
 										>
 											{contactData.phone}
 										</a>
-										<p className="mt-1 text-gray-600 text-sm">
-											Pazartesi - Cuma: 09:00 - 18:00
-										</p>
+										<p className="mt-1 text-gray-600 text-sm">Pazartesi - Cuma: 09:00 - 18:00</p>
 									</div>
 								</div>
 
@@ -171,9 +157,7 @@ export default async function ContactPage() {
 										>
 											{contactData.email}
 										</a>
-										<p className="mt-1 text-gray-600 text-sm">
-											24 saat içinde yanıt veriyoruz
-										</p>
+										<p className="mt-1 text-gray-600 text-sm">24 saat içinde yanıt veriyoruz</p>
 									</div>
 								</div>
 
@@ -184,12 +168,8 @@ export default async function ContactPage() {
 									</div>
 									<div>
 										<h3 className="font-semibold text-gray-800">Adres</h3>
-										<p className="font-medium text-green-600">
-											{contactData.address}
-										</p>
-										<p className="mt-1 text-gray-600 text-sm">
-											Ofis ziyaretleri randevu ile
-										</p>
+										<p className="font-medium text-green-600">{contactData.address}</p>
+										<p className="mt-1 text-gray-600 text-sm">Ofis ziyaretleri randevu ile</p>
 									</div>
 								</div>
 							</CardContent>
@@ -198,36 +178,28 @@ export default async function ContactPage() {
 						{/* Social Media Card */}
 						<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
 							<CardHeader className="pb-4">
-								<CardTitle className="text-gray-800 text-xl">
-									Sosyal Medya
-								</CardTitle>
-								<CardDescription>
-									Bizi sosyal medyada takip edin
-								</CardDescription>
+								<CardTitle className="text-gray-800 text-xl">Sosyal Medya</CardTitle>
+								<CardDescription>Bizi sosyal medyada takip edin</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<div className="mb-6 space-y-4">
-									{contactData.socialMediaLinks.map(
-										(social: StrapiSocialMediaLink) => (
-											<a
-												key={social.id}
-												href={social.url}
-												target="_blank"
-												rel="noopener noreferrer"
-												className={`flex transform items-center gap-3 rounded-lg px-4 py-3 font-medium text-white transition-all hover:scale-105 ${getSocialColor(social.platform)}`}
-											>
-												{getSocialIcon(social.platform)}
-												<span className="capitalize">{social.platform}</span>
-											</a>
-										),
-									)}
+									{contactData.socialMediaLinks.map((social: StrapiSocialMediaLink) => (
+										<a
+											key={social.id}
+											href={social.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											className={`flex transform items-center gap-3 rounded-lg px-4 py-3 font-medium text-white transition-all hover:scale-105 ${getSocialColor(social.platform)}`}
+										>
+											{getSocialIcon(social.platform)}
+											<span className="capitalize">{social.platform}</span>
+										</a>
+									))}
 								</div>
 
 								{/* Quick Stats */}
 								<div className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
-									<h3 className="mb-4 font-semibold text-lg">
-										Neden Bizi Seçmelisiniz?
-									</h3>
+									<h3 className="mb-4 font-semibold text-lg">Neden Bizi Seçmelisiniz?</h3>
 									<div className="space-y-3">
 										<div className="flex items-center gap-3">
 											<Star className="h-5 w-5 text-yellow-300" />
@@ -256,9 +228,7 @@ export default async function ContactPage() {
 				<div className="mt-16">
 					<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
 						<CardHeader className="pb-8 text-center">
-							<CardTitle className="mb-4 text-3xl text-gray-800">
-								Sıkça Sorulan Sorular
-							</CardTitle>
+							<CardTitle className="mb-4 text-3xl text-gray-800">Sıkça Sorulan Sorular</CardTitle>
 							<CardDescription className="text-lg">
 								En çok merak edilen sorular ve yanıtları
 							</CardDescription>
@@ -271,9 +241,8 @@ export default async function ContactPage() {
 											Özel ders nasıl alabilirim?
 										</h3>
 										<p className="text-gray-600">
-											Öğretmenler sayfamızdan size uygun öğretmeni seçebilir,
-											randevu alabilir ve online veya yüz yüze ders
-											alabilirsiniz.
+											Öğretmenler sayfamızdan size uygun öğretmeni seçebilir, randevu alabilir ve
+											online veya yüz yüze ders alabilirsiniz.
 										</p>
 									</div>
 
@@ -282,8 +251,8 @@ export default async function ContactPage() {
 											Ders içerikleri ücretsiz mi?
 										</h3>
 										<p className="text-gray-600">
-											Temel ders içeriklerimiz ücretsizdir. Özel dersler için
-											ücretlendirme yapılmaktadır.
+											Temel ders içeriklerimiz ücretsizdir. Özel dersler için ücretlendirme
+											yapılmaktadır.
 										</p>
 									</div>
 								</div>
@@ -294,8 +263,8 @@ export default async function ContactPage() {
 											Teknik destek nasıl alabilirim?
 										</h3>
 										<p className="text-gray-600">
-											Teknik sorunlarınız için telefon veya e-posta ile bizimle
-											iletişime geçebilirsiniz.
+											Teknik sorunlarınız için telefon veya e-posta ile bizimle iletişime
+											geçebilirsiniz.
 										</p>
 									</div>
 
@@ -304,8 +273,8 @@ export default async function ContactPage() {
 											Öğretmen olmak istiyorum, nasıl başvurabilirim?
 										</h3>
 										<p className="text-gray-600">
-											CV'nizi e-posta adresimize gönderebilir veya telefon ile
-											iletişime geçebilirsiniz.
+											CV'nizi e-posta adresimize gönderebilir veya telefon ile iletişime
+											geçebilirsiniz.
 										</p>
 									</div>
 								</div>
