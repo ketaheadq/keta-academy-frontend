@@ -9,7 +9,10 @@ interface PermissionWarningProps {
 	endpoint?: string;
 }
 
-export default function PermissionWarning({ contentType, endpoint }: PermissionWarningProps) {
+export default function PermissionWarning({
+	contentType,
+	endpoint,
+}: Readonly<PermissionWarningProps>) {
 	return (
 		<div className="mx-auto max-w-2xl">
 			<Alert className="border-orange-200 bg-orange-50">

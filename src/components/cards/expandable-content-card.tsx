@@ -15,7 +15,7 @@ interface ExpandableContentCardProps {
 export default function ExpandableContentCard({
 	title = "İçerik",
 	content,
-}: ExpandableContentCardProps) {
+}: Readonly<ExpandableContentCardProps>) {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [previewContent, setPreviewContent] = useState<StrapiBlock[]>([]);
 

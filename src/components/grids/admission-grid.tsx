@@ -15,7 +15,7 @@ export default function AdmissionGrid({
 	items,
 	title = "Taban Puanlar",
 	showRelatedData = false,
-}: AdmissionGridProps) {
+}: Readonly<AdmissionGridProps>) {
 	return (
 		<DynamicGrid
 			items={items}

@@ -15,7 +15,7 @@ export default function BlogGrid({
 	items,
 	title = "Blog Yazıları",
 	showRelatedData = false,
-}: BlogGridProps) {
+}: Readonly<BlogGridProps>) {
 	return (
 		<DynamicGrid
 			items={items}

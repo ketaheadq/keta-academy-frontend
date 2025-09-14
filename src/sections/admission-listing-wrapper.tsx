@@ -9,7 +9,10 @@ interface AdmissionListingProps {
 	title: React.ReactNode;
 }
 
-export default function AdmissionListing({ admissionScores, title }: AdmissionListingProps) {
+export default function AdmissionListing({
+	admissionScores,
+	title,
+}: Readonly<AdmissionListingProps>) {
 	return (
 		<DynamicListing
 			items={admissionScores}

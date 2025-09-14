@@ -962,7 +962,7 @@ export async function getAdmissionScoresByPage(pageSlug: string): Promise<Strapi
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
 			`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`,
-		); 
+		);
 		return response.data;
 	} catch (error) {
 		console.error(

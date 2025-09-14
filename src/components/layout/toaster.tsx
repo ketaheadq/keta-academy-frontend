@@ -1,15 +1,11 @@
 // components/toaster.tsx
 "use client";
 
-import { useTheme } from "next-themes";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 
-export function Toaster({ ...props }: ToasterProps) {
-	const { theme = "system" } = useTheme();
-
+export function Toaster({ ...props }: Readonly<ToasterProps>) {
 	return (
 		<Sonner
-			theme={theme as ToasterProps["theme"]}
 			className="toaster group"
 			position="top-right"
 			style={

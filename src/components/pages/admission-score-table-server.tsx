@@ -9,7 +9,7 @@ interface AdmissionScoreTableServerProps {
 export default async function AdmissionScoreTableServer({
 	slug,
 	title,
-}: AdmissionScoreTableServerProps) {
+}: Readonly<AdmissionScoreTableServerProps>) {
 	const tableData = await getAdmissionScoreTableDataBySlug(slug);
 
 	if (!tableData) {

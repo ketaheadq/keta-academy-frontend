@@ -32,7 +32,12 @@ interface CoursePageProps {
 	searchParams?: { ders_ismi?: string };
 }
 
-export default function CoursePage({ course, lessons, ders_ismi, searchParams }: CoursePageProps) {
+export default function CoursePage({
+	course,
+	lessons,
+	ders_ismi,
+	searchParams,
+}: Readonly<CoursePageProps>) {
 	console.log("lessons", lessons);
 	const router = useRouter();
 	const pathname = usePathname();

@@ -63,7 +63,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 		let itemCount = 0;
 
 		switch (page.pageType) {
-            case 'Üniversite Taban Puanları':
+			case "Üniversite Taban Puanları":
 			case "Bölüm Taban Puanları": {
 				const admissionScores = await getAdmissionScoresByPage(slug);
 				itemCount = admissionScores.length;

@@ -12,7 +12,7 @@ interface VideoCardProps {
 	showRelatedData?: boolean;
 }
 
-export default function VideoCard({ video }: VideoCardProps) {
+export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 	// Extract YouTube video ID from href for thumbnail
 	const getYouTubeVideoId = (url: string): string | null => {
 		const patterns = [
@@ -22,7 +22,7 @@ export default function VideoCard({ video }: VideoCardProps) {
 		];
 
 		for (const pattern of patterns) {
-			const match = url.match(pattern);
+			const match = RegExp(pattern).exec(url);
 			if (match?.[1]) {
 				return match[1];
 			}

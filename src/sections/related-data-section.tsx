@@ -17,7 +17,7 @@ export default function RelatedDataSection({
 	title = "İlgili Sayfalar",
 	items,
 	className = "",
-}: RelatedDataSectionProps) {
+}: Readonly<RelatedDataSectionProps>) {
 	if (!items?.length) return null;
 
 	return (

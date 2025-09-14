@@ -46,7 +46,7 @@ interface QuizProps {
 	onClose: () => void;
 }
 
-export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
+export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>) {
 	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 	const [answers, setAnswers] = useState<Record<number, string | boolean>>({});
 	const [showResults, setShowResults] = useState(false);
@@ -253,9 +253,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 														<div>
 															<span className="text-gray-600">Doğru cevap: </span>
 															<span className="font-medium text-green-600">
-																{question.type === "multipleChoice"
-																	? question.options?.find((opt) => opt.isCorrect)?.text
-																	: question.options?.find((opt) => opt.isCorrect)?.text}
+																{question.options?.find((opt) => opt.isCorrect)?.text}
 															</span>
 														</div>
 													)}
@@ -334,7 +332,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 								>
 									<div className="space-y-3">
 										{currentQuestion.options
-											.sort((a, b) => (a.order || 0) - (b.order || 0))
+											.toSorted((a, b) => (a.order || 0) - (b.order || 0))
 											.map((option) => (
 												<div key={option.id} className="flex items-center space-x-2">
 													<RadioGroupItem value={option.text} id={`option-${option.id}`} />
@@ -355,7 +353,7 @@ export default function Quiz({ quiz, onComplete, onClose }: QuizProps) {
 								>
 									<div className="space-y-3">
 										{currentQuestion.options
-											.sort((a, b) => (a.order || 0) - (b.order || 0))
+											.toSorted((a, b) => (a.order || 0) - (b.order || 0))
 											.map((option) => (
 												<div key={option.id} className="flex items-center space-x-2">
 													<RadioGroupItem value={option.text} id={`option-${option.id}`} />

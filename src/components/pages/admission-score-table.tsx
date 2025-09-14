@@ -40,7 +40,10 @@ interface ColumnInfo {
 	type: "text" | "number" | "badge";
 }
 
-export default function AdmissionScoreTable({ tableData, title }: AdmissionScoreTableProps) {
+export default function AdmissionScoreTable({
+	tableData,
+	title,
+}: Readonly<AdmissionScoreTableProps>) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({});
 	const [showFilters, setShowFilters] = useState(false);
@@ -198,7 +201,12 @@ export default function AdmissionScoreTable({ tableData, title }: AdmissionScore
 
 	const handleSort = (field: string) => {
 		setSortField(field);
-		setSortDirection((prev) => (sortField === field ? (prev === "asc" ? "desc" : "asc") : "asc"));
+		setSortDirection((prev) => {
+			if (sortField === field) {
+				return prev === "asc" ? "desc" : "asc";
+			}
+			return "asc";
+		});
 	};
 
 	const getSortIcon = (field: string) => {

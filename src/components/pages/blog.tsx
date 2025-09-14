@@ -9,7 +9,7 @@ interface BlogPageProps {
 	blog: StrapiBlog;
 }
 
-export default function BlogPage({ blog }: BlogPageProps) {
+export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 	const formatDate = (dateString: string) => {
 		return new Date(dateString).toLocaleDateString("tr-TR", {
 			year: "numeric",

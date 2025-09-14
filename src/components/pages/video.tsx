@@ -17,7 +17,7 @@ interface VideoPageProps {
 	currentVideoSlug?: string;
 }
 
-export default function VideoPage({ video, currentVideoSlug }: VideoPageProps) {
+export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPageProps>) {
 	const router = useRouter();
 	const pathname = usePathname();
 

@@ -19,7 +19,7 @@ export default function CourseGrid({
 	topics,
 	title = "📚 Dersler",
 	showProgress = false,
-}: CourseGridProps) {
+}: Readonly<CourseGridProps>) {
 	return (
 		<DynamicGrid
 			items={courses}

@@ -53,7 +53,7 @@ export default function CookieConsent() {
 					</div>
 
 					<p className="mb-4 text-gray-600 text-sm">
-						Çerezleri kullanarak deneyiminizi ve site kullanımınızı iyileştirmek için kullanıyoruz.
+						Çerezleri kullanarak deneyiminizi ve site kullanımınızı iyileştirmek için kullanıyoruz.{" "}
 						<a href="/gizlilik-politikasi" className="underline hover:text-gray-800">
 							Daha fazla bilgi al
 						</a>

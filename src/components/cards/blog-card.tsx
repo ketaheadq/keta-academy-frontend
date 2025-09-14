@@ -12,7 +12,7 @@ interface BlogCardProps {
 	showRelatedData?: boolean;
 }
 
-export default function BlogCard({ blog, showRelatedData = false }: BlogCardProps) {
+export default function BlogCard({ blog, showRelatedData = false }: Readonly<BlogCardProps>) {
 	// Extract text from blog content blocks for preview
 	const getContentPreview = (): string => {
 		if (!blog.content || blog.content.length === 0) return "İçerik mevcut";

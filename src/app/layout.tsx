@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
+import Navbar from "@/components/layout/navbar";
 import { getSettings } from "@/lib/strapi";
 import { Providers } from "./provider";
 
@@ -88,7 +88,7 @@ export default async function RootLayout({
 			<body className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}>
 				<Providers>
 					<div className="flex min-h-screen flex-col">
-						<Header />
+						<Navbar />
 						<main className="mx-auto w-full max-w-6xl flex-grow py-6 sm:px-6 md:px-4 lg:px-2 xl:px-0">
 							{children}
 						</main>

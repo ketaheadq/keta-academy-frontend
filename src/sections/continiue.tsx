@@ -30,7 +30,7 @@ export default function DynamicContinue<T extends ContinuableItem>({
 	viewAllLink = { href: "/derslerim", label: "Hepsini Gör" },
 	className = "",
 	isLoading = false,
-}: DynamicContinueProps<T>) {
+}: Readonly<DynamicContinueProps<T>>) {
 	// Filter items with progress > 0
 	const continueItems = items.filter((item) => item.progress > 0);
 

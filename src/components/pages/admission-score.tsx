@@ -7,7 +7,7 @@ interface AdmissionScorePageProps {
 	admissionScore: StrapiAdmissionScore;
 }
 
-export default function AdmissionScorePage({ admissionScore }: AdmissionScorePageProps) {
+export default function AdmissionScorePage({ admissionScore }: Readonly<AdmissionScorePageProps>) {
 	// Check if content exists and has meaningful data
 	const hasContent = admissionScore.content && admissionScore.content.length > 0;
 

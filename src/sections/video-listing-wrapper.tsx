@@ -9,7 +9,7 @@ interface VideoListingProps {
 	title: React.ReactNode;
 }
 
-export default function VideoListing({ videos, title }: VideoListingProps) {
+export default function VideoListing({ videos, title }: Readonly<VideoListingProps>) {
 	return (
 		<DynamicListing
 			items={videos}

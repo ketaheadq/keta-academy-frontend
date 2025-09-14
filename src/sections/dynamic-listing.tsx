@@ -25,10 +25,17 @@ export default function DynamicListing<T extends ListableItem>({
 	maxItems = 3,
 	gridColumns = { md: 2, lg: 3 },
 	className = "",
-}: DynamicListingProps<T>) {
+}: Readonly<DynamicListingProps<T>>) {
 	const displayedItems = items.slice(0, maxItems);
 
-	const gridClasses = `grid ${gridColumns.md ? `md:grid-cols-${gridColumns.md}` : ""} ${gridColumns.lg ? `lg:grid-cols-${gridColumns.lg}` : ""} gap-6`;
+	const gridClasses = [
+		"grid",
+		gridColumns.md && `md:grid-cols-${gridColumns.md}`,
+		gridColumns.lg && `lg:grid-cols-${gridColumns.lg}`,
+		"gap-6",
+	]
+		.filter(Boolean)
+		.join(" ");
 
 	return (
 		<section className={`mb-12 ${className}`}>

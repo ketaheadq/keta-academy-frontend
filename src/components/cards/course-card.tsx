@@ -14,7 +14,11 @@ interface CourseCardProps {
 	showProgress?: boolean;
 }
 
-export default function CourseCard({ course, title, showProgress = false }: CourseCardProps) {
+export default function CourseCard({
+	course,
+	title,
+	showProgress = false,
+}: Readonly<CourseCardProps>) {
 	const router = useRouter();
 	const { isAuthenticated } = useAuthStore();
 
@@ -26,7 +30,7 @@ export default function CourseCard({ course, title, showProgress = false }: Cour
 		if (showProgress && course.progress && course.progress > 0) {
 			return "Devam Et";
 		}
-		return isAuthenticated ? "Kursa Başla" : "Kursa Başla";
+		return isAuthenticated ?? "Kursa Başla";
 	};
 
 	return (

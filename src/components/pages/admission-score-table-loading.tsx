@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { generateSimpleId } from "@/lib/utils";
 
 export default function AdmissionScoreTableLoading() {
 	return (
@@ -43,7 +44,7 @@ export default function AdmissionScoreTableLoading() {
 						<div className="px-6 py-2">
 							{Array.from({ length: 10 }).map((_, index) => (
 								<div
-									key={index}
+									key={generateSimpleId()}
 									className="grid grid-cols-1 gap-4 border-gray-100 border-b py-3 last:border-b-0 md:grid-cols-5"
 									style={{
 										animationDelay: `${index * 100}ms`,

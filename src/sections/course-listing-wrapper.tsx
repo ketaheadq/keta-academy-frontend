@@ -9,7 +9,7 @@ interface ListCoursesProps {
 	title: React.ReactNode;
 }
 
-export default function ListCourses({ courses, title }: ListCoursesProps) {
+export default function ListCourses({ courses, title }: Readonly<ListCoursesProps>) {
 	return (
 		<DynamicListing
 			items={courses}

@@ -9,7 +9,7 @@ interface BlogListingProps {
 	title: React.ReactNode;
 }
 
-export default function BlogListing({ blogs, title }: BlogListingProps) {
+export default function BlogListing({ blogs, title }: Readonly<BlogListingProps>) {
 	return (
 		<DynamicListing
 			items={blogs}

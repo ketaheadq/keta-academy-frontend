@@ -53,7 +53,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 		description: "Aradığınızı bulmak için filtrelerinizi ayarlayın.",
 	},
 	className = "",
-}: DynamicGridProps<T>) {
+}: Readonly<DynamicGridProps<T>>) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>(() => {
 		const initialFilters: Record<string, string> = {};

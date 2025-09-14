@@ -17,7 +17,7 @@ export default function CourseSelection({
 	grades,
 	subjects,
 	coursesByGrade,
-}: CourseSelectionProps) {
+}: Readonly<CourseSelectionProps>) {
 	const [selectedGrade, setSelectedGrade] = useState(grades[0] || "");
 	const [selectedSubject, setSelectedSubject] = useState("all");
 

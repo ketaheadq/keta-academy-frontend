@@ -34,7 +34,7 @@ export function useLessonProgress({
 		user?.id,
 		documentIds
 			.slice()
-			.sort(), // Create a copy before sorting
+			.sort((a, b) => a.localeCompare(b)), // Create a copy before sorting
 	]);
 
 	// Fetch initial progress

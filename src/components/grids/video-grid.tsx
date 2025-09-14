@@ -15,7 +15,7 @@ export default function VideoGrid({
 	items,
 	title = "Videolar",
 	showRelatedData = false,
-}: VideoGridProps) {
+}: Readonly<VideoGridProps>) {
 	return (
 		<DynamicGrid
 			items={items}

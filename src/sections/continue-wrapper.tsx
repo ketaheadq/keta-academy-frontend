@@ -11,7 +11,7 @@ interface ContinueProps {
 	courses: StrapiCourse[];
 }
 
-export default function Continue({ courses }: ContinueProps) {
+export default function Continue({ courses }: Readonly<ContinueProps>) {
 	const { isAuthenticated, jwt, user } = useAuthStore();
 	const [coursesWithProgress, setCoursesWithProgress] = useState<
 		(StrapiCourse & { progress: number })[]

@@ -7,7 +7,7 @@ import { useState } from "react";
 import type { StrapiTutoringProfile } from "@/lib/strapi";
 import { Button } from "./ui/button";
 
-function TutorCard({ tutor }: { tutor: StrapiTutoringProfile }) {
+function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 	const [showDetails, setShowDetails] = useState(false);
 	const [isFavorite, setIsFavorite] = useState(false);
 
