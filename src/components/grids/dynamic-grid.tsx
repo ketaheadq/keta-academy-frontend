@@ -1,9 +1,10 @@
 "use client";
 
 import { Calculator, Filter, Search } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Pagination from "@/components/ui/pagination";
 import {
 	Select,
 	SelectContent,
@@ -39,6 +40,8 @@ interface DynamicGridProps<T extends FilterableItem> {
 		description: string;
 	};
 	className?: string;
+	itemsPerPage?: number; // number of items per page (default: 12)
+	enablePagination?: boolean; // whether to enable pagination (default: true for items > 12)
 }
 
 export default function DynamicGrid<T extends FilterableItem>({
@@ -53,6 +56,8 @@ export default function DynamicGrid<T extends FilterableItem>({
 		description: "Aradığınızı bulmak için filtrelerinizi ayarlayın.",
 	},
 	className = "",
+	itemsPerPage = 12,
+	enablePagination,
 }: Readonly<DynamicGridProps<T>>) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>(() => {
@@ -65,6 +70,10 @@ export default function DynamicGrid<T extends FilterableItem>({
 		return initialFilters;
 	});
 	const [showFilters, setShowFilters] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+
+	// Determine if pagination should be enabled
+	const shouldShowPagination = enablePagination ?? items.length > itemsPerPage;
 
 	// Helper function to get nested property value
 	const getNestedValue = (obj: any, path: string): any => {
@@ -106,20 +115,36 @@ export default function DynamicGrid<T extends FilterableItem>({
 		return String(itemValue) === selectedValue;
 	};
 
-	const filteredItems = items.filter((item) => {
-		// Search filter
-		const matchesSearch =
-			searchFields.length === 0 ||
-			searchFields.some((field) => {
-				const value = getNestedValue(item, field);
-				return normalizeTurkish(String(value)).includes(normalizeTurkish(searchTerm));
-			});
+	// Memoize filtered items to avoid recalculation on every render
+	const filteredItems = useMemo(() => {
+		return items.filter((item) => {
+			// Search filter
+			const matchesSearch =
+				searchFields.length === 0 ||
+				searchFields.some((field) => {
+					const value = getNestedValue(item, field);
+					return normalizeTurkish(String(value)).includes(normalizeTurkish(searchTerm));
+				});
 
-		// Other filters
-		const matchesFilters = filterConfigs.every((config) => matchesFilter(item, config));
+			// Other filters
+			const matchesFilters = filterConfigs.every((config) => matchesFilter(item, config));
 
-		return matchesSearch && matchesFilters;
-	});
+			return matchesSearch && matchesFilters;
+		});
+	}, [items, searchTerm, searchFields, filterConfigs, getNestedValue, matchesFilter]);
+
+	// Calculate pagination
+	const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+	const startIndex = (currentPage - 1) * itemsPerPage;
+	const endIndex = startIndex + itemsPerPage;
+	const paginatedItems = shouldShowPagination
+		? filteredItems.slice(startIndex, endIndex)
+		: filteredItems;
+
+	// Reset to first page when filters change
+	useMemo(() => {
+		setCurrentPage(1);
+	}, []);
 
 	const handleFilterChange = (field: string, value: string) => {
 		setSelectedFilters((prev) => ({
@@ -206,7 +231,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 			{/* Items Grid */}
 			<section className="mb-8">
 				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{filteredItems.map((item, index) => renderItem(item, index))}
+					{paginatedItems.map((item, index) => renderItem(item, startIndex + index))}
 				</div>
 
 				{filteredItems.length === 0 && (
@@ -217,6 +242,19 @@ export default function DynamicGrid<T extends FilterableItem>({
 					</div>
 				)}
 			</section>
+
+			{/* Pagination */}
+			{shouldShowPagination && filteredItems.length > 0 && (
+				<section className="mt-8">
+					<Pagination
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={setCurrentPage}
+						itemsPerPage={itemsPerPage}
+						totalItems={filteredItems.length}
+					/>
+				</section>
+			)}
 		</div>
 	);
 }

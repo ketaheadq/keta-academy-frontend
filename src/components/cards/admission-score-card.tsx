@@ -1,8 +1,7 @@
 "use client";
 
 import { Calendar, ExternalLink, FileText, Star } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,8 +17,14 @@ export default function AdmissionScoreCard({
 	showRelatedData = false,
 }: Readonly<AdmissionScoreCardProps>) {
 	const pathname = usePathname();
+	const router = useRouter();
+
+	const handleCardClick = () => {
+		router.push(`${pathname}/${admissionScore.slug}`);
+	};
+
 	return (
-		<Card className="cursor-pointer transition-shadow hover:shadow-lg">
+		<Card className="cursor-pointer transition-shadow hover:shadow-lg" onClick={handleCardClick}>
 			<CardHeader className="pb-3">
 				<div className="flex items-start justify-between">
 					<div className="flex-1">
@@ -87,12 +92,16 @@ export default function AdmissionScoreCard({
 			</CardHeader>
 
 			<CardContent>
-				<Link href={`${pathname}/${admissionScore.slug}`}>
-					<Button className="w-full">
-						<ExternalLink className="mr-2 h-4 w-4" />
-						Detayları Gör
-					</Button>
-				</Link>
+				<Button
+					className="w-full cursor-pointer"
+					onClick={(e) => {
+						e.stopPropagation();
+						handleCardClick();
+					}}
+				>
+					<ExternalLink className="mr-2 h-4 w-4" />
+					Detayları Gör
+				</Button>
 			</CardContent>
 		</Card>
 	);

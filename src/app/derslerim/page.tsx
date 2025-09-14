@@ -74,7 +74,7 @@ export default function DerslerimPage() {
 	// If not authenticated, show login message
 	if (!isAuthenticated) {
 		return (
-			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+			<div className="min-h-screen">
 				<BreadcrumbNav breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]} />
 				<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 					<div className="text-center">
@@ -89,7 +89,7 @@ export default function DerslerimPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+		<div className="min-h-screen">
 			<BreadcrumbNav breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]} />
 
 			<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -151,7 +151,7 @@ export default function DerslerimPage() {
 						</div>
 					) : (
 						<div className="py-12 text-center">
-							<div className="rounded-md border border-gray-200 bg-gray-50 p-8">
+							<div className="rounded-md border bg-gray-50 p-8">
 								<h3 className="mb-2 font-medium text-gray-900 text-lg">Henüz ders başlatmadınız</h3>
 								<p className="mb-4 text-gray-600">
 									İlk dersinizi başlatmak için konular sayfasına gidin.

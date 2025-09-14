@@ -63,7 +63,7 @@ export default function SignUpPage() {
 	};
 
 	return (
-		<div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
+		<div className="flex min-h-screen flex-col">
 			{/* Main Content */}
 			<div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
 				<div className="w-full max-w-4xl">
@@ -167,7 +167,7 @@ export default function SignUpPage() {
 									</Button>
 
 									{/* Benefits */}
-									<div className="space-y-3 border-gray-200 border-t pt-4">
+									<div className="space-y-3 border-t pt-4">
 										<h4 className="font-medium text-gray-900 text-sm">Neler elde edeceksiniz:</h4>
 										<div className="space-y-2">
 											<div className="flex items-center space-x-3 text-gray-600 text-sm">
@@ -186,7 +186,7 @@ export default function SignUpPage() {
 									</div>
 
 									{/* Sign In Link */}
-									<div className="border-gray-200 border-t pt-4 text-center">
+									<div className="border-t pt-4 text-center">
 										<p className="text-gray-600 text-sm">
 											Zaten hesabınız var mı?{" "}
 											<Link href="/giris" className="font-medium text-blue-600 hover:text-blue-500">

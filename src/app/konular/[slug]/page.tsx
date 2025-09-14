@@ -28,7 +28,7 @@ export default async function CoursePage(props: Readonly<{ params: Promise<{ slu
 	const topics = subjectCourses.map((course) => course.subject.title);
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+		<div className="min-h-screen">
 			<BreadcrumbNav breadcrumbs={[{ label: subject?.title || "", href: `/konular/${slug}` }]} />
 
 			<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">

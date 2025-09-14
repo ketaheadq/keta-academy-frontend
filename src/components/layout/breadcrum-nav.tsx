@@ -18,7 +18,7 @@ interface BreadcrumbNavProps {
 
 export function BreadcrumbNav({ breadcrumbs }: Readonly<BreadcrumbNavProps>) {
 	return (
-		<div className="border-gray-200 border-b px-4">
+		<div className="border-b px-4">
 			<div className="mx-auto">
 				<Breadcrumb>
 					<BreadcrumbList>

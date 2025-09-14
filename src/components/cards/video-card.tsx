@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar, Play, Star } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +13,21 @@ interface VideoCardProps {
 }
 
 export default function VideoCard({ video }: Readonly<VideoCardProps>) {
+	const router = useRouter();
+
+	// Generate internal video page URL
+	const getVideoPageUrl = () => {
+		if (video.page?.slug) {
+			return `/sayfalar/${video.page.slug}/${video.slug}`;
+		}
+		// Fallback: if no page is associated, you might want to handle this differently
+		return `/videolar/${video.slug}`; // or whatever your fallback route is
+	};
+
+	const handleCardClick = () => {
+		router.push(getVideoPageUrl());
+	};
+
 	// Extract YouTube video ID from href for thumbnail
 	const getYouTubeVideoId = (url: string): string | null => {
 		const patterns = [
@@ -35,17 +50,11 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 		? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
 		: "/placeholder.svg";
 
-	// Generate internal video page URL
-	const getVideoPageUrl = () => {
-		if (video.page?.slug) {
-			return `/sayfalar/${video.page.slug}/${video.slug}`;
-		}
-		// Fallback: if no page is associated, you might want to handle this differently
-		return `/videolar/${video.slug}`; // or whatever your fallback route is
-	};
-
 	return (
-		<Card className="py-0 transition-shadow hover:shadow-lg">
+		<Card
+			className="cursor-pointer py-0 transition-shadow hover:shadow-lg"
+			onClick={handleCardClick}
+		>
 			<CardContent className="p-0">
 				<div className="relative">
 					<img
@@ -82,12 +91,16 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 						</div>
 					)}
 
-					<Link href={getVideoPageUrl()}>
-						<Button className="w-full">
-							<Play className="mr-2 h-4 w-4" />
-							Videoyu İzle
-						</Button>
-					</Link>
+					<Button
+						className="w-full cursor-pointer"
+						onClick={(e) => {
+							e.stopPropagation();
+							handleCardClick();
+						}}
+					>
+						<Play className="mr-2 h-4 w-4" />
+						Videoyu İzle
+					</Button>
 				</div>
 			</CardContent>
 		</Card>

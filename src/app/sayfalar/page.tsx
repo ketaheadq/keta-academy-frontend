@@ -25,7 +25,7 @@ export default async function SayfalarPage() {
 										<Link
 											key={page.id}
 											href={`/sayfalar/${page.slug}`}
-											className="block rounded-lg border border-gray-200 p-3 transition-colors hover:border-blue-300 hover:bg-blue-50"
+											className="block rounded-lg border p-3 transition-colors hover:border-blue-300 hover:bg-blue-50"
 										>
 											<h3 className="font-medium text-gray-900">{page.title}</h3>
 											{page.pageType && (

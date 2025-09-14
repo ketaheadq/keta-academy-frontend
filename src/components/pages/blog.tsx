@@ -40,7 +40,7 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 	const readingTime = getReadingTime(blog.content);
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+		<div className="min-h-screen">
 			<div className="container mx-auto px-4 py-12">
 				<div className="mx-auto max-w-4xl">
 					{/* Blog Header */}

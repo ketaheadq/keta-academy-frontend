@@ -9,12 +9,16 @@ interface AdmissionGridProps {
 	items: StrapiAdmissionScore[];
 	title?: string;
 	showRelatedData?: boolean;
+	itemsPerPage?: number;
+	enablePagination?: boolean;
 }
 
 export default function AdmissionGrid({
 	items,
 	title = "Taban Puanlar",
 	showRelatedData = false,
+	itemsPerPage = 9,
+	enablePagination,
 }: Readonly<AdmissionGridProps>) {
 	return (
 		<DynamicGrid
@@ -29,6 +33,8 @@ export default function AdmissionGrid({
 				/>
 			)}
 			title={title}
+			itemsPerPage={itemsPerPage}
+			enablePagination={enablePagination}
 			emptyStateConfig={{
 				icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-gray-400" />,
 				title: "Taban puan bulunamadı",

@@ -9,12 +9,16 @@ interface VideoGridProps {
 	items: StrapiVideo[];
 	title?: string;
 	showRelatedData?: boolean;
+	itemsPerPage?: number;
+	enablePagination?: boolean;
 }
 
 export default function VideoGrid({
 	items,
 	title = "Videolar",
 	showRelatedData = false,
+	itemsPerPage = 9,
+	enablePagination,
 }: Readonly<VideoGridProps>) {
 	return (
 		<DynamicGrid
@@ -25,6 +29,8 @@ export default function VideoGrid({
 				<VideoCard key={video.id} video={video} showRelatedData={showRelatedData} />
 			)}
 			title={title}
+			itemsPerPage={itemsPerPage}
+			enablePagination={enablePagination}
 			emptyStateConfig={{
 				icon: <Play className="mx-auto mb-4 h-12 w-12 text-gray-400" />,
 				title: "Video bulunamadı",

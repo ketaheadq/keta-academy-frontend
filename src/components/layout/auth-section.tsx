@@ -6,11 +6,20 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/auth-store";
 
-export default function AuthSection() {
+interface AuthSectionProps {
+	onNavigate?: () => void;
+}
+
+export default function AuthSection({ onNavigate }: AuthSectionProps) {
 	const { user, isAuthenticated, signOut } = useAuthStore();
 
 	const handleSignOut = async () => {
 		await signOut();
+		onNavigate?.();
+	};
+
+	const handleLinkClick = () => {
+		onNavigate?.();
 	};
 
 	return (
@@ -30,7 +39,7 @@ export default function AuthSection() {
 									alt={user.name}
 									width={32}
 									height={32}
-									className="h-8 w-8 rounded-full border-2 border-gray-200"
+									className="h-8 w-8 rounded-full border-2"
 								/>
 							) : (
 								<div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600">
@@ -42,7 +51,7 @@ export default function AuthSection() {
 						</button>
 
 						{/* Dropdown Menu */}
-						<div className="invisible absolute top-full right-0 z-50 mt-2 w-48 rounded-md border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
+						<div className="invisible absolute top-full right-0 z-50 mt-2 w-48 rounded-md border bg-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
 							<div className="py-2">
 								<div className="border-gray-100 border-b px-4 py-2">
 									<p className="font-medium text-gray-900 text-sm">{user.name}</p>
@@ -50,6 +59,7 @@ export default function AuthSection() {
 								</div>
 								<Link
 									href="/derslerim"
+									onClick={handleLinkClick}
 									className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100 hover:text-blue-600"
 								>
 									Derslerim
@@ -69,7 +79,7 @@ export default function AuthSection() {
 			) : (
 				// User is not logged in - show login/signup buttons
 				<>
-					<Link href="/giris">
+					<Link href="/giris" onClick={handleLinkClick}>
 						<Button
 							variant="ghost"
 							className="font-medium text-text transition-colors hover:text-primary"
@@ -77,7 +87,7 @@ export default function AuthSection() {
 							Giriş Yap
 						</Button>
 					</Link>
-					<Link href="/kayit-ol">
+					<Link href="/kayit-ol" onClick={handleLinkClick}>
 						<Button className="rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-blue-700">
 							Üye Ol
 						</Button>

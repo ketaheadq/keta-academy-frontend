@@ -80,7 +80,7 @@ export default function CourseCard({
 				)}
 
 				<Button
-					className="w-full"
+					className="w-full cursor-pointer"
 					onClick={(e) => {
 						e.stopPropagation();
 						handleCourseClick();

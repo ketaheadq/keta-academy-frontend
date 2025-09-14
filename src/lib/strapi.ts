@@ -441,8 +441,7 @@ export async function fetchStrapiDataUsingToken<T>(endpoint: string, token: stri
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
 
-		const data = await response.json();
-		return data;
+        return await response.json();
 	} catch (error) {
 		console.error("Error fetching Strapi data:", error);
 		throw error;
@@ -473,8 +472,7 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
 
-		const data = await response.json();
-		return data;
+        return await response.json();
 	} catch (error) {
 		console.error("Error fetching Strapi data:", error);
 		throw error;
@@ -961,7 +959,7 @@ export async function getAdmissionScoreBySlug(slug: string): Promise<StrapiAdmis
 export async function getAdmissionScoresByPage(pageSlug: string): Promise<StrapiAdmissionScore[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
-			`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`,
+			`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt&pagination[pageSize]=100`,
 		);
 		return response.data;
 	} catch (error) {
@@ -1084,7 +1082,7 @@ export async function getVideoBySlug(slug: string): Promise<StrapiVideo | null> 
 export async function getVideosByPage(pageSlug: string): Promise<StrapiVideo[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiVideo[]>>(
-			`videos?filters[page][slug][$eq]=${pageSlug}&populate=*`,
+			`videos?filters[page][slug][$eq]=${pageSlug}&populate=*&pagination[pageSize]=100`,
 		);
 		return response.data;
 	} catch (error) {
@@ -1122,7 +1120,7 @@ export async function getBlogBySlug(slug: string): Promise<StrapiBlog | null> {
 export async function getBlogsByPage(pageSlug: string): Promise<StrapiBlog[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiBlog[]>>(
-			`blogs?filters[page][slug][$eq]=${pageSlug}&populate=*`,
+			`blogs?filters[page][slug][$eq]=${pageSlug}&populate=*&pagination[pageSize]=100`,
 		);
 		return response.data;
 	} catch (error) {

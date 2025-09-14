@@ -3,7 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import { Toaster, toast } from "sonner";
-import errors from "../lib/errors";
+import errors from "../lib/error-messages";
+import Loading from "./loading";
 
 function ProvidersContent({ children }: Readonly<{ children: React.ReactNode }>) {
 	const searchParams = useSearchParams();
@@ -12,7 +13,9 @@ function ProvidersContent({ children }: Readonly<{ children: React.ReactNode }>)
 		const errorMessage = searchParams.get("error_message");
 		if (errorMessage) {
 			toast.error("Hata", {
-				description: errors[errorMessage] || "Bilinmeyen bir hata oluştu.",
+				description: errorMessage
+					? errors[errorMessage as keyof typeof errors]
+					: "Bilinmeyen bir hata oluştu.",
 				position: "bottom-right",
 				duration: 4000,
 			});
@@ -29,7 +32,7 @@ function ProvidersContent({ children }: Readonly<{ children: React.ReactNode }>)
 
 export function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<Loading />}>
 			<ProvidersContent>{children}</ProvidersContent>
 		</Suspense>
 	);

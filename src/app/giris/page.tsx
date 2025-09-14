@@ -31,7 +31,7 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
+		<div className="flex min-h-screen flex-col">
 			{/* Main Content */}
 			<div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
 				<div className="w-full max-w-md space-y-8">
@@ -106,7 +106,7 @@ export default function LoginPage() {
 							</div>
 
 							{/* Sign Up Link */}
-							<div className="border-gray-200 border-t pt-4 text-center">
+							<div className="border-t pt-4 text-center">
 								<p className="text-gray-600 text-sm">
 									Hesabınız yok mu?{" "}
 									<Link href="/kayit-ol" className="font-medium text-blue-600 hover:text-blue-500">

@@ -1,17 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getSettings } from "@/lib/strapi";
+import { getBlogs, getSettings, getSubjects } from "@/lib/strapi";
 
 // Define reusable menu items
-const lessons = [
-	{ name: "Matematik", href: "/konular/matematik" },
-	{ name: "Fizik", href: "/konular/fizik" },
-	{ name: "Kimya", href: "/konular/kimya" },
-	{ name: "Programlama", href: "/konular/programlama" },
-];
-
-const levels = ["Orta Okul", "Lise", "Üniversite"];
-
 const supportLinks = [
 	{ name: "İletişim", href: "/iletisim" },
 	{ name: "Gizlilik Politikası", href: "/gizlilik-politikasi" },
@@ -24,15 +15,23 @@ export default async function Footer() {
 		logo: null,
 	}));
 
+	// Fetch dynamic data for footer
+	const subjects = await getSubjects().catch(() => []);
+	const blogs = await getBlogs().catch(() => []);
+
+	// Get up to 5 subjects and popular blogs
+	const footerSubjects = subjects.slice(0, 5);
+	const popularBlogs = blogs.filter((blog) => blog.isPopular).slice(0, 5);
+
 	return (
 		<footer className="bg-gray-900 text-white">
 			<div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:grid-cols-9 lg:gap-14 xl:gap-16">
 					{/* Logo and Description */}
-					<section className="lg:col-span-3">
+					<section className="md:col-span-1 lg:col-span-3">
 						<div className="mb-4 flex items-center space-x-3">
 							{settings.logo && (
-								<div className="relative h-10 w-10 flex-shrink-0">
+								<div className="relative h-16 w-16 flex-shrink-0">
 									<Image
 										src={settings.logo.url}
 										alt={`${settings.siteName} logosu`}
@@ -48,35 +47,45 @@ export default async function Footer() {
 						</p>
 					</section>
 
-					{/* Lessons */}
-					<nav className="lg:col-span-2">
+					{/* Konular - Only show if subjects exist */}
+					{footerSubjects.length > 0 && (
+						<nav className="md:col-span-1 lg:col-span-1">
+							<h3 className="mb-3 font-semibold text-white">Konular</h3>
+							<ul className="space-y-2">
+								{footerSubjects.map((subject) => (
+									<li key={subject.slug}>
+										<Link
+											href={`/konular/${subject.slug}`}
+											className="text-gray-400 text-sm transition-colors duration-200 hover:text-white"
+										>
+											{subject.title}
+										</Link>
+									</li>
+								))}
+							</ul>
+						</nav>
+					)}
+
+					{/* Popular Blogs */}
+					<nav className="md:col-span-1 lg:col-span-3">
+						<h3 className="mb-3 font-semibold text-white">Popüler Yazılar</h3>
 						<ul className="space-y-2">
-							{lessons.map((lesson) => (
-								<li key={lesson.href}>
+							{popularBlogs.map((blog) => (
+								<li key={blog.slug}>
 									<Link
-										href={lesson.href}
-										className="text-gray-400 text-sm transition-colors duration-200 hover:text-white"
+										href={`/sayfalar/${blog.page?.slug}/${blog.slug}`}
+										className="line-clamp-2 text-gray-400 text-sm transition-colors duration-200 hover:text-white"
 									>
-										{lesson.name}
+										{blog.title}
 									</Link>
 								</li>
 							))}
 						</ul>
 					</nav>
 
-					{/* Levels */}
-					<section className="lg:col-span-2">
-						<ul className="space-y-2">
-							{levels.map((level) => (
-								<li key={level}>
-									<span className="text-gray-400 text-sm">{level}</span>
-								</li>
-							))}
-						</ul>
-					</section>
-
 					{/* Support */}
-					<nav className="lg:col-span-2">
+					<nav className="md:col-span-1 lg:col-span-2">
+						<h3 className="mb-3 font-semibold text-white">Destek</h3>
 						<ul className="space-y-2">
 							{supportLinks.map((link) => (
 								<li key={link.href}>
