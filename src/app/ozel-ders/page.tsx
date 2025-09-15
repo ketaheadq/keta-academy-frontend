@@ -1,6 +1,9 @@
 import { Calendar, Video } from "lucide-react";
 import TutoringContent from "@/components/tutoring-content";
+import ScrollToSectionButton from "@/components/ui/scroll-to-section-button";
 import { getTutoringProfiles } from "@/lib/strapi";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function TutoringPage() {
 	// Fetch tutoring profiles from Strapi
@@ -21,39 +24,22 @@ export default async function TutoringPage() {
 							deneyimi ile hedeflerinize ulaşın.
 						</p>
 
-						{/* Stats */}
-						<div className="mb-8 flex flex-wrap justify-center gap-8">
-							<div className="text-center">
-								<div className="font-bold text-3xl text-yellow-300">{tutoringProfiles.length}+</div>
-								<div className="text-blue-100">Uzman Öğretmen</div>
-							</div>
-							<div className="text-center">
-								<div className="font-bold text-3xl text-yellow-300">5000+</div>
-								<div className="text-blue-100">Mutlu Öğrenci</div>
-							</div>
-							<div className="text-center">
-								<div className="font-bold text-3xl text-yellow-300">95%</div>
-								<div className="text-blue-100">Başarı Oranı</div>
-							</div>
-							<div className="text-center">
-								<div className="font-bold text-3xl text-yellow-300">4.8</div>
-								<div className="text-blue-100">Ortalama Puan</div>
-							</div>
-						</div>
-
 						<div className="flex flex-col justify-center gap-4 sm:flex-row">
-							<button
-								type="button"
-								className="rounded-xl bg-yellow-400 px-8 py-4 font-bold text-gray-900 text-lg shadow-lg transition-colors hover:bg-yellow-300"
+						<Link
+							href="/iletisim"
+						>
+							<Button
+								className="rounded-xl border-2 bg-yellow-400 px-8 py-4 font-bold text-gray-900 text-lg shadow-lg transition-colors hover:bg-yellow-300"
 							>
 								Hemen Başla
-							</button>
-							<button
-								type="button"
+							</Button>
+						</Link>
+							<ScrollToSectionButton
+								sectionId="how-it-works"
 								className="rounded-xl border-2 border-white px-8 py-4 font-bold text-lg text-white transition-colors hover:bg-white hover:text-blue-600"
 							>
 								Nasıl Çalışır?
-							</button>
+							</ScrollToSectionButton>
 						</div>
 					</div>
 				</div>
@@ -63,7 +49,7 @@ export default async function TutoringPage() {
 			<TutoringContent data={tutoringProfiles} />
 
 			{/* How It Works Section */}
-			<div className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
+			<div id="how-it-works" className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
 				<div className="mb-12 rounded-3xl bg-gradient-to-r from-purple-600 to-blue-600 p-8 text-white md:p-12">
 					<div className="mb-12 text-center">
 						<h2 className="mb-4 font-bold text-3xl md:text-4xl">Nasıl Çalışır?</h2>
@@ -120,18 +106,15 @@ export default async function TutoringPage() {
 						dersinizi ücretsiz deneyin!
 					</p>
 					<div className="flex flex-col justify-center gap-4 sm:flex-row">
-						<button
-							type="button"
-							className="rounded-xl bg-white px-8 py-4 font-bold text-green-600 text-lg shadow-lg transition-colors hover:bg-green-50"
+						<Link
+							href="/iletisim"
 						>
-							Ücretsiz Ders Dene
-						</button>
-						<button
-							type="button"
-							className="rounded-xl border-2 border-white px-8 py-4 font-bold text-lg text-white transition-colors hover:bg-white hover:text-green-600"
-						>
-							Daha Fazla Bilgi
-						</button>
+							<Button
+								className="rounded-xl bg-white px-8 py-4 font-bold text-green-600 text-lg shadow-lg transition-colors hover:bg-green-50"
+							>
+								Ücretsiz Ders Dene
+							</Button>
+						</Link>
 					</div>
 				</div>
 			</div>

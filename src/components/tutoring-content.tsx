@@ -11,9 +11,11 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 	const [showDetails, setShowDetails] = useState(false);
 	const [isFavorite, setIsFavorite] = useState(false);
 
-	// Parse expertise string into array
-	const expertiseList = tutor.expertise ? tutor.expertise.split(", ") : [];
 
+
+	// Parse expertise string into array
+	const expertiseList = tutor.experties ? tutor.experties.split(",") : [];
+	console.log(tutor.experties);
 	const router = useRouter();
 	return (
 		<div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
@@ -74,7 +76,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 				</div>
 
 				<p className="mt-3 text-gray-600 text-sm leading-relaxed">
-					{tutor.expertise} alanlarında uzman öğretmen. {tutor.exprienceYears} yıllık deneyimle
+					{tutor.experties} alanlarında uzman öğretmen. {tutor.exprienceYears} yıllık deneyimle
 					öğrencilere kaliteli eğitim sunmaktadır.
 				</p>
 			</div>
@@ -182,27 +184,6 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 							</span>
 						</div>
 					</div>
-
-					{/* Sample Testimonial */}
-					<div>
-						<h4 className="mb-3 font-semibold text-gray-900">Son Değerlendirmeler</h4>
-						<div className="rounded-lg border bg-white p-4">
-							<div className="mb-2 flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									<span className="font-medium text-gray-900">Öğrenci</span>
-									<div className="flex items-center gap-1">
-										{[...Array(5)].map((_, i) => (
-											<Star key={i} className="h-3 w-3 fill-current text-yellow-500" />
-										))}
-									</div>
-								</div>
-								<span className="text-gray-500 text-xs">{tutor.subjects[0]?.title}</span>
-							</div>
-							<p className="text-gray-700 text-sm">
-								Harika bir öğretmen! {tutor.name} sayesinde çok şey öğrendim ve başarılı oldum.
-							</p>
-						</div>
-					</div>
 				</div>
 			)}
 		</div>
@@ -243,7 +224,7 @@ export default function TutoringContent({ data }: { data: StrapiTutoringProfile[
 			const matchesSearch =
 				tutor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				tutor.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				tutor.expertise.toLowerCase().includes(searchQuery.toLowerCase());
+				tutor.experties.toLowerCase().includes(searchQuery.toLowerCase());
 			return matchesSubject && matchesSearch;
 		})
 		.sort((a, b) => {

@@ -455,7 +455,7 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			next: { revalidate: 3600 }, // Revalidate every hour
+			next: { revalidate: 300 }, // Revalidate every hour
 		});
 
 		if (response.status === 403) {
@@ -1139,7 +1139,7 @@ export interface StrapiTutoringProfile {
 	name: string;
 	title: string;
 	content: StrapiBlock[];
-	expertise: string; // Note: keeping the typo from API
+	experties: string; // Note: keeping the typo from API
 	price: number;
 	successRate: number;
 	studentCount: number;
