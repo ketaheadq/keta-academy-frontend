@@ -8,26 +8,23 @@ interface ScrollToSectionButtonProps {
 	sectionId: string;
 }
 
-export default function ScrollToSectionButton({ 
-	children, 
-	className, 
-	sectionId 
+export default function ScrollToSectionButton({
+	children,
+	className,
+	sectionId,
 }: ScrollToSectionButtonProps) {
 	const scrollToSection = () => {
 		const element = document.getElementById(sectionId);
 		if (element) {
-			element.scrollIntoView({ 
-				behavior: 'smooth',
-				block: 'start'
+			element.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
 			});
 		}
 	};
 
 	return (
-		<Button
-			onClick={scrollToSection}
-			className={className}
-		>
+		<Button onClick={scrollToSection} className={className}>
 			{children}
 		</Button>
 	);

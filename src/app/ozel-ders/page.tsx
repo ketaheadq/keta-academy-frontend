@@ -1,13 +1,15 @@
 import { Calendar, Video } from "lucide-react";
+import Link from "next/link";
+import { use, useId } from "react";
 import TutoringContent from "@/components/tutoring-content";
+import { Button } from "@/components/ui/button";
 import ScrollToSectionButton from "@/components/ui/scroll-to-section-button";
 import { getTutoringProfiles } from "@/lib/strapi";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
-export default async function TutoringPage() {
+export default function TutoringPage() {
 	// Fetch tutoring profiles from Strapi
-	const tutoringProfiles = await getTutoringProfiles();
+	const tutoringProfiles = use(getTutoringProfiles());
+	const howItWorksId = useId();
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -25,17 +27,13 @@ export default async function TutoringPage() {
 						</p>
 
 						<div className="flex flex-col justify-center gap-4 sm:flex-row">
-						<Link
-							href="/iletisim"
-						>
-							<Button
-								className="rounded-xl border-2 bg-yellow-400 px-8 py-4 font-bold text-gray-900 text-lg shadow-lg transition-colors hover:bg-yellow-300"
-							>
-								Hemen Başla
-							</Button>
-						</Link>
+							<Link href="/iletisim">
+								<Button className="rounded-xl border-2 bg-yellow-400 px-8 py-4 font-bold text-gray-900 text-lg shadow-lg transition-colors hover:bg-yellow-300">
+									Hemen Başla
+								</Button>
+							</Link>
 							<ScrollToSectionButton
-								sectionId="how-it-works"
+								sectionId={howItWorksId}
 								className="rounded-xl border-2 border-white px-8 py-4 font-bold text-lg text-white transition-colors hover:bg-white hover:text-blue-600"
 							>
 								Nasıl Çalışır?
@@ -49,7 +47,7 @@ export default async function TutoringPage() {
 			<TutoringContent data={tutoringProfiles} />
 
 			{/* How It Works Section */}
-			<div id="how-it-works" className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
+			<div id={howItWorksId} className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
 				<div className="mb-12 rounded-3xl bg-gradient-to-r from-purple-600 to-blue-600 p-8 text-white md:p-12">
 					<div className="mb-12 text-center">
 						<h2 className="mb-4 font-bold text-3xl md:text-4xl">Nasıl Çalışır?</h2>
@@ -106,12 +104,8 @@ export default async function TutoringPage() {
 						dersinizi ücretsiz deneyin!
 					</p>
 					<div className="flex flex-col justify-center gap-4 sm:flex-row">
-						<Link
-							href="/iletisim"
-						>
-							<Button
-								className="rounded-xl bg-white px-8 py-4 font-bold text-green-600 text-lg shadow-lg transition-colors hover:bg-green-50"
-							>
+						<Link href="/iletisim">
+							<Button className="rounded-xl bg-white px-8 py-4 font-bold text-green-600 text-lg shadow-lg transition-colors hover:bg-green-50">
 								Ücretsiz Ders Dene
 							</Button>
 						</Link>

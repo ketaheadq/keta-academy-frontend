@@ -441,7 +441,7 @@ export async function fetchStrapiDataUsingToken<T>(endpoint: string, token: stri
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
 
-        return await response.json();
+		return await response.json();
 	} catch (error) {
 		console.error("Error fetching Strapi data:", error);
 		throw error;
@@ -472,7 +472,7 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
 
-        return await response.json();
+		return await response.json();
 	} catch (error) {
 		console.error("Error fetching Strapi data:", error);
 		throw error;

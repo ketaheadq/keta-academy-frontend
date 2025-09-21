@@ -2,7 +2,7 @@
 
 import { CheckCircle, Send } from "lucide-react";
 import type React from "react";
-import { useId, useState } from "react"; // ← Add useId
+import { useId, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
