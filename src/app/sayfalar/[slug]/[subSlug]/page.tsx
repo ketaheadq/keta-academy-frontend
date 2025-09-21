@@ -103,6 +103,29 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 						href: `/sayfalar/${slug}/${data.slug}`,
 					}));
 
+					const getTitle = () => {
+						if (admissionScore.university) {
+							return "Okul Detayları";
+						}
+						if (admissionScore.department) {
+							return "Bölüm Detayları";
+						}
+						return "Genel Detaylar";
+					};
+
+					const getContent = () => {
+						if (admissionScore.university) {
+							return admissionScore.university.content;
+						}
+						if (admissionScore.department) {
+							return admissionScore.department.content;
+						}
+						if (admissionScore.content) {
+							return admissionScore.content;
+						}
+						return [];
+					};
+
 					return (
 						<div className="min-h-screen">
 							<BreadcrumbNav
@@ -118,24 +141,7 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 								{admissionScore.university ||
 								admissionScore.department ||
 								admissionScore.content ? (
-									<ExpandableContentCard
-										title={
-											admissionScore.university
-												? "Okul Detayları"
-												: admissionScore.department
-													? "Bölüm Detayları"
-													: "Genel Detaylar"
-										}
-										content={
-											admissionScore.university
-												? admissionScore.university.content
-												: admissionScore.department
-													? admissionScore.department.content
-													: admissionScore.content
-														? admissionScore.content
-														: []
-										}
-									/>
+									<ExpandableContentCard title={getTitle()} content={getContent()} />
 								) : null}
 								<Suspense fallback={<AdmissionScoreTableLoading />}>
 									<AdmissionScoreTableServer
