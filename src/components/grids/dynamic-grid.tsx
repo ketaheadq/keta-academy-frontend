@@ -1,7 +1,7 @@
 "use client";
 
 import { Calculator, Filter, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Pagination from "@/components/ui/pagination";
@@ -75,15 +75,15 @@ export default function DynamicGrid<T extends FilterableItem>({
 	// Determine if pagination should be enabled
 	const shouldShowPagination = enablePagination ?? items.length > itemsPerPage;
 
-	// Helper function to get nested property value
-	const getNestedValue = (obj: any, path: string): any => {
+	// Helper function to get nested property value - now memoized
+	const getNestedValue = useCallback((obj: any, path: string): any => {
 		return path.split(".").reduce((current, key) => {
 			if (current && typeof current === "object") {
 				return current[key];
 			}
 			return current;
 		}, obj);
-	};
+	}, []);
 
 	// Helper function to check if item matches filter
 	const matchesFilter = (item: T, config: FilterConfig): boolean => {
