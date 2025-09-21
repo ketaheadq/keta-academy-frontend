@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { generateSimpleId } from "@/lib/utils";
 
 interface PaginationProps {
 	currentPage: number;
@@ -30,38 +31,57 @@ export default function Pagination({
 		const maxVisiblePages = 7;
 
 		if (totalPages <= maxVisiblePages) {
-			// Show all pages if total pages is small
-			for (let i = 1; i <= totalPages; i++) {
-				pages.push(i);
-			}
-		} else {
-			// Always show first page
-			pages.push(1);
-
-			if (currentPage <= 4) {
-				// Near the beginning
-				for (let i = 2; i <= 5; i++) {
-					pages.push(i);
-				}
-				pages.push("ellipsis");
-				pages.push(totalPages);
-			} else if (currentPage >= totalPages - 3) {
-				// Near the end
-				pages.push("ellipsis");
-				for (let i = totalPages - 4; i <= totalPages; i++) {
-					pages.push(i);
-				}
-			} else {
-				// In the middle
-				pages.push("ellipsis");
-				for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-					pages.push(i);
-				}
-				pages.push("ellipsis");
-				pages.push(totalPages);
-			}
+			return getAllPages();
 		}
 
+		return getPaginatedPages(pages);
+	};
+
+	const getAllPages = (): (number | string)[] => {
+		const pages: (number | string)[] = [];
+		for (let i = 1; i <= totalPages; i++) {
+			pages.push(i);
+		}
+		return pages;
+	};
+
+	const getPaginatedPages = (pages: (number | string)[]): (number | string)[] => {
+		// Always show first page
+		pages.push(1);
+
+		if (currentPage <= 4) {
+			return handleBeginning(pages);
+		}
+		if (currentPage >= totalPages - 3) {
+			return handleEnd(pages);
+		}
+		return handleMiddle(pages);
+	};
+
+	const handleBeginning = (pages: (number | string)[]): (number | string)[] => {
+		for (let i = 2; i <= 5; i++) {
+			pages.push(i);
+		}
+		pages.push("ellipsis");
+		pages.push(totalPages);
+		return pages;
+	};
+
+	const handleEnd = (pages: (number | string)[]): (number | string)[] => {
+		pages.push("ellipsis");
+		for (let i = totalPages - 4; i <= totalPages; i++) {
+			pages.push(i);
+		}
+		return pages;
+	};
+
+	const handleMiddle = (pages: (number | string)[]): (number | string)[] => {
+		pages.push("ellipsis");
+		for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+			pages.push(i);
+		}
+		pages.push("ellipsis");
+		pages.push(totalPages);
 		return pages;
 	};
 
@@ -97,10 +117,10 @@ export default function Pagination({
 				</Button>
 
 				{/* Page numbers */}
-				{getPageNumbers().map((page, index) => {
+				{getPageNumbers().map((page) => {
 					if (page === "ellipsis") {
 						return (
-							<div key={`ellipsis-${index}`} className="px-2">
+							<div key={generateSimpleId()} className="px-2">
 								<MoreHorizontal className="h-4 w-4 text-gray-400" />
 							</div>
 						);

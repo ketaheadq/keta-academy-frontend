@@ -61,7 +61,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 			<button
 				type="button"
 				onClick={toggleMobileMenu}
-				className="rounded-md p-2 text-gray-700 transition-colors hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 md:hidden"
+				className="rounded-md p-2 text-gray-700 transition-colors hover:bg-gray-100 hover:text-blue-600 md:hidden"
 				aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 				aria-expanded={isMobileMenuOpen}
 			>
@@ -117,7 +117,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 						</nav>
 
 						{/* Mobile Authentication Section */}
-						<div className="mt-6 border-gray-200 border-t pt-6">
+						<div className="mt-6 border-gray-200 border-t pt-4">
 							<AuthSection onNavigate={closeMobileMenu} />
 						</div>
 					</div>

@@ -85,37 +85,39 @@ export default function DynamicGrid<T extends FilterableItem>({
 		}, obj);
 	}, []);
 
-	// Helper function to check if item matches filter
-	const matchesFilter = (item: T, config: FilterConfig): boolean => {
-		const selectedValue = selectedFilters[config.field];
-		const allLabel = config.allLabel || `All ${config.label}`;
+	// Helper function to check if item matches filter - now memoized
+	const matchesFilter = useCallback(
+		(item: T, config: FilterConfig): boolean => {
+			const selectedValue = selectedFilters[config.field];
+			const allLabel = config.allLabel || `All ${config.label}`;
 
-		if (selectedValue === allLabel) return true;
+			if (selectedValue === allLabel) return true;
 
-		const itemValue = getNestedValue(item, config.field);
+			const itemValue = getNestedValue(item, config.field);
 
-		// Handle array fields (like grades)
-		if (Array.isArray(itemValue)) {
-			return itemValue.some((val) => {
-				// If array contains objects with title property
-				if (typeof val === "object" && val?.title) {
-					return val.title === selectedValue;
-				}
-				// If array contains primitive values
-				return String(val) === selectedValue;
-			});
-		}
+			// Handle array fields (like grades)
+			if (Array.isArray(itemValue)) {
+				return itemValue.some((val) => {
+					// If array contains objects with title property
+					if (typeof val === "object" && val?.title) {
+						return val.title === selectedValue;
+					}
+					// If array contains primitive values
+					return String(val) === selectedValue;
+				});
+			}
 
-		// Handle object fields (like subject.title)
-		if (typeof itemValue === "object" && itemValue?.title) {
-			return itemValue.title === selectedValue;
-		}
+			// Handle object fields (like subject.title)
+			if (typeof itemValue === "object" && itemValue?.title) {
+				return itemValue.title === selectedValue;
+			}
 
-		// Handle primitive values
-		return String(itemValue) === selectedValue;
-	};
+			// Handle primitive values
+			return String(itemValue) === selectedValue;
+		},
+		[selectedFilters, getNestedValue],
+	);
 
-	// Memoize filtered items to avoid recalculation on every render
 	const filteredItems = useMemo(() => {
 		return items.filter((item) => {
 			// Search filter

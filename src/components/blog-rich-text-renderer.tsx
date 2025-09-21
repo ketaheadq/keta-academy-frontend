@@ -2,8 +2,15 @@
 
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import { Code2, ExternalLink, Quote } from "lucide-react";
-import Image from "next/image";
 import type React from "react";
+import { ImageModifierComponent } from "./ui/blocks";
+import {
+	BoldModifierComponent,
+	CodeModifierComponent,
+	ItalicModifierComponent,
+	StrikethroughModifierComponent,
+	UnderlineModifierComponent,
+} from "./ui/modifiers";
 
 interface BlogRichTextRendererProps {
 	content: any[];
@@ -11,6 +18,13 @@ interface BlogRichTextRendererProps {
 }
 
 const BlogRichTextRenderer: React.FC<BlogRichTextRendererProps> = ({ content, className = "" }) => {
+	const modifiers = {
+		bold: BoldModifierComponent,
+		italic: ItalicModifierComponent,
+		underline: UnderlineModifierComponent,
+		strikethrough: StrikethroughModifierComponent,
+		code: CodeModifierComponent,
+	};
 	return (
 		<div className={`blog-content ${className}`}>
 			<BlocksRenderer
@@ -96,100 +110,10 @@ const BlogRichTextRenderer: React.FC<BlogRichTextRendererProps> = ({ content, cl
 							<ExternalLink className="h-3 w-3 opacity-70" />
 						</a>
 					),
-					image: ({ image }) => {
-						if (!image?.url) return null;
-
-						return (
-							<div className="group my-12">
-								<div className="relative overflow-hidden rounded-3xl shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
-									<Image
-										src={image.url}
-										alt={image.alternativeText || ""}
-										width={image.width || 1200}
-										height={image.height || 800}
-										className="h-auto w-full"
-										style={{
-											maxWidth: "100%",
-											height: "auto",
-										}}
-									/>
-									<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-								</div>
-								{image.caption && (
-									<div className="mt-4 text-center">
-										<p className="px-4 font-light text-gray-500 text-sm italic">{image.caption}</p>
-									</div>
-								)}
-							</div>
-						);
-					},
+					image: ImageModifierComponent,
 				}}
-				modifiers={{
-					bold: ({ children }) => (
-						<strong className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-bold text-gray-900">
-							{children}
-						</strong>
-					),
-					italic: ({ children }) => (
-						<em className="font-medium text-gray-700 italic">{children}</em>
-					),
-					underline: ({ children }) => (
-						<u className="underline decoration-2 decoration-blue-400 underline-offset-2">
-							{children}
-						</u>
-					),
-					strikethrough: ({ children }) => (
-						<s className="line-through decoration-2 decoration-red-400">{children}</s>
-					),
-					code: ({ children }) => (
-						<code className="rounded-lg border bg-gray-100 px-2 py-1 font-mono font-semibold text-blue-600 text-sm">
-							{children}
-						</code>
-					),
-				}}
+				modifiers={modifiers}
 			/>
-
-			<style jsx global>{`
-        .blog-content {
-          font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-          line-height: 1.8;
-        }
-
-        .blog-content h1,
-        .blog-content h2,
-        .blog-content h3,
-        .blog-content h4,
-        .blog-content h5,
-        .blog-content h6 {
-          font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-          letter-spacing: -0.025em;
-        }
-
-        .blog-content p:first-of-type {
-          font-size: 1.25rem;
-          color: #374151;
-          margin-bottom: 2rem;
-        }
-
-        .blog-content a:hover {
-          background: linear-gradient(120deg, #3b82f6 0%, #8b5cf6 100%);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        @media (max-width: 768px) {
-          .blog-content h1 {
-            font-size: 2.5rem;
-          }
-          .blog-content h2 {
-            font-size: 2rem;
-          }
-          .blog-content p {
-            font-size: 1rem;
-          }
-        }
-      `}</style>
 		</div>
 	);
 };

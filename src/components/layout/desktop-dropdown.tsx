@@ -8,7 +8,7 @@ interface DesktopDropdownProps {
 	category: StrapiPageCategory;
 }
 
-export default function DesktopDropdown({ category }: DesktopDropdownProps) {
+export default function DesktopDropdown({ category }: Readonly<DesktopDropdownProps>) {
 	return (
 		<div className="group relative">
 			<button

@@ -10,7 +10,7 @@ interface AuthSectionProps {
 	onNavigate?: () => void;
 }
 
-export default function AuthSection({ onNavigate }: AuthSectionProps) {
+export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) {
 	const { user, isAuthenticated, signOut } = useAuthStore();
 
 	const handleSignOut = async () => {

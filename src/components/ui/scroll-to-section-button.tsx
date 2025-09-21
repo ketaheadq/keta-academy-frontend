@@ -12,7 +12,7 @@ export default function ScrollToSectionButton({
 	children,
 	className,
 	sectionId,
-}: ScrollToSectionButtonProps) {
+}: Readonly<ScrollToSectionButtonProps>) {
 	const scrollToSection = () => {
 		const element = document.getElementById(sectionId);
 		if (element) {

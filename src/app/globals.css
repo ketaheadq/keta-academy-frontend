@@ -85,3 +85,45 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+.blog-content {
+	font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+	line-height: 1.8;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4,
+.blog-content h5,
+.blog-content h6 {
+	font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+	letter-spacing: -0.025em;
+}
+
+.blog-content p:first-of-type {
+	font-size: 1.25rem;
+	color: #374151;
+	margin-bottom: 2rem;
+}
+
+.blog-content a:hover {
+	background: linear-gradient(120deg, #3b82f6 0%, #8b5cf6 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 768px) {
+	.blog-content h1 {
+		font-size: 2.5rem;
+	}
+
+	.blog-content h2 {
+		font-size: 2rem;
+	}
+
+	.blog-content p {
+		font-size: 1rem;
+	}
+}

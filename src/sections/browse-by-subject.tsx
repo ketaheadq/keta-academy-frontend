@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getCourseIcon } from "@/lib/icons";
 import type { StrapiSubject } from "@/lib/strapi";
 
-export default function BrowseBySubject({ subjects }: { subjects: StrapiSubject[] }) {
+export default function BrowseBySubject({ subjects }: Readonly<{ subjects: StrapiSubject[] }>) {
 	return (
 		<section className="mb-12">
 			<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">
