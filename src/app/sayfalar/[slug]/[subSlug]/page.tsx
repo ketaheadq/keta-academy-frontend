@@ -80,7 +80,7 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 
 	const page = await getPageBySlug(slug);
 	if (!page) {
-		return <div>Sayfa bulunamadı</div>;
+		notFound();
 	}
 
 	// --- Define shared breadcrumb ---

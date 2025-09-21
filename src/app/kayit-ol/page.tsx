@@ -34,8 +34,8 @@ const features = [
 	{
 		id: 4,
 		icon: Users,
-		title: "50K+ Öğrenciye Katılın",
-		description: "Motive olmuş akranlarınızla birlikte öğrenin",
+		title: "Topluluk Oluşturun",
+		description: "Diğer öğrencilerle birlikte öğrenme deneyimi yaşayın",
 		color: "text-purple-600",
 	},
 ];
@@ -73,13 +73,13 @@ export default function SignUpPage() {
 							<div>
 								<div className="mb-4 flex items-center space-x-2">
 									<Badge className="bg-blue-600">Yeni</Badge>
-									<span className="text-gray-600 text-sm">Binlerce başarılı öğrenciye katılın</span>
+									<span className="text-gray-600 text-sm">Eğitim yolculuğunuzun ilk adımı</span>
 								</div>
 								<h1 className="mb-4 font-bold text-4xl text-gray-900">
 									Öğrenme Yolculuğunuza Bugün Başlayın
 								</h1>
 								<p className="text-gray-600 text-xl">
-									Premium kurslara erişim sağlayın, ilerlemenizi takip edin ve akademik
+									Kaliteli eğitim içeriklerine erişim sağlayın, ilerlemenizi takip edin ve akademik
 									hedeflerinize ulaşın.
 								</p>
 							</div>
@@ -104,30 +104,6 @@ export default function SignUpPage() {
 									);
 								})}
 							</div>
-
-							{/* Social Proof */}
-							<div className="flex items-center space-x-4 rounded-lg bg-white p-4 shadow-sm">
-								<div className="-space-x-2 flex">
-									{[1, 2, 3, 4].map((i) => (
-										<div
-											key={i}
-											className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-gradient-to-r from-blue-400 to-purple-500 font-bold text-white text-xs"
-										>
-											{String.fromCharCode(65 + i)}
-										</div>
-									))}
-								</div>
-								<div>
-									<div className="flex items-center space-x-1">
-										{[1, 2, 3, 4, 5].map((star) => (
-											<Star key={star} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-										))}
-									</div>
-									<p className="text-gray-600 text-sm">
-										<span className="font-semibold">4.9/5</span> 50.000+ öğrenciden
-									</p>
-								</div>
-							</div>
 						</div>
 
 						{/* Right Side - Sign Up Form */}
@@ -136,7 +112,7 @@ export default function SignUpPage() {
 								<CardHeader className="pb-4 text-center">
 									<CardTitle className="text-2xl">Hesabınızı Oluşturun</CardTitle>
 									<CardDescription>
-										Keta Academy'ye katılın ve potansiyelinizi açığa çıkarın
+										Keta Akademi'ye katılın ve potansiyelinizi açığa çıkarın
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
@@ -172,15 +148,15 @@ export default function SignUpPage() {
 										<div className="space-y-2">
 											<div className="flex items-center space-x-3 text-gray-600 text-sm">
 												<Shield className="h-4 w-4 flex-shrink-0 text-green-600" />
-												<span>Temel kurslara ücretsiz erişim</span>
+												<span>Tüm kurslara ücretsiz erişim</span>
 											</div>
 											<div className="flex items-center space-x-3 text-gray-600 text-sm">
 												<BookOpen className="h-4 w-4 flex-shrink-0 text-blue-600" />
-												<span>İlerleme takibi ve sertifikalar</span>
+												<span>İlerleme takibi</span>
 											</div>
 											<div className="flex items-center space-x-3 text-gray-600 text-sm">
 												<Users className="h-4 w-4 flex-shrink-0 text-purple-600" />
-												<span>Topluluk erişimi ve destek</span>
+												<span>Topluluk desteği ve etkileşim</span>
 											</div>
 										</div>
 									</div>

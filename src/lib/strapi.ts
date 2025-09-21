@@ -89,6 +89,8 @@ export interface StrapiBlog {
 	title: string;
 	slug: string;
 	content: StrapiBlock[];
+	image?: StrapiImage;
+	category?: string;
 	related_datas?: StrapiBlog[];
 	page?: StrapiPage;
 	isPopular: boolean;

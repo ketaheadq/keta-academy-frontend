@@ -82,7 +82,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 						popularContent = (
 							<AdmissionListing
 								admissionScores={popularAdmissionScores}
-								title={`🔥 Popüler ${page.title}`}
+								title={`🔥 Popüler ${page.title} Taban Puanları`}
 							/>
 						);
 					}
@@ -90,7 +90,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 					content = (
 						<AdmissionGrid
 							items={admissionScores}
-							title={`🎓 Tüm ${page.title}`}
+							title={`🎓 Tüm ${page.title} Taban Puanları`}
 							showRelatedData={true}
 						/>
 					);
@@ -114,11 +114,11 @@ export default async function Page({ params }: Readonly<PageProps>) {
 					const popularVideos = videos.filter((item) => item.isPopular);
 					if (popularVideos.length > 0) {
 						popularContent = (
-							<VideoListing videos={popularVideos} title={`🔥 Popüler ${page.title}`} />
+							<VideoListing videos={popularVideos} title={`🔥 Popüler ${page.title} Videolar`} />
 						);
 					}
 
-					content = <VideoGrid items={videos} title={`Tüm ${page.title}`} showRelatedData={true} />;
+					content = <VideoGrid items={videos} title={`Tüm ${page.title} Videolar`} showRelatedData={true} />;
 				}
 				break;
 			}
@@ -139,11 +139,11 @@ export default async function Page({ params }: Readonly<PageProps>) {
 					const popularBlogs = blogs.filter((item) => item.isPopular);
 					if (popularBlogs.length > 0) {
 						popularContent = (
-							<BlogListing blogs={popularBlogs} title={`🔥 Popüler ${page.title}`} />
+							<BlogListing blogs={popularBlogs} title={`🔥 Popüler ${page.title} Blog Yazıları`} />
 						);
 					}
 
-					content = <BlogGrid items={blogs} title={`Tüm ${page.title}`} showRelatedData={true} />;
+					content = <BlogGrid items={blogs} title={`Tüm ${page.title} Blog Yazıları`} showRelatedData={true} />;
 				}
 				break;
 			}
@@ -195,7 +195,6 @@ export default async function Page({ params }: Readonly<PageProps>) {
 					<BreadcrumbNav breadcrumbs={[{ label: page.title, href: `/sayfalar/${slug}` }]} />
 					<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 						<header className="mb-12 text-center">
-							<h1 className="mb-4 font-bold text-4xl text-gray-900">{page.title}</h1>
 							{page.pageType !== "Üniversite Taban Puanları" &&
 								page.pageType !== "Bölüm Taban Puanları" &&
 								page.pageType !== "Videolar" &&

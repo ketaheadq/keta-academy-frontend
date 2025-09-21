@@ -47,7 +47,7 @@ export default function LoginPage() {
 					{/* Login Card */}
 					<Card className="shadow-lg">
 						<CardHeader className="pb-4 text-center">
-							<CardTitle className="text-xl">Keta Academy'ye Giriş</CardTitle>
+							<CardTitle className="text-xl">Keta Akademi'ye Giriş</CardTitle>
 							<CardDescription>
 								Kurslarınıza erişin, ilerlemenizi takip edin ve öğrenmeye devam edin
 							</CardDescription>
