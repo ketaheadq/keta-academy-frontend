@@ -11,7 +11,12 @@ interface ShareButtonProps {
 	className?: string;
 }
 
-export default function ShareButton({ url, title, description, className }: Readonly<ShareButtonProps>) {
+export default function ShareButton({
+	url,
+	title,
+	description,
+	className,
+}: Readonly<ShareButtonProps>) {
 	const [showShareModal, setShowShareModal] = useState(false);
 	const [copySuccess, setCopySuccess] = useState(false);
 

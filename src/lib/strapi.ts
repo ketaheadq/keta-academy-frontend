@@ -405,7 +405,7 @@ export const isQuizResponse = (data: any): data is StrapiResponse<StrapiQuiz> =>
 export const isQuizCollectionResponse = (
   data: any,
 ): data is StrapiCollectionResponse<StrapiQuiz> => {
-  return data && Array.isArray(data.data) && data.meta && data.meta.pagination;
+  return Array.isArray(data?.data) && data?.meta?.pagination;
 };
 
 // Quiz-related API functions
