@@ -1,11 +1,11 @@
 "use client";
 
-import { BookOpen, Calendar, ExternalLink, FileText } from "lucide-react";
+import { Calendar, ExternalLink, FileText } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import type { StrapiBlog } from "@/lib/strapi";
 
 interface BlogCardProps {
@@ -13,7 +13,7 @@ interface BlogCardProps {
 	showRelatedData?: boolean;
 }
 
-export default function BlogCard({ blog, showRelatedData = false }: Readonly<BlogCardProps>) {
+export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 	const router = useRouter();
 
 	const handleCardClick = () => {
@@ -36,7 +36,10 @@ export default function BlogCard({ blog, showRelatedData = false }: Readonly<Blo
 	};
 
 	return (
-		<Card className="cursor-pointer transition-shadow hover:shadow-lg py-0" onClick={handleCardClick}>
+		<Card
+			className="cursor-pointer py-0 transition-shadow hover:shadow-lg"
+			onClick={handleCardClick}
+		>
 			<CardContent className="p-0">
 				{/* Blog Image */}
 				<div className="relative">
@@ -45,7 +48,7 @@ export default function BlogCard({ blog, showRelatedData = false }: Readonly<Blo
 						alt={blog.image ? blog.image.alternativeText || blog.title : "Blog Image"}
 						width={blog.image ? blog.image.width || 400 : 400}
 						height={blog.image ? blog.image.height || 250 : 250}
-						className="h-48 w-full rounded-t-lg object-cover "
+						className="h-48 w-full rounded-t-lg object-cover"
 						onError={(e) => {
 							e.currentTarget.src = "/images/blog.jpg";
 						}}
@@ -57,17 +60,16 @@ export default function BlogCard({ blog, showRelatedData = false }: Readonly<Blo
 						</Badge>
 					</div>
 					<div className="absolute top-2 right-2">
-					{blog.category  && (
-						<Badge className="bg-blue-500">
-							<FileText className="mr-1 h-3 w-3" />
-							blog.category
-						</Badge>
+						{blog.category && (
+							<Badge className="bg-blue-500">
+								<FileText className="mr-1 h-3 w-3" />
+								blog.category
+							</Badge>
 						)}
 					</div>
 				</div>
 
 				<div className="p-4">
-
 					{/* Blog Title */}
 					<CardTitle className="mb-2 text-lg">{blog.title}</CardTitle>
 
@@ -75,7 +77,6 @@ export default function BlogCard({ blog, showRelatedData = false }: Readonly<Blo
 					<div className="mb-3 text-gray-600 text-sm">
 						<p className="line-clamp-3">{getContentPreview()}</p>
 					</div>
-
 
 					<Button
 						className="w-full cursor-pointer"

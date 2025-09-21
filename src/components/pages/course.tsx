@@ -2,6 +2,7 @@
 
 import { BookOpen, CheckCircle, Circle, Clock, GraduationCap, Target } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Quiz, { type QuizResult } from "@/components/quiz";
@@ -234,9 +235,9 @@ export default function CoursePage({
 					<div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
 						<p className="text-blue-800 text-sm">
 							<strong>Not:</strong> İlerlemenizi kaydetmek için{" "}
-							<a href="/giris" className="underline">
+							<Link href="/giris" className="underline">
 								giriş yapın
-							</a>
+							</Link>
 							.
 						</p>
 					</div>

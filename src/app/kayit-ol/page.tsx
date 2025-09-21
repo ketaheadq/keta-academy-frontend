@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Chrome, Loader2, Shield, Star, Target, Trophy, Users } from "lucide-react";
+import { BookOpen, Chrome, Loader2, Shield, Target, Trophy, Users } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";

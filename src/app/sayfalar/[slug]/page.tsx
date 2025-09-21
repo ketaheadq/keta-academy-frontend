@@ -118,7 +118,9 @@ export default async function Page({ params }: Readonly<PageProps>) {
 						);
 					}
 
-					content = <VideoGrid items={videos} title={`Tüm ${page.title} Videolar`} showRelatedData={true} />;
+					content = (
+						<VideoGrid items={videos} title={`Tüm ${page.title} Videolar`} showRelatedData={true} />
+					);
 				}
 				break;
 			}
@@ -143,7 +145,13 @@ export default async function Page({ params }: Readonly<PageProps>) {
 						);
 					}
 
-					content = <BlogGrid items={blogs} title={`Tüm ${page.title} Blog Yazıları`} showRelatedData={true} />;
+					content = (
+						<BlogGrid
+							items={blogs}
+							title={`Tüm ${page.title} Blog Yazıları`}
+							showRelatedData={true}
+						/>
+					);
 				}
 				break;
 			}
