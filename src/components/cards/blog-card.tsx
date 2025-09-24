@@ -63,7 +63,7 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 						{blog.category && (
 							<Badge className="bg-blue-500">
 								<FileText className="mr-1 h-3 w-3" />
-                                {blog.category}
+								{blog.category}
 							</Badge>
 						)}
 					</div>
