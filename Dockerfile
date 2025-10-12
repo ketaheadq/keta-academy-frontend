@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM guergeiro/pnpm:20-10-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -12,17 +12,11 @@ FROM base AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build
 
-FROM node:20-alpine AS production
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-WORKDIR /app
-
-# Copy production dependencies
+FROM base
 COPY --from=prod-deps /app/node_modules /app/node_modules
-# Copy built application
-COPY --from=build /app/public /app/public
 COPY --from=build /app/.next /app/.next
+COPY --from=build /app/public /app/public
 
 EXPOSE 3000
-CMD [ "pnpm", "start" ]
+
+CMD ["pnpm", "start"]
