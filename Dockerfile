@@ -1,25 +1,28 @@
-FROM node:20-alpine
-
+FROM node:20-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+COPY . /app
 WORKDIR /app
 
-# Install pnpm globally
-RUN npm install -g pnpm@latest
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
-# Copy package files
-COPY package*.json ./
-
-# SECURITY: Disabling scripts during install to prevent arbitrary code execution.
-# Build/start scripts are explicitly called later.
-RUN pnpm install --ignore-scripts
-
-# Copy app source
-COPY . .
-
-# Build the app
+FROM base AS build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build
 
-# Expose port
-EXPOSE 3000
+FROM node:20-alpine AS production
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+WORKDIR /app
 
-# Start command
-CMD ["pnpm", "run", "start"]
+# Copy production dependencies
+COPY --from=prod-deps /app/node_modules /app/node_modules
+# Copy built application
+COPY --from=build /app/public /app/public
+COPY --from=build /app/out /app/out
+
+EXPOSE 3000
+CMD [ "pnpm", "start" ]

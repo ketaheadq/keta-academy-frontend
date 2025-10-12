@@ -40,7 +40,7 @@ const features = [
 
 export default function Features() {
 	return (
-		<section className="relative bg-slate-50 py-20 md:py-32">
+		<section className="relative py-20 md:py-32">
 			{/* Background */}
 			<div className="absolute top-0 right-0 h-96 w-96 animate-pulse rounded-full bg-gradient-to-br from-green-400/15 to-emerald-400/15 blur-3xl" />
 
