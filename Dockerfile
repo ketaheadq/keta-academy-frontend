@@ -22,7 +22,7 @@ WORKDIR /app
 COPY --from=prod-deps /app/node_modules /app/node_modules
 # Copy built application
 COPY --from=build /app/public /app/public
-COPY --from=build /app/out /app/out
+COPY --from=build /app/.next /app/.next
 
 EXPOSE 3000
 CMD [ "pnpm", "start" ]
