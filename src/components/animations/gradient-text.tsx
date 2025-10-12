@@ -8,6 +8,7 @@ interface GradientTextProps {
 	showBorder?: boolean;
 }
 
+// TODO: Use this snippet for gradient text somewhere
 export default function GradientText({
 	children,
 	className = "",

@@ -1,3 +1,4 @@
+import { Instagram, Twitter, Youtube } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getBlogs, getSettings, getSubjects } from "@/lib/strapi";
@@ -103,10 +104,21 @@ export default async function Footer() {
 
 				{/* Copyright */}
 				<div className="mt-10 border-gray-800 border-t pt-8 pb-2">
-					<div className="flex flex-col items-center justify-between md:flex-row">
-						<p className="mx-auto text-gray-500 text-sm">
-							&copy; {new Date().getFullYear()} {settings.siteName}. Tüm hakları saklıdır.
+					<div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+						<p className="text-muted-foreground text-sm">
+							&copy; 2025 {settings.siteName}. Tüm hakları saklıdır.
 						</p>
+						<div className="flex items-center gap-4">
+							<Link href="#" className="text-muted-foreground transition-colors hover:text-white">
+								<Twitter className="h-5 w-5" />
+							</Link>
+							<Link href="#" className="text-muted-foreground transition-colors hover:text-white/">
+								<Instagram className="h-5 w-5" />
+							</Link>
+							<Link href="#" className="text-muted-foreground transition-colors hover:text-white">
+								<Youtube className="h-5 w-5" />
+							</Link>
+						</div>
 					</div>
 				</div>
 			</div>

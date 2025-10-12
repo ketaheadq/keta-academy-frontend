@@ -1,13 +1,24 @@
 FROM node:20-alpine
 
+# Install pnpm globally
+RUN npm install -g pnpm
+
 WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
-RUN npm install
 
+# Install dependencies with pnpm
+RUN pnpm install
+
+# Copy the rest of the application
 COPY . .
-RUN npm run build
 
+# Build the app
+RUN pnpm run build
+
+# Expose port
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+# Start the app
+CMD ["pnpm", "run", "start"]
