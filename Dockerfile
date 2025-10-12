@@ -1,6 +1,9 @@
-FROM pnpm/node:20-alpine
+FROM node:20-alpine
 
 WORKDIR /app
+
+# Install pnpm globally
+RUN npm install -g pnpm@latest
 
 # Copy package files
 COPY package*.json ./
