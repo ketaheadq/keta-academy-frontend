@@ -1,18 +1,47 @@
+# Dependencies
 node_modules
 npm-debug.log
+
+# Environment variables
+.env*
+!.env.example
+
+# Git
 .git
 .gitignore
-README.md
-.env
-.nyc_output
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Logs
 coverage
+.nyc_output
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Tests
+test/
+tests/
+
+# Build artifacts from other environments
+.next/
+dist/
+build/
 .cache
 .parcel-cache
-.next
-.nuxt
-dist
-build
 .strapi-updater.json
 .tmp
 database
-public/uploads 
+public/uploads
+
+# Secrets
+secrets/
+*.key
+*.pem
