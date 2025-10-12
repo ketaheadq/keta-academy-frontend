@@ -1,17 +1,15 @@
-FROM node:20-alpine
-
-# Install pnpm globally
-RUN npm install -g pnpm
+FROM pnpm/node:20-alpine
 
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies with pnpm
-RUN pnpm install
+# SECURITY: Disabling scripts during install to prevent arbitrary code execution.
+# Build/start scripts are explicitly called later.
+RUN pnpm install --ignore-scripts
 
-# Copy the rest of the application
+# Copy app source
 COPY . .
 
 # Build the app
@@ -20,5 +18,5 @@ RUN pnpm run build
 # Expose port
 EXPOSE 3000
 
-# Start the app
+# Start command
 CMD ["pnpm", "run", "start"]
