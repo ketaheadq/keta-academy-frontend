@@ -76,7 +76,7 @@ export default function Courses() {
 	const popularCourses = courses.filter((course) => course.isPopular);
 
 	return (
-		<section className="relative py-10 md:py-16">
+		<section className="relative py-8 md:py-16">
 			{/* Background */}
 			<div className="absolute bottom-0 left-0 h-[500px] w-[500px] animate-pulse rounded-full bg-gradient-to-tr from-indigo-400/15 to-blue-400/15 blur-3xl" />
 

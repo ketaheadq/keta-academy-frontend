@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export default function CallToAction() {
 	return (
-		<section className="relative py-20 md:py-32">
+		<section className="relative py-12 md:py-24">
 			<div className="-z-10 absolute inset-0">
 				<div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 h-[600px] w-[600px] animate-pulse rounded-full bg-blue-400/10 blur-3xl" />
 			</div>

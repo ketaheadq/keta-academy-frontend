@@ -6,7 +6,7 @@ import { generateSimpleId } from "@/lib/utils";
 
 export default function Hero() {
 	return (
-		<section className="relative overflow-hidden pt-3216 pb-20 md:pt-20 md:pb-32">
+		<section className="relative overflow-hidden pt-12 pb-8 md:pt-24 md:pb-16">
 			{/* Background Blobs */}
 			<div className="-z-10 absolute inset-0">
 				<div className="absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full bg-gradient-to-br from-blue-400/20 to-cyan-400/20 blur-3xl" />

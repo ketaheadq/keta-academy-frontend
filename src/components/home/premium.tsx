@@ -16,7 +16,7 @@ const premiumFeatures = [
 
 export default function Premium() {
 	return (
-		<section className="relative py-20 md:py-32">
+		<section className="relative py-8 md:py-16">
 			{/* Background */}
 			<div className="absolute top-1/4 right-0 h-[400px] w-[400px] animate-pulse rounded-full bg-gradient-to-bl from-rose-400/15 to-pink-400/15 blur-3xl" />
 			<div
