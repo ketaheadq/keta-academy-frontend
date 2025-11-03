@@ -1,12 +1,18 @@
 services:
   frontend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_STRAPI_URL: ${NEXT_PUBLIC_STRAPI_URL:-https://admin.ketaakademi.com}
+        NEXT_PUBLIC_FRONTEND_URL: ${NEXT_PUBLIC_FRONTEND_URL:-https://ketaakademi.com}
     container_name: nextjs
     restart: always
-
-
-
     ports:
       - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL:-https://admin.ketaakademi.com}
+      - NEXT_PUBLIC_FRONTEND_URL=${NEXT_PUBLIC_FRONTEND_URL:-https://ketaakademi.com}
+      - NODE_ENV=production
     env_file:
       - .env
