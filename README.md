@@ -38,3 +38,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Prompts
 
 using shadcn, lucide-react icons, and tailwind animations
+
+## TODOS
+
+* navbar layout shift for some reason
+* add icon for loading spinner [here](https://ketaakademi.com/sayfalar/2025-yerlestirme-puanlari-lisans-4-yillik) for better UX and change colors a bit
+* fix docker pnpm related problem if you can't fix it under 30 minutes, roll back changes

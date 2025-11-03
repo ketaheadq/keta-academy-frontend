@@ -7,26 +7,38 @@ RUN corepack enable && \
   addgroup -g 1001 -S nodejs && \
   adduser -S nextjs -u 1001
 
-COPY . /app
 WORKDIR /app
 
-FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile --ignore-scripts
+FROM base AS deps
+COPY package.json pnpm-lock.yaml* ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
 
 FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Set environment variables for build
+ARG NEXT_PUBLIC_STRAPI_URL
+ARG NEXT_PUBLIC_FRONTEND_URL
+ENV NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL
+ENV NEXT_PUBLIC_FRONTEND_URL=$NEXT_PUBLIC_FRONTEND_URL
+
+# Build the application
 RUN pnpm run build
 
-FROM base
-# Copy the built application and production dependencies
-COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=build /app/.next /app/.next
-COPY --from=build /app/public /app/public
+FROM base AS runtime
+# Copy built application
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
 
-# Change ownership during image build (happens once when building)
+# Change ownership
 RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 EXPOSE 3000
 
-CMD ["pnpm", "start"]
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]
