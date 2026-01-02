@@ -14,7 +14,7 @@ export default function AdmissionScoreTableLoading() {
 				<div className="flex items-center gap-3">
 					<div className="relative">
 						<Skeleton className="h-10 w-64 rounded-lg bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
-						<div className="-translate-y-1/2 absolute top-1/2 left-3">
+						<div className="absolute top-1/2 left-3 -translate-y-1/2">
 							<Skeleton className="h-4 w-4 rounded bg-gray-300" />
 						</div>
 					</div>

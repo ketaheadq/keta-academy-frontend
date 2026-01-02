@@ -8,14 +8,14 @@ export default function Hero() {
 	return (
 		<section className="relative overflow-hidden pt-12 pb-8 md:pt-24 md:pb-16">
 			{/* Background Blobs */}
-			<div className="-z-10 absolute inset-0">
+			<div className="absolute inset-0 -z-10">
 				<div className="absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full bg-gradient-to-br from-blue-400/20 to-cyan-400/20 blur-3xl" />
 				<div
 					className="absolute right-10 bottom-20 h-96 w-96 animate-pulse rounded-full bg-gradient-to-br from-purple-400/20 to-pink-400/20 blur-3xl"
 					style={{ animationDelay: "1s" }}
 				/>
 				<div
-					className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 h-80 w-80 animate-pulse rounded-full bg-gradient-to-br from-amber-400/15 to-orange-400/15 blur-3xl"
+					className="absolute top-1/2 left-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-gradient-to-br from-amber-400/15 to-orange-400/15 blur-3xl"
 					style={{ animationDelay: "2s" }}
 				/>
 			</div>

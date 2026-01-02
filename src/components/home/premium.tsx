@@ -67,7 +67,7 @@ export default function Premium() {
 
 						<div className="grid gap-6">
 							<div className="group animate-slideUp" style={{ animationDelay: "0.2s" }}>
-								<Card className="hover:-translate-y-2 border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg">
+								<Card className="border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
 									<div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 transition-all duration-300 group-hover:scale-110 group-hover:bg-orange-200">
 										<Video className="h-6 w-6 text-orange-600" />
 									</div>
@@ -83,7 +83,7 @@ export default function Premium() {
 							</div>
 
 							<div className="group animate-slideUp" style={{ animationDelay: "0.4s" }}>
-								<Card className="hover:-translate-y-2 border-gray-200 bg-white p-6 transition-all duration-300 hover:shadow-lg">
+								<Card className="border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
 									<div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 transition-all duration-300 group-hover:scale-110 group-hover:bg-orange-200">
 										<MessageCircle className="h-6 w-6 text-orange-600" />
 									</div>

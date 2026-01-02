@@ -284,7 +284,7 @@ export default function AdmissionScoreTable({
 				<h2 className="font-semibold text-foreground text-xl">{title} Detayları</h2>
 				<div className="flex items-center gap-3">
 					<div className="relative">
-						<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
+						<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 						<Input
 							placeholder="Ara..."
 							value={searchTerm}

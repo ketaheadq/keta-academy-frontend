@@ -30,8 +30,8 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 								className="rounded-full border-4 border-white object-cover shadow-lg"
 							/>
 						</div>
-						<div className="-bottom-1 -right-1 absolute h-6 w-6 rounded-full border-2 border-white bg-green-500" />
-						<div className="-top-1 -right-1 absolute flex h-6 w-6 items-center justify-center rounded-full bg-blue-500">
+						<div className="absolute -right-1 -bottom-1 h-6 w-6 rounded-full border-2 border-white bg-green-500" />
+						<div className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500">
 							<Shield className="h-3 w-3 text-white" />
 						</div>
 					</div>
@@ -265,7 +265,7 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 					{/* Search and Sort */}
 					<div className="flex gap-3">
 						<div className="relative">
-							<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 transform text-gray-400" />
+							<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
 							<input
 								type="text"
 								placeholder="Öğretmen ara..."

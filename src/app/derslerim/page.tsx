@@ -106,7 +106,7 @@ export default function DerslerimPage() {
 					<div className="py-12 text-center">
 						<div className="inline-flex items-center px-4 py-2 font-semibold text-blue-500 leading-6">
 							<svg
-								className="-ml-1 mr-3 h-5 w-5 animate-spin text-blue-500"
+								className="mr-3 -ml-1 h-5 w-5 animate-spin text-blue-500"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
 								viewBox="0 0 24 24"
