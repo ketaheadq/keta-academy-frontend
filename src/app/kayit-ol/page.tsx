@@ -147,15 +147,15 @@ export default function SignUpPage() {
 										<h4 className="font-medium text-gray-900 text-sm">Neler elde edeceksiniz:</h4>
 										<div className="space-y-2">
 											<div className="flex items-center space-x-3 text-gray-600 text-sm">
-												<Shield className="h-4 w-4 flex-shrink-0 text-green-600" />
+												<Shield className="h-4 w-4 shrink-0 text-green-600" />
 												<span>Tüm kurslara ücretsiz erişim</span>
 											</div>
 											<div className="flex items-center space-x-3 text-gray-600 text-sm">
-												<BookOpen className="h-4 w-4 flex-shrink-0 text-blue-600" />
+												<BookOpen className="h-4 w-4 shrink-0 text-blue-600" />
 												<span>İlerleme takibi</span>
 											</div>
 											<div className="flex items-center space-x-3 text-gray-600 text-sm">
-												<Users className="h-4 w-4 flex-shrink-0 text-purple-600" />
+												<Users className="h-4 w-4 shrink-0 text-purple-600" />
 												<span>Topluluk desteği ve etkileşim</span>
 											</div>
 										</div>

@@ -77,7 +77,7 @@ export default function CourseLoading() {
 								{/* eslint-disable-next-line lint/suspicious/noArrayIndexKey */}
 								{Array.from({ length: 6 }).map(() => (
 									<div key={generateSimpleId()} className="flex items-start space-x-3 p-3">
-										<Skeleton className="mt-1 h-5 w-5 flex-shrink-0 rounded-full" />
+										<Skeleton className="mt-1 h-5 w-5 shrink-0 rounded-full" />
 										<div className="flex-1 space-y-2">
 											<Skeleton className="h-4 w-full" />
 											<Skeleton className="h-3 w-3/4" />

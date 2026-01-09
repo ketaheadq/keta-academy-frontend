@@ -39,7 +39,7 @@ export default function AuthCallbackPage() {
 						<div className="space-y-2">
 							<Button
 								onClick={() => {
-									window.location.href = "/giris";
+									globalThis.location.href = "/giris";
 								}}
 								className="w-full"
 							>
@@ -48,7 +48,7 @@ export default function AuthCallbackPage() {
 							<Button
 								variant="outline"
 								onClick={() => {
-									window.location.href = "/";
+									globalThis.location.href = "/";
 								}}
 								className="w-full"
 							>

@@ -202,7 +202,7 @@ export default function ContactForm() {
 							<Button
 								type="submit"
 								disabled={isSubmitting}
-								className="h-12 w-full transform bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-lg text-white transition-all hover:scale-[1.02] hover:from-blue-700 hover:to-purple-700 disabled:transform-none"
+								className="h-12 w-full transform bg-linear-to-r from-blue-600 to-purple-600 font-semibold text-lg text-white transition-all hover:scale-[1.02] hover:from-blue-700 hover:to-purple-700 disabled:transform-none"
 							>
 								{isSubmitting ? (
 									<div className="flex items-center gap-2">

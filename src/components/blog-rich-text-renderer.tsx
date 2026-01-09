@@ -37,8 +37,8 @@ const BlogRichTextRenderer: React.FC<BlogRichTextRendererProps> = ({ content, cl
 					),
 					heading: ({ children, level }) => {
 						const headingStyles = {
-							1: "text-5xl font-black text-gray-900 mb-8 mt-12 leading-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent",
-							2: "text-4xl font-bold text-gray-900 mb-6 mt-10 leading-tight relative before:content-[''] before:absolute before:left-0 before:-bottom-2 before:w-16 before:h-1 before:bg-gradient-to-r before:from-blue-500 before:to-purple-500 before:rounded-full",
+							1: "text-5xl font-black text-gray-900 mb-8 mt-12 leading-tight bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent",
+							2: "text-4xl font-bold text-gray-900 mb-6 mt-10 leading-tight relative before:content-[''] before:absolute before:left-0 before:-bottom-2 before:w-16 before:h-1 before:bg-linear-to-r before:from-blue-500 before:to-purple-500 before:rounded-full",
 							3: "text-3xl font-bold text-gray-800 mb-5 mt-8 leading-tight",
 							4: "text-2xl font-semibold text-gray-800 mb-4 mt-6 leading-tight",
 							5: "text-xl font-semibold text-gray-700 mb-3 mt-5 leading-tight",
@@ -76,7 +76,7 @@ const BlogRichTextRenderer: React.FC<BlogRichTextRendererProps> = ({ content, cl
 						</li>
 					),
 					quote: ({ children }) => (
-						<div className="relative my-10 rounded-2xl border-blue-500 border-l-4 bg-gradient-to-r from-blue-50 to-purple-50 p-8 shadow-lg">
+						<div className="relative my-10 rounded-2xl border-blue-500 border-l-4 bg-linear-to-r from-blue-50 to-purple-50 p-8 shadow-lg">
 							<Quote className="absolute top-4 left-4 h-6 w-6 text-blue-400 opacity-60" />
 							<blockquote className="pl-8 font-medium text-gray-700 text-xl italic leading-relaxed">
 								{children}

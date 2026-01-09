@@ -12,9 +12,9 @@ export default function TutoringPage() {
 	const howItWorksId = useId();
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+		<div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
 			{/* Hero Section */}
-			<div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white">
+			<div className="relative overflow-hidden bg-linear-to-r from-blue-600 via-purple-600 to-indigo-700 text-white">
 				<div className="absolute inset-0 bg-black opacity-10" />
 				<div className="relative mx-auto px-4 py-20 sm:px-6 lg:px-8">
 					<div className="text-center">
@@ -48,7 +48,7 @@ export default function TutoringPage() {
 
 			{/* How It Works Section */}
 			<div id={howItWorksId} className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
-				<div className="mb-12 rounded-3xl bg-gradient-to-r from-purple-600 to-blue-600 p-8 text-white md:p-12">
+				<div className="mb-12 rounded-3xl bg-linear-to-r from-purple-600 to-blue-600 p-8 text-white md:p-12">
 					<div className="mb-12 text-center">
 						<h2 className="mb-4 font-bold text-3xl md:text-4xl">Nasıl Çalışır?</h2>
 						<p className="mx-auto max-w-2xl text-lg text-purple-100">
@@ -97,7 +97,7 @@ export default function TutoringPage() {
 				</div>
 
 				{/* CTA Section */}
-				<div className="rounded-3xl bg-gradient-to-r from-green-500 to-emerald-600 p-8 text-center text-white md:p-12">
+				<div className="rounded-3xl bg-linear-to-r from-green-500 to-emerald-600 p-8 text-center text-white md:p-12">
 					<h2 className="mb-4 font-bold text-3xl md:text-4xl">Hayalinizdeki Başarıya Ulaşın</h2>
 					<p className="mx-auto mb-8 max-w-2xl text-green-100 text-lg">
 						Uzman öğretmenlerimizle birebir çalışarak akademik hedeflerinizi gerçekleştirin. İlk

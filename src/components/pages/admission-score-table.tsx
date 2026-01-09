@@ -176,8 +176,8 @@ export default function AdmissionScoreTable({
 				const bv = b[sortField];
 
 				if (column?.type === "number") {
-					const an = Number.parseFloat(String(av).replace(/[",]/g, "")) || 0;
-					const bn = Number.parseFloat(String(bv).replace(/[",]/g, "")) || 0;
+					const an = Number.parseFloat(String(av).replaceAll(/[",]/g, "")) || 0;
+					const bn = Number.parseFloat(String(bv).replaceAll(/[",]/g, "")) || 0;
 					return sortDirection === "asc" ? an - bn : bn - an;
 				}
 
@@ -261,7 +261,7 @@ export default function AdmissionScoreTable({
 					<span
 						className={cn(
 							"block",
-							shouldWrap ? "whitespace-normal break-words" : "max-w-xs truncate md:max-w-none",
+							shouldWrap ? "wrap-break-word whitespace-normal" : "max-w-xs truncate md:max-w-none",
 						)}
 						title={stringValue}
 					>

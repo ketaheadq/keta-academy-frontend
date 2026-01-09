@@ -27,32 +27,32 @@ export default function AdmissionScoreCard({
 	const getColorScheme = (title: string) => {
 		const colors = [
 			{
-				bg: "bg-gradient-to-br from-blue-500 to-purple-600",
+				bg: "bg-linear-to-br from-blue-500 to-purple-600",
 				accent: "bg-blue-100",
 				text: "text-blue-600",
 			},
 			{
-				bg: "bg-gradient-to-br from-green-500 to-teal-600",
+				bg: "bg-linear-to-br from-green-500 to-teal-600",
 				accent: "bg-green-100",
 				text: "text-green-600",
 			},
 			{
-				bg: "bg-gradient-to-br from-orange-500 to-red-600",
+				bg: "bg-linear-to-br from-orange-500 to-red-600",
 				accent: "bg-orange-100",
 				text: "text-orange-600",
 			},
 			{
-				bg: "bg-gradient-to-br from-purple-500 to-pink-600",
+				bg: "bg-linear-to-br from-purple-500 to-pink-600",
 				accent: "bg-purple-100",
 				text: "text-purple-600",
 			},
 			{
-				bg: "bg-gradient-to-br from-indigo-500 to-blue-600",
+				bg: "bg-linear-to-br from-indigo-500 to-blue-600",
 				accent: "bg-indigo-100",
 				text: "text-indigo-600",
 			},
 			{
-				bg: "bg-gradient-to-br from-emerald-500 to-green-600",
+				bg: "bg-linear-to-br from-emerald-500 to-green-600",
 				accent: "bg-emerald-100",
 				text: "text-emerald-600",
 			},
@@ -95,7 +95,7 @@ export default function AdmissionScoreCard({
 									{admissionScore.title}
 								</h3>
 								{admissionScore.isPopular && (
-									<Badge className="flex-shrink-0 border-yellow-200 bg-yellow-100 text-yellow-800">
+									<Badge className="shrink-0 border-yellow-200 bg-yellow-100 text-yellow-800">
 										<Star className="mr-1 h-3 w-3" />
 										Popüler
 									</Badge>

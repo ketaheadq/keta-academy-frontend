@@ -42,7 +42,7 @@ export default function Features() {
 	return (
 		<section className="relative py-8 md:py-16">
 			{/* Background */}
-			<div className="absolute top-0 right-0 h-96 w-96 animate-pulse rounded-full bg-gradient-to-br from-green-400/15 to-emerald-400/15 blur-3xl" />
+			<div className="absolute top-0 right-0 h-96 w-96 animate-pulse rounded-full bg-linear-to-br from-green-400/15 to-emerald-400/15 blur-3xl" />
 
 			<div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto mb-16 max-w-3xl animate-fadeIn text-center">

@@ -109,7 +109,7 @@ function TermsOfServiceContent() {
 						{paragraphs.map(({ text, key }) => (
 							<p
 								key={key}
-								className="overflow-wrap-anywhere mb-4 break-words text-gray-700 leading-relaxed"
+								className="overflow-wrap-anywhere wrap-break-word mb-4 text-gray-700 leading-relaxed"
 							>
 								{text}
 							</p>

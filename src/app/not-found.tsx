@@ -12,7 +12,7 @@ export default function NotFound() {
 				<div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl sm:p-10">
 					<div className="text-center">
 						<div className="flex justify-center">
-							<span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text font-extrabold text-9xl text-transparent">
+							<span className="bg-linear-to-r from-red-500 to-orange-500 bg-clip-text font-extrabold text-9xl text-transparent">
 								404
 							</span>
 						</div>

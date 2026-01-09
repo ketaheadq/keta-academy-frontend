@@ -18,9 +18,9 @@ export default function Premium() {
 	return (
 		<section className="relative py-8 md:py-16">
 			{/* Background */}
-			<div className="absolute top-1/4 right-0 h-[400px] w-[400px] animate-pulse rounded-full bg-gradient-to-bl from-rose-400/15 to-pink-400/15 blur-3xl" />
+			<div className="absolute top-1/4 right-0 h-[400px] w-[400px] animate-pulse rounded-full bg-linear-to-bl from-rose-400/15 to-pink-400/15 blur-3xl" />
 			<div
-				className="absolute bottom-0 left-0 h-[350px] w-[350px] animate-pulse rounded-full bg-gradient-to-tr from-violet-400/15 to-purple-400/15 blur-3xl"
+				className="absolute bottom-0 left-0 h-[350px] w-[350px] animate-pulse rounded-full bg-linear-to-tr from-violet-400/15 to-purple-400/15 blur-3xl"
 				style={{ animationDelay: "1s" }}
 			/>
 
@@ -49,7 +49,7 @@ export default function Premium() {
 										className="flex animate-fadeIn items-center gap-3"
 										style={{ animationDelay: `${0.1 + index * 0.1}s` }}
 									>
-										<div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-orange-100">
+										<div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-100">
 											<Check className="h-3 w-3 text-orange-600" />
 										</div>
 										<span className="text-gray-900">{feature}</span>

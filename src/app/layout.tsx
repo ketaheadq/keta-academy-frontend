@@ -105,7 +105,7 @@ export default function RootLayout({
 				<Providers>
 					<div className="flex min-h-screen flex-col">
 						<Navbar />
-						<main className="mx-auto w-full max-w-6xl flex-grow py-6 sm:px-6 md:px-4 lg:px-2 xl:px-0">
+						<main className="mx-auto w-full max-w-6xl grow py-6 sm:px-6 md:px-4 lg:px-2 xl:px-0">
 							{children}
 						</main>
 						<Footer />

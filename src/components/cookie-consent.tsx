@@ -22,8 +22,8 @@ export default function CookieConsent() {
 		setIsVisible(false);
 
 		// Enable analytics/tracking here
-		if (typeof window !== "undefined" && (window as any).gtag) {
-			(window as any).gtag("consent", "update", {
+		if (globalThis.window !== undefined && (globalThis.window as any).gtag) {
+			(globalThis.window as any).gtag("consent", "update", {
 				analytics_storage: "granted",
 			});
 		}

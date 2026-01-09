@@ -225,7 +225,7 @@ export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>)
 								>
 									<CardContent className="p-4">
 										<div className="flex items-start space-x-3">
-											<div className="mt-1 flex-shrink-0">
+											<div className="mt-1 shrink-0">
 												{attempt?.isCorrect ? (
 													<CheckCircle className="h-5 w-5 text-green-500" />
 												) : (

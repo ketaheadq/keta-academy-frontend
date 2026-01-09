@@ -92,15 +92,15 @@ export default function LoginPage() {
 							{/* Benefits */}
 							<div className="space-y-3">
 								<div className="flex items-center space-x-3 text-gray-600 text-sm">
-									<Shield className="h-4 w-4 flex-shrink-0 text-green-600" />
+									<Shield className="h-4 w-4 shrink-0 text-green-600" />
 									<span>Güvenli ve şifrelenmiş kimlik doğrulama</span>
 								</div>
 								<div className="flex items-center space-x-3 text-gray-600 text-sm">
-									<Users className="h-4 w-4 flex-shrink-0 text-blue-600" />
+									<Users className="h-4 w-4 shrink-0 text-blue-600" />
 									<span>Şifre hatırlamadan hızlı erişim</span>
 								</div>
 								<div className="flex items-center space-x-3 text-gray-600 text-sm">
-									<BookOpen className="h-4 w-4 flex-shrink-0 text-purple-600" />
+									<BookOpen className="h-4 w-4 shrink-0 text-purple-600" />
 									<span>İlerlemenizi tüm cihazlarda senkronize edin</span>
 								</div>
 							</div>

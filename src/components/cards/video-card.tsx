@@ -37,7 +37,7 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 		];
 
 		for (const pattern of patterns) {
-			const match = RegExp(pattern).exec(url);
+			const match = new RegExp(pattern).exec(url);
 			if (match?.[1]) {
 				return match[1];
 			}

@@ -9,7 +9,7 @@ const BoldModifier = ({
 }) => (
 	<strong
 		className={clsx(
-			"bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-bold text-gray-900",
+			"bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text font-bold text-gray-900",
 			className,
 		)}
 	>

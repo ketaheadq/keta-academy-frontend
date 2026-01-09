@@ -78,7 +78,7 @@ export default function Courses() {
 	return (
 		<section className="relative py-8 md:py-16">
 			{/* Background */}
-			<div className="absolute bottom-0 left-0 h-[500px] w-[500px] animate-pulse rounded-full bg-gradient-to-tr from-indigo-400/15 to-blue-400/15 blur-3xl" />
+			<div className="absolute bottom-0 left-0 h-[500px] w-[500px] animate-pulse rounded-full bg-linear-to-tr from-indigo-400/15 to-blue-400/15 blur-3xl" />
 
 			{/* Conditionally Render Sections Only When Data Exists */}
 

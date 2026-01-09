@@ -58,7 +58,7 @@ export const useAuthStore = create<AuthStore>()(
 					// Redirect to Strapi's Google OAuth endpoint
 					const googleAuthUrl = getGoogleAuthUrl();
 					console.log("🔍 Redirecting to:", googleAuthUrl);
-					window.location.href = googleAuthUrl;
+					globalThis.window.location.href = googleAuthUrl;
 				} catch (error) {
 					console.error("Failed to initiate Google sign-in:", error);
 					set({
@@ -91,7 +91,7 @@ export const useAuthStore = create<AuthStore>()(
 					// Redirect to dashboard or previous page
 					const redirectUrl = sessionStorage.getItem("auth_redirect") || "/";
 					sessionStorage.removeItem("auth_redirect");
-					window.location.href = redirectUrl;
+					globalThis.window.location.href = redirectUrl;
 				} catch (error) {
 					console.error("Authentication redirect failed:", error);
 					set({
@@ -126,7 +126,7 @@ export const useAuthStore = create<AuthStore>()(
 					// Redirect to dashboard or previous page
 					const redirectUrl = sessionStorage.getItem("auth_redirect") || "/";
 					sessionStorage.removeItem("auth_redirect");
-					window.location.href = redirectUrl;
+					globalThis.window.location.href = redirectUrl;
 				} catch (error) {
 					console.error("Authentication callback failed:", error);
 					set({
@@ -176,7 +176,7 @@ export const useAuthStore = create<AuthStore>()(
 					});
 
 					// Redirect to home page
-					window.location.href = "/";
+					globalThis.window.location.href = "/";
 				} catch (error) {
 					console.error("Sign-out failed:", error);
 					set({

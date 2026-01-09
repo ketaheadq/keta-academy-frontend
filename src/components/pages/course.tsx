@@ -144,8 +144,8 @@ export default function CoursePage({
 	};
 
 	const getCurrentLessonUrl = () => {
-		if (typeof window !== "undefined") {
-			return `${window.location.origin}${pathname}?ders_ismi=${currentLesson?.slug}`;
+		if (globalThis.window !== undefined) {
+			return `${globalThis.window.location.origin}${pathname}?ders_ismi=${currentLesson?.slug}`;
 		}
 		return "";
 	};
@@ -257,10 +257,9 @@ export default function CoursePage({
 											height="100%"
 											src={`https://www.youtube.com/embed/${currentLesson.youtubeVideoId}${isPlaying ? "?autoplay=1" : ""}`}
 											title={currentLesson.title}
-											frameBorder="0"
 											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 											allowFullScreen
-											className="absolute inset-0"
+											className="absolute inset-0 border-0"
 										/>
 									) : (
 										<div className="absolute inset-0 flex items-center justify-center text-white">
@@ -450,7 +449,7 @@ export default function CoursePage({
 													onClick={() => handleLessonSelect(lesson)}
 												>
 													<div className="flex items-start space-x-3">
-														<div className="mt-1 flex-shrink-0">
+														<div className="mt-1 shrink-0">
 															{lessonProgress[lesson.documentId] ? (
 																<CheckCircle className="h-5 w-5 text-green-500" />
 															) : (

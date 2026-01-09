@@ -8,22 +8,22 @@ export default function AdmissionScoreTableLoading() {
 			{/* Table Controls Skeleton */}
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 				<div className="space-y-2">
-					<Skeleton className="h-6 w-56 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
-					<Skeleton className="h-3 w-32 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
+					<Skeleton className="h-6 w-56 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+					<Skeleton className="h-3 w-32 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
 				</div>
 				<div className="flex items-center gap-3">
 					<div className="relative">
-						<Skeleton className="h-10 w-64 rounded-lg bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
+						<Skeleton className="h-10 w-64 rounded-lg bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
 						<div className="absolute top-1/2 left-3 -translate-y-1/2">
 							<Skeleton className="h-4 w-4 rounded bg-gray-300" />
 						</div>
 					</div>
-					<Skeleton className="h-10 w-24 rounded-lg bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
+					<Skeleton className="h-10 w-24 rounded-lg bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
 				</div>
 			</div>
 
 			{/* Results Count Skeleton */}
-			<Skeleton className="h-4 w-40 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
+			<Skeleton className="h-4 w-40 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
 
 			{/* Table Skeleton */}
 			<Card className="overflow-hidden shadow-sm">
@@ -32,11 +32,11 @@ export default function AdmissionScoreTableLoading() {
 						{/* Table Header */}
 						<div className="border-b bg-muted/50 px-6 py-4">
 							<div className="grid grid-cols-1 gap-4 md:grid-cols-5">
-								<Skeleton className="h-4 w-20 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300" />
-								<Skeleton className="h-4 w-24 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300" />
-								<Skeleton className="h-4 w-16 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300" />
-								<Skeleton className="h-4 w-20 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300" />
-								<Skeleton className="h-4 w-18 bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300" />
+								<Skeleton className="h-4 w-20 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
+								<Skeleton className="h-4 w-24 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
+								<Skeleton className="h-4 w-16 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
+								<Skeleton className="h-4 w-20 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
+								<Skeleton className="h-4 w-18 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
 							</div>
 						</div>
 
@@ -50,11 +50,11 @@ export default function AdmissionScoreTableLoading() {
 										animationDelay: `${index * 100}ms`,
 									}}
 								>
-									<Skeleton className="h-4 w-full max-w-[120px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
-									<Skeleton className="h-4 w-full max-w-[150px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
-									<Skeleton className="h-4 w-full max-w-[80px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
-									<Skeleton className="h-4 w-full max-w-[100px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
-									<Skeleton className="h-4 w-full max-w-[90px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
+									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+									<Skeleton className="h-4 w-full max-w-20 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+									<Skeleton className="h-4 w-full max-w-20 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
 								</div>
 							))}
 						</div>
@@ -73,7 +73,7 @@ export default function AdmissionScoreTableLoading() {
 										style={{ animationDelay: "0.2s" }}
 									/>
 								</div>
-								<Skeleton className="h-3 w-24 bg-gradient-to-r from-blue-200 via-blue-300 to-blue-200" />
+								<Skeleton className="h-3 w-24 bg-linear-to-r from-blue-200 via-blue-300 to-blue-200" />
 							</div>
 						</div>
 					</div>

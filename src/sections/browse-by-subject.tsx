@@ -18,7 +18,7 @@ export default function BrowseBySubject({ subjects }: Readonly<{ subjects: Strap
 							key={subject.id}
 							className="cursor-pointer transition-shadow hover:shadow-lg"
 							onClick={() => {
-								window.location.href = `/konular/${subject.slug}`;
+								globalThis.window.location.href = `/konular/${subject.slug}`;
 							}}
 						>
 							<CardContent className="p-6 text-center">

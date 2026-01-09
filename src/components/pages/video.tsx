@@ -44,8 +44,8 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 	}
 
 	const getCurrentVideoUrl = () => {
-		if (typeof window !== "undefined") {
-			return `${window.location.origin}${pathname}?video=${currentVideo?.slug}`;
+		if (globalThis.window !== undefined) {
+			return `${globalThis.window.location.origin}${pathname}?video=${currentVideo?.slug}`;
 		}
 		return "";
 	};
@@ -104,10 +104,9 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 										height="100%"
 										src={`https://www.youtube.com/embed/${youtubeVideoId}`}
 										title={currentVideo.title}
-										frameBorder="0"
 										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 										allowFullScreen
-										className="absolute inset-0"
+										className="absolute inset-0 border-0"
 									/>
 								) : (
 									<div className="absolute inset-0 flex items-center justify-center text-white">
@@ -258,7 +257,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 											>
 												<div className="flex items-start space-x-3">
 													{/* Video Thumbnail */}
-													<div className="flex-shrink-0">
+													<div className="shrink-0">
 														<div className="relative h-12 w-16 overflow-hidden rounded bg-gray-200">
 															<img
 																src={getYouTubeThumbnail(videoItem.href)}
@@ -281,7 +280,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 																{videoItem.title}
 															</p>
 															{videoItem.isPopular && (
-																<Badge variant="outline" className="ml-2 flex-shrink-0 text-xs">
+																<Badge variant="outline" className="ml-2 shrink-0 text-xs">
 																	Popüler
 																</Badge>
 															)}

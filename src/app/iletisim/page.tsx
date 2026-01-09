@@ -35,7 +35,7 @@ const getSocialIcon = (platform: string) => {
 const getSocialColor = (platform: string) => {
 	switch (platform) {
 		case "instagram":
-			return "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600";
+			return "bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600";
 		case "youtube":
 			return "bg-red-500 hover:bg-red-600";
 		case "tiktok":
@@ -83,9 +83,9 @@ export default async function ContactPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+		<div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
 			{/* Hero Section */}
-			<div className="bg-gradient-to-r from-blue-600 to-purple-600 py-16 text-white">
+			<div className="bg-linear-to-r from-blue-600 to-purple-600 py-16 text-white">
 				<div className="container mx-auto px-4">
 					<div className="mx-auto max-w-3xl text-center">
 						<h1 className="mb-6 font-bold text-4xl md:text-5xl">Bizimle İletişime Geçin</h1>
@@ -198,7 +198,7 @@ export default async function ContactPage() {
 								</div>
 
 								{/* Quick Stats */}
-								<div className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+								<div className="rounded-lg bg-linear-to-r from-blue-600 to-purple-600 p-6 text-white">
 									<h3 className="mb-4 font-semibold text-lg">Neden Bizi Seçmelisiniz?</h3>
 									<div className="space-y-3">
 										<div className="flex items-center gap-3">

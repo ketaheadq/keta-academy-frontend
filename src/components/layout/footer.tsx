@@ -32,7 +32,7 @@ export default async function Footer() {
 					<section className="md:col-span-1 lg:col-span-3">
 						<div className="mb-4 flex items-center space-x-3">
 							{settings.logo && (
-								<div className="relative h-16 w-16 flex-shrink-0">
+								<div className="relative h-16 w-16 shrink-0">
 									<Image
 										src={settings.logo.url}
 										alt={`${settings.siteName} logosu`}

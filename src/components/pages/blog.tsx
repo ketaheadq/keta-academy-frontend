@@ -45,7 +45,7 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 				<div className="mx-auto max-w-4xl">
 					{/* Blog Header */}
 					<header className="mb-12 text-center">
-						<h1 className="mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-black text-5xl text-gray-900 leading-tight">
+						<h1 className="mb-8 bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text font-black text-5xl text-gray-900 leading-tight">
 							{blog.title}
 						</h1>
 
@@ -77,7 +77,7 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 					</article>
 
 					{/* Blog Footer */}
-					<footer className="mt-12 rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white shadow-xl">
+					<footer className="mt-12 rounded-3xl bg-linear-to-r from-blue-600 to-purple-600 p-8 text-white shadow-xl">
 						<div className="text-center">
 							<h3 className="mb-3 font-bold text-2xl">Bu yazıyı beğendiniz mi?</h3>
 							<p className="mb-6 font-light text-blue-100 text-lg">

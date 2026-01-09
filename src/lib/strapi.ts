@@ -178,11 +178,11 @@ export interface StrapiPage {
 	updatedAt: string;
 	publishedAt: string;
 	pageType:
-		| "Üniversite Taban Puanları"
-		| "Bölüm Taban Puanları"
-		| "Videolar"
-		| "Bloglar"
-		| "Hesaplama Araçları";
+	| "Üniversite Taban Puanları"
+	| "Bölüm Taban Puanları"
+	| "Videolar"
+	| "Bloglar"
+	| "Hesaplama Araçları";
 	page_category?: StrapiPageCategory;
 	admission_scores?: StrapiAdmissionScore[];
 	videos?: StrapiVideo[];
@@ -568,6 +568,8 @@ export async function getTermsAndCondition(): Promise<StrapiTermsOfService> {
 
 export type CourseStatus = "not_started" | "in_progress" | "completed";
 
+export type QuizStatus = "not_started" | "in_progress" | "completed";
+
 // Progress-related interfaces
 export interface StrapiUserCourseProgress {
 	documentId: string;
@@ -617,7 +619,7 @@ export interface StrapiQuizProgressData {
 	id: number;
 	user_plus_quiz_id: string; // Composite ID: user_id + "_" + quiz_id
 	score?: number;
-	quiz_status: "not_started" | "in_progress" | "completed";
+	quiz_status: QuizStatus;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -656,7 +658,7 @@ export async function getUserCourseProgress(
 export async function updateUserCourseProgress(
 	documentId: string,
 	user_id: string,
-	status: "not_started" | "in_progress" | "completed",
+	status: CourseStatus,
 	token: string,
 ): Promise<StrapiUserCourseProgress | null> {
 	try {
@@ -856,7 +858,7 @@ export async function getUserQuizProgress(
 
 export async function updateQuizProgress(
 	quizId: number,
-	status: "not_started" | "in_progress" | "completed",
+	status: QuizStatus,
 	score?: number,
 	token?: string,
 ): Promise<StrapiQuizProgressData | null> {
