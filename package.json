@@ -6,7 +6,13 @@
 		"dev": "next dev --turbopack",
 		"build": "next build",
 		"start": "next start",
-		"lint": "pnpm dlx @biomejs/biome check --write --css-parse-tailwind-directives=true"
+		"lint": "pnpm dlx @biomejs/biome check --write --css-parse-tailwind-directives=true",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+			"biome check --write --no-errors-on-unmatched --css-parse-tailwind-directives=true"
+		]
 	},
 	"dependencies": {
 		"@next/third-parties": "^16.1.1",
@@ -34,6 +40,8 @@
 		"@types/node": "^25",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
 		"postcss": "^8.5.6",
 		"tailwindcss": "^4",
 		"typescript": "^5"

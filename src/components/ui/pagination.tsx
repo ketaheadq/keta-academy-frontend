@@ -2,7 +2,6 @@
 
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { generateSimpleId } from "@/lib/utils";
 
 interface PaginationProps {
 	currentPage: number;
@@ -120,7 +119,7 @@ export default function Pagination({
 				{getPageNumbers().map((page) => {
 					if (page === "ellipsis") {
 						return (
-							<div key={generateSimpleId()} className="px-2">
+							<div key={page} className="px-2">
 								<MoreHorizontal className="h-4 w-4 text-gray-400" />
 							</div>
 						);
@@ -135,9 +134,7 @@ export default function Pagination({
 							variant={isActive ? "default" : "outline"}
 							size="sm"
 							onClick={() => onPageChange(pageNumber)}
-							className={`min-w-[2.5rem] ${
-								isActive ? "bg-blue-600 text-white hover:bg-blue-700" : ""
-							}`}
+							className={`min-w-10 ${isActive ? "bg-blue-600 text-white hover:bg-blue-700" : ""}`}
 						>
 							{pageNumber}
 						</Button>

@@ -178,11 +178,11 @@ export interface StrapiPage {
 	updatedAt: string;
 	publishedAt: string;
 	pageType:
-	| "Üniversite Taban Puanları"
-	| "Bölüm Taban Puanları"
-	| "Videolar"
-	| "Bloglar"
-	| "Hesaplama Araçları";
+		| "Üniversite Taban Puanları"
+		| "Bölüm Taban Puanları"
+		| "Videolar"
+		| "Bloglar"
+		| "Hesaplama Araçları";
 	page_category?: StrapiPageCategory;
 	admission_scores?: StrapiAdmissionScore[];
 	videos?: StrapiVideo[];
@@ -593,14 +593,11 @@ export async function testStrapiCollections(): Promise<void> {
 		"subjects",
 	];
 
-	console.log("🔍 Testing Strapi collections...");
-
 	for (const collection of collections) {
 		try {
-			const response = await fetch(`${STRAPI_URL}/api/${collection}?populate=*`);
-			console.log(`✅ ${collection}: ${response.status} ${response.statusText}`);
-		} catch (error) {
-			console.log(`❌ ${collection}: Error - ${error}`);
+			await fetch(`${STRAPI_URL}/api/${collection}?populate=*`);
+		} catch {
+			// ignore
 		}
 	}
 }
@@ -664,12 +661,9 @@ export async function updateUserCourseProgress(
 	try {
 		const compositeId = `${user_id}_${documentId}`;
 
-		console.log("compositeId", compositeId);
-
 		// First, try to get existing progress
 		const existingProgress = await getUserCourseProgress(documentId, user_id, token);
 
-		console.log("Existing progress:", existingProgress);
 		if (existingProgress) {
 			// Update existing progress
 			const response = await fetch(
@@ -736,14 +730,12 @@ export async function getUserLessonProgress(
 
 		if (response.ok) {
 			const data = await response.json();
-			console.log("All lesson progress data:", data.data);
 
 			// Filter by document IDs (we'll need to extract user_id from token or pass it)
 			// For now, return all progress data and let the hook filter it
 			return data.data;
 		}
-		const errorData = await response.json();
-		console.log("Error fetching lesson progress:", errorData);
+
 		throw new Error(`Failed to fetch lesson progress: ${response.statusText}`);
 	} catch (error) {
 		console.error("Error fetching lesson progress:", error);

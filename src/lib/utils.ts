@@ -10,19 +10,12 @@ export const normalizeTurkish = (str: string): string => {
 	if (!str) return "";
 	return str
 		.toLowerCase()
-		.replace(/ğ/g, "g")
-		.replace(/ü/g, "u")
-		.replace(/ş/g, "s")
-		.replace(/ı/g, "i")
-		.replace(/ö/g, "o")
-		.replace(/ç/g, "c")
-		.replace(/İ/g, "i")
-		.replace(/Ğ/g, "g")
-		.replace(/Ü/g, "u")
-		.replace(/Ş/g, "s")
-		.replace(/I/g, "i")
-		.replace(/Ö/g, "o")
-		.replace(/Ç/g, "c");
+		.replaceAll("ğ", "g")
+		.replaceAll("ü", "u")
+		.replaceAll("ş", "s")
+		.replaceAll("ı", "i")
+		.replaceAll("ö", "o")
+		.replaceAll("ç", "c");
 };
 
 export const extractTextFromBlocks = (blocks: StrapiBlock[]): string => {
@@ -47,15 +40,13 @@ export function extractYouTubeVideoId(url: string): string | null {
 	];
 
 	for (const pattern of patterns) {
-		const match = url.match(pattern);
+		const match = pattern.exec(url);
 		if (match?.[1]) {
 			const videoId = match[1];
-			console.log("✅ Extracted video ID:", videoId);
 			return videoId;
 		}
 	}
 
-	console.log("❌ Could not extract video ID from URL:", url);
 	return null;
 }
 
@@ -81,20 +72,18 @@ export function parseCSVLine(line: string): string[] | null {
 				field += char;
 				i++;
 			}
+		} else if (char === '"') {
+			// Start of quoted field
+			inQuotes = true;
+			i++;
+		} else if (char === ",") {
+			// End of field
+			result.push(field.trim());
+			field = "";
+			i++;
 		} else {
-			if (char === '"') {
-				// Start of quoted field
-				inQuotes = true;
-				i++;
-			} else if (char === ",") {
-				// End of field
-				result.push(field.trim());
-				field = "";
-				i++;
-			} else {
-				field += char;
-				i++;
-			}
+			field += char;
+			i++;
 		}
 	}
 
