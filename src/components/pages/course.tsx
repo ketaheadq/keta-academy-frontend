@@ -39,7 +39,6 @@ export default function CoursePage({
 	ders_ismi,
 	searchParams,
 }: Readonly<CoursePageProps>) {
-	console.log("lessons", lessons);
 	const router = useRouter();
 	const pathname = usePathname();
 	const { user, jwt, isAuthenticated } = useAuthStore();
@@ -57,21 +56,6 @@ export default function CoursePage({
 		documentId: course.documentId,
 	});
 
-	// Debug: Log progress state
-	useEffect(() => {
-		console.log("Lesson progress state:", lessonProgress);
-		console.log("Is loading progress:", isLoadingProgress);
-	}, [lessonProgress, isLoadingProgress]);
-
-	// Check for duplicate lesson IDs
-	const lessonIds = lessons.map((lesson) => lesson.id);
-	const duplicateIds = lessonIds.filter((id, index) => lessonIds.indexOf(id) !== index);
-	if (duplicateIds.length > 0) {
-		console.warn("⚠️ Duplicate lesson IDs found:", duplicateIds);
-		console.log("All lesson IDs:", lessonIds);
-	}
-
-	// Initialize lessons
 	useEffect(() => {
 		const initialLessons: ExtendedLesson[] = lessons.map((lesson, index) => ({
 			...lesson,
@@ -83,28 +67,17 @@ export default function CoursePage({
 		setExtendedLessons(initialLessons);
 	}, [lessons]);
 
-	// Determine starting lesson after extendedLessons are initialized
 	const [initialLesson, setInitialLesson] = useState<ExtendedLesson | null>(null);
 
 	useEffect(() => {
 		if (extendedLessons.length > 0) {
-			console.log(
-				"Available lesson slugs:",
-				extendedLessons.map((l) => l.slug),
-			);
-
-			// Check both searchParams and the ders_ismi prop
 			const targetSlug = searchParams?.ders_ismi || ders_ismi;
-			console.log("Looking for slug:", targetSlug);
 
 			const targetLesson = targetSlug
 				? extendedLessons.find((lesson) => lesson.slug === targetSlug)
 				: null;
 
-			console.log("Found target lesson:", targetLesson?.title || "NOT FOUND");
-
 			const lessonToSet = targetLesson || extendedLessons[0];
-			console.log("Setting initial lesson:", lessonToSet.title, "from slug:", targetSlug);
 			setInitialLesson(lessonToSet);
 		}
 	}, [extendedLessons, searchParams?.ders_ismi, ders_ismi]);
@@ -117,17 +90,9 @@ export default function CoursePage({
 	// Update current lesson when initial lesson changes
 	useEffect(() => {
 		if (initialLesson && (!currentLesson || initialLesson.id !== currentLesson.id)) {
-			console.log("Setting current lesson to:", initialLesson.title);
 			setCurrentLesson(initialLesson);
 		}
 	}, [initialLesson, currentLesson]);
-
-	// Debug: Monitor searchParams changes
-	useEffect(() => {
-		console.log("Search params changed:", searchParams?.ders_ismi);
-		console.log("Initial lesson:", initialLesson?.title);
-		console.log("Current lesson:", currentLesson?.title);
-	}, [searchParams?.ders_ismi, initialLesson, currentLesson]);
 
 	const completedLessons = extendedLessons.filter(
 		(lesson) => lessonProgress[lesson.documentId],
@@ -198,8 +163,6 @@ export default function CoursePage({
 	};
 
 	const handleQuizComplete = async (result: QuizResult) => {
-		console.log("Quiz completed, result:", result);
-
 		// Update quiz progress to 'completed' with score
 		if (isAuthenticated && jwt && currentQuiz) {
 			try {

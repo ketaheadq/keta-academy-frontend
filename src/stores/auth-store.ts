@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import {
 	convertStrapiUser,
-	debugGoogleOAuthConfig,
 	getCurrentUser,
 	getGoogleAuthUrl,
 	handleAuthRedirect,
@@ -51,13 +50,9 @@ export const useAuthStore = create<AuthStore>()(
 				try {
 					set({ isLoading: true, error: null });
 
-					// Debug: Show OAuth configuration
-					console.log("🔍 Starting Google OAuth...");
-					debugGoogleOAuthConfig();
-
 					// Redirect to Strapi's Google OAuth endpoint
 					const googleAuthUrl = getGoogleAuthUrl();
-					console.log("🔍 Redirecting to:", googleAuthUrl);
+
 					globalThis.window.location.href = googleAuthUrl;
 				} catch (error) {
 					console.error("Failed to initiate Google sign-in:", error);

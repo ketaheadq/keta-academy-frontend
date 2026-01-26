@@ -26,7 +26,6 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 		return [video, ...(video.related_datas || [])];
 	}, [video]);
 
-	// Determine starting video
 	const [currentVideo, setCurrentVideo] = useState<StrapiVideo | null>(null);
 
 	useEffect(() => {
@@ -37,7 +36,6 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 		setCurrentVideo(targetVideo || video);
 	}, [currentVideoSlug, video, allVideos]);
 
-	// Helper function to get YouTube thumbnail
 	function getYouTubeThumbnail(url: string): string {
 		const videoId = extractYouTubeVideoId(url);
 		return videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : "/placeholder.svg";
@@ -52,7 +50,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 
 	const handleVideoSelect = (selectedVideo: StrapiVideo) => {
 		setCurrentVideo(selectedVideo);
-		// Update URL with current video
+
 		router.push(`${pathname}?video=${selectedVideo.slug}`, { scroll: false });
 	};
 

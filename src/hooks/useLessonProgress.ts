@@ -122,8 +122,6 @@ export function useLessonProgress({
 						console.warn("Failed to update course completion status:", courseError);
 					}
 				}
-
-				console.log(`Document ${docId} marked as ${newStatus ? "completed" : "incomplete"}`);
 			} catch (error) {
 				console.error("Failed to update lesson progress:", error);
 				// Revert local state on error
@@ -158,7 +156,6 @@ export function useLessonProgress({
 				}
 			});
 
-			console.log("Progress refreshed:", progressMap);
 			setLessonProgress(progressMap);
 		} catch (error) {
 			console.error("Failed to refresh progress:", error);

@@ -22,7 +22,6 @@ export default function Continue({ courses }: Readonly<ContinueProps>) {
 	useEffect(() => {
 		const fetchUserProgress = async () => {
 			if (!isAuthenticated || !jwt || !user || courses.length === 0) {
-				console.log("No courses found");
 				// Initialize courses with 0 progress for non-authenticated users
 				setCoursesWithProgress(courses.map((course) => ({ ...course, progress: 0 })));
 				return;
@@ -30,25 +29,17 @@ export default function Continue({ courses }: Readonly<ContinueProps>) {
 
 			setIsLoading(true);
 			try {
-				// Fetch all course lessons data
 				const courseLessons = await getAllCourseLessons(jwt);
-				console.log("courseLessons", courseLessons);
-				// Get all lesson document IDs from course lessons
 				const allLessonDocumentIds = courseLessons.map(
 					(courseLesson) => courseLesson.lesson.documentId,
 				);
-				console.log("allLessonDocumentIds", allLessonDocumentIds);
-				// Fetch all lesson progress data
 				const lessonProgressData = await getUserLessonProgress(allLessonDocumentIds, jwt);
-				console.log("lessonProgressData", lessonProgressData);
-				// Calculate progress for all courses using the utility function
 				const updatedCoursesWithProgress = calculateCoursesProgress(
 					courses,
 					courseLessons,
 					lessonProgressData,
 					user.id.toString(),
 				);
-				console.log("updatedCoursesWithProgress", updatedCoursesWithProgress);
 				setCoursesWithProgress(updatedCoursesWithProgress);
 			} catch (error) {
 				console.error("Error fetching user progress:", error);

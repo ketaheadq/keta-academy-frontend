@@ -1,46 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Keta Akademi Frontend
 
-## Getting Started
+![Keta Akademi](public/favicon/apple-touch-icon.png)
 
-First, run the development server:
+An interactive education platform designed to help students succeed in university entrance exams. Keta Akademi provides comprehensive course lectures, up-to-date base-ceiling points, blogs, and interactive publications.
 
+## 🚀 Tech Stack
+
+- **Core:** [Next.js 15+](https://nextjs.org) (App Router), [React 19](https://react.dev)
+- **Styling:** [Tailwind CSS 4](https://tailwindcss.com), [Shadcn UI](https://ui.shadcn.com)
+- **CMS:** [Strapi](https://strapi.io) (Headless)
+- **State Management:** [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- **Icons:** [Lucide React](https://lucide.dev)
+- **Quality Tools:** [Biome](https://biomejs.dev) (Linting/Formatting), [Husky](https://typicode.github.io/husky/)
+- **Deployment:** Docker & Vercel-ready
+
+## 🛠️ Getting Started
+
+### 1. Prerequisites
+- Node.js 20+ 
+- pnpm (recommended)
+
+### 2. Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Environment Variables
+Create a `.env.local` file in the root directory:
+```env
+NEXT_PUBLIC_STRAPI_API_URL=your_strapi_url
+STRAPI_API_TOKEN=your_api_token
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Development
+```bash
+pnpm dev
+```
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🗺️ Roadmap to Excellence
 
-## Learn More
+This roadmap outlines the planned improvements to make Keta Akademi the premier educational platform.
 
-To learn more about Next.js, take a look at the following resources:
+### 📍 Phase 1: Performance & SEO (Immediate)
+- [ ] **Structured Data:** Implement JSON-LD for Courses and Organization to enhance search engine snippets.
+- [ ] **Image Audit:** Optimize all CMS-delivered images using `next/image` with dynamic blur placeholders.
+- [ ] **Expanded Sitemap:** Include individual Courses and dynamic Topic routes in `sitemap.ts`.
+- [ ] **Font Optimization:** Fine-tune font loading to eliminate Layout Shift (CLS).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📍 Phase 2: Visual & UX Excellence (Premium Feel)
+- [ ] **Micro-animations:** Integrate `framer-motion` for subtle, high-quality interactions and page transitions.
+- [ ] **Skeleton States:** Replace basic loading spinners with polished skeleton loaders for a smoother perceived performance.
+- [ ] **Glassmorphism:** Apply modern design trends to the Navbar and Sidebar components.
+- [ ] **Enhanced Dark Mode:** Refine color palettes for deep dark mode support (premium aesthetic).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 📍 Phase 3: Robustness & Infrastructure
+- [ ] **E2E Testing:** Setup [Playwright](https://playwright.dev) to test critical flows: User Login -> Course Selection -> Video Watching.
+- [ ] **Error Resilience:** Implement robust Error Boundaries with user-friendly "Try Again" mechanisms.
+- [ ] **CI/CD Pipeline:** Fully automate linting, formatting, and testing on every pull request using GitHub Actions.
+- [ ] **Analytics Deep-Dive:** Implement custom event tracking for user engagement on course videos.
 
-## Deploy on Vercel
+### 📍 Phase 4: Advanced Educational Features
+- [ ] **Course Progress Dashboard:** Personalized view showing completion percentages and last-watched videos.
+- [ ] **Quiz Enhancements:** Expand `quiz.tsx` to support timed exams and detailed performance analytics.
+- [ ] **AI Search:** Integrate advanced search with fuzzy matching for topics and videos.
+- [ ] **Offline Access:** Explore PWA capabilities for offline reading of blog posts and lecture notes.
+- [ ] **Gamification:** Add achievements and certificates upon course completion.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Prompts
-
-using shadcn, lucide-react icons, and tailwind animations
-
-## TODOS
-
-* navbar layout shift for some reason
-* add icon for loading spinner [here](https://ketaakademi.com/sayfalar/2025-yerlestirme-puanlari-lisans-4-yillik) for better UX and change colors a bit
-* fix docker pnpm related problem if you can't fix it under 30 minutes, roll back changes
+## 📄 License
+This project is proprietary. All rights reserved.
