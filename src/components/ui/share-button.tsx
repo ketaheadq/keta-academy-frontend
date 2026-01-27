@@ -33,7 +33,9 @@ export default function ShareButton({
 
 	const handleShareWhatsApp = () => {
 		const text = `${title} - ${description || ""}`;
-		const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + " " + url)}`;
+		const params = new URLSearchParams({ text: `${text} ${url}` });
+		const whatsappUrl = `https://wa.me/?${params.toString()}`;
+
 		window.open(whatsappUrl, "_blank");
 	};
 

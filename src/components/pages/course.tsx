@@ -401,7 +401,7 @@ export default function CoursePage({
 								<ScrollArea className="h-96">
 									<div className="space-y-2 p-4">
 										{extendedLessons.map((lesson, index) => (
-											<div key={`${lesson.id}-${lesson.documentId}-${index}`}>
+											<div key={lesson.documentId}>
 												<button
 													type="button"
 													className={`w-full cursor-pointer rounded-lg p-3 transition-colors ${

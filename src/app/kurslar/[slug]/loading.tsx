@@ -1,7 +1,9 @@
+import { useId } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CourseLoading() {
+	const id = useId();
 	return (
 		<div className="min-h-screen bg-gray-50">
 			{/* Header Skeleton */}
@@ -73,9 +75,8 @@ export default function CourseLoading() {
 								<Skeleton className="h-4 w-48" />
 							</CardHeader>
 							<CardContent className="space-y-4">
-								{/* eslint-disable-next-line lint/suspicious/noArrayIndexKey */}
 								{Array.from({ length: 6 }).map((_, index) => (
-									<div key={`course-skeleton-${index}`} className="flex items-start space-x-3 p-3">
+									<div key={`${id}-skeleton-${index}`} className="flex items-start space-x-3 p-3">
 										<Skeleton className="mt-1 h-5 w-5 shrink-0 rounded-full" />
 										<div className="flex-1 space-y-2">
 											<Skeleton className="h-4 w-full" />

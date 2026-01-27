@@ -1,7 +1,7 @@
 "use client";
 
 import { Calculator, Filter, Search } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Pagination from "@/components/ui/pagination";
@@ -60,6 +60,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 	enablePagination,
 }: Readonly<DynamicGridProps<T>>) {
 	const [searchTerm, setSearchTerm] = useState("");
+	const id = useId();
 	const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>(() => {
 		const initialFilters: Record<string, string> = {};
 		filterConfigs.forEach((config) => {
@@ -216,8 +217,8 @@ export default function DynamicGrid<T extends FilterableItem>({
 											>
 												{config.allLabel || `All ${config.label}`}
 											</SelectItem>
-											{config.options?.filter(Boolean).map((option, index) => (
-												<SelectItem key={`${config.field}-${index}-${option}`} value={option}>
+											{config.options?.filter(Boolean).map((option) => (
+												<SelectItem key={`${id}-${config.field}-${option}`} value={option}>
 													{option}
 												</SelectItem>
 											))}

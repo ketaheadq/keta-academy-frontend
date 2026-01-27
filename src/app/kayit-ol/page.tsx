@@ -87,11 +87,11 @@ export default function SignUpPage() {
 
 							{/* Features Grid */}
 							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-								{features.map((feature, index) => {
+								{features.map((feature) => {
 									const IconComponent = feature.icon;
 									return (
 										<div
-											key={feature.id || index}
+											key={feature.id}
 											className="flex items-start space-x-3 rounded-lg bg-white p-4 shadow-sm"
 										>
 											<div className="rounded-lg bg-gray-50 p-2">

@@ -3,7 +3,7 @@
 import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { StrapiTermsOfService } from "@/lib/strapi";
@@ -15,6 +15,7 @@ function TermsOfServiceContent() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const router = useRouter();
+	const id = useId();
 
 	useEffect(() => {
 		const fetchTermsOfService = async () => {
@@ -51,7 +52,7 @@ function TermsOfServiceContent() {
 				<CardContent className="p-6 sm:p-8">
 					<div className="space-y-6">
 						{new Array(6).fill(null).map((_, i) => (
-							<div key={`privacy-skeleton-${i}`} className="space-y-2">
+							<div key={`${id}-skeleton-${i}`} className="space-y-2">
 								<div className="h-4 w-full animate-pulse rounded bg-gray-200" />
 								<div className="h-4 w-5/6 animate-pulse rounded bg-gray-200" />
 								{i % 2 === 0 && <div className="h-4 w-4/6 animate-pulse rounded bg-gray-200" />}
@@ -85,7 +86,7 @@ function TermsOfServiceContent() {
 	// Split into paragraphs and prepare with stable keys
 	const paragraphs = contentText
 		.split("\n\n")
-		.map((text, index) => ({ text: text.trim(), key: `p-${index}` }))
+		.map((text, index) => ({ text: text.trim(), key: `${id}-p-${index}` }))
 		.filter((block) => block.text);
 
 	return (

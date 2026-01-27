@@ -243,7 +243,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 							<ScrollArea className="h-96">
 								<div className="space-y-3 p-4">
 									{allVideos.map((videoItem, index) => (
-										<div key={`${videoItem.id}-${videoItem.documentId}-${index}`}>
+										<div key={videoItem.documentId}>
 											<button
 												type="button"
 												className={`cursor-pointer rounded-lg p-3 transition-colors ${
