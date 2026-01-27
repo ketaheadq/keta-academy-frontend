@@ -457,7 +457,7 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			next: { revalidate: 300 }, // Revalidate every hour
+			next: { revalidate: 300 }, // Revalidate every 5 minutes
 		});
 
 		if (response.status === 403) {

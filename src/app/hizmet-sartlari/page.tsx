@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { StrapiTermsOfService } from "@/lib/strapi";
 import { getTermsAndCondition } from "@/lib/strapi";
-import { extractTextFromBlocks, generateSimpleId } from "@/lib/utils";
+import { extractTextFromBlocks } from "@/lib/utils";
 
 function TermsOfServiceContent() {
 	const [termsOfService, setTermsOfService] = useState<StrapiTermsOfService | null>(null);
@@ -51,7 +51,7 @@ function TermsOfServiceContent() {
 				<CardContent className="p-6 sm:p-8">
 					<div className="space-y-6">
 						{new Array(6).fill(null).map((_, i) => (
-							<div key={generateSimpleId()} className="space-y-2">
+							<div key={`term-skeleton-${i}`} className="space-y-2">
 								<div className="h-4 w-full animate-pulse rounded bg-gray-200" />
 								<div className="h-4 w-5/6 animate-pulse rounded bg-gray-200" />
 								{i % 2 === 0 && <div className="h-4 w-4/6 animate-pulse rounded bg-gray-200" />}

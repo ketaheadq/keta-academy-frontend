@@ -1,7 +1,8 @@
 "use client";
 
-import { Copy, Share, X } from "lucide-react";
+import { Copy, MessageCircle, Share, X } from "lucide-react";
 import { useState } from "react";
+import { FacebookIcon, TwitterIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
 
 interface ShareButtonProps {
@@ -32,7 +33,7 @@ export default function ShareButton({
 
 	const handleShareWhatsApp = () => {
 		const text = `${title} - ${description || ""}`;
-		const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`;
+		const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + " " + url)}`;
 		window.open(whatsappUrl, "_blank");
 	};
 
@@ -92,7 +93,7 @@ export default function ShareButton({
 										className="flex h-16 flex-col items-center space-y-1"
 									>
 										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-500">
-											<span className="font-bold text-white text-xs">W</span>
+											<MessageCircle className="h-4 w-4 text-white" />
 										</div>
 										<span className="text-xs">WhatsApp</span>
 									</Button>
@@ -103,7 +104,7 @@ export default function ShareButton({
 										className="flex h-16 flex-col items-center space-y-1"
 									>
 										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-400">
-											<span className="font-bold text-white text-xs">T</span>
+											<TwitterIcon className="h-4 w-4 text-white" />
 										</div>
 										<span className="text-xs">Twitter</span>
 									</Button>
@@ -114,7 +115,7 @@ export default function ShareButton({
 										className="flex h-16 flex-col items-center space-y-1"
 									>
 										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
-											<span className="font-bold text-white text-xs">F</span>
+											<FacebookIcon className="h-4 w-4 text-white" />
 										</div>
 										<span className="text-xs">Facebook</span>
 									</Button>

@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { StrapiTutoringProfile } from "@/lib/strapi";
-import { generateSimpleId } from "@/lib/utils";
 import { Button } from "./ui/button";
 
 function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
@@ -14,7 +13,6 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 
 	// Parse expertise string into array
 	const expertiseList = tutor.experties ? tutor.experties.split(",") : [];
-	console.log(tutor.experties);
 	const router = useRouter();
 	return (
 		<div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
@@ -59,7 +57,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 						<div className="mb-3 flex flex-wrap gap-2">
 							{tutor.subjects.slice(0, 2).map((subject) => (
 								<span
-									key={generateSimpleId()}
+									key={subject.slug}
 									className="rounded-full bg-blue-100 px-2 py-1 font-medium text-blue-800 text-xs"
 								>
 									{subject.title}
@@ -144,7 +142,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 						<div className="flex flex-wrap gap-2">
 							{expertiseList.map((expertise) => (
 								<span
-									key={generateSimpleId()}
+									key={expertise.trim()}
 									className="rounded-full border bg-white px-3 py-1 text-gray-700 text-sm"
 								>
 									{expertise}
@@ -159,7 +157,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 						<div className="flex flex-wrap gap-2">
 							{tutor.subjects.map((subject) => (
 								<span
-									key={generateSimpleId()}
+									key={subject.slug}
 									className="rounded-full bg-blue-100 px-3 py-1 text-blue-800 text-sm"
 								>
 									{subject.title}

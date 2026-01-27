@@ -1,10 +1,11 @@
 "use client";
 
-import { BookOpen, Chrome, Loader2, Shield, Target, Trophy, Users } from "lucide-react";
+import { BookOpen, Loader2, Shield, Target, Trophy, Users } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { GoogleIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuthError, useAuthLoading, useAuthStore } from "@/stores/auth-store";
@@ -136,7 +137,7 @@ export default function SignUpPage() {
 											</div>
 										) : (
 											<div className="flex items-center space-x-3">
-												<Chrome className="h-5 w-5 text-blue-600" />
+												<GoogleIcon size={20} />
 												<span className="font-medium">Google ile Kayıt Ol</span>
 											</div>
 										)}

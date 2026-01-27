@@ -55,7 +55,23 @@ export default function Courses() {
 
 	// Show loading state while data is being fetched
 	if (loading) {
-		return <div>Loading...</div>; // Or your preferred loading component
+		return (
+			<section className="container mx-auto px-4 py-16">
+				<div className="mb-12 flex flex-col items-center justify-between gap-4 md:flex-row">
+					<div className="h-10 w-64 animate-pulse rounded-lg bg-gray-200" />
+					<div className="h-10 w-48 animate-pulse rounded-lg bg-gray-200" />
+				</div>
+				<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+					{[1, 2, 3, 4, 5, 6].map((i) => (
+						<div key={i} className="space-y-4">
+							<div className="aspect-video w-full animate-pulse rounded-2xl bg-gray-200" />
+							<div className="h-6 w-3/4 animate-pulse rounded-lg bg-gray-200" />
+							<div className="h-4 w-1/2 animate-pulse rounded-lg bg-gray-200" />
+						</div>
+					))}
+				</div>
+			</section>
+		);
 	}
 
 	// Show error if settings not loaded or there was an error

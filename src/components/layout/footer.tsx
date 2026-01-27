@@ -1,6 +1,6 @@
-import { Instagram, Twitter, Youtube } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { InstagramIcon, TwitterIcon, YoutubeIcon } from "@/components/ui/brand-icons";
 import { getBlogs, getSettings, getSubjects } from "@/lib/strapi";
 
 // Define reusable menu items
@@ -110,13 +110,13 @@ export default async function Footer() {
 						</p>
 						<div className="flex items-center gap-4">
 							<Link href="#" className="text-muted-foreground transition-colors hover:text-white">
-								<Twitter className="h-5 w-5" />
+								<TwitterIcon className="h-5 w-5" />
 							</Link>
 							<Link href="#" className="text-muted-foreground transition-colors hover:text-white/">
-								<Instagram className="h-5 w-5" />
+								<InstagramIcon className="h-5 w-5" />
 							</Link>
 							<Link href="#" className="text-muted-foreground transition-colors hover:text-white">
-								<Youtube className="h-5 w-5" />
+								<YoutubeIcon className="h-5 w-5" />
 							</Link>
 						</div>
 					</div>

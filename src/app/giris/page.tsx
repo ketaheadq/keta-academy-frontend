@@ -1,9 +1,10 @@
 "use client";
 
-import { BookOpen, Chrome, GraduationCap, Loader2, Shield, Users } from "lucide-react";
+import { BookOpen, GraduationCap, Loader2, Shield, Users } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { GoogleIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuthError, useAuthLoading, useAuthStore } from "@/stores/auth-store";
@@ -73,7 +74,7 @@ export default function LoginPage() {
 									</div>
 								) : (
 									<div className="flex items-center space-x-3">
-										<Chrome className="h-5 w-5 text-blue-600" />
+										<GoogleIcon size={20} />
 										<span className="font-medium">Google ile Devam Et</span>
 									</div>
 								)}

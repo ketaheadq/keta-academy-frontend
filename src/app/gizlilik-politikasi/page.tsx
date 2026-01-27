@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { StrapiTermsOfService } from "@/lib/strapi";
 import { getTermsAndCondition } from "@/lib/strapi";
-import { extractTextFromBlocks, generateSimpleId } from "@/lib/utils";
+import { extractTextFromBlocks } from "@/lib/utils";
 
 function TermsOfServiceContent() {
 	const [termsOfService, setTermsOfService] = useState<StrapiTermsOfService | null>(null);
@@ -51,7 +51,7 @@ function TermsOfServiceContent() {
 				<CardContent className="p-6 sm:p-8">
 					<div className="space-y-6">
 						{new Array(6).fill(null).map((_, i) => (
-							<div key={generateSimpleId()} className="space-y-2">
+							<div key={`privacy-skeleton-${i}`} className="space-y-2">
 								<div className="h-4 w-full animate-pulse rounded bg-gray-200" />
 								<div className="h-4 w-5/6 animate-pulse rounded bg-gray-200" />
 								{i % 2 === 0 && <div className="h-4 w-4/6 animate-pulse rounded bg-gray-200" />}
@@ -96,7 +96,7 @@ function TermsOfServiceContent() {
 						<FileText className="h-6 w-6 text-green-600" />
 					</div>
 					<div>
-						<CardTitle className="text-2xl">Hizmet Şartları</CardTitle>
+						<CardTitle className="text-2xl">Gizlilik Politikası</CardTitle>
 						<p className="mt-1 text-gray-600 text-sm">
 							Son güncelleme: {new Date(termsOfService.updatedAt).toLocaleDateString("tr-TR")}
 						</p>

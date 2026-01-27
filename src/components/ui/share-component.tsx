@@ -1,8 +1,9 @@
 "use client";
 
-import { Facebook, MessageCircle, Share, Twitter } from "lucide-react";
+import { MessageCircle, Share } from "lucide-react";
 import type { FC } from "react";
 import { toast } from "sonner";
+import { FacebookIcon, TwitterIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
 
 interface ShareComponentProps {
@@ -12,9 +13,9 @@ interface ShareComponentProps {
 const getSocialIcon = (platform: string) => {
 	switch (platform) {
 		case "twitter":
-			return <Twitter className="h-8 w-8" />;
+			return <TwitterIcon className="h-8 w-8" />;
 		case "facebook":
-			return <Facebook className="h-8 w-8" />;
+			return <FacebookIcon className="h-8 w-8" />;
 		case "whatsapp":
 			return <MessageCircle className="h-8 w-8" />;
 		case "tiktok":
@@ -50,7 +51,7 @@ const getSocialColor = (platform: string) => {
 
 const ShareComponent: FC<ShareComponentProps> = ({ className = "" }) => {
 	const shareLink = (platform: string) => {
-		const url = window.location.href;
+		const url = globalThis.location.href;
 		const title = document.title;
 		const text = `${url}`;
 
