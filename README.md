@@ -49,7 +49,7 @@ This roadmap outlines the planned improvements to make Keta Akademi the premier 
 - [ ] **Font Optimization:** Fine-tune font loading to eliminate Layout Shift (CLS).
 
 ### 📍 Phase 2: Visual & UX Excellence (Premium Feel)
-- [ ] **Micro-animations:** Integrate `framer-motion` for subtle, high-quality interactions and page transitions.
+- [ ] **Micro-animations:** Integrate `three.js` for subtle, high-quality interactions and page transitions.
 - [ ] **Skeleton States:** Replace basic loading spinners with polished skeleton loaders for a smoother perceived performance.
 - [ ] **Glassmorphism:** Apply modern design trends to the Navbar and Sidebar components.
 - [ ] **Enhanced Dark Mode:** Refine color palettes for deep dark mode support (premium aesthetic).

@@ -56,7 +56,7 @@ metaImage (Media - Single media)
 
 ```
 socialNetwork (Enumeration)
-- Values: Facebook, Twitter, LinkedIn, Instagram
+- Values: Instagram, Bluesky, Youtube
 - Required: Yes
 
 title (Text - Short text)
@@ -116,7 +116,7 @@ Now content managers can:
 
 ### 4.2 Add Social Media Data
 1. Click **Add an entry** under Social Media
-2. Select **Facebook**:
+2. Select **Instagram**:
    - **Title**: "2024 Üniversite Taban Puanları"
    - **Description**: "En güncel üniversite taban puanları burada!"
    - **Image**: Upload 1200x630px image

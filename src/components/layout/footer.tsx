@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { InstagramIcon, TwitterIcon, YoutubeIcon } from "@/components/ui/brand-icons";
+import { InstagramIcon, YoutubeIcon } from "@/components/ui/brand-icons";
 import { getBlogs, getSettings, getSubjects } from "@/lib/strapi";
 
 // Define reusable menu items
@@ -109,13 +109,21 @@ export default async function Footer() {
 							&copy; 2025 {settings.siteName}. Tüm hakları saklıdır.
 						</p>
 						<div className="flex items-center gap-4">
-							<Link href="#" className="text-muted-foreground transition-colors hover:text-white">
-								<TwitterIcon className="h-5 w-5" />
-							</Link>
-							<Link href="#" className="text-muted-foreground transition-colors hover:text-white/">
+							{/* TODO: add bluesky https://bsky.app/profile/ketaakademi.bsky.social */}
+							<Link
+								href="https://www.instagram.com/keta.akademi/"
+								className="text-muted-foreground transition-colors hover:text-white"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								<InstagramIcon className="h-5 w-5" />
 							</Link>
-							<Link href="#" className="text-muted-foreground transition-colors hover:text-white">
+							<Link
+								href="https://www.youtube.com/@ketaakademi"
+								className="text-muted-foreground transition-colors hover:text-white"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								<YoutubeIcon className="h-5 w-5" />
 							</Link>
 						</div>
