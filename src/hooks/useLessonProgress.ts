@@ -32,9 +32,7 @@ export function useLessonProgress({
 		isAuthenticated,
 		jwt,
 		user?.id,
-		documentIds
-			.slice()
-			.sort((a, b) => a.localeCompare(b)), // Create a copy before sorting
+		documentIds.slice().sort((a, b) => a.localeCompare(b)), // Create a copy before sorting
 	]);
 
 	// Fetch initial progress
