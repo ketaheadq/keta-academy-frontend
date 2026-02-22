@@ -1,6 +1,6 @@
 "use client";
 
-import VideoCard from "@/components/cards/video-card";
+import VideoCard from "@/components/shared/cards/video-card";
 import type { StrapiVideo } from "@/lib/strapi";
 import DynamicListing from "./dynamic-listing";
 

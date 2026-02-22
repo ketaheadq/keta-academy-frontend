@@ -2,32 +2,32 @@
 
 @theme {
 	/* Base Colors */
-	--color-primary: #2563eb;
+	--color-primary: #00bcff;
 	/* blue-600 */
-	--color-accent: #ea580c;
+	--color-accent: #fd9a00;
 	/* orange-600 */
-	--color-background: #ffffff;
-	--color-foreground: #0f172a;
+	--color-background: #f0f9ff;
+	--color-foreground: #0f172b;
 	/* slate-900 */
 
 	/* Card Colors */
-	--color-card: #ffffff;
-	--color-card-foreground: #0f172a;
+	--color-card: #f0f9ff;
+	--color-card-foreground: #082f49;
 
 	/* Popover Colors */
-	--color-popover: #ffffff;
-	--color-popover-foreground: #0f172a;
+	--color-popover: #f0f9ff;
+	--color-popover-foreground: #082f49;
 
 	/* Primary Colors */
-	--color-primary-foreground: #ffffff;
+	--color-primary-foreground: #f0f9ff;
 
 	/* Secondary Colors */
-	--color-secondary: #f1f5f9;
+	--color-secondary: #e0f2fe;
 	/* slate-100 */
-	--color-secondary-foreground: #0f172a;
+	--color-secondary-foreground: #082f49;
 
 	/* Muted Colors */
-	--color-muted: #f1f5f9;
+	--color-muted: #e0f2fe;
 	--color-muted-foreground: #64748b;
 	/* slate-500 */
 
@@ -35,7 +35,7 @@
 	--color-accent-foreground: #ffffff;
 
 	/* Destructive Colors */
-	--color-destructive: #dc2626;
+	--color-destructive: #ec003f;
 	/* red-600 */
 
 	/* Border & Input */
@@ -55,13 +55,13 @@
 	/* Sidebar Colors */
 	--color-sidebar: #f8fafc;
 	/* slate-50 */
-	--color-sidebar-foreground: #0f172a;
-	--color-sidebar-primary: #2563eb;
-	--color-sidebar-primary-foreground: #ffffff;
-	--color-sidebar-accent: #f1f5f9;
-	--color-sidebar-accent-foreground: #0f172a;
-	--color-sidebar-border: #e2e8f0;
-	--color-sidebar-ring: #94a3b8;
+	--color-sidebar-foreground: #0f172b;
+	--color-sidebar-primary: #00bcff;
+	--color-sidebar-primary-foreground: #f0f9ff;
+	--color-sidebar-accent: #e0f2fe;
+	--color-sidebar-accent-foreground: #0f172b;
+	--color-sidebar-border: #bae6fd;
+	--color-sidebar-ring: #64748b;
 
 	/* Fonts */
 	--font-sans: var(--font-geist-sans);

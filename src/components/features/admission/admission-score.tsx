@@ -1,5 +1,5 @@
 import { School } from "lucide-react";
-import RichTextRenderer from "@/components/rich-text-renderer";
+import RichTextRenderer from "@/components/shared/content/rich-text-renderer";
 import type { StrapiAdmissionScore } from "@/lib/strapi";
 
 // Types

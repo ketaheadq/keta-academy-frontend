@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import CourseCard from "@/components/cards/course-card";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
+import CourseCard from "@/components/shared/cards/course-card";
 import { calculateCoursesProgress } from "@/lib/progress-utils";
 import {
 	getAllCourseLessons,

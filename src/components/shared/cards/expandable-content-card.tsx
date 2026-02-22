@@ -2,7 +2,7 @@
 
 import { ChevronDown, ChevronUp, FileText, School } from "lucide-react";
 import { useEffect, useState } from "react";
-import RichTextRenderer from "@/components/rich-text-renderer";
+import RichTextRenderer from "@/components/shared/content/rich-text-renderer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { StrapiBlock } from "@/lib/strapi";

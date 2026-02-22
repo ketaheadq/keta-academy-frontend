@@ -1,8 +1,8 @@
 "use client";
 
 import { Calculator } from "lucide-react";
-import AdmissionScoreCard from "@/components/cards/admission-score-card";
-import DynamicGrid from "@/components/grids/dynamic-grid";
+import AdmissionScoreCard from "@/components/shared/cards/admission-score-card";
+import DynamicGrid from "@/components/shared/grids/dynamic-grid";
 import type { StrapiAdmissionScore } from "@/lib/strapi";
 
 interface AdmissionGridProps {

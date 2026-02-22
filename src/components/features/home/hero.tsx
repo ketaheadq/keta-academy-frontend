@@ -1,17 +1,18 @@
 "use client";
 
 import { ArrowRight, Play, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-const stats = [
-	{ value: "1000+", label: "Ücretsiz Ders" },
-	{ value: "50K+", label: "Öğrenci" },
-	{ value: "4.9", label: "Ortalama Puan" },
-];
+// const stats = [
+// 	{ value: "1000+", label: "Ücretsiz Ders" },
+// 	{ value: "50K+", label: "Öğrenci" },
+// 	{ value: "4.9", label: "Ortalama Puan" },
+// ];
 
 export default function Hero() {
 	return (
-		<section className="relative overflow-hidden pt-12 pb-8 md:pt-24 md:pb-16">
+		<section className="relative overflow-hidden mb:pt-24 pt-12 pb-8 md:pb-16">
 			{/* Background Blobs */}
 			<div className="absolute inset-0 -z-10 overflow-hidden">
 				<div className="absolute top-20 left-10 h-72 w-72 animate-pulse-gentle rounded-full bg-linear-to-br from-blue-400/20 to-cyan-400/20 blur-3xl" />
@@ -52,28 +53,32 @@ export default function Hero() {
 						className="mb-16 flex animate-slideUp flex-col items-center justify-center gap-4 sm:flex-row"
 						style={{ animationDelay: "0.4s" }}
 					>
-						<Button
-							size="lg"
-							className="group h-14 rounded-full bg-blue-600 px-10 text-base text-white shadow-blue-500/25 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-blue-700 active:scale-95"
-						>
-							Hemen Başla
-							<ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-						</Button>
-						<Button
-							size="lg"
-							variant="outline"
-							className="group h-14 rounded-full border-gray-200 bg-white/50 px-10 text-base text-gray-700 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white active:scale-95"
-						>
-							<Play className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
-							Nasıl Çalışır?
-						</Button>
+						<Link href="/giris">
+							<Button
+								size="lg"
+								className="group h-14 rounded-full bg-blue-600 px-10 text-base text-white shadow-blue-500/25 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-blue-700 active:scale-95"
+							>
+								Hemen Başla
+								<ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+							</Button>
+						</Link>
+						<Link href="/sikca-sorulan-sorular">
+							<Button
+								size="lg"
+								variant="outline"
+								className="group h-14 rounded-full border-gray-200 bg-white/50 px-10 text-base text-gray-700 backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95"
+							>
+								<Play className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
+								Nasıl Çalışır?
+							</Button>
+						</Link>
 					</div>
 
 					<div
 						className="mx-auto grid max-w-2xl animate-slideUp grid-cols-3 gap-8"
 						style={{ animationDelay: "0.6s" }}
 					>
-						{stats.map((stat) => (
+						{/* {stats.map((stat) => (
 							<div
 								key={stat.label}
 								className="group text-center transition-transform duration-300 hover:scale-110"
@@ -85,7 +90,7 @@ export default function Hero() {
 									{stat.label}
 								</div>
 							</div>
-						))}
+						))} */}
 					</div>
 				</div>
 			</div>

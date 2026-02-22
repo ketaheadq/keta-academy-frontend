@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import AdmissionGrid from "@/components/grids/admission-grid";
-import BlogGrid from "@/components/grids/blog-grid";
-import VideoGrid from "@/components/grids/video-grid";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
-import PermissionWarning from "@/components/permission-warning";
+import PermissionWarning from "@/components/shared/feedback/permission-warning";
+import AdmissionGrid from "@/components/shared/grids/admission-grid";
+import BlogGrid from "@/components/shared/grids/blog-grid";
+import VideoGrid from "@/components/shared/grids/video-grid";
 import { generateSEOMetadata, generateStructuredData } from "@/lib/seo";
 import {
 	getAdmissionScoresByPage,

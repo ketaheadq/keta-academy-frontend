@@ -4,8 +4,8 @@ import { Award, Globe, Heart, MessageCircle, Search, Shield, Users } from "lucid
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import type { StrapiTutoringProfile } from "@/lib/strapi";
-import { Button } from "./ui/button";
 
 function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 	const [showDetails, setShowDetails] = useState(false);

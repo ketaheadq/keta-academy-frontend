@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import ExpandableContentCard from "@/components/cards/expandable-content-card";
+import AdmissionScoreTableLoading from "@/components/features/admission/admission-score-table-loading";
+import AdmissionScoreTableServer from "@/components/features/admission/admission-score-table-server";
+import BlogPage from "@/components/features/blog/blog";
+import VideoPage from "@/components/features/course/video";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
-import AdmissionScoreTableLoading from "@/components/pages/admission-score-table-loading";
-import AdmissionScoreTableServer from "@/components/pages/admission-score-table-server";
-import BlogPage from "@/components/pages/blog";
-import VideoPage from "@/components/pages/video";
+import ExpandableContentCard from "@/components/shared/cards/expandable-content-card";
 import { withNotFoundHandler } from "@/lib/errors";
 import { generateSEOMetadata } from "@/lib/seo";
 import {

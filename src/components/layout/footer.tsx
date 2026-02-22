@@ -5,6 +5,7 @@ import { getBlogs, getSettings, getSubjects } from "@/lib/strapi";
 
 // Define reusable menu items
 const supportLinks = [
+	{ name: "Sıkça Sorulan Sorular", href: "/sikca-sorulan-sorular" },
 	{ name: "İletişim", href: "/iletisim" },
 	{ name: "Gizlilik Politikası", href: "/gizlilik-politikasi" },
 	{ name: "Hizmet Şartları", href: "/hizmet-sartlari" },

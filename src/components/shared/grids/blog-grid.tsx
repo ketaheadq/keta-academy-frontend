@@ -1,8 +1,8 @@
 "use client";
 
 import { BookOpen } from "lucide-react";
-import BlogCard from "@/components/cards/blog-card";
-import DynamicGrid from "@/components/grids/dynamic-grid";
+import BlogCard from "@/components/shared/cards/blog-card";
+import DynamicGrid from "@/components/shared/grids/dynamic-grid";
 import type { StrapiBlog } from "@/lib/strapi";
 
 interface BlogGridProps {

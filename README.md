@@ -4,6 +4,12 @@
 
 An interactive education platform designed to help students succeed in university entrance exams. Keta Akademi provides comprehensive course lectures, up-to-date base-ceiling points, blogs, and interactive publications.
 
+## 🎨 Design System
+
+- **Colors:** [Tailwind CSS 4](https://tailwindcss.com) (slate-900 (#0F172B), slate-500 (#64748b),sky-50 (#f0f9ff), amber-500 (#FD9A00), sky-400 (#00BCFF), rose-600 (#EC003F))
+- **Shadcn UI:** [Shadcn UI](https://ui.shadcn.com)
+- **React bits:** [React bits](https://reactbits.dev)
+
 ## 🚀 Tech Stack
 
 - **Core:** [Next.js 15+](https://nextjs.org) (App Router), [React 19](https://react.dev)
@@ -49,6 +55,7 @@ This roadmap outlines the planned improvements to make Keta Akademi the premier 
 - [ ] **Font Optimization:** Fine-tune font loading to eliminate Layout Shift (CLS).
 
 ### 📍 Phase 2: Visual & UX Excellence (Premium Feel)
+- [ ] **Colors & Design:** change all bg-orange-xxx to primary etc. and make design to be more premium. 
 - [ ] **Micro-animations:** Integrate `three.js` for subtle, high-quality interactions and page transitions.
 - [ ] **Skeleton States:** Replace basic loading spinners with polished skeleton loaders for a smoother perceived performance.
 - [ ] **Glassmorphism:** Apply modern design trends to the Navbar and Sidebar components.

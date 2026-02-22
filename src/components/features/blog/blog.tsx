@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar, Clock, User } from "lucide-react";
-import BlogRichTextRenderer from "@/components/blog-rich-text-renderer";
+import BlogRichTextRenderer from "@/components/features/blog/blog-rich-text-renderer";
 import ShareComponent from "@/components/ui/share-component";
 import type { StrapiBlog } from "@/lib/strapi";
 

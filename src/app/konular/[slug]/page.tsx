@@ -1,5 +1,5 @@
-import CourseGrid from "@/components/grids/course-grid-wrapper";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
+import CourseGrid from "@/components/shared/grids/course-grid-wrapper";
 import { getCourseIcon } from "@/lib/icons";
 import { getCoursesBySubject, getGrades, getSubjectBySlug } from "@/lib/strapi";
 import Continue from "@/sections/continue-wrapper";

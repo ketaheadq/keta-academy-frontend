@@ -1,5 +1,5 @@
 import { RedirectType, redirect } from "next/navigation";
-import CoursePage from "@/components/pages/course";
+import CoursePage from "@/components/features/course/course";
 import { getCourse, getLessonsByCourseId } from "@/lib/strapi";
 export default async function DerslerPage({
 	params,

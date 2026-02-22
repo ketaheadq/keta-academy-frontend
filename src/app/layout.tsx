@@ -1,11 +1,11 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { use } from "react";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
 import { getSettings } from "@/lib/strapi";
+import "./globals.css";
 import { Providers } from "./provider";
 
 const geistSans = Geist({
@@ -101,9 +101,9 @@ export default function RootLayout({
 			<head>
 				<link rel="preconnect" href="https://www.google-analytics.com" />
 			</head>
-			<body className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}>
+			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<Providers>
-					<div className="flex min-h-screen flex-col">
+					<div className="flex min-h-screen flex-col antialiased">
 						<Navbar />
 						<main className="mx-auto w-full max-w-6xl grow py-6 sm:px-6 md:px-4 lg:px-2 xl:px-0">
 							{children}

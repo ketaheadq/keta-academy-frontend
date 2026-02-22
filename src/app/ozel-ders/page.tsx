@@ -1,7 +1,7 @@
 import { Calendar, Video } from "lucide-react";
 import Link from "next/link";
 import { use, useId } from "react";
-import TutoringContent from "@/components/tutoring-content";
+import TutoringContent from "@/components/features/tutoring/tutoring-content";
 import { Button } from "@/components/ui/button";
 import ScrollToSectionButton from "@/components/ui/scroll-to-section-button";
 import { getTutoringProfiles } from "@/lib/strapi";

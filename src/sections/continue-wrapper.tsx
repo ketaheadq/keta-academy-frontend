@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CourseCard from "@/components/cards/course-card";
+import CourseCard from "@/components/shared/cards/course-card";
 import { calculateCoursesProgress } from "@/lib/progress-utils";
 import { getAllCourseLessons, getUserLessonProgress, type StrapiCourse } from "@/lib/strapi";
 import { useAuthStore } from "@/stores/auth-store";

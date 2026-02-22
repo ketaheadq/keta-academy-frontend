@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CourseGrid from "@/components/grids/course-grid-wrapper";
+import CourseGrid from "@/components/shared/grids/course-grid-wrapper";
 import type { StrapiGrade } from "@/lib/strapi";
 import { getCourses, getGrades, getSettings, getSubjects } from "@/lib/strapi";
 import BrowseBySubject from "@/sections/browse-by-subject";
