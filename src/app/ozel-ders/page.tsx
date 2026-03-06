@@ -12,29 +12,29 @@ export default function TutoringPage() {
 	const howItWorksId = useId();
 
 	return (
-		<div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
+		<div className="min-h-screen bg-linear-to-br from-primary/20 via-white to-primary/20">
 			{/* Hero Section */}
-			<div className="relative overflow-hidden bg-linear-to-r from-blue-600 via-purple-600 to-indigo-700 text-white">
+			<div className="relative overflow-hidden bg-linear-to-r from-primary via-primary to-primary text-white">
 				<div className="absolute inset-0 bg-black opacity-10" />
 				<div className="relative mx-auto px-4 py-20 sm:px-6 lg:px-8">
 					<div className="text-center">
 						<h1 className="mb-6 font-bold text-5xl leading-tight md:text-6xl">
-							Uzman Öğretmenlerle <span className="block text-yellow-300">Birebir Eğitim</span>
+							Uzman Öğretmenlerle <span className="block text-accent/20">Birebir Eğitim</span>
 						</h1>
-						<p className="mx-auto mb-8 max-w-3xl text-blue-100 text-xl leading-relaxed">
+						<p className="mx-auto mb-8 max-w-3xl text-primary-foreground text-xl leading-relaxed">
 							Alanında uzman, deneyimli öğretmenlerle birebir ders alın. Kişiselleştirilmiş öğrenme
 							deneyimi ile hedeflerinize ulaşın.
 						</p>
 
 						<div className="flex flex-col justify-center gap-4 sm:flex-row">
 							<Link href="/iletisim">
-								<Button className="rounded-xl border-2 bg-yellow-400 px-8 py-4 font-bold text-gray-900 text-lg shadow-lg transition-colors hover:bg-yellow-300">
+								<Button className="rounded-xl border-2 bg-accent/20 px-8 py-4 font-bold text-foreground text-lg shadow-lg transition-colors hover:bg-accent/20">
 									Hemen Başla
 								</Button>
 							</Link>
 							<ScrollToSectionButton
 								sectionId={howItWorksId}
-								className="rounded-xl border-2 border-white px-8 py-4 font-bold text-lg text-white transition-colors hover:bg-white hover:text-blue-600"
+								className="rounded-xl border-2 border-white px-8 py-4 font-bold text-lg text-white transition-colors hover:bg-white hover:text-primary"
 							>
 								Nasıl Çalışır?
 							</ScrollToSectionButton>
@@ -48,10 +48,10 @@ export default function TutoringPage() {
 
 			{/* How It Works Section */}
 			<div id={howItWorksId} className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
-				<div className="mb-12 rounded-3xl bg-linear-to-r from-purple-600 to-blue-600 p-8 text-white md:p-12">
+				<div className="mb-12 rounded-3xl bg-linear-to-r from-primary to-primary p-8 text-white md:p-12">
 					<div className="mb-12 text-center">
 						<h2 className="mb-4 font-bold text-3xl md:text-4xl">Nasıl Çalışır?</h2>
-						<p className="mx-auto max-w-2xl text-lg text-purple-100">
+						<p className="mx-auto max-w-2xl text-lg text-primary/20">
 							Sadece 3 adımda uzman öğretmeninizle tanışın ve öğrenmeye başlayın
 						</p>
 					</div>
@@ -71,7 +71,7 @@ export default function TutoringPage() {
 								</svg>
 							</div>
 							<h3 className="mb-2 font-bold text-xl">1. Öğretmen Seç</h3>
-							<p className="text-purple-100">
+							<p className="text-primary/20">
 								İhtiyacınıza uygun uzman öğretmeni bulun ve profilini inceleyin
 							</p>
 						</div>
@@ -81,7 +81,7 @@ export default function TutoringPage() {
 								<Calendar className="h-8 w-8" />
 							</div>
 							<h3 className="mb-2 font-bold text-xl">2. Ders Rezerve Et</h3>
-							<p className="text-purple-100">
+							<p className="text-primary/20">
 								Uygun zaman dilimini seçin ve dersinizi rezerve edin
 							</p>
 						</div>
@@ -91,21 +91,21 @@ export default function TutoringPage() {
 								<Video className="h-8 w-8" />
 							</div>
 							<h3 className="mb-2 font-bold text-xl">3. Öğrenmeye Başla</h3>
-							<p className="text-purple-100">Birebir online derslerle hedeflerinize ulaşın</p>
+							<p className="text-primary/20">Birebir online derslerle hedeflerinize ulaşın</p>
 						</div>
 					</div>
 				</div>
 
 				{/* CTA Section */}
-				<div className="rounded-3xl bg-linear-to-r from-green-500 to-emerald-600 p-8 text-center text-white md:p-12">
+				<div className="rounded-3xl bg-linear-to-r from-primary to-primary p-8 text-center text-white md:p-12">
 					<h2 className="mb-4 font-bold text-3xl md:text-4xl">Hayalinizdeki Başarıya Ulaşın</h2>
-					<p className="mx-auto mb-8 max-w-2xl text-green-100 text-lg">
+					<p className="mx-auto mb-8 max-w-2xl text-lg text-primary/20">
 						Uzman öğretmenlerimizle birebir çalışarak akademik hedeflerinizi gerçekleştirin. İlk
 						dersinizi ücretsiz deneyin!
 					</p>
 					<div className="flex flex-col justify-center gap-4 sm:flex-row">
 						<Link href="/iletisim">
-							<Button className="rounded-xl bg-white px-8 py-4 font-bold text-green-600 text-lg shadow-lg transition-colors hover:bg-green-50">
+							<Button className="rounded-xl bg-white px-8 py-4 font-bold text-lg text-primary shadow-lg transition-colors hover:bg-primary/10">
 								Ücretsiz Ders Dene
 							</Button>
 						</Link>

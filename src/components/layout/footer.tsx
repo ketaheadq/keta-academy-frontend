@@ -26,7 +26,7 @@ export default async function Footer() {
 	const popularBlogs = blogs.filter((blog) => blog.isPopular).slice(0, 5);
 
 	return (
-		<footer className="bg-gray-900 text-white">
+		<footer className="bg-foreground text-white">
 			<div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:grid-cols-9 lg:gap-14 xl:gap-16">
 					{/* Logo and Description */}
@@ -44,7 +44,7 @@ export default async function Footer() {
 							)}
 							<span className="font-bold text-xl">{settings.siteName}</span>
 						</div>
-						<p className="max-w-xs text-gray-400 text-sm leading-relaxed">
+						<p className="max-w-xs text-muted-foreground text-sm leading-relaxed">
 							{settings.siteName}, öğrencilerin öğrenme sürecini destekleyen bir platformdur.
 						</p>
 					</section>
@@ -58,7 +58,7 @@ export default async function Footer() {
 									<li key={subject.slug}>
 										<Link
 											href={`/konular/${subject.slug}`}
-											className="text-gray-400 text-sm transition-colors duration-200 hover:text-white"
+											className="text-muted-foreground text-sm transition-colors duration-200 hover:text-white"
 										>
 											{subject.title}
 										</Link>
@@ -76,7 +76,7 @@ export default async function Footer() {
 								<li key={blog.slug}>
 									<Link
 										href={`/sayfalar/${blog.page?.slug}/${blog.slug}`}
-										className="line-clamp-2 text-gray-400 text-sm transition-colors duration-200 hover:text-white"
+										className="line-clamp-2 text-muted-foreground text-sm transition-colors duration-200 hover:text-white"
 									>
 										{blog.title}
 									</Link>
@@ -93,7 +93,7 @@ export default async function Footer() {
 								<li key={link.href}>
 									<Link
 										href={link.href}
-										className="text-gray-400 text-sm transition-colors duration-200 hover:text-white"
+										className="text-muted-foreground text-sm transition-colors duration-200 hover:text-white"
 									>
 										{link.name}
 									</Link>
@@ -104,7 +104,7 @@ export default async function Footer() {
 				</div>
 
 				{/* Copyright */}
-				<div className="mt-10 border-gray-800 border-t pt-8 pb-2">
+				<div className="mt-10 border-border border-t pt-8 pb-2">
 					<div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
 						<p className="text-muted-foreground text-sm">
 							&copy; 2025 {settings.siteName}. Tüm hakları saklıdır.

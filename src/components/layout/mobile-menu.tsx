@@ -61,7 +61,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 			<button
 				type="button"
 				onClick={toggleMobileMenu}
-				className="rounded-md p-2 text-gray-700 transition-colors hover:bg-gray-100 hover:text-blue-600 md:hidden"
+				className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary md:hidden"
 				aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 				aria-expanded={isMobileMenuOpen}
 			>
@@ -77,12 +77,12 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 							{pageCategories.map((category) => (
 								<div
 									key={`mobile-category-${category.id}`}
-									className="border-gray-100 border-b last:border-0"
+									className="border-border border-b last:border-0"
 								>
 									<button
 										type="button"
 										onClick={() => toggleCategory(category.id)}
-										className="flex w-full items-center justify-between p-2 font-medium text-gray-700 transition-colors hover:text-blue-600 focus:text-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-200"
+										className="flex w-full items-center justify-between p-2 font-medium text-muted-foreground transition-colors hover:text-primary focus:text-primary focus:outline-none focus:ring-1 focus:ring-primary"
 										aria-expanded={openCategory === category.id}
 										aria-controls={`mobile-submenu-${category.id}`}
 									>
@@ -98,14 +98,14 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 									{openCategory === category.id && (
 										<div
 											id={`mobile-submenu-${category.id}`}
-											className="slide-in-from-top-1 mt-1 ml-2 animate-in space-y-1 border-gray-200 border-l-2 pl-4 duration-150"
+											className="slide-in-from-top-1 mt-1 ml-2 animate-in space-y-1 border-border border-l-2 pl-4 duration-150"
 										>
 											{category.pages.map((page) => (
 												<Link
 													key={`mobile-page-${page.id}`}
 													href={`/sayfalar/${page.slug}`}
 													onClick={closeMobileMenu}
-													className="block rounded py-2 text-gray-600 text-sm transition-colors hover:text-blue-600 focus:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+													className="block rounded py-2 text-muted-foreground text-sm transition-colors hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
 												>
 													{page.title}
 												</Link>
@@ -117,7 +117,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 						</nav>
 
 						{/* Mobile Authentication Section */}
-						<div className="mt-6 border-gray-200 border-t pt-4">
+						<div className="mt-6 border-border border-t pt-4">
 							<AuthSection onNavigate={closeMobileMenu} />
 						</div>
 					</div>

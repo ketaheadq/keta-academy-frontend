@@ -46,13 +46,16 @@ export default function DynamicContinue<T extends ContinuableItem>({
 	return (
 		<section className={`mb-12 ${className}`}>
 			<div className="flex items-center justify-between">
-				<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">
+				<h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">
 					{title}
-					{isLoading && <span className="ml-2 text-blue-500">(Yükleniyor...)</span>}
+					{isLoading && <span className="ml-2 text-primary">(Yükleniyor...)</span>}
 				</h2>
 				{hasMoreItems && viewAllLink && (
 					<div className="mt-6 text-center">
-						<Link href={viewAllLink.href} className="text-gray-600 underline hover:text-blue-800">
+						<Link
+							href={viewAllLink.href}
+							className="text-muted-foreground underline hover:text-primary"
+						>
 							{viewAllLink.label} ({continueItems.length} ders)
 						</Link>
 					</div>

@@ -160,7 +160,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				content = (
 					<section className="text-center">
 						<h2 className="mb-4 font-bold text-2xl">Hesaplama Araçları</h2>
-						<p className="text-gray-600">Calculation tools will be implemented here</p>
+						<p className="text-muted-foreground">Calculation tools will be implemented here</p>
 					</section>
 				);
 				break;
@@ -169,7 +169,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				content = (
 					<section className="text-center">
 						<div className="prose prose-lg mx-auto">
-							<p className="mx-auto max-w-3xl text-gray-600 text-xl">Sayfa yüklenemedi.</p>
+							<p className="mx-auto max-w-3xl text-muted-foreground text-xl">Sayfa yüklenemedi.</p>
 						</div>
 					</section>
 				);

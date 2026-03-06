@@ -49,9 +49,9 @@ export default function DynamicGrid<T extends FilterableItem>({
 	filterConfigs,
 	searchFields,
 	renderItem,
-	title = <h1 className="font-semibold text-2xl text-gray-900">📚 Öğeler</h1>,
+	title = <h1 className="font-semibold text-2xl text-foreground">📚 Öğeler</h1>,
 	emptyStateConfig = {
-		icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-gray-400" />,
+		icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />,
 		title: "Sonuç bulunamadı",
 		description: "Aradığınızı bulmak için filtrelerinizi ayarlayın.",
 	},
@@ -161,11 +161,11 @@ export default function DynamicGrid<T extends FilterableItem>({
 			{/* Search and Filter Section */}
 			<section className="mb-8">
 				<div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-					<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">{title}</h2>
+					<h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">{title}</h2>
 					<div className="flex items-center space-x-4">
 						{searchFields.length > 0 && (
 							<div className="relative">
-								<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+								<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
 								<Input
 									placeholder="Ara..."
 									value={searchTerm}
@@ -199,7 +199,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 								<div key={config.field}>
 									<label
 										htmlFor={selectId}
-										className="mb-2 block font-medium text-gray-700 text-sm"
+										className="mb-2 block font-medium text-muted-foreground text-sm"
 									>
 										{config.label}
 									</label>
@@ -240,8 +240,8 @@ export default function DynamicGrid<T extends FilterableItem>({
 				{filteredItems.length === 0 && (
 					<div className="py-12 text-center">
 						{emptyStateConfig.icon}
-						<h3 className="mb-2 font-semibold text-gray-900 text-lg">{emptyStateConfig.title}</h3>
-						<p className="text-gray-600">{emptyStateConfig.description}</p>
+						<h3 className="mb-2 font-semibold text-foreground text-lg">{emptyStateConfig.title}</h3>
+						<p className="text-muted-foreground">{emptyStateConfig.description}</p>
 					</div>
 				)}
 			</section>

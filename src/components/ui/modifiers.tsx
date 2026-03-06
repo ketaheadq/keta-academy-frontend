@@ -9,7 +9,7 @@ const BoldModifier = ({
 }) => (
 	<strong
 		className={clsx(
-			"bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text font-bold text-gray-900",
+			"bg-linear-to-r from-primary to-primary bg-clip-text font-bold text-foreground",
 			className,
 		)}
 	>
@@ -27,7 +27,7 @@ const ItalicModifier = ({
 }: {
 	children: React.ReactNode;
 	className?: string;
-}) => <em className={clsx("font-medium text-gray-700 italic", className)}>{children}</em>;
+}) => <em className={clsx("font-medium text-muted-foreground italic", className)}>{children}</em>;
 
 export const ItalicModifierComponent = (props: { children: React.ReactNode }) => (
 	<ItalicModifier {...props} />
@@ -70,7 +70,7 @@ const CodeModifier = ({
 }) => (
 	<code
 		className={clsx(
-			"rounded-lg border bg-gray-100 px-2 py-1 font-mono font-semibold text-blue-600 text-sm",
+			"rounded-lg border bg-secondary px-2 py-1 font-mono font-semibold text-primary text-sm",
 			className,
 		)}
 	>

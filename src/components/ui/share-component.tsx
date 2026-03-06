@@ -35,17 +35,17 @@ const getSocialIcon = (platform: string) => {
 const getSocialColor = (platform: string) => {
 	switch (platform) {
 		case "twitter":
-			return "hover:bg-blue-100 hover:text-blue-600";
+			return "hover:bg-primary/10 hover:text-primary";
 		case "facebook":
-			return "hover:bg-blue-100 hover:text-blue-700";
+			return "hover:bg-primary/10 hover:text-primary";
 		case "whatsapp":
-			return "hover:bg-green-100 hover:text-green-600";
+			return "hover:bg-primary/10 hover:text-primary";
 		case "tiktok":
-			return "hover:bg-gray-900 hover:text-white";
+			return "hover:bg-foreground hover:text-white";
 		case "copy":
-			return "hover:bg-gray-100 hover:text-gray-700";
+			return "hover:bg-secondary hover:text-muted-foreground";
 		default:
-			return "hover:bg-gray-100 hover:text-gray-700";
+			return "hover:bg-secondary hover:text-muted-foreground";
 	}
 };
 

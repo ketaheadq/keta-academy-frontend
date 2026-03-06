@@ -16,16 +16,16 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 				content={content}
 				blocks={{
 					paragraph: ({ children }) => (
-						<p className="mb-4 text-gray-700 leading-relaxed">{children}</p>
+						<p className="mb-4 text-muted-foreground leading-relaxed">{children}</p>
 					),
 					heading: ({ children, level }) => {
 						const headingClasses = {
-							1: "text-3xl font-bold text-gray-900 mb-6 mt-8",
-							2: "text-2xl font-semibold text-gray-900 mb-4 mt-6",
-							3: "text-xl font-semibold text-gray-900 mb-3 mt-5",
-							4: "text-lg font-semibold text-gray-900 mb-2 mt-4",
-							5: "text-base font-semibold text-gray-900 mb-2 mt-3",
-							6: "text-sm font-semibold text-gray-900 mb-2 mt-2",
+							1: "text-3xl font-bold text-foreground mb-6 mt-8",
+							2: "text-2xl font-semibold text-foreground mb-4 mt-6",
+							3: "text-xl font-semibold text-foreground mb-3 mt-5",
+							4: "text-lg font-semibold text-foreground mb-2 mt-4",
+							5: "text-base font-semibold text-foreground mb-2 mt-3",
+							6: "text-sm font-semibold text-foreground mb-2 mt-2",
 						};
 
 						switch (level) {
@@ -53,21 +53,21 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 								: "list-disc list-inside mb-4 space-y-2";
 						return <Tag className={listClass}>{children}</Tag>;
 					},
-					"list-item": ({ children }) => <li className="text-gray-700">{children}</li>,
+					"list-item": ({ children }) => <li className="text-muted-foreground">{children}</li>,
 					quote: ({ children }) => (
-						<blockquote className="mb-4 border-blue-500 border-l-4 bg-blue-50 py-2 pl-4 text-gray-700 italic">
+						<blockquote className="mb-4 border-primary border-l-4 bg-primary/10 py-2 pl-4 text-muted-foreground italic">
 							{children}
 						</blockquote>
 					),
 					code: ({ children }) => (
-						<pre className="mb-4 overflow-x-auto rounded-lg bg-gray-900 p-4 text-white">
+						<pre className="mb-4 overflow-x-auto rounded-lg bg-foreground p-4 text-white">
 							<code>{children}</code>
 						</pre>
 					),
 					link: ({ children, url }) => (
 						<a
 							href={url}
-							className="text-blue-600 underline hover:text-blue-800"
+							className="text-primary underline hover:text-primary"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -91,7 +91,9 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 									}}
 								/>
 								{image.caption && (
-									<p className="mt-2 text-center text-gray-600 text-sm italic">{image.caption}</p>
+									<p className="mt-2 text-center text-muted-foreground text-sm italic">
+										{image.caption}
+									</p>
 								)}
 							</div>
 						);
@@ -103,7 +105,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 					underline: ({ children }) => <u>{children}</u>,
 					strikethrough: ({ children }) => <s>{children}</s>,
 					code: ({ children }) => (
-						<code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm">{children}</code>
+						<code className="rounded bg-secondary px-1 py-0.5 font-mono text-sm">{children}</code>
 					),
 				}}
 			/>

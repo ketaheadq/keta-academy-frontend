@@ -7,7 +7,7 @@ import type { StrapiSubject } from "@/lib/strapi";
 export default function BrowseBySubject({ subjects }: Readonly<{ subjects: StrapiSubject[] }>) {
 	return (
 		<section className="mb-12">
-			<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">
+			<h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">
 				📖 Derslere Göre Ara:
 			</h2>
 			<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -22,10 +22,10 @@ export default function BrowseBySubject({ subjects }: Readonly<{ subjects: Strap
 							}}
 						>
 							<CardContent className="p-6 text-center">
-								<div className="mb-3 inline-flex rounded-full bg-blue-100 p-3">
-									{IconComponent && <IconComponent className="h-6 w-6 text-blue-600" />}
+								<div className="mb-3 inline-flex rounded-full bg-primary/10 p-3">
+									{IconComponent && <IconComponent className="h-6 w-6 text-primary" />}
 								</div>
-								<h3 className="font-semibold text-gray-900">{subject.title}</h3>
+								<h3 className="font-semibold text-foreground">{subject.title}</h3>
 							</CardContent>
 						</Card>
 					);

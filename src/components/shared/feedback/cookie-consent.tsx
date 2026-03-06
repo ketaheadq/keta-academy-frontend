@@ -46,15 +46,15 @@ export default function CookieConsent() {
 							variant="ghost"
 							size="sm"
 							onClick={handleDecline}
-							className="h-6 w-6 p-0 hover:bg-gray-100"
+							className="h-6 w-6 p-0 hover:bg-secondary"
 						>
 							<X className="h-4 w-4" />
 						</Button>
 					</div>
 
-					<p className="mb-4 text-gray-600 text-sm">
+					<p className="mb-4 text-muted-foreground text-sm">
 						Çerezleri kullanarak deneyiminizi ve site kullanımınızı iyileştirmek için kullanıyoruz.{" "}
-						<a href="/gizlilik-politikasi" className="underline hover:text-gray-800">
+						<a href="/gizlilik-politikasi" className="underline hover:text-foreground">
 							Daha fazla bilgi al
 						</a>
 					</p>

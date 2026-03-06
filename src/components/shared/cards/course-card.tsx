@@ -43,7 +43,7 @@ export default function CourseCard({
 								{course.grades.map((grade) => grade.title).join(", ")}
 							</Badge>
 							<Badge variant="outline">{course.subject.title}</Badge>
-							{course.isPopular && <Badge className="bg-orange-500">Popüler</Badge>}
+							{course.isPopular && <Badge className="bg-accent/100">Popüler</Badge>}
 						</div>
 						<CardTitle className="mb-2 text-lg">{title || course.title}</CardTitle>
 						<CardDescription>{course.description}</CardDescription>
@@ -51,7 +51,7 @@ export default function CourseCard({
 				</div>
 			</CardHeader>
 			<CardContent>
-				<div className="mb-4 flex items-center justify-between text-gray-600 text-sm">
+				<div className="mb-4 flex items-center justify-between text-muted-foreground text-sm">
 					<div className="flex items-center space-x-4">
 						<div className="flex items-center space-x-1">
 							<Clock className="h-4 w-4" />
@@ -66,13 +66,13 @@ export default function CourseCard({
 				{/* Progress bar if showProgress is true and course has progress */}
 				{showProgress && (
 					<div className="mb-4">
-						<div className="mb-1 flex justify-between text-gray-600 text-sm">
+						<div className="mb-1 flex justify-between text-muted-foreground text-sm">
 							<span>İlerleme</span>
 							<span>{course.progress ? course.progress : 0}%</span>
 						</div>
-						<div className="h-2 w-full rounded-full bg-gray-200">
+						<div className="h-2 w-full rounded-full bg-secondary">
 							<div
-								className="h-2 rounded-full bg-blue-600 transition-all duration-300"
+								className="h-2 rounded-full bg-primary transition-all duration-300"
 								style={{ width: `${course.progress ? course.progress : 0}%` }}
 							/>
 						</div>

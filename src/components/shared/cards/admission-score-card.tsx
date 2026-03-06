@@ -27,34 +27,34 @@ export default function AdmissionScoreCard({
 	const getColorScheme = (title: string) => {
 		const colors = [
 			{
-				bg: "bg-linear-to-br from-blue-500 to-purple-600",
-				accent: "bg-blue-100",
-				text: "text-blue-600",
+				bg: "bg-linear-to-br from-primary to-primary",
+				accent: "bg-primary/10",
+				text: "text-primary",
 			},
 			{
-				bg: "bg-linear-to-br from-green-500 to-teal-600",
-				accent: "bg-green-100",
-				text: "text-green-600",
+				bg: "bg-linear-to-br from-primary to-primary",
+				accent: "bg-primary/10",
+				text: "text-primary",
 			},
 			{
-				bg: "bg-linear-to-br from-orange-500 to-red-600",
-				accent: "bg-orange-100",
-				text: "text-orange-600",
+				bg: "bg-linear-to-br from-accent to-destructive",
+				accent: "bg-accent/10",
+				text: "text-accent",
 			},
 			{
-				bg: "bg-linear-to-br from-purple-500 to-pink-600",
-				accent: "bg-purple-100",
-				text: "text-purple-600",
+				bg: "bg-linear-to-br from-primary to-destructive",
+				accent: "bg-primary/10",
+				text: "text-primary",
 			},
 			{
-				bg: "bg-linear-to-br from-indigo-500 to-blue-600",
-				accent: "bg-indigo-100",
-				text: "text-indigo-600",
+				bg: "bg-linear-to-br from-primary to-primary",
+				accent: "bg-primary/10",
+				text: "text-primary",
 			},
 			{
-				bg: "bg-linear-to-br from-emerald-500 to-green-600",
-				accent: "bg-emerald-100",
-				text: "text-emerald-600",
+				bg: "bg-linear-to-br from-primary to-primary",
+				accent: "bg-primary/10",
+				text: "text-primary",
 			},
 		];
 		const index = title.length % colors.length;
@@ -91,11 +91,11 @@ export default function AdmissionScoreCard({
 						{/* Top section */}
 						<div className="flex-1">
 							<div className="mb-2 flex items-start justify-between">
-								<h3 className="mr-2 line-clamp-2 flex-1 font-bold text-gray-900 text-lg leading-tight">
+								<h3 className="mr-2 line-clamp-2 flex-1 font-bold text-foreground text-lg leading-tight">
 									{admissionScore.title}
 								</h3>
 								{admissionScore.isPopular && (
-									<Badge className="shrink-0 border-yellow-200 bg-yellow-100 text-yellow-800">
+									<Badge className="shrink-0 border-accent bg-accent/10 text-accent">
 										<Star className="mr-1 h-3 w-3" />
 										Popüler
 									</Badge>
@@ -104,14 +104,14 @@ export default function AdmissionScoreCard({
 
 							{/* Content preview */}
 							{admissionScore.content && admissionScore.content.length > 0 && (
-								<p className="mb-2 line-clamp-2 text-gray-600 text-sm">
+								<p className="mb-2 line-clamp-2 text-muted-foreground text-sm">
 									{admissionScore.content[0]?.children?.[0]?.text ||
 										"Taban puanları ve detaylar mevcut"}
 								</p>
 							)}
 
 							{/* Stats row */}
-							<div className="flex items-center space-x-4 text-gray-500 text-xs">
+							<div className="flex items-center space-x-4 text-muted-foreground text-xs">
 								<div className="flex items-center">
 									<Calendar className="mr-1 h-3 w-3" />
 									{new Date(admissionScore.publishedAt).toLocaleDateString("tr-TR")}
@@ -131,7 +131,7 @@ export default function AdmissionScoreCard({
 							{showRelatedData &&
 								admissionScore.related_datas &&
 								admissionScore.related_datas.length > 0 && (
-									<div className="flex items-center text-gray-500 text-xs">
+									<div className="flex items-center text-muted-foreground text-xs">
 										<Users className="mr-1 h-3 w-3" />
 										{admissionScore.related_datas.length} ilgili veri
 									</div>

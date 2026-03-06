@@ -5,14 +5,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function CourseLoading() {
 	const id = useId();
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<div className="min-h-screen bg-secondary">
 			{/* Header Skeleton */}
 			<header className="border-b bg-white shadow-sm">
 				<div className="mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex h-16 items-center justify-between">
 						<div className="flex items-center space-x-4">
 							<Skeleton className="h-5 w-20" />
-							<div className="h-6 w-px bg-gray-300" />
+							<div className="h-6 w-px bg-muted" />
 							<Skeleton className="h-6 w-64" />
 						</div>
 						<div className="flex items-center space-x-4">

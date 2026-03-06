@@ -249,7 +249,7 @@ export default function AdmissionScoreTable({
 				);
 			case "number":
 				return stringValue.toLowerCase() === "dolmadı" ? (
-					<Badge variant="secondary" className="bg-orange-100 text-orange-800 hover:bg-orange-100">
+					<Badge variant="secondary" className="bg-accent/10 text-accent hover:bg-accent/10">
 						Dolmadı
 					</Badge>
 				) : (

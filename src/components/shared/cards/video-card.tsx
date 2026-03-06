@@ -74,7 +74,7 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 
 					<div className="absolute top-2 right-2">
 						{video.isPopular && (
-							<Badge className="bg-blue-500">
+							<Badge className="bg-primary">
 								<Star className="mr-1 h-3 w-3" />
 								Popüler
 							</Badge>
@@ -82,11 +82,11 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 					</div>
 				</div>
 				<div className="p-4">
-					<h3 className="mb-2 line-clamp-2 font-semibold text-gray-900">{video.title}</h3>
+					<h3 className="mb-2 line-clamp-2 font-semibold text-foreground">{video.title}</h3>
 
 					{/* Page Reference */}
 					{video.page && (
-						<div className="mb-3 text-gray-500 text-xs">
+						<div className="mb-3 text-muted-foreground text-xs">
 							<strong>Sayfa:</strong> {video.page.title}
 						</div>
 					)}

@@ -32,7 +32,7 @@ export default function VideoGrid({
 			itemsPerPage={itemsPerPage}
 			enablePagination={enablePagination}
 			emptyStateConfig={{
-				icon: <Play className="mx-auto mb-4 h-12 w-12 text-gray-400" />,
+				icon: <Play className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />,
 				title: "Video bulunamadı",
 				description: "Aradığınız kriterlere uygun video bulunamadı.",
 			}}

@@ -7,22 +7,22 @@ export default function CallToAction() {
 	return (
 		<section className="relative overflow-hidden py-16 md:py-32">
 			<div className="absolute inset-0 -z-10">
-				<div className="absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-pulse-gentle rounded-full bg-blue-400/10 blur-3xl" />
+				<div className="absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-pulse-gentle rounded-full bg-primary/10 blur-3xl" />
 			</div>
 
 			<div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="mx-auto max-w-4xl overflow-hidden rounded-3xl bg-linear-to-br from-blue-600 to-indigo-700 px-6 py-16 shadow-2xl shadow-blue-500/20 sm:px-12 md:py-24">
+				<div className="mx-auto max-w-4xl overflow-hidden rounded-3xl bg-linear-to-br from-primary to-primary px-6 py-16 shadow-2xl shadow-blue-500/20 sm:px-12 md:py-24">
 					<div className="relative z-10 mx-auto max-w-2xl animate-slideUp text-center">
-						<div className="mb-8 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-medium text-blue-50 text-sm shadow-inner ring-1 ring-white/20 backdrop-blur-md">
-							<Sparkles className="h-4 w-4 text-blue-200" />
+						<div className="mb-8 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-medium text-primary-foreground text-sm shadow-inner ring-1 ring-white/20 backdrop-blur-md">
+							<Sparkles className="h-4 w-4 text-primary-foreground" />
 							<span>Hemen başla, kredi kartı gerektirmez</span>
 						</div>
 
 						<h2 className="mb-6 text-balance font-bold text-3xl text-white tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-							Öğrenme yolculuğuna <span className="text-blue-200">bugün</span> başla
+							Öğrenme yolculuğuna <span className="text-primary-foreground">bugün</span> başla
 						</h2>
 
-						<p className="mb-10 text-balance text-blue-100/80 text-lg leading-relaxed sm:text-xl">
+						<p className="mb-10 text-balance text-lg text-primary-foreground/80 leading-relaxed sm:text-xl">
 							Binlerce ücretsiz derse anında erişim. Kayıt ol ve hemen öğrenmeye başla.
 						</p>
 
@@ -32,7 +32,7 @@ export default function CallToAction() {
 						>
 							<Button
 								size="lg"
-								className="group h-14 rounded-full bg-white px-10 font-bold text-base text-blue-600 shadow-xl transition-all duration-300 hover:scale-105 hover:bg-blue-50 active:scale-95"
+								className="group h-14 rounded-full bg-white px-10 font-bold text-base text-primary shadow-xl transition-all duration-300 hover:scale-105 hover:bg-primary/10 active:scale-95"
 							>
 								Ücretsiz Hesap Oluştur
 								<ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />

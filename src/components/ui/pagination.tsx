@@ -91,7 +91,7 @@ export default function Pagination({
 	return (
 		<div className={`flex flex-col items-center space-y-4 ${className}`}>
 			{/* Items info */}
-			<div className="text-gray-600 text-sm">
+			<div className="text-muted-foreground text-sm">
 				{totalItems > 0 ? (
 					<span>
 						{startItem}-{endItem} arası gösteriliyor, toplam {totalItems} öğe
@@ -120,7 +120,7 @@ export default function Pagination({
 					if (page === "ellipsis") {
 						return (
 							<div key={page} className="px-2">
-								<MoreHorizontal className="h-4 w-4 text-gray-400" />
+								<MoreHorizontal className="h-4 w-4 text-muted-foreground" />
 							</div>
 						);
 					}
@@ -134,7 +134,7 @@ export default function Pagination({
 							variant={isActive ? "default" : "outline"}
 							size="sm"
 							onClick={() => onPageChange(pageNumber)}
-							className={`min-w-10 ${isActive ? "bg-blue-600 text-white hover:bg-blue-700" : ""}`}
+							className={`min-w-10 ${isActive ? "bg-primary text-white hover:bg-primary" : ""}`}
 						>
 							{pageNumber}
 						</Button>

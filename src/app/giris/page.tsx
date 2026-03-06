@@ -38,11 +38,13 @@ export default function LoginPage() {
 				<div className="w-full max-w-md space-y-8">
 					{/* Welcome Section */}
 					<div className="text-center">
-						<div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600">
+						<div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary">
 							<GraduationCap className="h-8 w-8 text-white" />
 						</div>
-						<h2 className="mb-2 font-bold text-3xl text-gray-900">Tekrar Hoşgeldiniz!</h2>
-						<p className="text-gray-600">Öğrenme yolculuğunuza devam etmek için giriş yapın</p>
+						<h2 className="mb-2 font-bold text-3xl text-foreground">Tekrar Hoşgeldiniz!</h2>
+						<p className="text-muted-foreground">
+							Öğrenme yolculuğunuza devam etmek için giriş yapın
+						</p>
 					</div>
 
 					{/* Login Card */}
@@ -64,7 +66,7 @@ export default function LoginPage() {
 							<Button
 								onClick={handleGoogleSignIn}
 								disabled={isSigningIn || isLoading}
-								className="h-12 w-full border border-gray-300 bg-white text-gray-900 shadow-sm hover:bg-gray-50"
+								className="h-12 w-full border border-border bg-white text-foreground shadow-sm hover:bg-secondary"
 								variant="outline"
 							>
 								{isSigningIn || isLoading ? (
@@ -83,34 +85,34 @@ export default function LoginPage() {
 							{/* Divider */}
 							<div className="relative">
 								<div className="absolute inset-0 flex items-center">
-									<div className="w-full border-gray-300 border-t" />
+									<div className="w-full border-border border-t" />
 								</div>
 								<div className="relative flex justify-center text-sm">
-									<span className="bg-white px-2 text-gray-500">Neden Google Girişi?</span>
+									<span className="bg-white px-2 text-muted-foreground">Neden Google Girişi?</span>
 								</div>
 							</div>
 
 							{/* Benefits */}
 							<div className="space-y-3">
-								<div className="flex items-center space-x-3 text-gray-600 text-sm">
-									<Shield className="h-4 w-4 shrink-0 text-green-600" />
+								<div className="flex items-center space-x-3 text-muted-foreground text-sm">
+									<Shield className="h-4 w-4 shrink-0 text-primary" />
 									<span>Güvenli ve şifrelenmiş kimlik doğrulama</span>
 								</div>
-								<div className="flex items-center space-x-3 text-gray-600 text-sm">
-									<Users className="h-4 w-4 shrink-0 text-blue-600" />
+								<div className="flex items-center space-x-3 text-muted-foreground text-sm">
+									<Users className="h-4 w-4 shrink-0 text-primary" />
 									<span>Şifre hatırlamadan hızlı erişim</span>
 								</div>
-								<div className="flex items-center space-x-3 text-gray-600 text-sm">
-									<BookOpen className="h-4 w-4 shrink-0 text-purple-600" />
+								<div className="flex items-center space-x-3 text-muted-foreground text-sm">
+									<BookOpen className="h-4 w-4 shrink-0 text-primary" />
 									<span>İlerlemenizi tüm cihazlarda senkronize edin</span>
 								</div>
 							</div>
 
 							{/* Sign Up Link */}
 							<div className="border-t pt-4 text-center">
-								<p className="text-gray-600 text-sm">
+								<p className="text-muted-foreground text-sm">
 									Hesabınız yok mu?{" "}
-									<Link href="/kayit-ol" className="font-medium text-blue-600 hover:text-blue-500">
+									<Link href="/kayit-ol" className="font-medium text-primary hover:text-primary">
 										Buradan kayıt olun
 									</Link>
 								</p>
@@ -119,13 +121,13 @@ export default function LoginPage() {
 					</Card>
 
 					{/* Terms */}
-					<p className="text-center text-gray-500 text-xs">
+					<p className="text-center text-muted-foreground text-xs">
 						Giriş yaparak{" "}
-						<Link href="/hizmet-sartlari" className="text-blue-600 hover:text-blue-500">
+						<Link href="/hizmet-sartlari" className="text-primary hover:text-primary">
 							Hizmet Şartlarımızı
 						</Link>{" "}
 						ve{" "}
-						<Link href="/gizlilik-politikasi" className="text-blue-600 hover:text-blue-500">
+						<Link href="/gizlilik-politikasi" className="text-primary hover:text-primary">
 							Gizlilik Politikamızı
 						</Link>{" "}
 						kabul etmiş olursunuz

@@ -45,7 +45,7 @@ export default function CourseGrid({
 			)}
 			title={title}
 			emptyStateConfig={{
-				icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-gray-400" />,
+				icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />,
 				title: "Ders bulunamadı",
 				description: "Filtreleri değiştirerek dersleri bulabilirsiniz.",
 			}}

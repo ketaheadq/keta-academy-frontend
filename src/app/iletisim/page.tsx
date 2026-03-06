@@ -35,13 +35,13 @@ const getSocialIcon = (platform: string) => {
 const getSocialColor = (platform: string) => {
 	switch (platform) {
 		case "instagram":
-			return "bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600";
+			return "bg-linear-to-r from-primary to-destructive hover:from-primary hover:to-destructive";
 		case "youtube":
-			return "bg-red-500 hover:bg-red-600";
+			return "bg-destructive/100 hover:bg-destructive";
 		case "tiktok":
-			return "bg-black hover:bg-gray-800";
+			return "bg-black hover:bg-foreground";
 		default:
-			return "bg-blue-500 hover:bg-blue-600";
+			return "bg-primary hover:bg-primary";
 	}
 };
 
@@ -83,13 +83,13 @@ export default async function ContactPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
+		<div className="min-h-screen bg-linear-to-br from-primary/20 via-white to-primary/20">
 			{/* Hero Section */}
-			<div className="bg-linear-to-r from-blue-600 to-purple-600 py-16 text-white">
+			<div className="bg-linear-to-r from-primary to-primary py-16 text-white">
 				<div className="container mx-auto px-4">
 					<div className="mx-auto max-w-3xl text-center">
 						<h1 className="mb-6 font-bold text-4xl md:text-5xl">Bizimle İletişime Geçin</h1>
-						<p className="mb-8 text-blue-100 text-xl">
+						<p className="mb-8 text-primary-foreground text-xl">
 							Sorularınız, önerileriniz veya destek talepleriniz için buradayız. Size en kısa sürede
 							dönüş yapacağız.
 						</p>
@@ -118,8 +118,8 @@ export default async function ContactPage() {
 						{/* Contact Details Card */}
 						<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
 							<CardHeader className="pb-4">
-								<CardTitle className="flex items-center gap-2 text-2xl text-gray-800">
-									<MessageCircle className="h-6 w-6 text-blue-600" />
+								<CardTitle className="flex items-center gap-2 text-2xl text-foreground">
+									<MessageCircle className="h-6 w-6 text-primary" />
 									İletişim Bilgileri
 								</CardTitle>
 								<CardDescription>
@@ -128,48 +128,54 @@ export default async function ContactPage() {
 							</CardHeader>
 							<CardContent className="space-y-6">
 								{/* Phone */}
-								<div className="flex items-start gap-4 rounded-lg bg-blue-50 p-4 transition-colors hover:bg-blue-100">
-									<div className="rounded-lg bg-blue-600 p-2">
+								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/10">
+									<div className="rounded-lg bg-primary p-2">
 										<Phone className="h-5 w-5 text-white" />
 									</div>
 									<div>
-										<h3 className="font-semibold text-gray-800">Telefon</h3>
+										<h3 className="font-semibold text-foreground">Telefon</h3>
 										<a
 											href={`tel:${contactData.phone}`}
-											className="font-medium text-blue-600 hover:text-blue-800"
+											className="font-medium text-primary hover:text-primary"
 										>
 											{contactData.phone}
 										</a>
-										<p className="mt-1 text-gray-600 text-sm">Pazartesi - Cuma: 09:00 - 18:00</p>
+										<p className="mt-1 text-muted-foreground text-sm">
+											Pazartesi - Cuma: 09:00 - 18:00
+										</p>
 									</div>
 								</div>
 
 								{/* Email */}
-								<div className="flex items-start gap-4 rounded-lg bg-purple-50 p-4 transition-colors hover:bg-purple-100">
-									<div className="rounded-lg bg-purple-600 p-2">
+								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/10">
+									<div className="rounded-lg bg-primary p-2">
 										<Mail className="h-5 w-5 text-white" />
 									</div>
 									<div>
-										<h3 className="font-semibold text-gray-800">E-posta</h3>
+										<h3 className="font-semibold text-foreground">E-posta</h3>
 										<a
 											href={`mailto:${contactData.email}`}
-											className="break-all font-medium text-purple-600 hover:text-purple-800"
+											className="break-all font-medium text-primary hover:text-primary"
 										>
 											{contactData.email}
 										</a>
-										<p className="mt-1 text-gray-600 text-sm">24 saat içinde yanıt veriyoruz</p>
+										<p className="mt-1 text-muted-foreground text-sm">
+											24 saat içinde yanıt veriyoruz
+										</p>
 									</div>
 								</div>
 
 								{/* Address */}
-								<div className="flex items-start gap-4 rounded-lg bg-green-50 p-4 transition-colors hover:bg-green-100">
-									<div className="rounded-lg bg-green-600 p-2">
+								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/10">
+									<div className="rounded-lg bg-primary p-2">
 										<MapPin className="h-5 w-5 text-white" />
 									</div>
 									<div>
-										<h3 className="font-semibold text-gray-800">Adres</h3>
-										<p className="font-medium text-green-600">{contactData.address}</p>
-										<p className="mt-1 text-gray-600 text-sm">Ofis ziyaretleri randevu ile</p>
+										<h3 className="font-semibold text-foreground">Adres</h3>
+										<p className="font-medium text-primary">{contactData.address}</p>
+										<p className="mt-1 text-muted-foreground text-sm">
+											Ofis ziyaretleri randevu ile
+										</p>
 									</div>
 								</div>
 							</CardContent>
@@ -178,7 +184,7 @@ export default async function ContactPage() {
 						{/* Social Media Card */}
 						<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
 							<CardHeader className="pb-4">
-								<CardTitle className="text-gray-800 text-xl">Sosyal Medya</CardTitle>
+								<CardTitle className="text-foreground text-xl">Sosyal Medya</CardTitle>
 								<CardDescription>Bizi sosyal medyada takip edin</CardDescription>
 							</CardHeader>
 							<CardContent>
@@ -198,23 +204,23 @@ export default async function ContactPage() {
 								</div>
 
 								{/* Quick Stats */}
-								<div className="rounded-lg bg-linear-to-r from-blue-600 to-purple-600 p-6 text-white">
+								<div className="rounded-lg bg-linear-to-r from-primary to-primary p-6 text-white">
 									<h3 className="mb-4 font-semibold text-lg">Neden Bizi Seçmelisiniz?</h3>
 									<div className="space-y-3">
 										<div className="flex items-center gap-3">
-											<Star className="h-5 w-5 text-yellow-300" />
+											<Star className="h-5 w-5 text-accent/20" />
 											<span>4.9/5 müşteri memnuniyeti</span>
 										</div>
 										<div className="flex items-center gap-3">
-											<Users className="h-5 w-5 text-blue-200" />
+											<Users className="h-5 w-5 text-primary-foreground" />
 											<span>10,000+ mutlu öğrenci</span>
 										</div>
 										<div className="flex items-center gap-3">
-											<BookOpen className="h-5 w-5 text-purple-200" />
+											<BookOpen className="h-5 w-5 text-primary/20" />
 											<span>500+ ders içeriği</span>
 										</div>
 										<div className="flex items-center gap-3">
-											<CheckCircle className="h-5 w-5 text-green-300" />
+											<CheckCircle className="h-5 w-5 text-primary/20" />
 											<span>%95 başarı oranı</span>
 										</div>
 									</div>
@@ -228,7 +234,7 @@ export default async function ContactPage() {
 				<div className="mt-16">
 					<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
 						<CardHeader className="pb-8 text-center">
-							<CardTitle className="mb-4 text-3xl text-gray-800">Sıkça Sorulan Sorular</CardTitle>
+							<CardTitle className="mb-4 text-3xl text-foreground">Sıkça Sorulan Sorular</CardTitle>
 							<CardDescription className="text-lg">
 								En çok merak edilen sorular ve yanıtları
 							</CardDescription>
@@ -236,21 +242,21 @@ export default async function ContactPage() {
 						<CardContent>
 							<div className="grid gap-8 md:grid-cols-2">
 								<div className="space-y-6">
-									<div className="rounded-lg border-blue-500 border-l-4 bg-blue-50 p-6">
-										<h3 className="mb-2 font-semibold text-gray-800">
+									<div className="rounded-lg border-primary border-l-4 bg-primary/10 p-6">
+										<h3 className="mb-2 font-semibold text-foreground">
 											Özel ders nasıl alabilirim?
 										</h3>
-										<p className="text-gray-600">
+										<p className="text-muted-foreground">
 											Öğretmenler sayfamızdan size uygun öğretmeni seçebilir, randevu alabilir ve
 											online veya yüz yüze ders alabilirsiniz.
 										</p>
 									</div>
 
-									<div className="rounded-lg border-purple-500 border-l-4 bg-purple-50 p-6">
-										<h3 className="mb-2 font-semibold text-gray-800">
+									<div className="rounded-lg border-primary border-l-4 bg-primary/10 p-6">
+										<h3 className="mb-2 font-semibold text-foreground">
 											Ders içerikleri ücretsiz mi?
 										</h3>
-										<p className="text-gray-600">
+										<p className="text-muted-foreground">
 											Temel ders içeriklerimiz ücretsizdir. Özel dersler için ücretlendirme
 											yapılmaktadır.
 										</p>
@@ -258,21 +264,21 @@ export default async function ContactPage() {
 								</div>
 
 								<div className="space-y-6">
-									<div className="rounded-lg border-green-500 border-l-4 bg-green-50 p-6">
-										<h3 className="mb-2 font-semibold text-gray-800">
+									<div className="rounded-lg border-primary border-l-4 bg-primary/10 p-6">
+										<h3 className="mb-2 font-semibold text-foreground">
 											Teknik destek nasıl alabilirim?
 										</h3>
-										<p className="text-gray-600">
+										<p className="text-muted-foreground">
 											Teknik sorunlarınız için telefon veya e-posta ile bizimle iletişime
 											geçebilirsiniz.
 										</p>
 									</div>
 
-									<div className="rounded-lg border-orange-500 border-l-4 bg-orange-50 p-6">
-										<h3 className="mb-2 font-semibold text-gray-800">
+									<div className="rounded-lg border-accent border-l-4 bg-accent/10 p-6">
+										<h3 className="mb-2 font-semibold text-foreground">
 											Öğretmen olmak istiyorum, nasıl başvurabilirim?
 										</h3>
-										<p className="text-gray-600">
+										<p className="text-muted-foreground">
 											CV'nizi e-posta adresimize gönderebilir veya telefon ile iletişime
 											geçebilirsiniz.
 										</p>

@@ -31,7 +31,7 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 					<div className="group relative">
 						<button
 							type="button"
-							className="flex items-center space-x-2 text-gray-700 transition-colors hover:text-blue-600"
+							className="flex items-center space-x-2 text-muted-foreground transition-colors hover:text-primary"
 						>
 							{user.picture ? (
 								<Image
@@ -42,7 +42,7 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 									className="h-8 w-8 rounded-full border-2"
 								/>
 							) : (
-								<div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600">
+								<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
 									<User className="h-4 w-4 text-white" />
 								</div>
 							)}
@@ -53,21 +53,21 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 						{/* Dropdown Menu */}
 						<div className="invisible absolute top-full right-0 z-50 mt-2 w-48 rounded-md border bg-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
 							<div className="py-2">
-								<div className="border-gray-100 border-b px-4 py-2">
-									<p className="font-medium text-gray-900 text-sm">{user.name}</p>
-									<p className="text-gray-500 text-xs">{user.email}</p>
+								<div className="border-border border-b px-4 py-2">
+									<p className="font-medium text-foreground text-sm">{user.name}</p>
+									<p className="text-muted-foreground text-xs">{user.email}</p>
 								</div>
 								<Link
 									href="/derslerim"
 									onClick={handleLinkClick}
-									className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100 hover:text-blue-600"
+									className="block px-4 py-2 text-muted-foreground text-sm hover:bg-secondary hover:text-primary"
 								>
 									Derslerim
 								</Link>
 								<button
 									type="button"
 									onClick={handleSignOut}
-									className="flex w-full items-center space-x-2 px-4 py-2 text-left text-gray-700 text-sm hover:bg-gray-100 hover:text-red-600"
+									className="flex w-full items-center space-x-2 px-4 py-2 text-left text-muted-foreground text-sm hover:bg-secondary hover:text-destructive"
 								>
 									<LogOut className="h-4 w-4" />
 									<span>Çıkış Yap</span>
@@ -88,7 +88,7 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 						</Button>
 					</Link>
 					<Link href="/kayit-ol" onClick={handleLinkClick}>
-						<Button className="rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-blue-700">
+						<Button className="rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-primary">
 							Üye Ol
 						</Button>
 					</Link>

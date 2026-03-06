@@ -132,11 +132,11 @@
 	}
 
 	.glass-dark {
-		@apply bg-slate-900/70 backdrop-blur-md border border-slate-700/20;
+		@apply bg-foreground/70 backdrop-blur-md border border-border/20;
 	}
 
 	.text-gradient {
-		@apply bg-clip-text text-transparent bg-linear-to-r from-primary to-indigo-600;
+		@apply bg-clip-text text-transparent bg-linear-to-r from-primary to-primary;
 	}
 }
 

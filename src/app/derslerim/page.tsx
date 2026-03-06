@@ -78,8 +78,8 @@ export default function DerslerimPage() {
 				<BreadcrumbNav breadcrumbs={[{ label: "Derslerim", href: "/derslerim" }]} />
 				<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 					<div className="text-center">
-						<h1 className="mb-4 font-bold text-3xl text-gray-900">Derslerim</h1>
-						<p className="mb-8 text-gray-600 text-lg">
+						<h1 className="mb-4 font-bold text-3xl text-foreground">Derslerim</h1>
+						<p className="mb-8 text-lg text-muted-foreground">
 							Derslerinizi görmek için giriş yapmanız gerekiyor.
 						</p>
 					</div>
@@ -95,8 +95,8 @@ export default function DerslerimPage() {
 			<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				{/* Hero Section */}
 				<div className="mb-12 text-center">
-					<h1 className="mb-4 font-bold text-4xl text-gray-900">📚 Derslerim</h1>
-					<p className="mx-auto max-w-3xl text-gray-600 text-xl">
+					<h1 className="mb-4 font-bold text-4xl text-foreground">📚 Derslerim</h1>
+					<p className="mx-auto max-w-3xl text-muted-foreground text-xl">
 						Başladığın derslerin ve ilerleme durumun
 					</p>
 				</div>
@@ -104,9 +104,9 @@ export default function DerslerimPage() {
 				{/* Loading State */}
 				{isLoading && (
 					<div className="py-12 text-center">
-						<div className="inline-flex items-center px-4 py-2 font-semibold text-blue-500 leading-6">
+						<div className="inline-flex items-center px-4 py-2 font-semibold text-primary leading-6">
 							<svg
-								className="mr-3 -ml-1 h-5 w-5 animate-spin text-blue-500"
+								className="mr-3 -ml-1 h-5 w-5 animate-spin text-primary"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
 								viewBox="0 0 24 24"
@@ -134,8 +134,8 @@ export default function DerslerimPage() {
 				{/* Error State */}
 				{error && (
 					<div className="py-12 text-center">
-						<div className="rounded-md border border-red-200 bg-red-50 p-4">
-							<p className="text-red-800">{error}</p>
+						<div className="rounded-md border border-destructive bg-destructive/10 p-4">
+							<p className="text-destructive">{error}</p>
 						</div>
 					</div>
 				)}
@@ -151,14 +151,16 @@ export default function DerslerimPage() {
 						</div>
 					) : (
 						<div className="py-12 text-center">
-							<div className="rounded-md border bg-gray-50 p-8">
-								<h3 className="mb-2 font-medium text-gray-900 text-lg">Henüz ders başlatmadınız</h3>
-								<p className="mb-4 text-gray-600">
+							<div className="rounded-md border bg-secondary p-8">
+								<h3 className="mb-2 font-medium text-foreground text-lg">
+									Henüz ders başlatmadınız
+								</h3>
+								<p className="mb-4 text-muted-foreground">
 									İlk dersinizi başlatmak için konular sayfasına gidin.
 								</p>
 								<Link
 									href="/konular"
-									className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+									className="inline-flex items-center rounded-md border border-transparent bg-primary px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
 								>
 									Konulara Git
 								</Link>

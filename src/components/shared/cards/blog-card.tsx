@@ -61,7 +61,7 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 					</div>
 					<div className="absolute top-2 right-2">
 						{blog.category && (
-							<Badge className="bg-blue-500">
+							<Badge className="bg-primary">
 								<FileText className="mr-1 h-3 w-3" />
 								{blog.category}
 							</Badge>
@@ -74,7 +74,7 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 					<CardTitle className="mb-2 text-lg">{blog.title}</CardTitle>
 
 					{/* Content Preview */}
-					<div className="mb-3 text-gray-600 text-sm">
+					<div className="mb-3 text-muted-foreground text-sm">
 						<p className="line-clamp-3">{getContentPreview()}</p>
 					</div>
 

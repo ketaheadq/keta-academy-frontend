@@ -158,8 +158,10 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 					<BreadcrumbNav breadcrumbs={breadcrumbs} />
 					<div className="container mx-auto px-4 py-6">
 						<div className="text-center">
-							<h1 className="mb-4 font-bold text-2xl text-red-600">Veri Yüklenirken Hata Oluştu</h1>
-							<p className="text-gray-600">
+							<h1 className="mb-4 font-bold text-2xl text-destructive">
+								Veri Yüklenirken Hata Oluştu
+							</h1>
+							<p className="text-muted-foreground">
 								{page.pageType} verisi yüklenirken bir hata oluştu. Lütfen daha sonra tekrar
 								deneyin.
 							</p>
@@ -206,8 +208,10 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 					<BreadcrumbNav breadcrumbs={breadcrumbs} />
 					<div className="container mx-auto px-4 py-6">
 						<div className="text-center">
-							<h1 className="mb-4 font-bold text-2xl text-red-600">Veri Yüklenirken Hata Oluştu</h1>
-							<p className="text-gray-600">
+							<h1 className="mb-4 font-bold text-2xl text-destructive">
+								Veri Yüklenirken Hata Oluştu
+							</h1>
+							<p className="text-muted-foreground">
 								Video verisi yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.
 							</p>
 						</div>
@@ -253,8 +257,10 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 					<BreadcrumbNav breadcrumbs={breadcrumbs} />
 					<div className="container mx-auto px-4 py-6">
 						<div className="text-center">
-							<h1 className="mb-4 font-bold text-2xl text-red-600">Veri Yüklenirken Hata Oluştu</h1>
-							<p className="text-gray-600">
+							<h1 className="mb-4 font-bold text-2xl text-destructive">
+								Veri Yüklenirken Hata Oluştu
+							</h1>
+							<p className="text-muted-foreground">
 								Blog verisi yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.
 							</p>
 						</div>

@@ -29,7 +29,7 @@ export default function CourseSelection({
 
 	return (
 		<section className="mb-12">
-			<h2 className="mb-6 flex items-center font-semibold text-2xl text-gray-900">
+			<h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">
 				🎯 Sınıf ve Konu Seç:
 			</h2>
 
@@ -77,8 +77,8 @@ export default function CourseSelection({
 						<Card key={course.id} className="transition-shadow hover:shadow-lg">
 							<CardHeader>
 								<div className="flex items-center space-x-3">
-									<div className="rounded-lg bg-blue-100 p-2">
-										<IconComponent className="h-5 w-5 text-blue-600" />
+									<div className="rounded-lg bg-primary/10 p-2">
+										<IconComponent className="h-5 w-5 text-primary" />
 									</div>
 									<div>
 										<CardTitle className="text-lg">{course.title}</CardTitle>
@@ -89,10 +89,10 @@ export default function CourseSelection({
 								</div>
 							</CardHeader>
 							<CardContent>
-								<p className="mb-4 text-gray-600 text-sm">{course.description}</p>
+								<p className="mb-4 text-muted-foreground text-sm">{course.description}</p>
 								{course.progress > 0 && (
 									<div className="mb-4">
-										<div className="mb-1 flex justify-between text-gray-600 text-sm">
+										<div className="mb-1 flex justify-between text-muted-foreground text-sm">
 											<span>İlerleme</span>
 											<span>{course.progress}%</span>
 										</div>
@@ -108,7 +108,7 @@ export default function CourseSelection({
 
 			{filteredCourses.length === 0 && (
 				<div className="py-8 text-center">
-					<p className="text-gray-600">Bu sınıf ve konu için henüz ders bulunmuyor.</p>
+					<p className="text-muted-foreground">Bu sınıf ve konu için henüz ders bulunmuyor.</p>
 				</div>
 			)}
 		</section>

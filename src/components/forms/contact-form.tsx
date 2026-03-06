@@ -67,7 +67,7 @@ export default function ContactForm() {
 	return (
 		<Card className="border-0 bg-white/90 shadow-xl backdrop-blur-sm">
 			<CardHeader className="pb-6">
-				<CardTitle className="text-2xl text-gray-800">Bize Mesaj Gönderin</CardTitle>
+				<CardTitle className="text-2xl text-foreground">Bize Mesaj Gönderin</CardTitle>
 				<CardDescription className="text-base">
 					Formu doldurarak bizimle iletişime geçebilirsiniz. En kısa sürede size dönüş yapacağız.
 				</CardDescription>
@@ -75,14 +75,14 @@ export default function ContactForm() {
 			<CardContent>
 				{isSubmitted ? (
 					<div className="py-12 text-center">
-						<div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-							<CheckCircle className="h-10 w-10 text-green-600" />
+						<div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+							<CheckCircle className="h-10 w-10 text-primary" />
 						</div>
-						<h3 className="mb-2 font-semibold text-2xl text-gray-800">Mesajınız Gönderildi!</h3>
-						<p className="mb-4 text-gray-600">
+						<h3 className="mb-2 font-semibold text-2xl text-foreground">Mesajınız Gönderildi!</h3>
+						<p className="mb-4 text-muted-foreground">
 							Teşekkür ederiz. En kısa sürede size dönüş yapacağız.
 						</p>
-						<Badge variant="secondary" className="bg-green-100 text-green-800">
+						<Badge variant="secondary" className="bg-primary/10 text-primary">
 							24 saat içinde yanıt vereceğiz
 						</Badge>
 					</div>
@@ -90,7 +90,10 @@ export default function ContactForm() {
 					<form onSubmit={handleSubmit} className="space-y-6">
 						{/* Category Selection */}
 						<div>
-							<label htmlFor={categoryId} className="mb-2 block font-medium text-gray-700 text-sm">
+							<label
+								htmlFor={categoryId}
+								className="mb-2 block font-medium text-muted-foreground text-sm"
+							>
 								Konu Kategorisi
 							</label>
 							<select
@@ -98,7 +101,7 @@ export default function ContactForm() {
 								name="category"
 								value={formData.category}
 								onChange={handleInputChange}
-								className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-all focus:border-transparent focus:ring-2 focus:ring-blue-500"
+								className="w-full rounded-lg border border-border px-4 py-3 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
 								required
 							>
 								<option value="general">Genel Bilgi</option>
@@ -112,7 +115,10 @@ export default function ContactForm() {
 						<div className="grid gap-6 md:grid-cols-2">
 							{/* Name */}
 							<div>
-								<label htmlFor={nameId} className="mb-2 block font-medium text-gray-700 text-sm">
+								<label
+									htmlFor={nameId}
+									className="mb-2 block font-medium text-muted-foreground text-sm"
+								>
 									Ad Soyad *
 								</label>
 								<Input
@@ -129,7 +135,10 @@ export default function ContactForm() {
 
 							{/* Email */}
 							<div>
-								<label htmlFor={emailId} className="mb-2 block font-medium text-gray-700 text-sm">
+								<label
+									htmlFor={emailId}
+									className="mb-2 block font-medium text-muted-foreground text-sm"
+								>
 									E-posta *
 								</label>
 								<Input
@@ -148,7 +157,10 @@ export default function ContactForm() {
 						<div className="grid gap-6 md:grid-cols-2">
 							{/* Phone */}
 							<div>
-								<label htmlFor={phoneId} className="mb-2 block font-medium text-gray-700 text-sm">
+								<label
+									htmlFor={phoneId}
+									className="mb-2 block font-medium text-muted-foreground text-sm"
+								>
 									Telefon
 								</label>
 								<Input
@@ -164,7 +176,10 @@ export default function ContactForm() {
 
 							{/* Subject */}
 							<div>
-								<label htmlFor={subjectId} className="mb-2 block font-medium text-gray-700 text-sm">
+								<label
+									htmlFor={subjectId}
+									className="mb-2 block font-medium text-muted-foreground text-sm"
+								>
 									Konu *
 								</label>
 								<Input
@@ -182,7 +197,10 @@ export default function ContactForm() {
 
 						{/* Message */}
 						<div>
-							<label htmlFor={messageId} className="mb-2 block font-medium text-gray-700 text-sm">
+							<label
+								htmlFor={messageId}
+								className="mb-2 block font-medium text-muted-foreground text-sm"
+							>
 								Mesaj *
 							</label>
 							<Textarea
@@ -202,7 +220,7 @@ export default function ContactForm() {
 							<Button
 								type="submit"
 								disabled={isSubmitting}
-								className="h-12 w-full transform bg-linear-to-r from-blue-600 to-purple-600 font-semibold text-lg text-white transition-all hover:scale-[1.02] hover:from-blue-700 hover:to-purple-700 disabled:transform-none"
+								className="h-12 w-full transform bg-linear-to-r from-primary to-primary font-semibold text-lg text-white transition-all hover:scale-[1.02] hover:from-primary hover:to-primary disabled:transform-none"
 							>
 								{isSubmitting ? (
 									<div className="flex items-center gap-2">
@@ -218,9 +236,9 @@ export default function ContactForm() {
 							</Button>
 						</div>
 
-						<p className="text-center text-gray-500 text-sm">
+						<p className="text-center text-muted-foreground text-sm">
 							Mesajınızı göndererek{" "}
-							<a href="/privacy" className="text-blue-600 hover:underline">
+							<a href="/privacy" className="text-primary hover:underline">
 								gizlilik politikamızı
 							</a>{" "}
 							kabul etmiş olursunuz.

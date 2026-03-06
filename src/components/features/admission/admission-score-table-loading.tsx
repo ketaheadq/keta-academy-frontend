@@ -9,22 +9,22 @@ export default function AdmissionScoreTableLoading() {
 			{/* Table Controls Skeleton */}
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 				<div className="space-y-2">
-					<Skeleton className="h-6 w-56 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
-					<Skeleton className="h-3 w-32 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+					<Skeleton className="h-6 w-56 bg-linear-to-r from-muted via-muted to-muted" />
+					<Skeleton className="h-3 w-32 bg-linear-to-r from-muted via-muted to-muted" />
 				</div>
 				<div className="flex items-center gap-3">
 					<div className="relative">
-						<Skeleton className="h-10 w-64 rounded-lg bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+						<Skeleton className="h-10 w-64 rounded-lg bg-linear-to-r from-muted via-muted to-muted" />
 						<div className="absolute top-1/2 left-3 -translate-y-1/2">
-							<Skeleton className="h-4 w-4 rounded bg-gray-300" />
+							<Skeleton className="h-4 w-4 rounded bg-muted" />
 						</div>
 					</div>
-					<Skeleton className="h-10 w-24 rounded-lg bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+					<Skeleton className="h-10 w-24 rounded-lg bg-linear-to-r from-muted via-muted to-muted" />
 				</div>
 			</div>
 
 			{/* Results Count Skeleton */}
-			<Skeleton className="h-4 w-40 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+			<Skeleton className="h-4 w-40 bg-linear-to-r from-muted via-muted to-muted" />
 
 			{/* Table Skeleton */}
 			<Card className="overflow-hidden shadow-sm">
@@ -33,11 +33,11 @@ export default function AdmissionScoreTableLoading() {
 						{/* Table Header */}
 						<div className="border-b bg-muted/50 px-6 py-4">
 							<div className="grid grid-cols-1 gap-4 md:grid-cols-5">
-								<Skeleton className="h-4 w-20 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
-								<Skeleton className="h-4 w-24 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
-								<Skeleton className="h-4 w-16 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
-								<Skeleton className="h-4 w-20 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
-								<Skeleton className="h-4 w-18 bg-linear-to-r from-gray-300 via-gray-400 to-gray-300" />
+								<Skeleton className="h-4 w-20 bg-linear-to-r from-muted via-muted to-muted" />
+								<Skeleton className="h-4 w-24 bg-linear-to-r from-muted via-muted to-muted" />
+								<Skeleton className="h-4 w-16 bg-linear-to-r from-muted via-muted to-muted" />
+								<Skeleton className="h-4 w-20 bg-linear-to-r from-muted via-muted to-muted" />
+								<Skeleton className="h-4 w-18 bg-linear-to-r from-muted via-muted to-muted" />
 							</div>
 						</div>
 
@@ -46,35 +46,35 @@ export default function AdmissionScoreTableLoading() {
 							{Array.from({ length: 10 }).map((_, index) => (
 								<div
 									key={`${baseId}-row-${index}`}
-									className="grid grid-cols-1 gap-4 border-gray-100 border-b py-3 last:border-b-0 md:grid-cols-5"
+									className="grid grid-cols-1 gap-4 border-border border-b py-3 last:border-b-0 md:grid-cols-5"
 									style={{
 										animationDelay: `${index * 100}ms`,
 									}}
 								>
-									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
-									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
-									<Skeleton className="h-4 w-full max-w-20 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
-									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
-									<Skeleton className="h-4 w-full max-w-20 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-muted via-muted to-muted" />
+									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-muted via-muted to-muted" />
+									<Skeleton className="h-4 w-full max-w-20 bg-linear-to-r from-muted via-muted to-muted" />
+									<Skeleton className="h-4 w-full max-w-24 bg-linear-to-r from-muted via-muted to-muted" />
+									<Skeleton className="h-4 w-full max-w-20 bg-linear-to-r from-muted via-muted to-muted" />
 								</div>
 							))}
 						</div>
 
 						{/* Loading indicator at bottom */}
-						<div className="border-t bg-gray-50/50 px-6 py-4">
+						<div className="border-t bg-secondary/50 px-6 py-4">
 							<div className="flex items-center justify-center space-x-2">
 								<div className="flex space-x-1">
-									<div className="h-2 w-2 animate-bounce rounded-full bg-blue-400" />
+									<div className="h-2 w-2 animate-bounce rounded-full bg-primary" />
 									<div
-										className="h-2 w-2 animate-bounce rounded-full bg-blue-400"
+										className="h-2 w-2 animate-bounce rounded-full bg-primary"
 										style={{ animationDelay: "0.1s" }}
 									/>
 									<div
-										className="h-2 w-2 animate-bounce rounded-full bg-blue-400"
+										className="h-2 w-2 animate-bounce rounded-full bg-primary"
 										style={{ animationDelay: "0.2s" }}
 									/>
 								</div>
-								<Skeleton className="h-3 w-24 bg-linear-to-r from-blue-200 via-blue-300 to-blue-200" />
+								<Skeleton className="h-3 w-24 bg-linear-to-r from-primary/20 via-primary/20 to-primary/20" />
 							</div>
 						</div>
 					</div>

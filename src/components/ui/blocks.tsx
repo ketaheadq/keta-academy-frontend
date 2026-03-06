@@ -34,7 +34,7 @@ const ContentImage = ({
 			</div>
 			{image.caption && (
 				<div className="mt-4 text-center">
-					<p className="px-4 font-light text-gray-500 text-sm italic">{image.caption}</p>
+					<p className="px-4 font-light text-muted-foreground text-sm italic">{image.caption}</p>
 				</div>
 			)}
 		</div>

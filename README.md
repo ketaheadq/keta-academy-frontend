@@ -6,7 +6,7 @@ An interactive education platform designed to help students succeed in universit
 
 ## 🎨 Design System
 
-- **Colors:** [Tailwind CSS 4](https://tailwindcss.com) (slate-900 (#0F172B), slate-500 (#64748b),sky-50 (#f0f9ff), amber-500 (#FD9A00), sky-400 (#00BCFF), rose-600 (#EC003F))
+- **Colors:** [Tailwind CSS 4](https://tailwindcss.com) (primary slate-700 #0891b2, rose-600 (#EC003F))
 - **Shadcn UI:** [Shadcn UI](https://ui.shadcn.com)
 - **React bits:** [React bits](https://reactbits.dev)
 

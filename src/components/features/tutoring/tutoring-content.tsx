@@ -15,7 +15,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 	const expertiseList = tutor.experties ? tutor.experties.split(",") : [];
 	const router = useRouter();
 	return (
-		<div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
+		<div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
 			{/* Header */}
 			<div className="relative p-6 pb-4">
 				<div className="flex items-start gap-4">
@@ -28,8 +28,8 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 								className="rounded-full border-4 border-white object-cover shadow-lg"
 							/>
 						</div>
-						<div className="absolute -right-1 -bottom-1 h-6 w-6 rounded-full border-2 border-white bg-green-500" />
-						<div className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500">
+						<div className="absolute -right-1 -bottom-1 h-6 w-6 rounded-full border-2 border-white bg-primary/100" />
+						<div className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary">
 							<Shield className="h-3 w-3 text-white" />
 						</div>
 					</div>
@@ -37,8 +37,8 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 					<div className="min-w-0 flex-1">
 						<div className="flex items-start justify-between">
 							<div>
-								<h3 className="mb-1 font-bold text-gray-900 text-xl">{tutor.name}</h3>
-								<p className="mb-2 font-medium text-blue-600">{tutor.title}</p>
+								<h3 className="mb-1 font-bold text-foreground text-xl">{tutor.name}</h3>
+								<p className="mb-2 font-medium text-primary">{tutor.title}</p>
 							</div>
 
 							<button
@@ -46,8 +46,8 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 								onClick={() => setIsFavorite(!isFavorite)}
 								className={`rounded-full p-2 transition-colors ${
 									isFavorite
-										? "bg-red-100 text-red-600"
-										: "bg-gray-100 text-gray-400 hover:text-red-500"
+										? "bg-destructive/10 text-destructive"
+										: "bg-secondary text-muted-foreground hover:text-destructive"
 								}`}
 							>
 								<Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
@@ -58,13 +58,13 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 							{tutor.subjects.slice(0, 2).map((subject) => (
 								<span
 									key={subject.slug}
-									className="rounded-full bg-blue-100 px-2 py-1 font-medium text-blue-800 text-xs"
+									className="rounded-full bg-primary/10 px-2 py-1 font-medium text-primary text-xs"
 								>
 									{subject.title}
 								</span>
 							))}
 							{tutor.subjects.length > 2 && (
-								<span className="rounded-full bg-gray-100 px-2 py-1 font-medium text-gray-600 text-xs">
+								<span className="rounded-full bg-secondary px-2 py-1 font-medium text-muted-foreground text-xs">
 									+{tutor.subjects.length - 2} daha
 								</span>
 							)}
@@ -72,7 +72,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 					</div>
 				</div>
 
-				<p className="mt-3 text-gray-600 text-sm leading-relaxed">
+				<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
 					{tutor.experties} alanlarında uzman öğretmen. {tutor.exprienceYears} yıllık deneyimle
 					öğrencilere kaliteli eğitim sunmaktadır.
 				</p>
@@ -81,17 +81,17 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 			{/* Stats */}
 			<div className="px-6 pb-4">
 				<div className="grid grid-cols-3 gap-4 text-center">
-					<div className="rounded-lg bg-green-50 p-3">
-						<div className="font-bold text-green-600 text-lg">{tutor.successRate}%</div>
-						<div className="text-gray-600 text-xs">Başarı Oranı</div>
+					<div className="rounded-lg bg-primary/10 p-3">
+						<div className="font-bold text-lg text-primary">{tutor.successRate}%</div>
+						<div className="text-muted-foreground text-xs">Başarı Oranı</div>
 					</div>
-					<div className="rounded-lg bg-blue-50 p-3">
-						<div className="font-bold text-blue-600 text-lg">{tutor.studentCount}</div>
-						<div className="text-gray-600 text-xs">Öğrenci</div>
+					<div className="rounded-lg bg-primary/10 p-3">
+						<div className="font-bold text-lg text-primary">{tutor.studentCount}</div>
+						<div className="text-muted-foreground text-xs">Öğrenci</div>
 					</div>
-					<div className="rounded-lg bg-purple-50 p-3">
-						<div className="font-bold text-lg text-purple-600">{tutor.exprienceYears}</div>
-						<div className="text-gray-600 text-xs">Yıl Deneyim</div>
+					<div className="rounded-lg bg-primary/10 p-3">
+						<div className="font-bold text-lg text-primary">{tutor.exprienceYears}</div>
+						<div className="text-muted-foreground text-xs">Yıl Deneyim</div>
 					</div>
 				</div>
 			</div>
@@ -99,11 +99,11 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 			{/* Quick Info */}
 			<div className="px-6 pb-4">
 				<div className="flex items-center justify-between">
-					<div className="font-bold text-2xl text-gray-900">
+					<div className="font-bold text-2xl text-foreground">
 						₺{tutor.price}
-						<span className="font-normal text-gray-600 text-sm">/saat</span>
+						<span className="font-normal text-muted-foreground text-sm">/saat</span>
 					</div>
-					<div className="rounded-full bg-green-100 px-2 py-1 font-medium text-green-800 text-xs">
+					<div className="rounded-full bg-primary/10 px-2 py-1 font-medium text-primary text-xs">
 						Çevrimiçi
 					</div>
 				</div>
@@ -114,7 +114,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 				<div className="flex gap-2">
 					<Button
 						onClick={() => router.push("/iletisim")}
-						className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
+						className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 font-semibold text-white transition-colors hover:bg-primary"
 					>
 						<MessageCircle className="h-4 w-4" />
 						Bize Ulaşın
@@ -124,7 +124,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 				<button
 					type="button"
 					onClick={() => setShowDetails(!showDetails)}
-					className="mt-2 w-full py-2 font-medium text-blue-600 text-sm hover:text-blue-700"
+					className="mt-2 w-full py-2 font-medium text-primary text-sm hover:text-primary"
 				>
 					{showDetails ? "Daha Az Göster" : "Detayları Göster"}
 				</button>
@@ -132,10 +132,10 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 
 			{/* Expanded Details */}
 			{showDetails && (
-				<div className="border-gray-100 border-t bg-gray-50 px-6 py-6">
+				<div className="border-border border-t bg-secondary px-6 py-6">
 					{/* Education & Achievements */}
 					<div className="mb-6">
-						<h4 className="mb-3 flex items-center gap-2 font-semibold text-gray-900">
+						<h4 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
 							<Award className="h-4 w-4" />
 							Uzmanlık Alanları
 						</h4>
@@ -143,7 +143,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 							{expertiseList.map((expertise) => (
 								<span
 									key={expertise.trim()}
-									className="rounded-full border bg-white px-3 py-1 text-gray-700 text-sm"
+									className="rounded-full border bg-white px-3 py-1 text-muted-foreground text-sm"
 								>
 									{expertise}
 								</span>
@@ -153,12 +153,12 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 
 					{/* Subjects */}
 					<div className="mb-6">
-						<h4 className="mb-3 font-semibold text-gray-900">Verdiği Dersler</h4>
+						<h4 className="mb-3 font-semibold text-foreground">Verdiği Dersler</h4>
 						<div className="flex flex-wrap gap-2">
 							{tutor.subjects.map((subject) => (
 								<span
 									key={subject.slug}
-									className="rounded-full bg-blue-100 px-3 py-1 text-blue-800 text-sm"
+									className="rounded-full bg-primary/10 px-3 py-1 text-primary text-sm"
 								>
 									{subject.title}
 								</span>
@@ -168,15 +168,15 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 
 					{/* Languages */}
 					<div className="mb-6">
-						<h4 className="mb-3 flex items-center gap-2 font-semibold text-gray-900">
+						<h4 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
 							<Globe className="h-4 w-4" />
 							Diller
 						</h4>
 						<div className="flex gap-2">
-							<span className="rounded-full bg-blue-100 px-3 py-1 text-blue-800 text-sm">
+							<span className="rounded-full bg-primary/10 px-3 py-1 text-primary text-sm">
 								Türkçe
 							</span>
-							<span className="rounded-full bg-blue-100 px-3 py-1 text-blue-800 text-sm">
+							<span className="rounded-full bg-primary/10 px-3 py-1 text-primary text-sm">
 								İngilizce
 							</span>
 						</div>
@@ -240,7 +240,7 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 	return (
 		<div className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
 			{/* Filters */}
-			<div className="mb-8 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+			<div className="mb-8 rounded-2xl border border-border bg-white p-6 shadow-sm">
 				<div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 					{/* Subject Filters */}
 					<div className="flex flex-wrap gap-2">
@@ -251,8 +251,8 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 								onClick={() => setSelectedSubject(subject.id)}
 								className={`rounded-full px-4 py-2 font-medium text-sm transition-all ${
 									selectedSubject === subject.id
-										? "scale-105 bg-blue-600 text-white shadow-lg"
-										: "bg-gray-100 text-gray-700 hover:bg-gray-200"
+										? "scale-105 bg-primary text-white shadow-lg"
+										: "bg-secondary text-muted-foreground hover:bg-secondary"
 								}`}
 							>
 								{subject.name} ({subject.count})
@@ -263,20 +263,20 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 					{/* Search and Sort */}
 					<div className="flex gap-3">
 						<div className="relative">
-							<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+							<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
 							<input
 								type="text"
 								placeholder="Öğretmen ara..."
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="rounded-xl border border-gray-300 py-2 pr-4 pl-10 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+								className="rounded-xl border border-border py-2 pr-4 pl-10 focus:border-transparent focus:ring-2 focus:ring-primary"
 							/>
 						</div>
 
 						<select
 							value={sortBy}
 							onChange={(e) => setSortBy(e.target.value)}
-							className="rounded-xl border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+							className="rounded-xl border border-border px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-primary"
 						>
 							<option value="rating">Başarı Oranına Göre</option>
 							<option value="price">Fiyata Göre</option>
@@ -296,11 +296,11 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 			{/* Empty State */}
 			{filteredTutors.length === 0 && (
 				<div className="py-16 text-center">
-					<div className="mx-auto mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-gray-100">
-						<Users className="h-12 w-12 text-gray-400" />
+					<div className="mx-auto mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-secondary">
+						<Users className="h-12 w-12 text-muted-foreground" />
 					</div>
-					<h3 className="mb-4 font-bold text-2xl text-gray-900">Öğretmen bulunamadı</h3>
-					<p className="mx-auto mb-6 max-w-md text-gray-600">
+					<h3 className="mb-4 font-bold text-2xl text-foreground">Öğretmen bulunamadı</h3>
+					<p className="mx-auto mb-6 max-w-md text-muted-foreground">
 						Arama kriterlerinizi değiştirmeyi deneyin veya tüm öğretmenleri görüntüleyin
 					</p>
 					<button
@@ -309,7 +309,7 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 							setSelectedSubject("all");
 							setSearchQuery("");
 						}}
-						className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
+						className="rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary"
 					>
 						Filtreleri Temizle
 					</button>

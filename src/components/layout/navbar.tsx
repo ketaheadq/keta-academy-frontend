@@ -27,7 +27,7 @@ export default async function Navbar() {
 								className="h-8 w-auto"
 							/>
 						)}
-						<span className="ml-2 font-bold text-gray-900 text-xl">{settings.siteName}</span>
+						<span className="ml-2 font-bold text-foreground text-xl">{settings.siteName}</span>
 					</Link>
 
 					{/* Desktop Navigation Menu */}
@@ -37,7 +37,7 @@ export default async function Navbar() {
 						))}
 						<Link
 							href="/ozel-ders"
-							className="flex items-center space-x-1 font-medium text-gray-700 transition-colors hover:text-blue-600"
+							className="flex items-center space-x-1 font-medium text-muted-foreground transition-colors hover:text-primary"
 						>
 							Özel Ders
 						</Link>

@@ -40,12 +40,12 @@ function TermsOfServiceContent() {
 			<Card className="shadow-lg">
 				<CardHeader className="border-b">
 					<div className="flex items-center space-x-3">
-						<div className="rounded-lg bg-green-100 p-2">
-							<FileText className="h-6 w-6 text-green-600" />
+						<div className="rounded-lg bg-primary/10 p-2">
+							<FileText className="h-6 w-6 text-primary" />
 						</div>
 						<div>
-							<div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
-							<div className="mt-2 h-4 w-32 animate-pulse rounded bg-gray-200" />
+							<div className="h-8 w-48 animate-pulse rounded bg-secondary" />
+							<div className="mt-2 h-4 w-32 animate-pulse rounded bg-secondary" />
 						</div>
 					</div>
 				</CardHeader>
@@ -53,9 +53,9 @@ function TermsOfServiceContent() {
 					<div className="space-y-6">
 						{new Array(6).fill(null).map((_, i) => (
 							<div key={`${id}-skeleton-${i}`} className="space-y-2">
-								<div className="h-4 w-full animate-pulse rounded bg-gray-200" />
-								<div className="h-4 w-5/6 animate-pulse rounded bg-gray-200" />
-								{i % 2 === 0 && <div className="h-4 w-4/6 animate-pulse rounded bg-gray-200" />}
+								<div className="h-4 w-full animate-pulse rounded bg-secondary" />
+								<div className="h-4 w-5/6 animate-pulse rounded bg-secondary" />
+								{i % 2 === 0 && <div className="h-4 w-4/6 animate-pulse rounded bg-secondary" />}
 							</div>
 						))}
 					</div>
@@ -68,9 +68,9 @@ function TermsOfServiceContent() {
 		return (
 			<Card className="shadow-lg">
 				<CardContent className="p-8 text-center">
-					<FileText className="mx-auto mb-4 h-12 w-12 text-gray-300" />
-					<h3 className="mb-2 font-medium text-gray-900 text-lg">Yükleme Hatası</h3>
-					<p className="mb-4 text-gray-600">
+					<FileText className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+					<h3 className="mb-2 font-medium text-foreground text-lg">Yükleme Hatası</h3>
+					<p className="mb-4 text-muted-foreground">
 						{error || "Hizmet şartları yüklenirken bir hata oluştu."}
 					</p>
 					<Button variant="outline" onClick={() => router.refresh()}>
@@ -93,12 +93,12 @@ function TermsOfServiceContent() {
 		<Card className="shadow-lg">
 			<CardHeader className="border-b">
 				<div className="flex items-center space-x-3">
-					<div className="rounded-lg bg-green-100 p-2">
-						<FileText className="h-6 w-6 text-green-600" />
+					<div className="rounded-lg bg-primary/10 p-2">
+						<FileText className="h-6 w-6 text-primary" />
 					</div>
 					<div>
 						<CardTitle className="text-2xl">Gizlilik Politikası</CardTitle>
-						<p className="mt-1 text-gray-600 text-sm">
+						<p className="mt-1 text-muted-foreground text-sm">
 							Son güncelleme: {new Date(termsOfService.updatedAt).toLocaleDateString("tr-TR")}
 						</p>
 					</div>
@@ -110,14 +110,14 @@ function TermsOfServiceContent() {
 						{paragraphs.map(({ text, key }) => (
 							<p
 								key={key}
-								className="overflow-wrap-anywhere wrap-break-word mb-4 text-gray-700 leading-relaxed"
+								className="overflow-wrap-anywhere wrap-break-word mb-4 text-muted-foreground leading-relaxed"
 							>
 								{text}
 							</p>
 						))}
 					</div>
 				) : (
-					<div className="py-12 text-center text-gray-500">
+					<div className="py-12 text-center text-muted-foreground">
 						<FileText className="mx-auto mb-4 h-12 w-12 opacity-50" />
 						<p className="text-sm">Hizmet şartları içeriği bulunamadı.</p>
 					</div>
@@ -129,7 +129,7 @@ function TermsOfServiceContent() {
 
 export default function TermsOfServicePage() {
 	return (
-		<div className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+		<div className="min-h-screen bg-secondary px-4 py-12 sm:px-6 lg:px-8">
 			<div className="mx-auto max-w-4xl">
 				{/* Header */}
 				<div className="mb-8">
@@ -146,11 +146,11 @@ export default function TermsOfServicePage() {
 
 				{/* Footer */}
 				<div className="mt-10 text-center">
-					<p className="text-gray-600 text-sm leading-relaxed">
+					<p className="text-muted-foreground text-sm leading-relaxed">
 						Sorularınız için{" "}
 						<a
 							href="mailto:destek@ketaacademy.com"
-							className="font-medium text-blue-600 transition-colors hover:text-blue-500"
+							className="font-medium text-primary transition-colors hover:text-primary"
 						>
 							destek@ketaacademy.com
 						</a>{" "}
