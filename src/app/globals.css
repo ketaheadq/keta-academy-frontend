@@ -1,149 +1,147 @@
 @import "tailwindcss";
 
 @theme {
-  /* Base Colors */
-  /* blue-600 */
-  --color-primary: #00bcff;
-  /* orange-600 */
-  --color-accent: #fd9a00;
-  --color-background: #f0f9ff;
-  /* slate-900 */
-  --color-foreground: #0f172b;
+	/* Base Colors */
+	/* blue-600 */
+	--color-primary: #00bcff;
+	/* orange-600 */
+	--color-accent: #fd9a00;
+	--color-background: #f0f9ff;
+	/* slate-900 */
+	--color-foreground: #0f172b;
 
-  /* Card Colors */
-  --color-card: #f0f9ff;
-  --color-card-foreground: #082f49;
+	/* Card Colors */
+	--color-card: #f0f9ff;
+	--color-card-foreground: #082f49;
 
-  /* Popover Colors */
-  --color-popover: #f0f9ff;
-  --color-popover-foreground: #082f49;
+	/* Popover Colors */
+	--color-popover: #f0f9ff;
+	--color-popover-foreground: #082f49;
 
-  /* Primary Colors */
-  --color-primary-foreground: #f0f9ff;
+	/* Primary Colors */
+	--color-primary-foreground: #f0f9ff;
 
-  /* Secondary Colors */
-  --color-secondary: #e0f2fe;
-  /* slate-100 */
-  --color-secondary-foreground: #082f49;
+	/* Secondary Colors */
+	--color-secondary: #e0f2fe;
+	/* slate-100 */
+	--color-secondary-foreground: #082f49;
 
-  /* Muted Colors */
-  --color-muted: #e0f2fe;
-  --color-muted-foreground: #64748b;
-  /* slate-500 */
+	/* Muted Colors */
+	--color-muted: #e0f2fe;
+	--color-muted-foreground: #64748b;
+	/* slate-500 */
 
-  /* Accent Colors */
-  --color-accent-foreground: #ffffff;
+	/* Accent Colors */
+	--color-accent-foreground: #ffffff;
 
-  /* Destructive Colors */
-  --color-destructive: #ec003f;
-  /* red-600 */
+	/* Destructive Colors */
+	--color-destructive: #ec003f;
+	/* red-600 */
 
-  /* Border & Input */
-  --color-border: #e2e8f0;
-  /* slate-200 */
-  --color-input: #e2e8f0;
-  --color-ring: #94a3b8;
-  /* slate-400 */
+	/* Border & Input */
+	--color-border: #e2e8f0;
+	/* slate-200 */
+	--color-input: #e2e8f0;
+	--color-ring: #94a3b8;
+	/* slate-400 */
 
-  /* Chart Colors */
-  --color-chart-1: oklch(0.646 0.222 41.116);
-  --color-chart-2: oklch(0.6 0.118 184.704);
-  --color-chart-3: oklch(0.398 0.07 227.392);
-  --color-chart-4: oklch(0.828 0.189 84.429);
-  --color-chart-5: oklch(0.769 0.188 70.08);
+	/* Chart Colors */
+	--color-chart-1: oklch(0.646 0.222 41.116);
+	--color-chart-2: oklch(0.6 0.118 184.704);
+	--color-chart-3: oklch(0.398 0.07 227.392);
+	--color-chart-4: oklch(0.828 0.189 84.429);
+	--color-chart-5: oklch(0.769 0.188 70.08);
 
-  /* Sidebar Colors */
-  --color-sidebar: #f8fafc;
-  /* slate-50 */
-  --color-sidebar-foreground: #0f172b;
-  --color-sidebar-primary: #00bcff;
-  --color-sidebar-primary-foreground: #f0f9ff;
-  --color-sidebar-accent: #e0f2fe;
-  --color-sidebar-accent-foreground: #0f172b;
-  --color-sidebar-border: #bae6fd;
-  --color-sidebar-ring: #64748b;
+	/* Sidebar Colors */
+	--color-sidebar: #f8fafc;
+	/* slate-50 */
+	--color-sidebar-foreground: #0f172b;
+	--color-sidebar-primary: #00bcff;
+	--color-sidebar-primary-foreground: #f0f9ff;
+	--color-sidebar-accent: #e0f2fe;
+	--color-sidebar-accent-foreground: #0f172b;
+	--color-sidebar-border: #bae6fd;
+	--color-sidebar-ring: #64748b;
 
-  /* Fonts */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	/* Fonts */
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
 
-  /* Radius */
-  --radius: 0.625rem;
-  --radius-sm: calc(0.625rem - 4px);
-  --radius-md: calc(0.625rem - 2px);
-  --radius-lg: 0.625rem;
-  --radius-xl: calc(0.625rem + 4px);
+	/* Radius */
+	--radius: 0.625rem;
+	--radius-sm: calc(0.625rem - 4px);
+	--radius-md: calc(0.625rem - 2px);
+	--radius-lg: 0.625rem;
+	--radius-xl: calc(0.625rem + 4px);
 
-  /* Custom Animations */
-  @keyframes pulse-gentle {
+	/* Custom Animations */
+	@keyframes pulse-gentle {
+		0%,
+		100% {
+			opacity: 0.4;
+		}
 
-    0%,
-    100% {
-      opacity: 0.4;
-    }
+		50% {
+			opacity: 0.2;
+		}
+	}
 
-    50% {
-      opacity: 0.2;
-    }
-  }
+	--animate-pulse-gentle: pulse-gentle 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
-  --animate-pulse-gentle: pulse-gentle 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	@keyframes float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
 
-  @keyframes float {
+		50% {
+			transform: translateY(-10px);
+		}
+	}
 
-    0%,
-    100% {
-      transform: translateY(0);
-    }
+	--animate-float: float 6s ease-in-out infinite;
 
-    50% {
-      transform: translateY(-10px);
-    }
-  }
+	@keyframes loading-bar {
+		0% {
+			transform: translateX(-100%);
+		}
 
-  --animate-float: float 6s ease-in-out infinite;
+		50% {
+			transform: translateX(0);
+		}
 
-  @keyframes loading-bar {
-    0% {
-      transform: translateX(-100%);
-    }
-
-    50% {
-      transform: translateX(0);
-    }
-
-    100% {
-      transform: translateX(100%);
-    }
-  }
+		100% {
+			transform: translateX(100%);
+		}
+	}
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+	* {
+		@apply border-border;
+	}
 
-  body {
-    @apply bg-background text-foreground;
-  }
+	body {
+		@apply bg-background text-foreground;
+	}
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white/70 backdrop-blur-md border border-white/20;
-  }
+	.glass {
+		@apply bg-white/70 backdrop-blur-md border border-white/20;
+	}
 
-  .glass-dark {
-    @apply bg-foreground/70 backdrop-blur-md border border-border/20;
-  }
+	.glass-dark {
+		@apply bg-foreground/70 backdrop-blur-md border border-border/20;
+	}
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-linear-to-r from-primary to-primary;
-  }
+	.text-gradient {
+		@apply bg-clip-text text-transparent bg-linear-to-r from-primary to-primary;
+	}
 }
 
 .blog-content {
-  line-height: 1.8;
+	line-height: 1.8;
 }
 
 .blog-content h1,
@@ -152,32 +150,32 @@
 .blog-content h4,
 .blog-content h5,
 .blog-content h6 {
-  letter-spacing: -0.025em;
+	letter-spacing: -0.025em;
 }
 
 .blog-content p:first-of-type {
-  font-size: 1.25rem;
-  color: #374151;
-  margin-bottom: 2rem;
+	font-size: 1.25rem;
+	color: #374151;
+	margin-bottom: 2rem;
 }
 
 .blog-content a:hover {
-  background: linear-gradient(120deg, #3b82f6 0%, #8b5cf6 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+	background: linear-gradient(120deg, #3b82f6 0%, #8b5cf6 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 @media (max-width: 768px) {
-  .blog-content h1 {
-    font-size: 2.5rem;
-  }
+	.blog-content h1 {
+		font-size: 2.5rem;
+	}
 
-  .blog-content h2 {
-    font-size: 2rem;
-  }
+	.blog-content h2 {
+		font-size: 2rem;
+	}
 
-  .blog-content p {
-    font-size: 1rem;
-  }
+	.blog-content p {
+		font-size: 1rem;
+	}
 }
