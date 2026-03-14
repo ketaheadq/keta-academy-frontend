@@ -225,7 +225,7 @@ export default function CoursePage({
 											className="absolute inset-0 border-0"
 										/>
 									) : (
-										<div className="absolute inset-0 flex items-center justify-center text-white">
+										<div className="absolute inset-0 flex items-center justify-center text-background">
 											<div className="text-center">
 												<p className="mb-2 text-lg">Video yüklenemedi</p>
 												<p className="text-muted-foreground text-sm">

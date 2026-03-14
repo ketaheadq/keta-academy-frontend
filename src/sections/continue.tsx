@@ -54,7 +54,7 @@ export default function DynamicContinue<T extends ContinuableItem>({
 					<div className="mt-6 text-center">
 						<Link
 							href={viewAllLink.href}
-							className="text-muted-foreground underline hover:text-primary"
+							className="text-muted-foreground underline hover:text-background"
 						>
 							{viewAllLink.label} ({continueItems.length} ders)
 						</Link>

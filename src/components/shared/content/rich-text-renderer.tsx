@@ -60,14 +60,14 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 						</blockquote>
 					),
 					code: ({ children }) => (
-						<pre className="mb-4 overflow-x-auto rounded-lg bg-foreground p-4 text-white">
+						<pre className="mb-4 overflow-x-auto rounded-lg bg-foreground p-4 text-background">
 							<code>{children}</code>
 						</pre>
 					),
 					link: ({ children, url }) => (
 						<a
 							href={url}
-							className="text-primary underline hover:text-primary"
+							className="text-primary underline hover:text-background"
 							target="_blank"
 							rel="noopener noreferrer"
 						>

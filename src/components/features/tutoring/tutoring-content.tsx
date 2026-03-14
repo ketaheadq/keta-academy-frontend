@@ -30,7 +30,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 						</div>
 						<div className="absolute -right-1 -bottom-1 h-6 w-6 rounded-full border-2 border-white bg-primary/100" />
 						<div className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-							<Shield className="h-3 w-3 text-white" />
+							<Shield className="h-3 w-3 text-background" />
 						</div>
 					</div>
 
@@ -114,7 +114,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 				<div className="flex gap-2">
 					<Button
 						onClick={() => router.push("/iletisim")}
-						className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 font-semibold text-white transition-colors hover:bg-primary"
+						className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 font-semibold text-background transition-colors hover:bg-primary"
 					>
 						<MessageCircle className="h-4 w-4" />
 						Bize Ulaşın
@@ -124,7 +124,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 				<button
 					type="button"
 					onClick={() => setShowDetails(!showDetails)}
-					className="mt-2 w-full py-2 font-medium text-primary text-sm hover:text-primary"
+					className="mt-2 w-full py-2 font-medium text-primary text-sm hover:text-background"
 				>
 					{showDetails ? "Daha Az Göster" : "Detayları Göster"}
 				</button>
@@ -251,7 +251,7 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 								onClick={() => setSelectedSubject(subject.id)}
 								className={`rounded-full px-4 py-2 font-medium text-sm transition-all ${
 									selectedSubject === subject.id
-										? "scale-105 bg-primary text-white shadow-lg"
+										? "scale-105 bg-primary text-background shadow-lg"
 										: "bg-secondary text-muted-foreground hover:bg-secondary"
 								}`}
 							>
@@ -309,7 +309,7 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 							setSelectedSubject("all");
 							setSearchQuery("");
 						}}
-						className="rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary"
+						className="rounded-xl bg-primary px-6 py-3 font-semibold text-background transition-colors hover:bg-primary"
 					>
 						Filtreleri Temizle
 					</button>

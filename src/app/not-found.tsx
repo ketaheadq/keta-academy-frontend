@@ -28,7 +28,7 @@ export default function NotFound() {
 						<div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 							<Link
 								href="/"
-								className="w-full rounded-md border border-transparent bg-primary px-6 py-3 text-center font-medium text-base text-white transition-colors duration-200 hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:w-auto"
+								className="w-full rounded-md border border-transparent bg-primary px-6 py-3 text-center font-medium text-background text-base transition-colors duration-200 hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:w-auto"
 							>
 								Ana Sayfaya Git
 							</Link>

@@ -85,7 +85,7 @@ export default async function ContactPage() {
 	return (
 		<div className="min-h-screen bg-linear-to-br from-primary/20 via-white to-primary/20">
 			{/* Hero Section */}
-			<div className="bg-linear-to-r from-primary to-primary py-16 text-white">
+			<div className="bg-linear-to-r from-primary to-primary py-16 text-background">
 				<div className="container mx-auto px-4">
 					<div className="mx-auto max-w-3xl text-center">
 						<h1 className="mb-6 font-bold text-4xl md:text-5xl">Bizimle İletişime Geçin</h1>
@@ -128,15 +128,15 @@ export default async function ContactPage() {
 							</CardHeader>
 							<CardContent className="space-y-6">
 								{/* Phone */}
-								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/10">
+								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/20">
 									<div className="rounded-lg bg-primary p-2">
-										<Phone className="h-5 w-5 text-white" />
+										<Phone className="h-5 w-5 text-background" />
 									</div>
 									<div>
 										<h3 className="font-semibold text-foreground">Telefon</h3>
 										<a
 											href={`tel:${contactData.phone}`}
-											className="font-medium text-primary hover:text-primary"
+											className="font-medium text-primary hover:text-background"
 										>
 											{contactData.phone}
 										</a>
@@ -147,15 +147,15 @@ export default async function ContactPage() {
 								</div>
 
 								{/* Email */}
-								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/10">
+								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/20">
 									<div className="rounded-lg bg-primary p-2">
-										<Mail className="h-5 w-5 text-white" />
+										<Mail className="h-5 w-5 text-background" />
 									</div>
 									<div>
 										<h3 className="font-semibold text-foreground">E-posta</h3>
 										<a
 											href={`mailto:${contactData.email}`}
-											className="break-all font-medium text-primary hover:text-primary"
+											className="break-all font-medium text-primary hover:text-background"
 										>
 											{contactData.email}
 										</a>
@@ -166,9 +166,9 @@ export default async function ContactPage() {
 								</div>
 
 								{/* Address */}
-								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/10">
+								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/20">
 									<div className="rounded-lg bg-primary p-2">
-										<MapPin className="h-5 w-5 text-white" />
+										<MapPin className="h-5 w-5 text-background" />
 									</div>
 									<div>
 										<h3 className="font-semibold text-foreground">Adres</h3>
@@ -195,7 +195,7 @@ export default async function ContactPage() {
 											href={social.url}
 											target="_blank"
 											rel="noopener noreferrer"
-											className={`flex transform items-center gap-3 rounded-lg px-4 py-3 font-medium text-white transition-all hover:scale-105 ${getSocialColor(social.platform)}`}
+											className={`flex transform items-center gap-3 rounded-lg px-4 py-3 font-medium text-background transition-all hover:scale-105 ${getSocialColor(social.platform)}`}
 										>
 											{getSocialIcon(social.platform)}
 											<span className="capitalize">{social.platform}</span>
@@ -204,7 +204,7 @@ export default async function ContactPage() {
 								</div>
 
 								{/* Quick Stats */}
-								<div className="rounded-lg bg-linear-to-r from-primary to-primary p-6 text-white">
+								<div className="rounded-lg bg-linear-to-r from-primary to-primary p-6 text-background">
 									<h3 className="mb-4 font-semibold text-lg">Neden Bizi Seçmelisiniz?</h3>
 									<div className="space-y-3">
 										<div className="flex items-center gap-3">

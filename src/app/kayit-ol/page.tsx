@@ -168,7 +168,10 @@ export default function SignUpPage() {
 									<div className="border-t pt-4 text-center">
 										<p className="text-muted-foreground text-sm">
 											Zaten hesabınız var mı?{" "}
-											<Link href="/giris" className="font-medium text-primary hover:text-primary">
+											<Link
+												href="/giris"
+												className="font-medium text-primary hover:text-background"
+											>
 												Buradan giriş yapın
 											</Link>
 										</p>
@@ -179,11 +182,11 @@ export default function SignUpPage() {
 							{/* Terms */}
 							<p className="text-center text-muted-foreground text-xs">
 								Hesap oluşturarak{" "}
-								<Link href="/hizmet-sartlari" className="text-primary hover:text-primary">
+								<Link href="/hizmet-sartlari" className="text-primary hover:text-background">
 									Hizmet Şartlarımızı
 								</Link>{" "}
 								ve{" "}
-								<Link href="/gizlilik-politikasi" className="text-primary hover:text-primary">
+								<Link href="/gizlilik-politikasi" className="text-primary hover:text-background">
 									Gizlilik Politikamızı
 								</Link>{" "}
 								kabul etmiş olursunuz

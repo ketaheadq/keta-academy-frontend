@@ -24,7 +24,7 @@ export default function DesktopDropdown({ category }: Readonly<DesktopDropdownPr
 						<Link
 							key={`page-${page.id}`}
 							href={`/sayfalar/${page.slug}`}
-							className="block px-4 py-2 text-muted-foreground text-sm hover:bg-secondary hover:text-primary"
+							className="block px-4 py-2 text-muted-foreground text-sm hover:bg-primary hover:text-background"
 						>
 							{page.title}
 						</Link>

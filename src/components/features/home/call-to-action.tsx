@@ -18,7 +18,7 @@ export default function CallToAction() {
 							<span>Hemen başla, kredi kartı gerektirmez</span>
 						</div>
 
-						<h2 className="mb-6 text-balance font-bold text-3xl text-white tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+						<h2 className="mb-6 text-balance font-bold text-3xl text-background tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
 							Öğrenme yolculuğuna <span className="text-primary-foreground">bugün</span> başla
 						</h2>
 
@@ -32,7 +32,7 @@ export default function CallToAction() {
 						>
 							<Button
 								size="lg"
-								className="group h-14 rounded-full bg-white px-10 font-bold text-base text-primary shadow-xl transition-all duration-300 hover:scale-105 hover:bg-primary/10 active:scale-95"
+								className="group h-14 rounded-full bg-white px-10 font-bold text-base text-primary shadow-xl transition-all duration-300 hover:scale-105 hover:bg-accent hover:text-primary-foreground active:scale-95"
 							>
 								Ücretsiz Hesap Oluştur
 								<ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -40,7 +40,7 @@ export default function CallToAction() {
 							<Button
 								size="lg"
 								variant="outline"
-								className="h-14 rounded-full border-white/30 bg-white/10 px-10 font-bold text-base text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/20 active:scale-95"
+								className="h-14 rounded-full border-white/30 bg-white/10 px-10 font-bold text-background text-base backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-accent hover:text-primary-foreground active:scale-95"
 							>
 								Daha Fazla Bilgi
 							</Button>

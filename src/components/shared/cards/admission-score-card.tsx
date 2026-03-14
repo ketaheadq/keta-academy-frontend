@@ -76,8 +76,8 @@ export default function AdmissionScoreCard({
 					>
 						<div className="absolute inset-0 bg-black/10" />
 						<div className="relative z-10 flex flex-col items-center">
-							<Award className="mb-1 h-8 w-8 text-white" />
-							<div className="text-center font-bold text-white text-xs">
+							<Award className="mb-1 h-8 w-8 text-background" />
+							<div className="text-center font-bold text-background text-xs">
 								{admissionScore.isPopular ? "POPÜLER" : "TABAN"}
 							</div>
 						</div>

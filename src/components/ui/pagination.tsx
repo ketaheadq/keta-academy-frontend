@@ -134,7 +134,7 @@ export default function Pagination({
 							variant={isActive ? "default" : "outline"}
 							size="sm"
 							onClick={() => onPageChange(pageNumber)}
-							className={`min-w-10 ${isActive ? "bg-primary text-white hover:bg-primary" : ""}`}
+							className={`min-w-10 ${isActive ? "bg-primary text-background hover:bg-primary" : ""}`}
 						>
 							{pageNumber}
 						</Button>

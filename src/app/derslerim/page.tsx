@@ -160,7 +160,7 @@ export default function DerslerimPage() {
 								</p>
 								<Link
 									href="/konular"
-									className="inline-flex items-center rounded-md border border-transparent bg-primary px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+									className="inline-flex items-center rounded-md border border-transparent bg-primary px-4 py-2 font-medium text-background text-sm transition-colors hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
 								>
 									Konulara Git
 								</Link>

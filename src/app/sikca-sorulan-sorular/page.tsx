@@ -145,7 +145,7 @@ export default function FAQPage() {
 					<div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
 						<a
 							href="mailto:info@ketaakademi.com"
-							className="w-full rounded-full bg-primary px-8 py-3 font-semibold text-white shadow-blue-500/20 shadow-lg transition-all hover:scale-105 hover:bg-primary sm:w-auto"
+							className="w-full rounded-full bg-primary px-8 py-3 font-semibold text-background shadow-blue-500/20 shadow-lg transition-all hover:scale-105 hover:bg-primary sm:w-auto"
 						>
 							Bize Ulaşın
 						</a>

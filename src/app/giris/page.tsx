@@ -39,7 +39,7 @@ export default function LoginPage() {
 					{/* Welcome Section */}
 					<div className="text-center">
 						<div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-							<GraduationCap className="h-8 w-8 text-white" />
+							<GraduationCap className="h-8 w-8 text-background" />
 						</div>
 						<h2 className="mb-2 font-bold text-3xl text-foreground">Tekrar Hoşgeldiniz!</h2>
 						<p className="text-muted-foreground">
@@ -112,7 +112,7 @@ export default function LoginPage() {
 							<div className="border-t pt-4 text-center">
 								<p className="text-muted-foreground text-sm">
 									Hesabınız yok mu?{" "}
-									<Link href="/kayit-ol" className="font-medium text-primary hover:text-primary">
+									<Link href="/kayit-ol" className="font-medium text-primary hover:text-background">
 										Buradan kayıt olun
 									</Link>
 								</p>
@@ -123,11 +123,11 @@ export default function LoginPage() {
 					{/* Terms */}
 					<p className="text-center text-muted-foreground text-xs">
 						Giriş yaparak{" "}
-						<Link href="/hizmet-sartlari" className="text-primary hover:text-primary">
+						<Link href="/hizmet-sartlari" className="text-primary hover:text-background">
 							Hizmet Şartlarımızı
 						</Link>{" "}
 						ve{" "}
-						<Link href="/gizlilik-politikasi" className="text-primary hover:text-primary">
+						<Link href="/gizlilik-politikasi" className="text-primary hover:text-background">
 							Gizlilik Politikamızı
 						</Link>{" "}
 						kabul etmiş olursunuz

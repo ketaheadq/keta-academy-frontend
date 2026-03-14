@@ -107,7 +107,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 										className="absolute inset-0 border-0"
 									/>
 								) : (
-									<div className="absolute inset-0 flex items-center justify-center text-white">
+									<div className="absolute inset-0 flex items-center justify-center text-background">
 										<div className="text-center">
 											<p className="mb-2 text-lg">Video yüklenemedi</p>
 											<p className="text-muted-foreground text-sm">
@@ -268,7 +268,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 																}}
 															/>
 															<div className="absolute inset-0 flex items-center justify-center">
-																<Play className="h-4 w-4 text-white drop-shadow-lg" />
+																<Play className="h-4 w-4 text-background drop-shadow-lg" />
 															</div>
 														</div>
 													</div>

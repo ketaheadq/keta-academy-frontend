@@ -28,7 +28,7 @@ export default function CoursesError() {
 
 						<Button
 							onClick={() => router.refresh()}
-							className="bg-primary text-white transition-colors duration-200 hover:bg-primary"
+							className="bg-primary text-background transition-colors duration-200 hover:bg-primary"
 						>
 							<RefreshCw className="mr-2 h-4 w-4" />
 							Sayfayı Yenile

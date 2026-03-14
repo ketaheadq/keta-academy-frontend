@@ -77,7 +77,7 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 					</article>
 
 					{/* Blog Footer */}
-					<footer className="mt-12 rounded-3xl bg-linear-to-r from-primary to-primary p-8 text-white shadow-xl">
+					<footer className="mt-12 rounded-3xl bg-linear-to-r from-primary to-primary p-8 text-background shadow-xl">
 						<div className="text-center">
 							<h3 className="mb-3 font-bold text-2xl">Bu yazıyı beğendiniz mi?</h3>
 							<p className="mb-6 font-light text-lg text-primary-foreground">

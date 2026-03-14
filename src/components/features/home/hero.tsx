@@ -56,7 +56,7 @@ export default function Hero() {
 						<Link href="/giris">
 							<Button
 								size="lg"
-								className="group h-14 rounded-full bg-primary px-10 text-base text-white shadow-blue-500/25 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary active:scale-95"
+								className="group h-14 rounded-full bg-primary px-10 text-background text-base shadow-blue-500/25 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary active:scale-95"
 							>
 								Hemen Başla
 								<ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />

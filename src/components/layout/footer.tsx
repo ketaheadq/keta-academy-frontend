@@ -12,6 +12,8 @@ const supportLinks = [
 ];
 
 export default async function Footer() {
+	const currentYear = new Date().getFullYear();
+
 	const settings = await getSettings().catch(() => ({
 		siteName: "Keta Akademi",
 		logo: null,
@@ -26,7 +28,7 @@ export default async function Footer() {
 	const popularBlogs = blogs.filter((blog) => blog.isPopular).slice(0, 5);
 
 	return (
-		<footer className="bg-foreground text-white">
+		<footer className="bg-foreground text-background">
 			<div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:grid-cols-9 lg:gap-14 xl:gap-16">
 					{/* Logo and Description */}
@@ -52,13 +54,13 @@ export default async function Footer() {
 					{/* Konular - Only show if subjects exist */}
 					{footerSubjects.length > 0 && (
 						<nav className="md:col-span-1 lg:col-span-1">
-							<h3 className="mb-3 font-semibold text-white">Konular</h3>
+							<h3 className="mb-3 font-semibold text-background">Konular</h3>
 							<ul className="space-y-2">
 								{footerSubjects.map((subject) => (
 									<li key={subject.slug}>
 										<Link
 											href={`/konular/${subject.slug}`}
-											className="text-muted-foreground text-sm transition-colors duration-200 hover:text-white"
+											className="text-muted-foreground text-sm transition-colors duration-200 hover:text-background"
 										>
 											{subject.title}
 										</Link>
@@ -70,13 +72,13 @@ export default async function Footer() {
 
 					{/* Popular Blogs */}
 					<nav className="md:col-span-1 lg:col-span-3">
-						<h3 className="mb-3 font-semibold text-white">Popüler Yazılar</h3>
+						<h3 className="mb-3 font-semibold text-background">Popüler Yazılar</h3>
 						<ul className="space-y-2">
 							{popularBlogs.map((blog) => (
 								<li key={blog.slug}>
 									<Link
 										href={`/sayfalar/${blog.page?.slug}/${blog.slug}`}
-										className="line-clamp-2 text-muted-foreground text-sm transition-colors duration-200 hover:text-white"
+										className="line-clamp-2 text-muted-foreground text-sm transition-colors duration-200 hover:text-background"
 									>
 										{blog.title}
 									</Link>
@@ -87,13 +89,13 @@ export default async function Footer() {
 
 					{/* Support */}
 					<nav className="md:col-span-1 lg:col-span-2">
-						<h3 className="mb-3 font-semibold text-white">Destek</h3>
+						<h3 className="mb-3 font-semibold text-background">Destek</h3>
 						<ul className="space-y-2">
 							{supportLinks.map((link) => (
 								<li key={link.href}>
 									<Link
 										href={link.href}
-										className="text-muted-foreground text-sm transition-colors duration-200 hover:text-white"
+										className="text-muted-foreground text-sm transition-colors duration-200 hover:text-background"
 									>
 										{link.name}
 									</Link>
@@ -107,13 +109,13 @@ export default async function Footer() {
 				<div className="mt-10 border-border border-t pt-8 pb-2">
 					<div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
 						<p className="text-muted-foreground text-sm">
-							&copy; 2025 {settings.siteName}. Tüm hakları saklıdır.
+							&copy; {currentYear} {settings.siteName}. Tüm hakları saklıdır.
 						</p>
 						<div className="flex items-center gap-4">
 							{/* TODO: add bluesky https://bsky.app/profile/ketaakademi.bsky.social */}
 							<Link
 								href="https://www.instagram.com/keta.akademi/"
-								className="text-muted-foreground transition-colors hover:text-white"
+								className="text-muted-foreground transition-colors hover:text-background"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -121,7 +123,7 @@ export default async function Footer() {
 							</Link>
 							<Link
 								href="https://www.youtube.com/@ketaakademi"
-								className="text-muted-foreground transition-colors hover:text-white"
+								className="text-muted-foreground transition-colors hover:text-background"
 								target="_blank"
 								rel="noopener noreferrer"
 							>

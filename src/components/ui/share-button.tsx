@@ -95,7 +95,7 @@ export default function ShareButton({
 										className="flex h-16 flex-col items-center space-y-1"
 									>
 										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/100">
-											<MessageCircle className="h-4 w-4 text-white" />
+											<MessageCircle className="h-4 w-4 text-background" />
 										</div>
 										<span className="text-xs">WhatsApp</span>
 									</Button>
@@ -106,7 +106,7 @@ export default function ShareButton({
 										className="flex h-16 flex-col items-center space-y-1"
 									>
 										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-											<TwitterIcon className="h-4 w-4 text-white" />
+											<TwitterIcon className="h-4 w-4 text-background" />
 										</div>
 										<span className="text-xs">Twitter</span>
 									</Button>
@@ -117,7 +117,7 @@ export default function ShareButton({
 										className="flex h-16 flex-col items-center space-y-1"
 									>
 										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-											<FacebookIcon className="h-4 w-4 text-white" />
+											<FacebookIcon className="h-4 w-4 text-background" />
 										</div>
 										<span className="text-xs">Facebook</span>
 									</Button>

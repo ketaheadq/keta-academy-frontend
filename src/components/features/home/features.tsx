@@ -63,8 +63,8 @@ export default function Features() {
 								style={{ animationDelay: `${index * 0.1}s` }}
 							>
 								<Card className="h-full border-border bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary hover:shadow-2xl hover:shadow-blue-500/10">
-									<div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
-										<Icon className="h-7 w-7 text-primary transition-colors duration-500 group-hover:text-white" />
+									<div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-background">
+										<Icon className="h-7 w-7 text-primary transition-colors duration-500 group-hover:text-background" />
 									</div>
 									<h3 className="mb-3 font-bold text-foreground text-xl tracking-tight">
 										{feature.title}

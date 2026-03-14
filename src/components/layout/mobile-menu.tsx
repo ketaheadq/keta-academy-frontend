@@ -61,7 +61,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 			<button
 				type="button"
 				onClick={toggleMobileMenu}
-				className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary md:hidden"
+				className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-background md:hidden"
 				aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 				aria-expanded={isMobileMenuOpen}
 			>
@@ -82,7 +82,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 									<button
 										type="button"
 										onClick={() => toggleCategory(category.id)}
-										className="flex w-full items-center justify-between p-2 font-medium text-muted-foreground transition-colors hover:text-primary focus:text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+										className="flex w-full items-center justify-between p-2 font-medium text-muted-foreground transition-colors hover:text-background focus:text-primary focus:outline-none focus:ring-1 focus:ring-primary"
 										aria-expanded={openCategory === category.id}
 										aria-controls={`mobile-submenu-${category.id}`}
 									>
@@ -105,7 +105,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 													key={`mobile-page-${page.id}`}
 													href={`/sayfalar/${page.slug}`}
 													onClick={closeMobileMenu}
-													className="block rounded py-2 text-muted-foreground text-sm transition-colors hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
+													className="block rounded py-2 text-muted-foreground text-sm transition-colors hover:text-background focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
 												>
 													{page.title}
 												</Link>

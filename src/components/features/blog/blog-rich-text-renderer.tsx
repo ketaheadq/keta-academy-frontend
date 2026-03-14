@@ -102,7 +102,7 @@ const CodeBlock = ({ children }: { children?: React.ReactNode }) => (
 const LinkBlock = ({ children, url }: { children?: React.ReactNode; url: string }) => (
 	<a
 		href={url}
-		className="inline-flex items-center gap-1 font-medium text-primary decoration-2 underline-offset-4 transition-all duration-200 hover:text-primary hover:underline"
+		className="inline-flex items-center gap-1 font-medium text-primary decoration-2 underline-offset-4 transition-all duration-200 hover:text-background hover:underline"
 		target="_blank"
 		rel="noopener noreferrer"
 	>

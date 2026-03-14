@@ -31,7 +31,7 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 					<div className="group relative">
 						<button
 							type="button"
-							className="flex items-center space-x-2 text-muted-foreground transition-colors hover:text-primary"
+							className="flex items-center space-x-2 text-muted-foreground transition-colors hover:text-background"
 						>
 							{user.picture ? (
 								<Image
@@ -43,7 +43,7 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 								/>
 							) : (
 								<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-									<User className="h-4 w-4 text-white" />
+									<User className="h-4 w-4 text-background" />
 								</div>
 							)}
 							<span className="font-medium">{user.name}</span>
@@ -60,7 +60,7 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 								<Link
 									href="/derslerim"
 									onClick={handleLinkClick}
-									className="block px-4 py-2 text-muted-foreground text-sm hover:bg-secondary hover:text-primary"
+									className="block px-4 py-2 text-muted-foreground text-sm hover:bg-secondary hover:text-primary-foreground"
 								>
 									Derslerim
 								</Link>
@@ -82,13 +82,13 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 					<Link href="/giris" onClick={handleLinkClick}>
 						<Button
 							variant="ghost"
-							className="font-medium text-text transition-colors hover:text-primary"
+							className="font-medium text-text transition-colors hover:text-background"
 						>
 							Giriş Yap
 						</Button>
 					</Link>
 					<Link href="/kayit-ol" onClick={handleLinkClick}>
-						<Button className="rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-primary">
+						<Button className="rounded-lg bg-primary px-4 py-2 text-background transition-colors hover:bg-primary">
 							Üye Ol
 						</Button>
 					</Link>

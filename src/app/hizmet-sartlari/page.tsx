@@ -150,7 +150,7 @@ export default function TermsOfServicePage() {
 						Sorularınız için{" "}
 						<a
 							href="mailto:destek@ketaacademy.com"
-							className="font-medium text-primary transition-colors hover:text-primary"
+							className="font-medium text-primary transition-colors hover:text-background"
 						>
 							destek@ketaacademy.com
 						</a>{" "}

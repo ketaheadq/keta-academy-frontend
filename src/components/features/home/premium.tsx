@@ -58,7 +58,7 @@ export default function Premium() {
 
 							<Button
 								size="lg"
-								className="h-14 rounded-full bg-accent px-10 text-base text-white shadow-lg shadow-orange-500/25 transition-all duration-300 hover:scale-105 hover:bg-accent active:scale-95"
+								className="h-14 rounded-full bg-accent px-10 text-background text-base shadow-lg shadow-orange-500/25 transition-all duration-300 hover:scale-105 hover:bg-accent active:scale-95"
 							>
 								Premium'a Geç
 							</Button>
