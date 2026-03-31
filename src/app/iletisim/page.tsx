@@ -1,49 +1,6 @@
-import {
-	BookOpen,
-	CheckCircle,
-	Clock,
-	Instagram,
-	Mail,
-	MapPin,
-	MessageCircle,
-	Phone,
-	Star,
-	Users,
-	Youtube,
-} from "lucide-react";
+import { BookOpen, Clock, Mail, MapPin, MessageCircle, Phone, Users } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getContactPage, type StrapiContactPage, type StrapiSocialMediaLink } from "@/lib/strapi";
-
-const getSocialIcon = (platform: string) => {
-	switch (platform) {
-		case "instagram":
-			return <Instagram className="h-5 w-5" />;
-		case "youtube":
-			return <Youtube className="h-5 w-5" />;
-		case "tiktok":
-			return (
-				<svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-					<title>Tiktok</title>
-					<path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-				</svg>
-			);
-		default:
-			return <MessageCircle className="h-5 w-5" />;
-	}
-};
-
-const getSocialColor = (platform: string) => {
-	switch (platform) {
-		case "instagram":
-			return "bg-linear-to-r from-primary to-destructive hover:from-primary hover:to-destructive";
-		case "youtube":
-			return "bg-destructive/100 hover:bg-destructive";
-		case "tiktok":
-			return "bg-black hover:bg-foreground";
-		default:
-			return "bg-primary hover:bg-primary";
-	}
-};
+import { getContactPage, type StrapiContactPage } from "@/lib/strapi";
 
 export default async function ContactPage() {
 	let contactData: StrapiContactPage;
@@ -62,23 +19,6 @@ export default async function ContactPage() {
 			phone: "05451304287",
 			email: "caglar_yildiz@outlook.com.tr",
 			address: "Keklikpınarı Mah. 913. sok.",
-			socialMediaLinks: [
-				{
-					id: 4,
-					platform: "instagram",
-					url: "https://chatgpt.com/c/686647b4-3c94-800b-a960-365b1fc08e3f",
-				},
-				{
-					id: 5,
-					platform: "youtube",
-					url: "https://chatgpt.com/c/686647b4-3c94-800b-a960-365b1fc08e3f",
-				},
-				{
-					id: 6,
-					platform: "tiktok",
-					url: "https://chatgpt.com/c/686647b4-3c94-800b-a960-365b1fc08e3f",
-				},
-			],
 		};
 	}
 
@@ -176,53 +116,6 @@ export default async function ContactPage() {
 										<p className="mt-1 text-muted-foreground text-sm">
 											Ofis ziyaretleri randevu ile
 										</p>
-									</div>
-								</div>
-							</CardContent>
-						</Card>
-
-						{/* Social Media Card */}
-						<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
-							<CardHeader className="pb-4">
-								<CardTitle className="text-foreground text-xl">Sosyal Medya</CardTitle>
-								<CardDescription>Bizi sosyal medyada takip edin</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<div className="mb-6 space-y-4">
-									{contactData.socialMediaLinks.map((social: StrapiSocialMediaLink) => (
-										<a
-											key={social.id}
-											href={social.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											className={`flex transform items-center gap-3 rounded-lg px-4 py-3 font-medium text-background transition-all hover:scale-105 ${getSocialColor(social.platform)}`}
-										>
-											{getSocialIcon(social.platform)}
-											<span className="capitalize">{social.platform}</span>
-										</a>
-									))}
-								</div>
-
-								{/* Quick Stats */}
-								<div className="rounded-lg bg-linear-to-r from-primary to-primary p-6 text-background">
-									<h3 className="mb-4 font-semibold text-lg">Neden Bizi Seçmelisiniz?</h3>
-									<div className="space-y-3">
-										<div className="flex items-center gap-3">
-											<Star className="h-5 w-5 text-accent/20" />
-											<span>4.9/5 müşteri memnuniyeti</span>
-										</div>
-										<div className="flex items-center gap-3">
-											<Users className="h-5 w-5 text-primary-foreground" />
-											<span>10,000+ mutlu öğrenci</span>
-										</div>
-										<div className="flex items-center gap-3">
-											<BookOpen className="h-5 w-5 text-primary/20" />
-											<span>500+ ders içeriği</span>
-										</div>
-										<div className="flex items-center gap-3">
-											<CheckCircle className="h-5 w-5 text-primary/20" />
-											<span>%95 başarı oranı</span>
-										</div>
 									</div>
 								</div>
 							</CardContent>

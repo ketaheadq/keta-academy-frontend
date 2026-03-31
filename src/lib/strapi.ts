@@ -1178,7 +1178,6 @@ export interface StrapiContactPage {
 	phone: string;
 	email: string;
 	address: string;
-	socialMediaLinks: StrapiSocialMediaLink[];
 }
 
 export interface ContactFormData {

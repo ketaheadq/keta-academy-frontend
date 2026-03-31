@@ -40,6 +40,7 @@ export default async function Footer() {
 										src={settings.logo.url}
 										alt={`${settings.siteName} logosu`}
 										fill
+										sizes="64px"
 										className="object-contain"
 									/>
 								</div>

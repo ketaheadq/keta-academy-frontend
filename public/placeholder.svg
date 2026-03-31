@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" rx="20" fill="#E0E0E0" stroke="#CCCCCC" stroke-width="2"/>
+  <path d="M400 250c-25 0-50 15-50 40h100c0-25-25-40-50-40zm-60 50h120v100H340z" fill="#999999"/>
+  <path d="M400 350l30 30-30 30-30-30z" fill="#999999"/>
+  <text x="400" y="460" font-family="Verdana, sans-serif" font-size="28" fill="#808080" text-anchor="middle">
+    KURS GÖRSELİ YOK
+  </text>
+  <text x="400" y="490" font-family="Verdana, sans-serif" font-size="18" fill="#808080" text-anchor="middle">
+    (Thumbnail Placeholder)
+  </text>
+</svg>

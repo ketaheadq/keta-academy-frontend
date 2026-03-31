@@ -25,10 +25,11 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 								src={tutor.profilePicture?.url || "/placeholder.svg"}
 								alt={tutor.name}
 								fill
+								sizes="80px"
 								className="rounded-full border-4 border-white object-cover shadow-lg"
 							/>
 						</div>
-						<div className="absolute -right-1 -bottom-1 h-6 w-6 rounded-full border-2 border-white bg-primary/100" />
+						<div className="absolute -right-1 -bottom-1 h-6 w-6 rounded-full border-2 border-white bg-primary" />
 						<div className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary">
 							<Shield className="h-3 w-3 text-background" />
 						</div>
