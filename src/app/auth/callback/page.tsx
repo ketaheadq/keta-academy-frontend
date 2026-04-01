@@ -2,12 +2,12 @@
 
 import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuthStore } from "@/stores/auth-store";
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
 	const searchParams = useSearchParams();
 	const { handleAuthRedirect, error, isLoading } = useAuthStore();
 
@@ -86,5 +86,19 @@ export default function AuthCallbackPage() {
 				</CardContent>
 			</Card>
 		</div>
+	);
+}
+
+export default function AuthCallbackPage() {
+	return (
+		<Suspense
+			fallback={
+				<div className="flex min-h-screen items-center justify-center bg-secondary">
+					<Loader2 className="h-12 w-12 animate-spin text-primary" />
+				</div>
+			}
+		>
+			<AuthCallbackContent />
+		</Suspense>
 	);
 }

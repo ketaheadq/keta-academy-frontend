@@ -1,4 +1,4 @@
-import { Calendar, Video } from "lucide-react";
+import { Calendar, Search, Video } from "lucide-react";
 import Link from "next/link";
 import { use, useId } from "react";
 import TutoringContent from "@/components/features/tutoring/tutoring-content";
@@ -12,34 +12,48 @@ export default function TutoringPage() {
 	const howItWorksId = useId();
 
 	return (
-		<div className="min-h-screen bg-linear-to-br from-primary/20 via-white to-primary/20">
+		<div className="min-h-screen bg-background">
 			{/* Hero Section */}
-			<div className="relative overflow-hidden bg-linear-to-r from-primary via-primary to-primary text-background">
-				<div className="absolute inset-0 bg-black opacity-10" />
-				<div className="relative mx-auto px-4 py-20 sm:px-6 lg:px-8">
-					<div className="text-center">
-						<h1 className="mb-6 font-bold text-5xl leading-tight md:text-6xl">
-							Uzman Öğretmenlerle <span className="block text-accent/20">Birebir Eğitim</span>
-						</h1>
-						<p className="mx-auto mb-8 max-w-3xl text-primary-foreground text-xl leading-relaxed">
-							Alanında uzman, deneyimli öğretmenlerle birebir ders alın. Kişiselleştirilmiş öğrenme
-							deneyimi ile hedeflerinize ulaşın.
-						</p>
+			<div className="relative isolate overflow-hidden px-6 pt-16 pb-24 sm:pt-24 lg:px-8">
+				<div
+					className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+					aria-hidden="true"
+				>
+					<div className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-primary to-accent opacity-20 sm:left-[calc(50%-30rem)] sm:w-288.75" />
+				</div>
 
-						<div className="flex flex-col justify-center gap-4 sm:flex-row">
-							<Link href="/iletisim">
-								<Button className="rounded-xl border-2 bg-accent/20 px-8 py-4 font-bold text-foreground text-lg shadow-lg transition-colors hover:bg-accent/20">
-									Hemen Başla
-								</Button>
-							</Link>
-							<ScrollToSectionButton
-								sectionId={howItWorksId}
-								className="rounded-xl border-2 border-white px-8 py-4 font-bold text-background text-lg transition-colors hover:bg-white hover:text-background"
-							>
-								Nasıl Çalışır?
-							</ScrollToSectionButton>
-						</div>
+				<div className="mx-auto max-w-4xl animate-float pt-10 text-center">
+					<h1 className="mb-8 font-bold text-6xl text-foreground tracking-tight sm:text-7xl">
+						Uzman Öğretmenlerle <br />
+						<span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
+							Birebir Eğitim
+						</span>
+					</h1>
+					<p className="mx-auto mb-12 max-w-2xl text-lg text-muted-foreground leading-8">
+						Alanında uzman öğretmenlerle hedeflerinize özel ders alın. Kişiselleştirilmiş bir
+						öğrenme deneyimi ile potansiyelinizi zirveye taşıyın.
+					</p>
+
+					<div className="flex flex-col items-center justify-center gap-6 sm:flex-row">
+						<Link href="/iletisim">
+							<Button className="h-14 rounded-2xl bg-accent px-10 font-bold text-accent-foreground text-lg shadow-accent transition-all hover:scale-105 hover:bg-accent/90 hover:shadow-[0_0_30px_rgba(253,154,0,0.4)]">
+								Hemen Başla
+							</Button>
+						</Link>
+						<ScrollToSectionButton
+							sectionId={howItWorksId}
+							className="h-14 rounded-2xl border-2 border-primary/20 bg-white px-10 font-bold text-lg text-primary transition-all hover:scale-105 hover:border-primary/50 hover:bg-primary/5"
+						>
+							Nasıl Çalışır?
+						</ScrollToSectionButton>
 					</div>
+				</div>
+
+				<div
+					className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+					aria-hidden="true"
+				>
+					<div className="relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 bg-linear-to-tr from-accent to-primary opacity-20 sm:left-[calc(50%+36rem)] sm:w-288.75" />
 				</div>
 			</div>
 
@@ -47,69 +61,72 @@ export default function TutoringPage() {
 			<TutoringContent data={tutoringProfiles} />
 
 			{/* How It Works Section */}
-			<div id={howItWorksId} className="mx-auto px-4 pb-12 sm:px-6 lg:px-8">
-				<div className="mb-12 rounded-3xl bg-linear-to-r from-primary to-primary p-8 text-background md:p-12">
-					<div className="mb-12 text-center">
-						<h2 className="mb-4 font-bold text-3xl md:text-4xl">Nasıl Çalışır?</h2>
-						<p className="mx-auto max-w-2xl text-lg text-primary/20">
-							Sadece 3 adımda uzman öğretmeninizle tanışın ve öğrenmeye başlayın
+			<div id={howItWorksId} className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+				<div className="mb-20 text-center">
+					<h2 className="mb-4 font-bold text-4xl text-foreground tracking-tight md:text-5xl">
+						Geleceğinizi 3 Adımda Planlayın
+					</h2>
+					<div className="mx-auto mb-6 h-1 w-20 rounded-full bg-accent" />
+					<p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+						Öğrenme yolculuğunuzu başlatmak hiç bu kadar kolay olmamıştı
+					</p>
+				</div>
+
+				<div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+					<div className="group relative rounded-3xl border border-border bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+						<div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-background">
+							<Search className="h-8 w-8" />
+						</div>
+						<h3 className="mb-3 font-bold text-2xl text-foreground">1. Öğretmen Seç</h3>
+						<p className="text-muted-foreground leading-relaxed">
+							Hedeflerinize uygun uzman öğretmeni binlerce profesyonel arasından kolayca bulun.
 						</p>
+						<div className="absolute right-8 bottom-4 font-black text-6xl text-primary/5">01</div>
 					</div>
 
-					<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-						<div className="text-center">
-							<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white bg-opacity-20">
-								<svg
-									aria-label="Search Icon"
-									aria-labelledby="search-icon"
-									className="h-8 w-8"
-									fill="currentColor"
-									viewBox="0 0 24 24"
-								>
-									<title>Search Icon</title>
-									<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-								</svg>
-							</div>
-							<h3 className="mb-2 font-bold text-xl">1. Öğretmen Seç</h3>
-							<p className="text-primary/20">
-								İhtiyacınıza uygun uzman öğretmeni bulun ve profilini inceleyin
-							</p>
+					<div className="group relative rounded-3xl border border-border bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+						<div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent transition-all duration-500 group-hover:bg-accent group-hover:text-accent-foreground">
+							<Calendar className="h-8 w-8" />
 						</div>
+						<h3 className="mb-3 font-bold text-2xl text-foreground">2. Ders Rezerve Et</h3>
+						<p className="text-muted-foreground leading-relaxed">
+							Size en uygun zaman dilimini seçin ve dakikalar içinde dersinizi planlayın.
+						</p>
+						<div className="absolute right-8 bottom-4 font-black text-6xl text-accent/5">02</div>
+					</div>
 
-						<div className="text-center">
-							<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white bg-opacity-20">
-								<Calendar className="h-8 w-8" />
-							</div>
-							<h3 className="mb-2 font-bold text-xl">2. Ders Rezerve Et</h3>
-							<p className="text-primary/20">
-								Uygun zaman dilimini seçin ve dersinizi rezerve edin
-							</p>
+					<div className="group relative rounded-3xl border border-border bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+						<div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-foreground/10 text-foreground transition-all duration-500 group-hover:bg-foreground group-hover:text-background">
+							<Video className="h-8 w-8" />
 						</div>
-
-						<div className="text-center">
-							<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white bg-opacity-20">
-								<Video className="h-8 w-8" />
-							</div>
-							<h3 className="mb-2 font-bold text-xl">3. Öğrenmeye Başla</h3>
-							<p className="text-primary/20">Birebir online derslerle hedeflerinize ulaşın</p>
+						<h3 className="mb-3 font-bold text-2xl text-foreground">3. Öğrenmeye Başla</h3>
+						<p className="text-muted-foreground leading-relaxed">
+							Yüksek kaliteli görüntülü görüşme ile her yerden eğitime başlayın.
+						</p>
+						<div className="absolute right-8 bottom-4 font-black text-6xl text-foreground/5">
+							03
 						</div>
 					</div>
 				</div>
+			</div>
 
-				{/* CTA Section */}
-				<div className="rounded-3xl bg-linear-to-r from-primary to-primary p-8 text-center text-background md:p-12">
-					<h2 className="mb-4 font-bold text-3xl md:text-4xl">Hayalinizdeki Başarıya Ulaşın</h2>
-					<p className="mx-auto mb-8 max-w-2xl text-lg text-primary/20">
-						Uzman öğretmenlerimizle birebir çalışarak akademik hedeflerinizi gerçekleştirin. İlk
-						dersinizi ücretsiz deneyin!
-					</p>
-					<div className="flex flex-col justify-center gap-4 sm:flex-row">
-						<Link href="/iletisim">
-							<Button className="rounded-xl bg-white px-8 py-4 font-bold text-lg text-primary shadow-lg transition-colors hover:bg-primary/10">
-								Ücretsiz Ders Dene
-							</Button>
-						</Link>
-					</div>
+			{/* CTA Section */}
+			<div className="relative isolate overflow-hidden rounded-4xl bg-foreground px-8 py-20 text-center shadow-2xl sm:px-16">
+				<div className="absolute top-0 right-0 -mt-20 -mr-20 h-96 w-96 animate-pulse-gentle rounded-full bg-primary/20 blur-3xl" />
+				<div className="absolute bottom-0 left-0 -mb-20 -ml-20 h-96 w-96 animate-pulse-gentle rounded-full bg-accent/20 blur-3xl" />
+
+				<h2 className="relative mx-auto max-w-2xl font-bold text-4xl text-white tracking-tight md:text-5xl">
+					Geleceğiniz İçin <br /> İlk Adımı Bugün Atın
+				</h2>
+				<p className="relative mx-auto mt-6 max-w-xl text-lg text-secondary/60">
+					Binlerce başarılı öğrenci arasına siz de katılın. İlk dersinizi deneyin ve farkı yaşayın.
+				</p>
+				<div className="relative mt-10 flex flex-col justify-center gap-6 sm:flex-row">
+					<Link href="/iletisim">
+						<Button className="h-14 rounded-2xl bg-accent px-10 font-bold text-accent-foreground text-lg shadow-2xl transition-all hover:scale-105 hover:bg-accent/90">
+							Hemen Keşfet
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</div>

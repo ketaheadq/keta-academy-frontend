@@ -1,67 +1,59 @@
 @import "tailwindcss";
 
 @theme {
-	/* Base Colors */
-	/* blue-600 */
-	--color-primary: #00bcff;
-	/* orange-600 */
-	--color-accent: #fd9a00;
-	--color-background: #f0f9ff;
-	/* slate-900 */
-	--color-foreground: #0f172b;
+	/* Base Colors - Deep Navy & Sophisticated Amber */
+	--color-primary: #0f172a;
+	--color-accent: #b45309;
 
-	/* Card Colors */
-	--color-card: #f0f9ff;
-	--color-card-foreground: #082f49;
+	--color-background: #fdfdfd;
+	--color-foreground: #0f172a;
+
+	/* Card Colors - Subtle borders and clean whites */
+	--color-card: #ffffff;
+	--color-card-foreground: #1e293b;
 
 	/* Popover Colors */
-	--color-popover: #f0f9ff;
-	--color-popover-foreground: #082f49;
+	--color-popover: #ffffff;
+	--color-popover-foreground: #0f172a;
 
-	/* Primary Colors */
-	--color-primary-foreground: #f0f9ff;
+	/* Primary Colors - Text on primary buttons should be crisp */
+	--color-primary-foreground: #f8fafc;
 
-	/* Secondary Colors */
-	--color-secondary: #e0f2fe;
-	/* slate-100 */
-	--color-secondary-foreground: #082f49;
+	/* Secondary Colors - Professional Slate */
+	--color-secondary: #f1f5f9;
+	--color-secondary-foreground: #334155;
 
 	/* Muted Colors */
-	--color-muted: #e0f2fe;
+	--color-muted: #f8fafc;
 	--color-muted-foreground: #64748b;
-	/* slate-500 */
 
 	/* Accent Colors */
 	--color-accent-foreground: #ffffff;
 
-	/* Destructive Colors */
-	--color-destructive: #ec003f;
-	/* red-600 */
+	/* Destructive Colors - A more formal Crimson */
+	--color-destructive: #991b1b;
 
-	/* Border & Input */
+	/* Border & Input - Softer, more organic grays */
 	--color-border: #e2e8f0;
-	/* slate-200 */
 	--color-input: #e2e8f0;
-	--color-ring: #94a3b8;
-	/* slate-400 */
+	--color-ring: #1e293b;
 
-	/* Chart Colors */
-	--color-chart-1: oklch(0.646 0.222 41.116);
-	--color-chart-2: oklch(0.6 0.118 184.704);
-	--color-chart-3: oklch(0.398 0.07 227.392);
-	--color-chart-4: oklch(0.828 0.189 84.429);
-	--color-chart-5: oklch(0.769 0.188 70.08);
+	/* Chart Colors - Refined, less "Neon" */
+	--color-chart-1: #0f172a; /* Navy */
+	--color-chart-2: #b45309; /* Amber */
+	--color-chart-3: #475569; /* Slate */
+	--color-chart-4: #94a3b8; /* Light Slate */
+	--color-chart-5: #cbd5e1; /* Soft Gray */
 
-	/* Sidebar Colors */
-	--color-sidebar: #f8fafc;
-	/* slate-50 */
-	--color-sidebar-foreground: #0f172b;
-	--color-sidebar-primary: #00bcff;
-	--color-sidebar-primary-foreground: #f0f9ff;
-	--color-sidebar-accent: #e0f2fe;
-	--color-sidebar-accent-foreground: #0f172b;
-	--color-sidebar-border: #bae6fd;
-	--color-sidebar-ring: #64748b;
+	/* Sidebar Colors - Using a "Dark Mode" sidebar for an elite look */
+	--color-sidebar: #0f172a;
+	--color-sidebar-foreground: #f8fafc;
+	--color-sidebar-primary: #b45309;
+	--color-sidebar-primary-foreground: #ffffff;
+	--color-sidebar-accent: #1e293b;
+	--color-sidebar-accent-foreground: #f8fafc;
+	--color-sidebar-border: #1e293b;
+	--color-sidebar-ring: #94a3b8;
 
 	/* Fonts */
 	--font-sans: var(--font-geist-sans);
