@@ -39,7 +39,7 @@ export interface AuthError {
 }
 
 // Get Google OAuth URL from your custom implementation
-export function getGoogleAuthUrl(): string {
+export function getGoogleAuthUrl(redirect?: string | null, mobile?: boolean): string {
 	const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
 
 	if (!strapiUrl) {
@@ -48,10 +48,15 @@ export function getGoogleAuthUrl(): string {
 
 	// Debug: Log the URL being used
 	console.log("🔍 Strapi URL:", strapiUrl);
-	console.log("🔍 Custom Google OAuth URL:", `${strapiUrl}/api/auth/google`);
+
+	const url = new URL(`${strapiUrl}/api/auth/google`);
+	if (redirect) url.searchParams.set("redirect", redirect);
+	if (mobile) url.searchParams.set("mobile", "true");
+
+	console.log("🔍 Custom Google OAuth URL:", url.toString());
 
 	// Your custom Google OAuth endpoint
-	return `${strapiUrl}/api/auth/google`;
+	return url.toString();
 }
 
 // Debug function to help identify the redirect URI issue

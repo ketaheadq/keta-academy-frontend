@@ -25,7 +25,7 @@ interface AuthState {
 }
 
 interface AuthActions {
-	signInWithGoogle: () => Promise<void>;
+	signInWithGoogle: (redirect?: string | null, mobile?: boolean) => Promise<void>;
 	signOut: () => Promise<void>;
 	clearError: () => void;
 	setLoading: (loading: boolean) => void;
@@ -46,12 +46,12 @@ export const useAuthStore = create<AuthStore>()(
 			error: null,
 
 			// Actions
-			signInWithGoogle: async () => {
+			signInWithGoogle: async (redirect?: string | null, mobile?: boolean) => {
 				try {
 					set({ isLoading: true, error: null });
 
 					// Redirect to Strapi's Google OAuth endpoint
-					const googleAuthUrl = getGoogleAuthUrl();
+					const googleAuthUrl = getGoogleAuthUrl(redirect, mobile);
 
 					globalThis.window.location.href = googleAuthUrl;
 				} catch (error) {

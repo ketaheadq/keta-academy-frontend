@@ -2,6 +2,7 @@
 
 import { BookOpen, GraduationCap, Loader2, Shield, Users } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { GoogleIcon } from "@/components/ui/brand-icons";
@@ -11,9 +12,14 @@ import { useAuthError, useAuthLoading, useAuthStore } from "@/stores/auth-store"
 
 export default function LoginPage() {
 	const { signInWithGoogle, clearError } = useAuthStore();
+	const searchParams = useSearchParams();
 	const isLoading = useAuthLoading();
 	const error = useAuthError();
 	const [isSigningIn, setIsSigningIn] = useState(false);
+
+	// Get redirect and mobile params from URL
+	const redirect = searchParams.get("redirect");
+	const mobile = searchParams.get("mobile");
 
 	// Clear error when component mounts
 	useEffect(() => {
@@ -25,7 +31,7 @@ export default function LoginPage() {
 		clearError();
 
 		try {
-			await signInWithGoogle();
+			await signInWithGoogle(redirect, mobile === "true");
 		} finally {
 			setIsSigningIn(false);
 		}
