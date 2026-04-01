@@ -27,15 +27,14 @@ function LoginContent() {
 		clearError();
 
 		if (isMobileFlow && redirect) {
-			const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
-			if (strapiUrl) {
-				const googleUrl = `${strapiUrl}/api/auth/google?redirect=${encodeURIComponent(redirect)}&mobile=true`;
-				// Small delay so user sees the loading state
-				const timer = setTimeout(() => {
-					window.location.href = googleUrl;
-				}, 300);
-				return () => clearTimeout(timer);
-			}
+			// Hardcode fallback — NEXT_PUBLIC_ vars must be baked in at build time
+			const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "https://admin.ketaakademi.com";
+			const googleUrl = `${strapiUrl}/api/auth/google?redirect=${encodeURIComponent(redirect)}&mobile=true`;
+			// Small delay so user sees the loading state, then redirect
+			const timer = setTimeout(() => {
+				window.location.href = googleUrl;
+			}, 300);
+			return () => clearTimeout(timer);
 		}
 	}, [isMobileFlow, redirect, clearError]);
 
