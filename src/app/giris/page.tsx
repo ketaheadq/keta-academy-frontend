@@ -17,26 +17,60 @@ function LoginContent() {
 	const error = useAuthError();
 	const [isSigningIn, setIsSigningIn] = useState(false);
 
-	// Get redirect and mobile params from URL
 	const redirect = searchParams.get("redirect");
 	const mobile = searchParams.get("mobile");
+	const isMobileFlow = mobile === "true";
 
-	// Clear error when component mounts
+	// ✅ Auto-redirect to Strapi when mobile=true (mobile app opened this page)
+	// This avoids the user needing to click "Google ile Devam Et" in the in-app browser
 	useEffect(() => {
 		clearError();
-	}, [clearError]);
+
+		if (isMobileFlow && redirect) {
+			const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
+			if (strapiUrl) {
+				const googleUrl = `${strapiUrl}/api/auth/google?redirect=${encodeURIComponent(redirect)}&mobile=true`;
+				// Small delay so user sees the loading state
+				const timer = setTimeout(() => {
+					window.location.href = googleUrl;
+				}, 300);
+				return () => clearTimeout(timer);
+			}
+		}
+	}, [isMobileFlow, redirect, clearError]);
 
 	const handleGoogleSignIn = async () => {
 		setIsSigningIn(true);
 		clearError();
-
 		try {
-			await signInWithGoogle(redirect, mobile === "true");
+			await signInWithGoogle(redirect, isMobileFlow);
 		} finally {
 			setIsSigningIn(false);
 		}
 	};
 
+	// ✅ If mobile flow — show a loading spinner while we auto-redirect
+	if (isMobileFlow) {
+		return (
+			<div className="flex min-h-screen flex-col items-center justify-center gap-6 px-4">
+				<div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
+					<GraduationCap className="h-8 w-8 text-background" />
+				</div>
+				<div className="space-y-2 text-center">
+					<h2 className="font-bold text-2xl text-foreground">Keta Akademi</h2>
+					<p className="text-muted-foreground">Google'a yönlendiriliyorsunuz...</p>
+				</div>
+				<Loader2 className="h-8 w-8 animate-spin text-primary" />
+				{error && (
+					<Alert variant="destructive" className="max-w-sm">
+						<AlertDescription>{error}</AlertDescription>
+					</Alert>
+				)}
+			</div>
+		);
+	}
+
+	// ✅ Normal web login UI
 	return (
 		<div className="w-full max-w-md space-y-8">
 			{/* Welcome Section */}
@@ -140,7 +174,6 @@ function LoginContent() {
 export default function LoginPage() {
 	return (
 		<div className="flex min-h-screen flex-col">
-			{/* Main Content */}
 			<div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
 				<Suspense
 					fallback={
