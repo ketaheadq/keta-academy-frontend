@@ -38,7 +38,6 @@ export default function Continue({ courses }: Readonly<ContinueProps>) {
 					courses,
 					courseLessons,
 					lessonProgressData,
-					user.id.toString(),
 				);
 				setCoursesWithProgress(updatedCoursesWithProgress);
 			} catch (error) {

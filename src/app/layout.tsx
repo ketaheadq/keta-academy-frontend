@@ -1,7 +1,7 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { use } from "react";
+import { connection } from "next/server";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
 import { getSettings } from "@/lib/strapi";
@@ -89,12 +89,13 @@ export async function generateMetadata(): Promise<Metadata> {
 	}
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const settings = use(getSettings());
+	await connection();
+	const settings = await getSettings().catch(() => null);
 	const analyticsID = settings?.analyticsID || "";
 	return (
 		<html lang="tr">

@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Quiz, { type QuizResult } from "@/components/features/quiz/quiz";
+import Quiz from "@/components/features/quiz/quiz";
+import RichTextRenderer from "@/components/shared/content/rich-text-renderer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import ShareButton from "@/components/ui/share-button";
 import { useLessonProgress } from "@/hooks/useLessonProgress";
 import type { StrapiCourse, StrapiGrade, StrapiLesson, StrapiQuiz } from "@/lib/strapi";
-import { updateQuizProgress } from "@/lib/strapi";
+import { submitQuiz } from "@/lib/strapi";
 import { extractYouTubeVideoId } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth-store";
 
@@ -22,8 +23,7 @@ import { useAuthStore } from "@/stores/auth-store";
 interface ExtendedLesson extends StrapiLesson {
 	duration: number;
 	order: number;
-	youtubeVideoId: string;
-	quiz?: StrapiQuiz;
+	youtubeVideoId: string | null;
 }
 
 interface CoursePageProps {
@@ -51,18 +51,14 @@ export default function CoursePage({
 		lessonProgress,
 		isLoading: isLoadingProgress,
 		markLessonComplete,
-	} = useLessonProgress({
-		documentIds: lessons.map((l) => l.documentId),
-		documentId: course.documentId,
-	});
+	} = useLessonProgress(lessons.map(lesson => lesson.documentId));
 
 	useEffect(() => {
 		const initialLessons: ExtendedLesson[] = lessons.map((lesson, index) => ({
 			...lesson,
 			duration: 30, // Default duration, should come from Strapi
 			order: index + 1,
-			youtubeVideoId: extractYouTubeVideoId(lesson.videoURL) || "dQw4w9WgXcQ",
-			quiz: undefined, // This should come from Strapi if lesson has quiz
+			youtubeVideoId: lesson.videoURL ? extractYouTubeVideoId(lesson.videoURL) : null,
 		}));
 		setExtendedLessons(initialLessons);
 	}, [lessons]);
@@ -148,29 +144,13 @@ export default function CoursePage({
 		}
 	};
 
-	const handleStartQuiz = async (quiz: StrapiQuiz) => {
+	const handleStartQuiz = (quiz: StrapiQuiz) => {
+		if (!jwt) {
+			router.push('/giris');
+			return;
+		}
 		setCurrentQuiz(quiz);
 		setShowQuiz(true);
-
-		// Update quiz progress to 'in_progress' when user starts
-		if (isAuthenticated && jwt) {
-			try {
-				await updateQuizProgress(quiz.id, "in_progress", undefined, jwt);
-			} catch (error) {
-				console.error("Failed to update quiz progress:", error);
-			}
-		}
-	};
-
-	const handleQuizComplete = async (result: QuizResult) => {
-		// Update quiz progress to 'completed' with score
-		if (isAuthenticated && jwt && currentQuiz) {
-			try {
-				await updateQuizProgress(currentQuiz.id, "completed", result.earnedPoints, jwt);
-			} catch (error) {
-				console.error("Failed to update quiz progress:", error);
-			}
-		}
 	};
 
 	const handleCloseQuiz = () => {
@@ -212,29 +192,18 @@ export default function CoursePage({
 						{/* Video Player */}
 						<Card className="py-0">
 							<CardContent className="p-0">
-								<div className="relative aspect-video overflow-hidden rounded-t-lg bg-black">
-									{currentLesson.youtubeVideoId ? (
+								{currentLesson.youtubeVideoId && (
+									<div className="relative aspect-video overflow-hidden rounded-t-lg bg-black">
 										<iframe
-											key={currentLesson.id} // Force re-render when lesson changes
-											width="100%"
-											height="100%"
-											src={`https://www.youtube.com/embed/${currentLesson.youtubeVideoId}${isPlaying ? "?autoplay=1" : ""}`}
+											key={currentLesson.id}
+											src={"https://www.youtube.com/embed/" + currentLesson.youtubeVideoId + (isPlaying ? "?autoplay=1" : "")}
 											title={currentLesson.title}
 											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 											allowFullScreen
-											className="absolute inset-0 border-0"
+											className="absolute inset-0 h-full w-full border-0"
 										/>
-									) : (
-										<div className="absolute inset-0 flex items-center justify-center text-background">
-											<div className="text-center">
-												<p className="mb-2 text-lg">Video yüklenemedi</p>
-												<p className="text-muted-foreground text-sm">
-													Video URL'si geçersiz: {currentLesson.videoURL}
-												</p>
-											</div>
-										</div>
-									)}
-								</div>
+									</div>
+								)}
 								<div className="p-6">
 									<div className="mb-4 flex items-center justify-between">
 										<div>
@@ -251,6 +220,12 @@ export default function CoursePage({
 										</div>
 									</div>
 
+									{currentLesson.content?.length ? <RichTextRenderer content={currentLesson.content} /> : null}
+									{currentLesson.attachments?.map(attachment => (
+										<a key={attachment.id} href={attachment.url} target="_blank" rel="noreferrer" className="block py-2 underline">
+											{attachment.name}
+										</a>
+									))}
 									<div className="flex items-center justify-between">
 										<div className="flex items-center space-x-4">
 											<Button
@@ -314,7 +289,7 @@ export default function CoursePage({
 												</Button>
 											)}
 
-											{currentLesson.quiz && (
+											{currentLesson.quiz?.questions?.length ? (
 												<Button
 													variant="outline"
 													onClick={() => handleStartQuiz(currentLesson.quiz as StrapiQuiz)}
@@ -323,7 +298,7 @@ export default function CoursePage({
 													<Target className="h-4 w-4" />
 													<span>Quiz Çöz</span>
 												</Button>
-											)}
+											) : null}
 										</div>
 									</div>
 								</div>
@@ -453,10 +428,10 @@ export default function CoursePage({
 				</div>
 
 				{/* Quiz Modal */}
-				{showQuiz && currentQuiz && (
+				{showQuiz && currentQuiz && jwt && (
 					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
 						<div className="max-h-[90vh] overflow-y-auto">
-							<Quiz quiz={currentQuiz} onComplete={handleQuizComplete} onClose={handleCloseQuiz} />
+							<Quiz quiz={currentQuiz} onSubmit={(answers, submissionId) => submitQuiz(currentQuiz.documentId, answers, submissionId, jwt)} onClose={handleCloseQuiz} />
 						</div>
 					</div>
 				)}

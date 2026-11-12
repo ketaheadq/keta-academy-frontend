@@ -2,20 +2,23 @@
 
 import { BookOpen, GraduationCap, Loader2, Shield, Users } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { GoogleIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { convertStrapiUser, type StrapiAuthResponse } from "@/lib/auth";
 import { useAuthError, useAuthLoading, useAuthStore } from "@/stores/auth-store";
 
 function LoginContent() {
 	const { signInWithGoogle, clearError } = useAuthStore();
 	const searchParams = useSearchParams();
+	const router = useRouter();
 	const isLoading = useAuthLoading();
 	const error = useAuthError();
 	const [isSigningIn, setIsSigningIn] = useState(false);
+	const [demoError, setDemoError] = useState(false);
 
 	const redirect = searchParams.get("redirect");
 	const mobile = searchParams.get("mobile");
@@ -43,6 +46,26 @@ function LoginContent() {
 		clearError();
 		try {
 			await signInWithGoogle(redirect, isMobileFlow);
+		} finally {
+			setIsSigningIn(false);
+		}
+	};
+
+	const handleDemoSignIn = async () => {
+		setIsSigningIn(true);
+		setDemoError(false);
+		try {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/local`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ identifier: "demo-learner@ketalearn.test", password: "KetaDemo!2026" }),
+			});
+			if (!response.ok) throw new Error("Demo login failed");
+			const { jwt, user }: StrapiAuthResponse = await response.json();
+			useAuthStore.setState({ jwt, user: convertStrapiUser(user), isAuthenticated: true });
+			router.push("/kurslar/demo-kesirler");
+		} catch {
+			setDemoError(true);
 		} finally {
 			setIsSigningIn(false);
 		}
@@ -90,6 +113,14 @@ function LoginContent() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="space-y-6">
+					{process.env.NEXT_PUBLIC_KETA_DEMO_LOGIN === "true" && (
+						<>
+							<Button className="w-full" disabled={isSigningIn} onClick={handleDemoSignIn}>
+								Demo öğrenciyle giriş yap
+							</Button>
+							{demoError && <p role="alert">Demo öğrenciyle giriş yapılamadı.</p>}
+						</>
+					)}
 					{error && (
 						<Alert variant="destructive">
 							<AlertDescription>{error}</AlertDescription>

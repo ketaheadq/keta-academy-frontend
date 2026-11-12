@@ -53,7 +53,6 @@ export default function DerslerimPage() {
 					courses,
 					courseLessons,
 					lessonProgressData,
-					user.id,
 				);
 
 				setCoursesWithProgress(updatedCoursesWithProgress);

@@ -11,7 +11,7 @@ import {
 	Trophy,
 	XCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,46 +19,30 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import type { StrapiQuestion, StrapiQuiz } from "@/lib/strapi";
+import type { QuizResult, StrapiQuiz } from "@/lib/strapi";
 import { extractTextFromBlocks } from "@/lib/utils";
-
-// Frontend-only types for quiz functionality
-interface QuizAttempt {
-	questionId: number;
-	selectedAnswer: string | boolean;
-	isCorrect: boolean;
-	points: number;
-}
-
-export interface QuizResult {
-	totalQuestions: number;
-	correctAnswers: number;
-	totalPoints: number;
-	earnedPoints: number;
-	percentage: number;
-	passed: boolean;
-	attempts: QuizAttempt[];
-}
 
 interface QuizProps {
 	quiz: StrapiQuiz;
-	onComplete: (result: QuizResult) => void;
+	onSubmit: (answers: Record<number, number>, submissionId: string) => Promise<QuizResult>;
 	onClose: () => void;
 }
 
-export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>) {
+export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-	const [answers, setAnswers] = useState<Record<number, string | boolean>>({});
+	const [answers, setAnswers] = useState<Record<number, number>>({});
 	const [showResults, setShowResults] = useState(false);
 	const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
 	const [timeRemaining, setTimeRemaining] = useState(quiz.timeLimit ? quiz.timeLimit * 60 : null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitError, setSubmitError] = useState(false);
+	const submissionId = useRef<string | null>(null);
 
 	const currentQuestion = quiz.questions[currentQuestionIndex];
 	const totalQuestions = quiz.questions.length;
 	const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
-	const handleAnswerChange = (questionId: number, answer: string | boolean) => {
+	const handleAnswerChange = (questionId: number, answer: number) => {
 		setAnswers((prev) => ({
 			...prev,
 			[questionId]: answer,
@@ -77,71 +61,25 @@ export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>)
 		}
 	};
 
-	const calculateResults = (): QuizResult => {
-		const attempts: QuizAttempt[] = [];
-		let correctAnswers = 0;
-		let earnedPoints = 0;
-		let totalPoints = 0;
-
-		quiz.questions.forEach((question: StrapiQuestion) => {
-			const questionPoints = 10; // Default points if not specified
-			totalPoints += questionPoints;
-			const userAnswer = answers[question.id];
-			let isCorrect = false;
-
-			if (question.type === "multipleChoice") {
-				const correctOption = question.options?.find((opt) => opt.isCorrect);
-				isCorrect = userAnswer === correctOption?.text;
-			} else if (question.type === "trueFalse") {
-				// For true/false, compare boolean values
-				const correctAnswer = question.options?.find((opt) => opt.isCorrect)?.text;
-				isCorrect = userAnswer?.toString().toLowerCase() === correctAnswer?.toLowerCase();
-			}
-
-			if (isCorrect) {
-				correctAnswers++;
-				earnedPoints += questionPoints;
-			}
-
-			attempts.push({
-				questionId: question.id,
-				selectedAnswer: userAnswer,
-				isCorrect,
-				points: isCorrect ? questionPoints : 0,
-			});
-		});
-
-		const percentage = totalPoints > 0 ? (earnedPoints / totalPoints) * 100 : 0;
-		const passed = percentage >= (quiz.passingScore || 70);
-
-		return {
-			totalQuestions,
-			correctAnswers,
-			totalPoints,
-			earnedPoints,
-			percentage,
-			passed,
-			attempts,
-		};
-	};
-
 	const handleSubmitQuiz = async () => {
 		setIsSubmitting(true);
-
-		// Simulate API call delay
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		const result = calculateResults();
-		setQuizResult(result);
-		setShowResults(true);
-		setIsSubmitting(false);
-
-		onComplete(result);
+		setSubmitError(false);
+		submissionId.current ??= crypto.randomUUID();
+		try {
+			const result = await onSubmit(answers, submissionId.current);
+			setQuizResult(result);
+			setShowResults(true);
+		} catch {
+			setSubmitError(true);
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	const handleRetakeQuiz = () => {
 		setCurrentQuestionIndex(0);
 		setAnswers({});
+		submissionId.current = null;
 		setShowResults(false);
 		setQuizResult(null);
 		setTimeRemaining(quiz.timeLimit ? quiz.timeLimit * 60 : null);
@@ -216,7 +154,7 @@ export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>)
 						{quiz.questions.map((question, index) => {
 							const attempt = quizResult.attempts.find((a) => a.questionId === question.id);
 							const questionText = extractTextFromBlocks(question.text);
-							const explanationText = extractTextFromBlocks(question.explanation ?? []);
+							const explanationText = extractTextFromBlocks(attempt?.explanation ?? []);
 
 							return (
 								<Card
@@ -253,7 +191,7 @@ export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>)
 														<div>
 															<span className="text-muted-foreground">Doğru cevap: </span>
 															<span className="font-medium text-primary">
-																{question.options?.find((opt) => opt.isCorrect)?.text}
+																{attempt?.correctAnswer}
 															</span>
 														</div>
 													)}
@@ -273,7 +211,7 @@ export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>)
 
 					{/* Action Buttons */}
 					<div className="flex justify-center space-x-4">
-						{!quizResult.passed && quiz.maxAttempts && (quiz.maxAttempts || 0) > 1 && (
+						{(
 							<Button onClick={handleRetakeQuiz} className="flex items-center space-x-2">
 								<RotateCcw className="h-4 w-4" />
 								<span>Tekrar Dene</span>
@@ -328,14 +266,14 @@ export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>)
 							{currentQuestion.type === "multipleChoice" && currentQuestion.options && (
 								<RadioGroup
 									value={answers[currentQuestion.id]?.toString() || ""}
-									onValueChange={(value) => handleAnswerChange(currentQuestion.id, value)}
+									onValueChange={(value) => handleAnswerChange(currentQuestion.id, Number(value))}
 								>
 									<div className="space-y-3">
 										{currentQuestion.options
 											.toSorted((a, b) => (a.order || 0) - (b.order || 0))
 											.map((option) => (
 												<div key={option.id} className="flex items-center space-x-2">
-													<RadioGroupItem value={option.text} id={`option-${option.id}`} />
+													<RadioGroupItem value={String(option.id)} id={`option-${option.id}`} />
 													<Label htmlFor={`option-${option.id}`} className="flex-1 cursor-pointer">
 														{option.text}
 													</Label>
@@ -349,14 +287,14 @@ export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>)
 							{currentQuestion.type === "trueFalse" && currentQuestion.options && (
 								<RadioGroup
 									value={answers[currentQuestion.id]?.toString() || ""}
-									onValueChange={(value) => handleAnswerChange(currentQuestion.id, value)}
+									onValueChange={(value) => handleAnswerChange(currentQuestion.id, Number(value))}
 								>
 									<div className="space-y-3">
 										{currentQuestion.options
 											.toSorted((a, b) => (a.order || 0) - (b.order || 0))
 											.map((option) => (
 												<div key={option.id} className="flex items-center space-x-2">
-													<RadioGroupItem value={option.text} id={`option-${option.id}`} />
+													<RadioGroupItem value={String(option.id)} id={`option-${option.id}`} />
 													<Label htmlFor={`option-${option.id}`} className="cursor-pointer">
 														{option.text}
 													</Label>
@@ -381,6 +319,7 @@ export default function Quiz({ quiz, onComplete, onClose }: Readonly<QuizProps>)
 
 				<Separator />
 
+				{submitError && <p role="alert">Quiz kaydedilemedi. Tekrar deneyin.</p>}
 				{/* Navigation */}
 				<div className="flex items-center justify-between">
 					<Button

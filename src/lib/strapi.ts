@@ -210,7 +210,10 @@ export interface StrapiLesson {
 	documentId: string;
 	title: string;
 	description: string;
-	videoURL: string;
+	videoURL?: string | null;
+	content?: StrapiBlock[];
+	attachments?: { id: number; url: string; name: string }[];
+	quiz?: StrapiQuiz | null;
 	createdAt: string;
 	updatedAt: string;
 	publishedAt: string;
@@ -281,7 +284,6 @@ export interface StrapiAnswerOption {
 	id: number;
 	documentId: string;
 	text: string;
-	isCorrect: boolean;
 	order?: number;
 }
 
@@ -294,7 +296,6 @@ export interface StrapiQuestion {
 	documentId: string;
 	text: StrapiBlock[];
 	type: QuestionType;
-	explanation?: StrapiBlock[];
 	order?: number;
 	options: StrapiAnswerOption[];
 	createdAt: string;
@@ -428,7 +429,9 @@ export async function getQuizzesBySubject(subjectSlug: string) {
 	return response.data;
 }
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+const STRAPI_URL =
+	(typeof window === "undefined" ? process.env.STRAPI_INTERNAL_URL : undefined) ||
+	process.env.NEXT_PUBLIC_STRAPI_URL;
 
 export async function fetchStrapiDataUsingToken<T>(endpoint: string, token: string): Promise<T> {
 	try {
@@ -483,6 +486,9 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 
 export async function getSettings(): Promise<StrapiSettings> {
 	const response = await fetchStrapiData<StrapiResponse<StrapiSettings>>("setting?populate=*");
+	if (!response.data?.siteName) {
+		throw new Error("Site settings have not been published or are unavailable");
+	}
 	return response.data;
 }
 
@@ -514,7 +520,7 @@ export async function getCourse(slug: string) {
 
 export async function getLessonsByCourseId(courseId: number) {
 	const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourseLesson>>(
-		`course-lessons?populate=*&filters[course][id][$eq]=${courseId}`,
+		`course-lessons?populate[lesson][populate][quiz][populate][questions][populate][options]=true&populate[lesson][populate][attachments]=true&filters[course][id][$eq]=${courseId}`,
 	);
 	return response.data.sort((a, b) => a.order - b.order);
 }
@@ -571,363 +577,48 @@ export type CourseStatus = "not_started" | "in_progress" | "completed";
 export type QuizStatus = "not_started" | "in_progress" | "completed";
 
 // Progress-related interfaces
-export interface StrapiUserCourseProgress {
-	documentId: string;
-	id: number;
-	user_plus_course_id: string; // Composite ID: user_id + "_" + course_id
-	course_status: CourseStatus;
-	createdAt: string;
-	updatedAt: string;
-}
-
-// Debug function to test available Strapi collections
-export async function testStrapiCollections(): Promise<void> {
-	const collections = [
-		"pages",
-		"admission-scores",
-		"videos",
-		"blogs",
-		"universities",
-		"departments",
-		"courses",
-		"subjects",
-	];
-
-	for (const collection of collections) {
-		try {
-			await fetch(`${STRAPI_URL}/api/${collection}?populate=*`);
-		} catch {
-			// ignore
-		}
-	}
-}
-
 export interface StrapiLessonProgress {
-	id: number;
 	documentId: string;
-	user_plus_lesson_id: string; // Composite ID: user_id + "_" + lesson_id
 	isCompleted: boolean;
-	createdAt: string;
-	updatedAt: string;
 }
 
-export interface StrapiQuizProgressData {
-	documentId: string;
-	id: number;
-	user_plus_quiz_id: string; // Composite ID: user_id + "_" + quiz_id
-	score?: number;
-	quiz_status: QuizStatus;
-	createdAt: string;
-	updatedAt: string;
+export interface QuizResult {
+	totalQuestions: number;
+	correctAnswers: number;
+	totalPoints: number;
+	earnedPoints: number;
+	percentage: number;
+	passed: boolean;
+	attempts: { questionId: number; selectedAnswer: string; correctAnswer: string; isCorrect: boolean; explanation: StrapiBlock[] }[];
 }
 
-// Update existing StrapiQuizProgress to match the new structure
-export interface StrapiQuizProgress {
-	id: number;
-	documentId: string;
-	score?: number;
-	completed: boolean;
-	startedAt?: string;
-	completedAt?: string;
-	createdAt: string;
-	updatedAt: string;
-	publishedAt: string;
+async function learningRequest<T>(path: string, token: string, options?: RequestInit): Promise<T> {
+	const response = await fetch(STRAPI_URL + '/api/learning/' + path, {
+		...options,
+		headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+	});
+	if (!response.ok) throw new Error('Learning request failed: ' + response.status);
+	return (await response.json()).data;
 }
 
-// Progress API functions
-export async function getUserCourseProgress(
-	documentId: string,
-	user_id: string,
-	token: string,
-): Promise<StrapiUserCourseProgress | null> {
-	try {
-		const response = await fetchStrapiDataUsingToken<StrapiResponse<StrapiUserCourseProgress[]>>(
-			`user-course-progresses?filters[user_plus_course_id][$eq]=${user_id}_${documentId}`,
-			token,
-		);
-		return response.data.length > 0 ? response.data[0] : null;
-	} catch (error) {
-		console.error("Error fetching course progress:", error);
-		return null;
-	}
+export async function getUserLessonProgress(documentIds: string[], token: string) {
+	const rows = await learningRequest<StrapiLessonProgress[]>('lesson-progress', token);
+	const requested = new Set(documentIds);
+	return rows.filter(row => requested.has(row.documentId));
 }
 
-export async function updateUserCourseProgress(
-	documentId: string,
-	user_id: string,
-	status: CourseStatus,
-	token: string,
-): Promise<StrapiUserCourseProgress | null> {
-	try {
-		const compositeId = `${user_id}_${documentId}`;
-
-		// First, try to get existing progress
-		const existingProgress = await getUserCourseProgress(documentId, user_id, token);
-
-		if (existingProgress) {
-			// Update existing progress
-			const response = await fetch(
-				`${STRAPI_URL}/api/user-course-progresses/${existingProgress.documentId}`,
-				{
-					method: "PUT",
-					headers: {
-						Authorization: `Bearer ${token}`,
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						data: {
-							course_status: status,
-						},
-					}),
-				},
-			);
-
-			if (!response.ok) {
-				throw new Error(`Failed to update course progress: ${response.statusText}`);
-			}
-
-			return await response.json();
-		}
-		// Create new progress with composite ID
-		const response = await fetch(`${STRAPI_URL}/api/user-course-progresses`, {
-			method: "POST",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				data: {
-					user_plus_course_id: compositeId,
-					course_status: status,
-				},
-			}),
-		});
-
-		if (!response.ok) {
-			throw new Error(`Failed to create course progress: ${response.statusText}`);
-		}
-
-		return await response.json();
-	} catch (error) {
-		console.error("Error updating course progress:", error);
-		return null;
-	}
+export function updateLessonProgress(documentId: string, isCompleted: boolean, token: string) {
+	return learningRequest<StrapiLessonProgress>('lesson-progress/' + encodeURIComponent(documentId), token, {
+		method: 'PUT', body: JSON.stringify({ isCompleted }),
+	});
 }
 
-export async function getUserLessonProgress(
-	_documentIds: string[],
-	token: string,
-): Promise<StrapiLessonProgress[]> {
-	try {
-		const url = `${STRAPI_URL}/api/lesson-progresses`;
-
-		const response = await fetch(url, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-		});
-
-		if (response.ok) {
-			const data = await response.json();
-
-			// Filter by document IDs (we'll need to extract user_id from token or pass it)
-			// For now, return all progress data and let the hook filter it
-			return data.data;
-		}
-
-		throw new Error(`Failed to fetch lesson progress: ${response.statusText}`);
-	} catch (error) {
-		console.error("Error fetching lesson progress:", error);
-		return [];
-	}
+export function submitQuiz(documentId: string, answers: Record<number, number>, submissionId: string, token: string) {
+	return learningRequest<QuizResult>('quizzes/' + encodeURIComponent(documentId) + '/attempts', token, {
+		method: 'POST', body: JSON.stringify({ answers, submissionId }),
+	});
 }
 
-export async function updateLessonProgress(
-	documentId: string,
-	user_id: string,
-	isCompleted: boolean,
-	token: string,
-): Promise<StrapiLessonProgress | null> {
-	try {
-		const compositeId = `${user_id}_${documentId}`;
-
-		// First, try to get existing progress
-		const response = await fetch(
-			`${STRAPI_URL}/api/lesson-progresses?filters[user_plus_lesson_id][$eq]=${compositeId}`,
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-					"Content-Type": "application/json",
-				},
-			},
-		);
-
-		if (!response.ok) {
-			throw new Error(`Failed to fetch lesson progress: ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		const existingProgress = data.data.length > 0 ? data.data[0] : null;
-
-		if (existingProgress) {
-			// Update existing progress
-			const updateResponse = await fetch(
-				`${STRAPI_URL}/api/lesson-progresses/${existingProgress.documentId}`,
-				{
-					method: "PUT",
-					headers: {
-						Authorization: `Bearer ${token}`,
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						data: {
-							isCompleted: isCompleted,
-						},
-					}),
-				},
-			);
-
-			if (!updateResponse.ok) {
-				throw new Error(`Failed to update lesson progress: ${updateResponse.statusText}`);
-			}
-
-			return await updateResponse.json();
-		}
-		// Create new progress with composite ID
-		const createResponse = await fetch(`${STRAPI_URL}/api/lesson-progresses`, {
-			method: "POST",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				data: {
-					user_plus_lesson_id: compositeId,
-					isCompleted: isCompleted,
-				},
-			}),
-		});
-
-		if (!createResponse.ok) {
-			throw new Error(`Failed to create lesson progress: ${createResponse.statusText}`);
-		}
-
-		return await createResponse.json();
-	} catch (error) {
-		console.error("Error updating lesson progress:", error);
-		return null;
-	}
-}
-
-export async function getUserQuizProgress(
-	quizId: number,
-	token: string,
-): Promise<StrapiQuizProgressData | null> {
-	try {
-		const compositeId = `${token}_${quizId}`;
-		const response = await fetch(
-			`${STRAPI_URL}/api/quiz-progresses?filters[user_plus_quiz_id][$eq]=${compositeId}`,
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-					"Content-Type": "application/json",
-				},
-			},
-		);
-
-		if (!response.ok) {
-			throw new Error(`Failed to fetch quiz progress: ${response.statusText}`);
-		}
-
-		const data = await response.json();
-		return data.data.length > 0 ? data.data[0] : null;
-	} catch (error) {
-		console.error("Error fetching quiz progress:", error);
-		return null;
-	}
-}
-
-export async function updateQuizProgress(
-	quizId: number,
-	status: QuizStatus,
-	score?: number,
-	token?: string,
-): Promise<StrapiQuizProgressData | null> {
-	if (!token) {
-		console.error("No token provided for quiz progress update");
-		return null;
-	}
-
-	try {
-		const compositeId = `${token}_${quizId}`;
-
-		// First, try to get existing progress
-		const existingProgress = await getUserQuizProgress(quizId, token);
-
-		if (existingProgress) {
-			// Update existing progress
-			const updateData: any = {
-				quiz_status: status,
-			};
-
-			if (score !== undefined) {
-				updateData.score = score;
-			}
-
-			const response = await fetch(
-				`${STRAPI_URL}/api/quiz-progresses/${existingProgress.documentId}`,
-				{
-					method: "PUT",
-					headers: {
-						Authorization: `Bearer ${token}`,
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						data: updateData,
-					}),
-				},
-			);
-
-			if (!response.ok) {
-				throw new Error(`Failed to update quiz progress: ${response.statusText}`);
-			}
-
-			return await response.json();
-		}
-		// Create new progress with composite ID
-		const createData: any = {
-			user_plus_quiz_id: compositeId,
-			quiz_status: status,
-		};
-
-		if (score !== undefined) {
-			createData.score = score;
-		}
-
-		const response = await fetch(`${STRAPI_URL}/api/quiz-progresses`, {
-			method: "POST",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				data: createData,
-			}),
-		});
-
-		if (!response.ok) {
-			throw new Error(`Failed to create quiz progress: ${response.statusText}`);
-		}
-
-		return await response.json();
-	} catch (error) {
-		console.error("Error updating quiz progress:", error);
-		return null;
-	}
-}
-
-// Admission Score API functions
 export async function getAdmissionScores(): Promise<StrapiAdmissionScore[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
