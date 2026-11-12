@@ -1,49 +1,40 @@
 "use client";
 
-import { BookOpen, Clock, Play } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { BookOpen, CheckCircle, Clock, Play } from "lucide-react";
+import Link from "next/link";
+import { useCourseProgress } from "@/components/shared/course-progress-provider";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { StrapiCourse } from "@/lib/strapi";
-import { useAuthStore } from "@/stores/auth-store";
+import { cn } from "@/lib/utils";
+import { useJWT } from "@/stores/auth-store";
 
 interface CourseCardProps {
-	course: StrapiCourse & { progress?: number };
+	course: StrapiCourse;
 	title?: React.ReactNode;
-	showProgress?: boolean;
 }
 
 export default function CourseCard({
 	course,
 	title,
-	showProgress = false,
 }: Readonly<CourseCardProps>) {
-	const router = useRouter();
-	const { isAuthenticated } = useAuthStore();
-
-	const handleCourseClick = () => {
-		router.push(`/kurslar/${course.slug}`);
-	};
-
-	const getButtonText = () => {
-		if (showProgress && course.progress && course.progress > 0) {
-			return "Devam Et";
-		}
-		return isAuthenticated ?? "Kursa Başla";
-	};
+	const jwt = useJWT();
+	const progressByCourse = useCourseProgress();
+	const progress = progressByCourse?.get(course.id) ?? 0;
+	const isComplete = progress === 100;
+	const buttonText = isComplete ? "Bitti" : progress > 0 ? "Devam Et" : jwt && !progressByCourse ? "Kursu Aç" : "Kursa Başla";
 
 	return (
-		<Card className="cursor-pointer transition-shadow hover:shadow-lg" onClick={handleCourseClick}>
+		<Card className="relative h-full transition-shadow hover:shadow-lg">
 			<CardHeader className="pb-3">
 				<div className="flex items-start justify-between">
 					<div className="flex-1">
-						<div className="mb-2 flex items-center space-x-2">
-							<Badge variant="secondary">
-								{course.grades.map((grade) => grade.title).join(", ")}
-							</Badge>
-							<Badge variant="outline">{course.subject.title}</Badge>
-							{course.isPopular && <Badge className="bg-accent/100">Popüler</Badge>}
+						<div className="mb-2 flex flex-wrap items-center gap-2">
+							{course.grades?.length ? (
+								<Badge variant="secondary">{course.grades.map(grade => grade.title).join(", ")}</Badge>
+							) : null}
+							{course.subject && <Badge variant="outline">{course.subject.title}</Badge>}
 						</div>
 						<CardTitle className="mb-2 text-lg">{title || course.title}</CardTitle>
 						<CardDescription>{course.description}</CardDescription>
@@ -55,7 +46,7 @@ export default function CourseCard({
 					<div className="flex items-center space-x-4">
 						<div className="flex items-center space-x-1">
 							<Clock className="h-4 w-4" />
-							<span>{course.duration} dk</span>
+							<span>{course.duration ? `${course.duration} dk` : "Kendi hızında"}</span>
 						</div>
 						<div className="flex items-center space-x-1">
 							<BookOpen className="h-4 w-4" />
@@ -63,32 +54,33 @@ export default function CourseCard({
 						</div>
 					</div>
 				</div>
-				{/* Progress bar if showProgress is true and course has progress */}
-				{showProgress && (
+				{progress > 0 && (
 					<div className="mb-4">
 						<div className="mb-1 flex justify-between text-muted-foreground text-sm">
 							<span>İlerleme</span>
-							<span>{course.progress ? course.progress : 0}%</span>
+							<span>{progress}%</span>
 						</div>
 						<div className="h-2 w-full rounded-full bg-secondary">
 							<div
 								className="h-2 rounded-full bg-primary transition-all duration-300"
-								style={{ width: `${course.progress ? course.progress : 0}%` }}
+								style={{ width: `${progress}%` }}
 							/>
 						</div>
 					</div>
 				)}
 
-				<Button
-					className="w-full cursor-pointer"
-					onClick={(e) => {
-						e.stopPropagation();
-						handleCourseClick();
-					}}
+				<Link
+					href={`/kurslar/${course.slug}`}
+					aria-label={`${buttonText}: ${course.title}`}
+					className={cn(
+						buttonVariants(),
+						"w-full after:absolute after:inset-0 after:rounded-xl",
+						isComplete && "bg-green-700 text-white hover:bg-green-800",
+					)}
 				>
-					<Play className="mr-2 h-4 w-4" />
-					{getButtonText()}
-				</Button>
+					{isComplete ? <CheckCircle aria-hidden="true" /> : <Play aria-hidden="true" />}
+					{buttonText}
+				</Link>
 			</CardContent>
 		</Card>
 	);

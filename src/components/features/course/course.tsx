@@ -18,6 +18,7 @@ import type { StrapiCourse, StrapiGrade, StrapiLesson, StrapiQuiz } from "@/lib/
 import { submitQuiz } from "@/lib/strapi";
 import { extractYouTubeVideoId } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth-store";
+import LessonVideo from "./lesson-video";
 
 // Extended lesson interface for mock data with additional properties
 interface ExtendedLesson extends StrapiLesson {
@@ -79,7 +80,6 @@ export default function CoursePage({
 	}, [extendedLessons, searchParams?.ders_ismi, ders_ismi]);
 
 	const [currentLesson, setCurrentLesson] = useState<ExtendedLesson | null>(null);
-	const [isPlaying, setIsPlaying] = useState(false);
 	const [showQuiz, setShowQuiz] = useState(false);
 	const [currentQuiz, setCurrentQuiz] = useState<StrapiQuiz | null>(null);
 
@@ -113,7 +113,6 @@ export default function CoursePage({
 
 	const handleLessonSelect = (lesson: ExtendedLesson) => {
 		setCurrentLesson(lesson);
-		setIsPlaying(false);
 		// Update URL with current lesson
 		router.push(`${pathname}?ders_ismi=${lesson.slug}`, { scroll: false });
 	};
@@ -123,7 +122,6 @@ export default function CoursePage({
 		if (currentIndex < extendedLessons.length - 1) {
 			const nextLesson = extendedLessons[currentIndex + 1];
 			setCurrentLesson(nextLesson);
-			setIsPlaying(false);
 			// Update URL with next lesson
 			router.push(`${pathname}?ders_ismi=${nextLesson.slug}`, {
 				scroll: false,
@@ -136,7 +134,6 @@ export default function CoursePage({
 		if (currentIndex > 0) {
 			const prevLesson = extendedLessons[currentIndex - 1];
 			setCurrentLesson(prevLesson);
-			setIsPlaying(false);
 			// Update URL with previous lesson
 			router.push(`${pathname}?ders_ismi=${prevLesson.slug}`, {
 				scroll: false,
@@ -193,16 +190,16 @@ export default function CoursePage({
 						<Card className="py-0">
 							<CardContent className="p-0">
 								{currentLesson.youtubeVideoId && (
-									<div className="relative aspect-video overflow-hidden rounded-t-lg bg-black">
-										<iframe
-											key={currentLesson.id}
-											src={"https://www.youtube.com/embed/" + currentLesson.youtubeVideoId + (isPlaying ? "?autoplay=1" : "")}
-											title={currentLesson.title}
-											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-											allowFullScreen
-											className="absolute inset-0 h-full w-full border-0"
-										/>
-									</div>
+									<LessonVideo
+										key={currentLesson.documentId}
+										videoId={currentLesson.youtubeVideoId}
+										title={currentLesson.title}
+										onEnded={() => {
+											if (isAuthenticated && !lessonProgress[currentLesson.documentId]) {
+												void markLessonComplete(currentLesson.documentId);
+											}
+										}}
+									/>
 								)}
 								<div className="p-6">
 									<div className="mb-4 flex items-center justify-between">

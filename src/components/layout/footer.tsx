@@ -15,8 +15,7 @@ export default async function Footer() {
 	const currentYear = new Date().getFullYear();
 
 	const settings = await getSettings().catch(() => ({
-		siteName: "Keta Akademi",
-		logo: null,
+		siteName: "KetaLearn",
 	}));
 
 	// Fetch dynamic data for footer
@@ -34,17 +33,14 @@ export default async function Footer() {
 					{/* Logo and Description */}
 					<section className="md:col-span-1 lg:col-span-3">
 						<div className="mb-4 flex items-center space-x-3">
-							{settings.logo && (
-								<div className="relative h-16 w-16 shrink-0">
-									<Image
-										src={settings.logo.url}
-										alt={`${settings.siteName} logosu`}
-										fill
-										sizes="64px"
-										className="object-contain"
-									/>
-								</div>
-							)}
+							<Image
+								src="/images/ketalearn-logo.png"
+								alt=""
+								width={40}
+								height={40}
+								className="shrink-0"
+								unoptimized
+							/>
 							<span className="font-bold text-xl">{settings.siteName}</span>
 						</div>
 						<p className="max-w-xs text-muted-foreground text-sm leading-relaxed">

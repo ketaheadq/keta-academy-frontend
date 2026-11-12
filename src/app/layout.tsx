@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 				"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu",
 			icons: {
 				icon: [
-					{ url: "/favicon/favicon.ico" },
+					{ url: "/favicon/ketalearn.svg", sizes: "any", type: "image/svg+xml" },
 					{ url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
 					{ url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
 					{
@@ -62,7 +62,7 @@ export async function generateMetadata(): Promise<Metadata> {
 				"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu",
 			icons: {
 				icon: [
-					{ url: "/favicon/favicon.ico" },
+					{ url: "/favicon/ketalearn.svg", sizes: "any", type: "image/svg+xml" },
 					{ url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
 					{ url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
 					{
@@ -106,7 +106,7 @@ export default async function RootLayout({
 				<Providers>
 					<div className="flex min-h-screen flex-col antialiased">
 						<Navbar />
-						<main className="mx-auto w-full max-w-6xl grow py-6 sm:px-6 md:px-4 lg:px-2 xl:px-0">
+						<main className="mx-auto w-full max-w-6xl grow px-4 py-6 sm:px-6 md:px-4 lg:px-2 xl:px-0">
 							{children}
 						</main>
 						<Footer />

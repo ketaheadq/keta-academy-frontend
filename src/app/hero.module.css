@@ -1,0 +1,44 @@
+.hero {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	border: 1px solid var(--border);
+	border-radius: 1.5rem;
+	background: #e7ebf5;
+	color: #0f172a;
+	padding: 2rem 1.5rem calc(1rem + 28%);
+}
+
+.hero::before {
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	background: url("/images/ketalearn-hero-mobile.jpg") right bottom / 100% auto no-repeat;
+	mask-image: linear-gradient(to bottom, transparent, black 38%);
+	content: "";
+}
+
+@media (min-width: 768px) {
+	.hero {
+		display: flex;
+		align-items: center;
+		min-height: 18rem;
+		padding: 2.5rem;
+	}
+
+	.hero::before {
+		background-image: url("/images/ketalearn-hero-tablet.jpg");
+		background-size: cover;
+		mask-image: none;
+	}
+
+	.copy {
+		max-width: 58%;
+	}
+}
+
+@media (min-width: 1024px) {
+	.hero::before {
+		background-image: url("/images/ketalearn-hero-desktop.jpg");
+	}
+}

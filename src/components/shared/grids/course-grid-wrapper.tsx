@@ -10,7 +10,6 @@ interface CourseGridProps {
 	grades: string[];
 	topics: string[];
 	title?: React.ReactNode;
-	showProgress?: boolean;
 }
 
 export default function CourseGrid({
@@ -18,7 +17,6 @@ export default function CourseGrid({
 	grades,
 	topics,
 	title = "📚 Dersler",
-	showProgress = false,
 }: Readonly<CourseGridProps>) {
 	return (
 		<DynamicGrid
@@ -41,7 +39,7 @@ export default function CourseGrid({
 				},
 			]}
 			renderItem={(course) => (
-				<CourseCard key={course.id} course={course} showProgress={showProgress} />
+				<CourseCard key={course.id} course={course} />
 			)}
 			title={title}
 			emptyStateConfig={{

@@ -161,10 +161,10 @@ export default function DynamicGrid<T extends FilterableItem>({
 			{/* Search and Filter Section */}
 			<section className="mb-8">
 				<div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-					<h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">{title}</h2>
-					<div className="flex items-center space-x-4">
+					{title && <h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">{title}</h2>}
+					<div className="flex w-full items-center gap-2 sm:w-auto sm:gap-4">
 						{searchFields.length > 0 && (
-							<div className="relative">
+							<div className="relative min-w-0 flex-1">
 								<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
 								<Input
 									placeholder="Ara..."
@@ -172,7 +172,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 										setSearchTerm(e.target.value)
 									}
-									className="w-64 pl-10"
+									className="w-full pl-10 sm:w-64"
 								/>
 							</div>
 						)}

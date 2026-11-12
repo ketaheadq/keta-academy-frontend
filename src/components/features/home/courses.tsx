@@ -1,133 +1,36 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import CourseCard from "@/components/shared/cards/course-card";
 import CourseGrid from "@/components/shared/grids/course-grid-wrapper";
-import type { StrapiGrade } from "@/lib/strapi";
-import { getCourses, getGrades, getSettings, getSubjects } from "@/lib/strapi";
-import BrowseBySubject from "@/sections/browse-by-subject";
-import Continue from "@/sections/continue-wrapper";
-import ListCourses from "@/sections/course-listing-wrapper";
-import CoursesError from "./courses-error";
+import { getPublishedCourses } from "@/lib/strapi";
 
-export default function Courses() {
-	const [data, setData] = useState<{
-		settings: any;
-		subjects: any[];
-		courses: any[];
-		grades: any[];
-	} | null>(null);
+export default async function Courses({ preview = false }: Readonly<{ preview?: boolean }>) {
+	const courses = await getPublishedCourses(preview ? 3 : undefined).catch(() => null);
 
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(false);
-
-	useEffect(() => {
-		let isMounted = true; // Prevent state updates on unmounted components
-
-		const fetchData = async () => {
-			try {
-				// Fetch all data in parallel
-				const [settings, subjects, courses, grades] = await Promise.all([
-					getSettings().catch(() => null),
-					getSubjects().catch(() => []),
-					getCourses().catch(() => []),
-					getGrades().catch(() => []),
-				]);
-
-				if (isMounted) {
-					setData({ settings, subjects, courses, grades });
-					setLoading(false);
-				}
-			} catch (err) {
-				console.error("Error fetching data:", err);
-				if (isMounted) {
-					setError(true);
-					setLoading(false);
-				}
-			}
-		};
-
-		fetchData();
-
-		return () => {
-			isMounted = false; // Cleanup function to prevent state updates
-		};
-	}, []); // Empty dependency array ensures this only runs once
-
-	// Show loading state while data is being fetched
-	if (loading) {
-		return (
-			<section className="container mx-auto px-4 py-16">
-				<div className="mb-12 flex flex-col items-center justify-between gap-4 md:flex-row">
-					<div className="h-10 w-64 animate-pulse rounded-lg bg-secondary" />
-					<div className="h-10 w-48 animate-pulse rounded-lg bg-secondary" />
-				</div>
-				<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-					{[1, 2, 3, 4, 5, 6].map((i) => (
-						<div key={i} className="space-y-4">
-							<div className="aspect-video w-full animate-pulse rounded-2xl bg-secondary" />
-							<div className="h-6 w-3/4 animate-pulse rounded-lg bg-secondary" />
-							<div className="h-4 w-1/2 animate-pulse rounded-lg bg-secondary" />
-						</div>
-					))}
-				</div>
-			</section>
-		);
+	if (!preview && courses?.length) {
+		const grades = [...new Set(courses.flatMap(course => course.grades?.map(grade => grade.title) ?? []))];
+		const topics = [...new Set(courses.flatMap(course => course.subject ? [course.subject.title] : []))];
+		return <CourseGrid courses={courses} grades={grades} topics={topics} title={null} />;
 	}
-
-	// Show error if settings not loaded or there was an error
-	if (error || !data?.settings) {
-		return <CoursesError />;
-	}
-
-	const { subjects, courses, grades } = data;
-
-	// Process grade names
-	const gradeNames = grades
-		.filter((grade: StrapiGrade) => grade?.title)
-		.sort((a: StrapiGrade, b: StrapiGrade) => a.order - b.order)
-		.map((grade: StrapiGrade) => grade.title)
-		.filter((title, index, array) => array.indexOf(title) === index);
-
-	// Filter popular courses
-	const popularCourses = courses.filter((course) => course.isPopular);
 
 	return (
-		<section className="relative py-8 md:py-16">
-			{/* Background */}
-			<div className="absolute bottom-0 left-0 h-[500px] w-[500px] animate-pulse rounded-full bg-linear-to-tr from-primary/15 to-primary/15 blur-3xl" />
-
-			{/* Conditionally Render Sections Only When Data Exists */}
-
-			{/* Continue Section – only if user has progress */}
-			{courses.length > 0 && (
-				<div className="animate-slideUp" style={{ animationDelay: "0.2s" }}>
-					<Continue courses={courses} />
+		<section aria-label="Kurs listesi" className={preview ? "py-8 sm:py-10" : "py-4"}>
+			{preview && (
+				<div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+					<h2 className="font-semibold text-2xl tracking-tight">Dersler</h2>
+					<Link href="/kurslar" className="font-medium text-primary underline-offset-4 hover:underline">
+						Tüm dersler
+					</Link>
 				</div>
 			)}
-
-			{/* All Courses Grid */}
-			{courses.length > 0 && (
-				<div className="animate-slideUp" style={{ animationDelay: "0.4s" }}>
-					<CourseGrid
-						courses={courses}
-						grades={gradeNames}
-						topics={subjects.map((subject) => subject.title)}
-						title="📚 Tüm Dersler"
-					/>
-				</div>
-			)}
-
-			{/* Popular Courses – only if any course is marked as popular */}
-			{popularCourses.length > 0 && (
-				<div className="animate-slideUp" style={{ animationDelay: "0.6s" }}>
-					<ListCourses courses={popularCourses} title="🔥 Popüler Dersler" />
-				</div>
-			)}
-
-			{/* Browse by Subject – only if subjects exist */}
-			{subjects.length > 0 && (
-				<div className="animate-slideUp" style={{ animationDelay: "0.8s" }}>
-					<BrowseBySubject subjects={subjects} />
+			{courses === null ? (
+				<p role="status" className="rounded-lg border p-4 text-muted-foreground">
+					Dersler şu anda yüklenemiyor. Lütfen biraz sonra tekrar dene.
+				</p>
+			) : courses.length === 0 ? (
+				<p className="rounded-lg border p-4 text-muted-foreground">Henüz yayımlanmış ders yok.</p>
+			) : (
+				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+					{courses.map(course => <CourseCard key={course.documentId} course={course} />)}
 				</div>
 			)}
 		</section>

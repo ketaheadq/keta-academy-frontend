@@ -452,7 +452,10 @@ export async function fetchStrapiDataUsingToken<T>(endpoint: string, token: stri
 		throw error;
 	}
 }
-export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
+export async function fetchStrapiData<T>(
+	endpoint: string,
+	{ revalidate = 300, allowForbidden = true } = {},
+): Promise<T> {
 	try {
 		const fullUrl = `${STRAPI_URL}/api/${endpoint}`;
 
@@ -460,10 +463,10 @@ export async function fetchStrapiData<T>(endpoint: string): Promise<T> {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			next: { revalidate: 300 }, // Revalidate every 5 minutes
+			next: { revalidate },
 		});
 
-		if (response.status === 403) {
+		if (response.status === 403 && allowForbidden) {
 			console.warn(
 				`⚠️ Permission denied for endpoint: ${endpoint}. Please check Strapi permissions.`,
 			);
@@ -526,11 +529,19 @@ export async function getLessonsByCourseId(courseId: number) {
 }
 
 export async function getAllCourseLessons(token: string) {
-	const response = await fetchStrapiDataUsingToken<StrapiCollectionResponse<StrapiCourseLesson>>(
-		"course-lessons?populate=*",
-		token,
-	);
-	return response.data.sort((a, b) => a.order - b.order);
+	const lessons: StrapiCourseLesson[] = [];
+	let page = 1;
+	let pageCount: number;
+	do {
+		const response = await fetchStrapiDataUsingToken<StrapiCollectionResponse<StrapiCourseLesson>>(
+			`course-lessons?populate=*&sort=id:asc&pagination[page]=${page}&pagination[pageSize]=50`,
+			token,
+		);
+		lessons.push(...response.data.filter(link => link.course && link.lesson));
+		pageCount = response.meta.pagination.pageCount;
+		page++;
+	} while (page <= pageCount);
+	return lessons.sort((a, b) => a.order - b.order);
 }
 
 export async function getSubjects() {
@@ -546,6 +557,22 @@ export async function getGrades() {
 export async function getCourses() {
 	const response = await fetchStrapiData<StrapiResponse<StrapiCourse[]>>("courses?populate=*");
 	return response.data;
+}
+
+export async function getPublishedCourses(limit?: number): Promise<StrapiCourse[]> {
+	const courses: StrapiCourse[] = [];
+	let page = 1;
+	let pageCount: number;
+	do {
+		const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourse>>(
+			`courses?status=published&populate=*&sort=title:asc&pagination[page]=${page}&pagination[pageSize]=${limit ?? 50}`,
+			{ revalidate: 0, allowForbidden: false },
+		);
+		courses.push(...response.data);
+		pageCount = limit ? 1 : response.meta.pagination.pageCount;
+		page++;
+	} while (page <= pageCount);
+	return courses;
 }
 
 export async function getCoursesBySubject(subjectSlug: string) {
@@ -601,8 +628,9 @@ async function learningRequest<T>(path: string, token: string, options?: Request
 	return (await response.json()).data;
 }
 
-export async function getUserLessonProgress(documentIds: string[], token: string) {
+export async function getUserLessonProgress(documentIds: string[] | undefined, token: string) {
 	const rows = await learningRequest<StrapiLessonProgress[]>('lesson-progress', token);
+	if (!documentIds) return rows;
 	const requested = new Set(documentIds);
 	return rows.filter(row => requested.has(row.documentId));
 }

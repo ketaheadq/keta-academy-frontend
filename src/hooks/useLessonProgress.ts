@@ -15,7 +15,12 @@ export function useLessonProgress(documentIds: string[]) {
 		if (jwt) {
 			getUserLessonProgress(JSON.parse(lessonIds), jwt)
 				.then(rows => {
-					if (active) setLessonProgress(Object.fromEntries(rows.map(row => [row.documentId, row.isCompleted])));
+					if (active) {
+						setLessonProgress(previous => ({
+							...Object.fromEntries(rows.map(row => [row.documentId, row.isCompleted])),
+							...previous,
+						}));
+					}
 				})
 				.catch(error => console.error("Could not load lesson progress", error))
 				.finally(() => { if (active) setIsLoading(false); });

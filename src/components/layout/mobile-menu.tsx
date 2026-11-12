@@ -61,7 +61,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 			<button
 				type="button"
 				onClick={toggleMobileMenu}
-				className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-background md:hidden"
+				className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-background lg:hidden"
 				aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 				aria-expanded={isMobileMenuOpen}
 			>
@@ -70,9 +70,16 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 
 			{/* Mobile Navigation Menu */}
 			{isMobileMenuOpen && (
-				<div className="slide-in-from-top-2 fixed inset-x-0 top-20 z-50 animate-in bg-white shadow-lg duration-200 md:hidden">
+				<div className="slide-in-from-top-2 fixed inset-x-0 top-20 z-50 animate-in bg-white shadow-lg duration-200 lg:hidden">
 					<div className="max-h-[calc(100vh-4rem)] overflow-y-auto px-4 py-6">
 						<nav className="space-y-1">
+							<Link
+								href="/kurslar"
+								onClick={closeMobileMenu}
+								className="block rounded p-2 font-medium text-foreground hover:text-primary focus-visible:ring-2 focus-visible:ring-primary"
+							>
+								Tüm dersler
+							</Link>
 							{/* Mobile Navigation Categories */}
 							{pageCategories.map((category) => (
 								<div

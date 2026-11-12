@@ -14,7 +14,7 @@ export default function ListCourses({ courses, title }: Readonly<ListCoursesProp
 		<DynamicListing
 			items={courses}
 			title={title}
-			renderItem={(course) => <CourseCard key={course.id} course={course} showProgress={false} />}
+			renderItem={(course) => <CourseCard key={course.id} course={course} />}
 			maxItems={3}
 			gridColumns={{ md: 2, lg: 3 }}
 		/>

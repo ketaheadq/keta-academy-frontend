@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import { Toaster, toast } from "sonner";
+import { CourseProgressProvider } from "@/components/shared/course-progress-provider";
 import errors from "../lib/error-messages";
 import Loading from "./loading";
 
@@ -25,7 +26,7 @@ function ProvidersContent({ children }: Readonly<{ children: React.ReactNode }>)
 	return (
 		<>
 			<Toaster position="top-right" richColors />
-			{children}
+			<CourseProgressProvider>{children}</CourseProgressProvider>
 		</>
 	);
 }

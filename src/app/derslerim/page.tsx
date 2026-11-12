@@ -4,71 +4,26 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
 import CourseCard from "@/components/shared/cards/course-card";
-import { calculateCoursesProgress } from "@/lib/progress-utils";
-import {
-	getAllCourseLessons,
-	getCourses,
-	getUserLessonProgress,
-	type StrapiCourse,
-} from "@/lib/strapi";
-import { useAuthStore } from "@/stores/auth-store";
+import { getCourses, type StrapiCourse } from "@/lib/strapi";
+import { useIsAuthenticated } from "@/stores/auth-store";
 
 export default function DerslerimPage() {
-	const { isAuthenticated, jwt, user } = useAuthStore();
-	const [coursesWithProgress, setCoursesWithProgress] = useState<
-		(StrapiCourse & { progress: number })[]
-	>([]);
+	const isAuthenticated = useIsAuthenticated();
+	const [continueCourses, setCourses] = useState<StrapiCourse[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
-	// Fetch all courses and user progress
 	useEffect(() => {
-		const fetchData = async () => {
-			if (!isAuthenticated || !jwt || !user) {
-				setError("Giriş yapmanız gerekiyor");
-				setIsLoading(false);
-				return;
-			}
-
-			try {
-				setIsLoading(true);
-				setError(null);
-
-				// Fetch all courses and course lessons data
-				const [courses, courseLessons] = await Promise.all([
-					getCourses(),
-					getAllCourseLessons(jwt),
-				]);
-
-				// Get all lesson document IDs from course lessons
-				const allLessonDocumentIds = courseLessons.map(
-					(courseLesson) => courseLesson.lesson.documentId,
-				);
-
-				// Fetch all lesson progress data
-				const lessonProgressData = await getUserLessonProgress(allLessonDocumentIds, jwt);
-
-				// Calculate progress for all courses using the utility function
-				const updatedCoursesWithProgress = calculateCoursesProgress(
-					courses,
-					courseLessons,
-					lessonProgressData,
-				);
-
-				setCoursesWithProgress(updatedCoursesWithProgress);
-			} catch (error) {
-				console.error("Error fetching data:", error);
-				setError("Veriler yüklenirken bir hata oluştu");
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		fetchData();
-	}, [isAuthenticated, jwt, user]);
-
-	// Filter courses with progress > 0
-	const continueCourses = coursesWithProgress;
+		if (!isAuthenticated) return;
+		let active = true;
+		setIsLoading(true);
+		setError(null);
+		getCourses()
+			.then(courses => { if (active) setCourses(courses); })
+			.catch(() => { if (active) setError("Veriler yüklenirken bir hata oluştu"); })
+			.finally(() => { if (active) setIsLoading(false); });
+		return () => { active = false; };
+	}, [isAuthenticated]);
 
 	// If not authenticated, show login message
 	if (!isAuthenticated) {
@@ -145,7 +100,7 @@ export default function DerslerimPage() {
 					(continueCourses.length > 0 ? (
 						<div className="grid gap-6 pt-0 md:grid-cols-2 lg:grid-cols-3">
 							{continueCourses.map((course) => (
-								<CourseCard key={course.id} course={course} showProgress={true} />
+								<CourseCard key={course.id} course={course} />
 							))}
 						</div>
 					) : (
