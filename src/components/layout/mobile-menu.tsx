@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import type { StrapiPageCategory } from "@/lib/strapi";
 import AuthSection from "./auth-section";
+import {pages} from "@/lib/navbar-page-links";
 
 interface MobileMenuProps {
 	pageCategories: StrapiPageCategory[];
@@ -71,15 +72,19 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 			{/* Mobile Navigation Menu */}
 			{isMobileMenuOpen && (
 				<div className="slide-in-from-top-2 fixed inset-x-0 top-20 z-50 animate-in bg-white shadow-lg duration-200 lg:hidden">
-					<div className="max-h-[calc(100vh-4rem)] overflow-y-auto px-4 py-6">
+					<div className="max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain px-4 py-6">
 						<nav className="space-y-1">
-							<Link
-								href="/kurslar"
-								onClick={closeMobileMenu}
-								className="block rounded p-2 font-medium text-foreground hover:text-primary focus-visible:ring-2 focus-visible:ring-primary"
-							>
-								Tüm dersler
-							</Link>
+
+							{pages.map((p , i) => (
+								<Link
+									href={p.href}
+									onClick={closeMobileMenu}
+									className="block rounded p-2 font-medium text-foreground hover:text-primary focus-visible:ring-2 focus-visible:ring-primary"
+								>
+									{p.displayName}
+								</Link>
+							))}
+
 							{/* Mobile Navigation Categories */}
 							{pageCategories.map((category) => (
 								<div
@@ -125,7 +130,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 
 						{/* Mobile Authentication Section */}
 						<div className="mt-6 border-border border-t pt-4">
-							<AuthSection onNavigate={closeMobileMenu} />
+							<AuthSection mobile onNavigate={closeMobileMenu} />
 						</div>
 					</div>
 				</div>

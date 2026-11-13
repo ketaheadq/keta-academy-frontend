@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/auth-store";
 
 interface AuthSectionProps {
+	mobile?: boolean;
 	onNavigate?: () => void;
 }
 
-export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) {
+export default function AuthSection({ mobile = false, onNavigate }: Readonly<AuthSectionProps>) {
 	const { user, isAuthenticated, signOut } = useAuthStore();
 
 	const handleSignOut = async () => {
@@ -21,6 +22,51 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 	const handleLinkClick = () => {
 		onNavigate?.();
 	};
+
+	const avatar = user?.picture ? (
+		<Image
+			src={user.picture}
+			alt=""
+			width={32}
+			height={32}
+			className="h-8 w-8 shrink-0 rounded-full border-2 object-cover"
+		/>
+	) : (
+		<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary">
+			<User className="h-4 w-4 text-background" aria-hidden="true" />
+		</div>
+	);
+
+	if (mobile && isAuthenticated && user) {
+		return (
+			<div className="rounded-xl border border-border bg-secondary/40 p-3">
+				<div className="flex items-center gap-3 px-1">
+					{avatar}
+					<div className="min-w-0 wrap-anywhere">
+						<p className="font-semibold text-foreground text-sm">{user.name}</p>
+						<p className="text-muted-foreground text-xs">{user.email}</p>
+					</div>
+				</div>
+				<div className="mt-3 space-y-1 border-border border-t pt-2">
+					<Link
+						href="/derslerim"
+						onClick={handleLinkClick}
+						className="flex min-h-11 items-center rounded-lg px-2 font-medium text-foreground text-sm hover:bg-secondary"
+					>
+						Derslerim
+					</Link>
+					<button
+						type="button"
+						onClick={handleSignOut}
+						className="flex min-h-11 w-full items-center gap-2 rounded-lg px-2 text-left font-medium text-destructive text-sm hover:bg-secondary"
+					>
+						<LogOut className="h-4 w-4" aria-hidden="true" />
+						Çıkış Yap
+					</button>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="flex items-center space-x-4">
@@ -33,19 +79,7 @@ export default function AuthSection({ onNavigate }: Readonly<AuthSectionProps>) 
 							type="button"
 							className="flex items-center space-x-2 text-muted-foreground transition-colors hover:text-background"
 						>
-							{user.picture ? (
-								<Image
-									src={user.picture}
-									alt={user.name}
-									width={32}
-									height={32}
-									className="h-8 w-8 rounded-full border-2"
-								/>
-							) : (
-								<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-									<User className="h-4 w-4 text-background" />
-								</div>
-							)}
+							{avatar}
 							<span className="font-medium">{user.name}</span>
 							<ChevronDown className="h-4 w-4" />
 						</button>

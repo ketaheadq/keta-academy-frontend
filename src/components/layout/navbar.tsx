@@ -4,6 +4,7 @@ import { getPageCategories, getSettings } from "@/lib/strapi";
 import AuthSection from "./auth-section";
 import DesktopDropdown from "./desktop-dropdown";
 import MobileMenu from "./mobile-menu";
+import {pages} from "@/lib/navbar-page-links";
 
 export default async function Navbar() {
 	// Fetch data on the server
@@ -30,12 +31,14 @@ export default async function Navbar() {
 
 					{/* Desktop Navigation Menu */}
 					<nav className="hidden items-center gap-8 lg:flex">
-						<Link
-							href="/kurslar"
-							className="block px-4 py-2 font-medium text-muted-foreground hover:bg-primary hover:text-background"
-						>
-							Dersler
-						</Link>
+						{pages.map((p , i) => (
+							<Link
+								href={p.href}
+								className="block rounded p-2 font-medium text-foreground hover:text-primary focus-visible:ring-2 focus-visible:ring-primary"
+							>
+								{p.displayName}
+							</Link>
+						))}
 
 						{pageCategories.map((category) => (
 							<DesktopDropdown key={`category-${category.id}`} category={category} />

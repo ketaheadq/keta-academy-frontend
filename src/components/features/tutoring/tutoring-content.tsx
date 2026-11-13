@@ -20,12 +20,12 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 			<div className="relative p-6 pb-4">
 				<div className="flex items-start gap-4">
 					<div className="relative">
-						<div className="relative h-20 w-20">
+						<div className="relative h-14 w-14 sm:h-20 sm:w-20">
 							<Image
 								src={tutor.profilePicture?.url || "/placeholder.svg"}
 								alt={tutor.name}
 								fill
-								sizes="80px"
+								sizes="(min-width: 640px) 80px, 56px"
 								className="rounded-full border-4 border-white object-cover shadow-lg"
 							/>
 						</div>
@@ -45,7 +45,7 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 							<button
 								type="button"
 								onClick={() => setIsFavorite(!isFavorite)}
-								className={`rounded-full p-2 transition-colors ${
+								className={`shrink-0 rounded-full p-2 transition-colors ${
 									isFavorite
 										? "bg-destructive/10 text-destructive"
 										: "bg-secondary text-muted-foreground hover:text-destructive"
@@ -81,16 +81,16 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 
 			{/* Stats */}
 			<div className="px-6 pb-4">
-				<div className="grid grid-cols-3 gap-4 text-center">
-					<div className="rounded-lg bg-primary/10 p-3">
+				<div className="grid grid-cols-3 gap-2 text-center sm:gap-4">
+					<div className="rounded-lg bg-primary/10 px-1 py-2 sm:p-3">
 						<div className="font-bold text-lg text-primary">{tutor.successRate}%</div>
 						<div className="text-muted-foreground text-xs">Başarı Oranı</div>
 					</div>
-					<div className="rounded-lg bg-primary/10 p-3">
+					<div className="rounded-lg bg-primary/10 px-1 py-2 sm:p-3">
 						<div className="font-bold text-lg text-primary">{tutor.studentCount}</div>
 						<div className="text-muted-foreground text-xs">Öğrenci</div>
 					</div>
-					<div className="rounded-lg bg-primary/10 p-3">
+					<div className="rounded-lg bg-primary/10 px-1 py-2 sm:p-3">
 						<div className="font-bold text-lg text-primary">{tutor.exprienceYears}</div>
 						<div className="text-muted-foreground text-xs">Yıl Deneyim</div>
 					</div>
@@ -124,8 +124,9 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 
 				<button
 					type="button"
+					aria-expanded={showDetails}
 					onClick={() => setShowDetails(!showDetails)}
-					className="mt-2 w-full py-2 font-medium text-primary text-sm hover:text-background"
+					className="mt-2 w-full rounded-lg py-2 font-medium text-primary text-sm transition-colors hover:bg-primary/10 hover:underline"
 				>
 					{showDetails ? "Daha Az Göster" : "Detayları Göster"}
 				</button>
@@ -241,7 +242,7 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 	return (
 		<div className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
 			{/* Filters */}
-			<div className="mb-8 rounded-2xl border border-border bg-white p-6 shadow-sm">
+			<div className="mb-8 rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
 				<div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 					{/* Subject Filters */}
 					<div className="flex flex-wrap gap-2">
@@ -262,22 +263,22 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 					</div>
 
 					{/* Search and Sort */}
-					<div className="flex gap-3">
-						<div className="relative">
+					<div className="flex w-full min-w-0 flex-col gap-3 sm:flex-row lg:w-auto lg:shrink-0">
+						<div className="relative min-w-0 flex-1">
 							<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
 							<input
 								type="text"
 								placeholder="Öğretmen ara..."
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="rounded-xl border border-border py-2 pr-4 pl-10 focus:border-transparent focus:ring-2 focus:ring-primary"
+								className="w-full min-w-0 rounded-xl border border-border py-2 pr-4 pl-10 focus:border-transparent focus:ring-2 focus:ring-primary"
 							/>
 						</div>
 
 						<select
 							value={sortBy}
 							onChange={(e) => setSortBy(e.target.value)}
-							className="rounded-xl border border-border px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-primary"
+							className="w-full min-w-0 rounded-xl border border-border px-4 py-2 sm:w-auto focus:border-transparent focus:ring-2 focus:ring-primary"
 						>
 							<option value="rating">Başarı Oranına Göre</option>
 							<option value="price">Fiyata Göre</option>
