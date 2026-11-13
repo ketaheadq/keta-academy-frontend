@@ -19,5 +19,5 @@ export default async function DerslerPage({
 	// Extract lessons from course-lessons (they're already sorted by order)
 	const lessons = courseLessons.map((courseLesson) => courseLesson.lesson);
 
-	return <CoursePage course={course} lessons={lessons} ders_ismi={ders_ismi} />;
+	return <CoursePage course={course} lessons={lessons} ders_ismi={ders_ismi} assistantEnabled={process.env.LESSON_ASSISTANT_PREVIEW === "1"} />;
 }

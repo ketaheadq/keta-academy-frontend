@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 
 interface YouTubePlayer {
 	destroy: () => void;
+	pauseVideo?: () => void;
 }
 
 type YouTubeWindow = Window & {
@@ -22,9 +23,15 @@ export default function LessonVideo({
 	videoId,
 	title,
 	onEnded,
-}: Readonly<{ videoId: string; title: string; onEnded: () => void }>) {
+	paused = false,
+}: Readonly<{ videoId: string; title: string; onEnded: () => void; paused?: boolean }>) {
 	const container = useRef<HTMLDivElement>(null);
 	const onEndedRef = useRef(onEnded);
+	const playerRef = useRef<YouTubePlayer | undefined>(undefined);
+
+	useEffect(() => {
+		if (paused) playerRef.current?.pauseVideo?.();
+	}, [paused]);
 
 	useEffect(() => {
 		onEndedRef.current = onEnded;
@@ -36,6 +43,8 @@ export default function LessonVideo({
 
 		const browser = window as YouTubeWindow;
 		const params = new URLSearchParams({ enablejsapi: "1", origin: browser.location.origin });
+		const mount = document.createElement("div");
+		mount.className = "absolute inset-0";
 		const iframe = document.createElement("iframe");
 		iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params}`;
 		iframe.title = title;
@@ -56,13 +65,15 @@ export default function LessonVideo({
 					},
 				},
 			});
+			playerRef.current = player;
 		};
 		const handleReady = () => {
 			previousReady?.();
 			attachPlayer();
 		};
 		browser.onYouTubeIframeAPIReady = handleReady;
-		host.appendChild(iframe);
+		mount.appendChild(iframe);
+		host.replaceChildren(mount);
 		attachPlayer();
 
 		return () => {
@@ -70,15 +81,19 @@ export default function LessonVideo({
 			if (browser.onYouTubeIframeAPIReady === handleReady) {
 				browser.onYouTubeIframeAPIReady = previousReady;
 			}
-			player?.destroy();
-			iframe.remove();
+			playerRef.current = undefined;
+			try {
+				player?.destroy();
+			} finally {
+				mount.remove();
+			}
 		};
 	}, [title, videoId]);
 
 	return (
 		<>
 			<Script src="https://www.youtube.com/iframe_api" strategy="afterInteractive" />
-			<div ref={container} className="relative aspect-video overflow-hidden rounded-t-lg bg-black" />
+			<div ref={container} className={"relative aspect-video overflow-hidden rounded-t-lg bg-black" + (paused ? " invisible" : "")} />
 		</>
 	);
 }

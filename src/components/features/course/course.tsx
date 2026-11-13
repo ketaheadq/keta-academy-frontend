@@ -3,8 +3,8 @@
 import { BookOpen, CheckCircle, Circle, Clock, GraduationCap, Target } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import Quiz from "@/components/features/quiz/quiz";
 import RichTextRenderer from "@/components/shared/content/rich-text-renderer";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +18,7 @@ import type { StrapiCourse, StrapiGrade, StrapiLesson, StrapiQuiz } from "@/lib/
 import { submitQuiz } from "@/lib/strapi";
 import { extractYouTubeVideoId } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth-store";
+import LessonAssistant from "./lesson-assistant";
 import LessonVideo from "./lesson-video";
 
 // Extended lesson interface for mock data with additional properties
@@ -32,6 +33,7 @@ interface CoursePageProps {
 	lessons: StrapiLesson[];
 	ders_ismi?: string;
 	searchParams?: { ders_ismi?: string };
+	assistantEnabled?: boolean;
 }
 
 export default function CoursePage({
@@ -39,56 +41,29 @@ export default function CoursePage({
 	lessons,
 	ders_ismi,
 	searchParams,
+	assistantEnabled = false,
 }: Readonly<CoursePageProps>) {
 	const router = useRouter();
 	const pathname = usePathname();
+	const urlSearchParams = useSearchParams();
 	const { user, jwt, isAuthenticated } = useAuthStore();
 
-	// Convert StrapiLesson to ExtendedLesson format for compatibility
-	const [extendedLessons, setExtendedLessons] = useState<ExtendedLesson[]>([]);
+	const extendedLessons: ExtendedLesson[] = lessons.map((lesson, index) => ({
+		...lesson,
+		duration: 30,
+		order: index + 1,
+		youtubeVideoId: lesson.videoURL ? extractYouTubeVideoId(lesson.videoURL) : null,
+	}));
+	const selectedSlug = urlSearchParams?.get("ders_ismi") ?? searchParams?.ders_ismi ?? ders_ismi;
+	const currentLesson =
+		extendedLessons.find((lesson) => lesson.slug === selectedSlug) ?? extendedLessons[0];
 
-	// Use the custom hook for progress management
-	const {
-		lessonProgress,
-		isLoading: isLoadingProgress,
-		markLessonComplete,
-	} = useLessonProgress(lessons.map(lesson => lesson.documentId));
-
-	useEffect(() => {
-		const initialLessons: ExtendedLesson[] = lessons.map((lesson, index) => ({
-			...lesson,
-			duration: 30, // Default duration, should come from Strapi
-			order: index + 1,
-			youtubeVideoId: lesson.videoURL ? extractYouTubeVideoId(lesson.videoURL) : null,
-		}));
-		setExtendedLessons(initialLessons);
-	}, [lessons]);
-
-	const [initialLesson, setInitialLesson] = useState<ExtendedLesson | null>(null);
-
-	useEffect(() => {
-		if (extendedLessons.length > 0) {
-			const targetSlug = searchParams?.ders_ismi || ders_ismi;
-
-			const targetLesson = targetSlug
-				? extendedLessons.find((lesson) => lesson.slug === targetSlug)
-				: null;
-
-			const lessonToSet = targetLesson || extendedLessons[0];
-			setInitialLesson(lessonToSet);
-		}
-	}, [extendedLessons, searchParams?.ders_ismi, ders_ismi]);
-
-	const [currentLesson, setCurrentLesson] = useState<ExtendedLesson | null>(null);
+	const { lessonProgress, isLoading: isLoadingProgress, markLessonComplete } =
+		useLessonProgress(lessons.map((lesson) => lesson.documentId));
+	const [pausedLessonId, setPausedLessonId] = useState<string | null>(null);
 	const [showQuiz, setShowQuiz] = useState(false);
 	const [currentQuiz, setCurrentQuiz] = useState<StrapiQuiz | null>(null);
 
-	// Update current lesson when initial lesson changes
-	useEffect(() => {
-		if (initialLesson && (!currentLesson || initialLesson.id !== currentLesson.id)) {
-			setCurrentLesson(initialLesson);
-		}
-	}, [initialLesson, currentLesson]);
 
 	const completedLessons = extendedLessons.filter(
 		(lesson) => lessonProgress[lesson.documentId],
@@ -112,20 +87,16 @@ export default function CoursePage({
 	};
 
 	const handleLessonSelect = (lesson: ExtendedLesson) => {
-		setCurrentLesson(lesson);
 		// Update URL with current lesson
-		router.push(`${pathname}?ders_ismi=${lesson.slug}`, { scroll: false });
+		window.history.pushState(null, "", `${pathname}?ders_ismi=${encodeURIComponent(lesson.slug)}`);
 	};
 
 	const handleNextLesson = () => {
 		const currentIndex = extendedLessons.findIndex((lesson) => lesson.id === currentLesson?.id);
 		if (currentIndex < extendedLessons.length - 1) {
 			const nextLesson = extendedLessons[currentIndex + 1];
-			setCurrentLesson(nextLesson);
 			// Update URL with next lesson
-			router.push(`${pathname}?ders_ismi=${nextLesson.slug}`, {
-				scroll: false,
-			});
+			handleLessonSelect(nextLesson);
 		}
 	};
 
@@ -133,11 +104,8 @@ export default function CoursePage({
 		const currentIndex = extendedLessons.findIndex((lesson) => lesson.id === currentLesson?.id);
 		if (currentIndex > 0) {
 			const prevLesson = extendedLessons[currentIndex - 1];
-			setCurrentLesson(prevLesson);
 			// Update URL with previous lesson
-			router.push(`${pathname}?ders_ismi=${prevLesson.slug}`, {
-				scroll: false,
-			});
+			handleLessonSelect(prevLesson);
 		}
 	};
 
@@ -191,14 +159,23 @@ export default function CoursePage({
 							<CardContent className="p-0">
 								{currentLesson.youtubeVideoId && (
 									<LessonVideo
-										key={currentLesson.documentId}
 										videoId={currentLesson.youtubeVideoId}
 										title={currentLesson.title}
+										paused={pausedLessonId === currentLesson.documentId}
 										onEnded={() => {
 											if (isAuthenticated && !lessonProgress[currentLesson.documentId]) {
 												void markLessonComplete(currentLesson.documentId);
 											}
 										}}
+									/>
+								)}
+								{assistantEnabled && currentLesson.youtubeVideoId && (
+									<LessonAssistant
+										key={currentLesson.documentId}
+										lessonId={currentLesson.documentId}
+										onPlaybackChange={(playing) =>
+											setPausedLessonId(playing ? currentLesson.documentId : null)
+										}
 									/>
 								)}
 								<div className="p-6">
