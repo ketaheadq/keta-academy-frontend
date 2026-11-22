@@ -109,7 +109,7 @@ export default async function Footer() {
 							&copy; {currentYear} {settings.siteName}. Tüm hakları saklıdır.
 						</p>
 						<div className="flex items-center gap-4">
-							{/* TODO: add bluesky https://bsky.app/profile/ketaakademi.bsky.social */}
+							{/* TODO: add bluesky https://bsky.app/profile/ketalearn.bsky.social */}
 							<Link
 								href="https://www.instagram.com/keta.akademi/"
 								className="text-muted-foreground transition-colors hover:text-background"
@@ -119,7 +119,7 @@ export default async function Footer() {
 								<InstagramIcon className="h-5 w-5" />
 							</Link>
 							<Link
-								href="https://www.youtube.com/@ketaakademi"
+								href="https://www.youtube.com/@ketalearn"
 								className="text-muted-foreground transition-colors hover:text-background"
 								target="_blank"
 								rel="noopener noreferrer"

@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		const seoContent = content || page;
 
 		return generateSEOMetadata(seoContent, {
-			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"}/sayfalar/${slug}/${subSlug}`,
+			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud"}/sayfalar/${slug}/${subSlug}`,
 			type: "article",
 		});
 	} catch (error) {

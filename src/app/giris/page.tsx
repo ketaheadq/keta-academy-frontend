@@ -31,7 +31,7 @@ function LoginContent() {
 
 		if (isMobileFlow && redirect) {
 			// Hardcode fallback — NEXT_PUBLIC_ vars must be baked in at build time
-			const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "https://admin.ketaakademi.com";
+			const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "https://admin.ketalearn.cloud";
 			const googleUrl = `${strapiUrl}/api/auth/google?redirect=${encodeURIComponent(redirect)}&mobile=true`;
 			// Small delay so user sees the loading state, then redirect
 			const timer = setTimeout(() => {
@@ -58,7 +58,10 @@ function LoginContent() {
 			const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/local`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ identifier: "demo-learner@ketalearn.test", password: "KetaDemo!2026" }),
+				body: JSON.stringify({
+					identifier: "demo-learner@ketalearn.test",
+					password: "KetaDemo!2026",
+				}),
 			});
 			if (!response.ok) throw new Error("Demo login failed");
 			const { jwt, user }: StrapiAuthResponse = await response.json();
@@ -79,7 +82,7 @@ function LoginContent() {
 					<GraduationCap className="h-8 w-8 text-background" />
 				</div>
 				<div className="space-y-2 text-center">
-					<h2 className="font-bold text-2xl text-foreground">Keta Akademi</h2>
+					<h2 className="font-bold text-2xl text-foreground">KetaLearn</h2>
 					<p className="text-muted-foreground">Google'a yönlendiriliyorsunuz...</p>
 				</div>
 				<Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -107,7 +110,7 @@ function LoginContent() {
 			{/* Login Card */}
 			<Card className="shadow-lg">
 				<CardHeader className="pb-4 text-center">
-					<CardTitle className="text-xl">Keta Akademi'ye Giriş</CardTitle>
+					<CardTitle className="text-xl">KetaLearn'e Giriş</CardTitle>
 					<CardDescription>
 						Kurslarınıza erişin, ilerlemenizi takip edin ve öğrenmeye devam edin
 					</CardDescription>

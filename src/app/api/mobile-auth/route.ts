@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-const STRAPI_URL = "https://admin.ketaakademi.com";
+const STRAPI_URL = "https://admin.ketalearn.cloud";
 
 export function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);

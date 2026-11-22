@@ -5,6 +5,9 @@ import type {
 	StrapiCourse,
 	StrapiPage,
 	StrapiPageSEO,
+	StrapiSEO,
+	StrapiSubject,
+	StrapiTutoringProfile,
 	StrapiVideo,
 } from "./strapi";
 
@@ -14,7 +17,8 @@ export type SEOContent =
 	| StrapiCourse
 	| StrapiBlog
 	| StrapiVideo
-	| StrapiAdmissionScore;
+	| StrapiAdmissionScore
+	| StrapiSubject;
 
 export interface SEOConfig {
 	title?: string;
@@ -30,8 +34,8 @@ export interface SEOConfig {
 
 // Default SEO configuration
 const DEFAULT_SEO: Required<Pick<SEOConfig, "siteName" | "twitterHandle" | "locale" | "type">> = {
-	siteName: "Keta Akademi",
-	twitterHandle: "@ketaakademi",
+	siteName: "KetaLearn",
+	twitterHandle: "@ketalearn",
 	locale: "tr_TR",
 	type: "website",
 };
@@ -46,7 +50,7 @@ export function generateSEOMetadata(
 	const seoConfig = { ...DEFAULT_SEO, ...config };
 
 	// Extract SEO data if available (for pages)
-	const seoData: StrapiPageSEO | undefined =
+	const seoData: (StrapiSEO & Partial<StrapiPageSEO>) | undefined =
 		"SEO" in content && content.SEO ? content.SEO : undefined;
 
 	// Generate title
@@ -86,8 +90,8 @@ export function generateSEOMetadata(
 			},
 		},
 		openGraph: {
-			title: seoConfig.title,
-			description: seoData?.metaDescription?.substring(0, 160) || "",
+			title,
+			description: description?.substring(0, 160) || "",
 			type: seoConfig.type,
 			locale: seoConfig.locale,
 			url: canonicalUrl,
@@ -119,8 +123,8 @@ export function generateStructuredData(
 	const seoConfig = { ...DEFAULT_SEO, ...config };
 
 	// Safely resolve required fields with fallbacks
-	const siteName = seoConfig.siteName || "Keta Akademi";
-	const baseUrl = (process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com").trim();
+	const siteName = seoConfig.siteName || "KetaLearn";
+	const baseUrl = (process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud").trim();
 	const contentUrl = config.url || generateDefaultURL(content);
 
 	const baseSchema = {
@@ -206,7 +210,7 @@ function generateDefaultDescription(content: SEOContent): string {
 			case "Bloglar":
 				return `${content.title} - Eğitim blog yazıları, sınav hazırlık ipuçları ve akademik rehberlik içerikleri.`;
 			default:
-				return `${content.title} - Keta Akademi`;
+				return `${content.title} - KetaLearn`;
 		}
 	}
 	if ("description" in content && content.description) {
@@ -223,14 +227,14 @@ function generateDefaultDescription(content: SEOContent): string {
 				}
 			}
 		}
-		return `${content.title} - Keta Akademi blog yazısı`;
+		return `${content.title} - KetaLearn blog yazısı`;
 	}
 
-	return `${content.title} - Keta Akademi`;
+	return `${content.title} - KetaLearn`;
 }
 
 function generateDefaultKeywords(content: SEOContent): string {
-	const baseKeywords = ["Keta Akademi", "eğitim", "online eğitim"];
+	const baseKeywords = ["KetaLearn", "eğitim", "online eğitim"];
 
 	if ("pageType" in content) {
 		switch (content.pageType) {
@@ -267,7 +271,7 @@ function generateDefaultKeywords(content: SEOContent): string {
 }
 
 function generateDefaultURL(content: SEOContent): string {
-	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
+	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud";
 
 	if ("pageType" in content) {
 		return `${baseUrl}/sayfalar/${content.slug}`;
@@ -283,4 +287,37 @@ function generateDefaultURL(content: SEOContent): string {
 	}
 
 	return baseUrl;
+}
+
+/**
+ * Structured data (schema.org ItemList of Person) for the tutoring listing.
+ * Uses each profile's SEO component when filled in, falling back to its own fields.
+ */
+export function generateTutoringStructuredData(
+	profiles: StrapiTutoringProfile[],
+	url: string,
+): object {
+	return {
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		url,
+		itemListElement: profiles.map((profile, index) => {
+			const image = profile.SEO?.metaImage?.url || profile.profilePicture?.url;
+			return {
+				"@type": "ListItem",
+				position: index + 1,
+				item: {
+					"@type": "Person",
+					name: profile.SEO?.metaTitle || profile.name,
+					jobTitle: profile.title,
+					description: profile.SEO?.metaDescription || profile.experties || undefined,
+					...(image && { image }),
+					...(profile.subjects?.length && {
+						knowsAbout: profile.subjects.map((subject) => subject.title),
+					}),
+					worksFor: { "@type": "Organization", name: DEFAULT_SEO.siteName },
+				},
+			};
+		}),
+	};
 }

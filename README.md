@@ -1,8 +1,8 @@
-# Keta Akademi Frontend
+# KetaLearn Frontend
 
-![Keta Akademi](public/favicon/apple-touch-icon.png)
+![KetaLearn](public/favicon/apple-touch-icon.png)
 
-An interactive education platform designed to help students succeed in university entrance exams. Keta Akademi provides comprehensive course lectures, up-to-date base-ceiling points, blogs, and interactive publications.
+An interactive education platform designed to help students succeed in university entrance exams. KetaLearn provides comprehensive course lectures, up-to-date base-ceiling points, blogs, and interactive publications.
 
 ## 🎨 Design System
 
@@ -46,7 +46,7 @@ Open [http://localhost:3000](http://localhost:3000) to see the result.
 
 ## 🗺️ Roadmap to Excellence
 
-This roadmap outlines the planned improvements to make Keta Akademi the premier educational platform.
+This roadmap outlines the planned improvements to make KetaLearn the premier educational platform.
 
 ### 📍 Phase 1: Performance & SEO (Immediate)
 - [ ] **Structured Data:** Implement JSON-LD for Courses and Organization to enhance search engine snippets.

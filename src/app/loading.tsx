@@ -21,7 +21,7 @@ export default function Loading() {
 					{/* Loading Text */}
 					<div className="animate-fadeIn space-y-3">
 						<h2 className="font-bold text-2xl text-foreground tracking-tight sm:text-3xl">
-							Keta Akademi <span className="text-primary">Hazırlanıyor</span>
+							KetaLearn <span className="text-primary">Hazırlanıyor</span>
 						</h2>
 						<p className="text-lg text-muted-foreground">
 							En iyi öğrenme deneyimi için her şey düzenleniyor...
