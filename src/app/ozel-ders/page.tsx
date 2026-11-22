@@ -8,7 +8,7 @@ import ScrollToSectionButton from "@/components/ui/scroll-to-section-button";
 import { generateTutoringStructuredData } from "@/lib/seo";
 import { getTutoringProfiles } from "@/lib/strapi";
 
-const PAGE_URL = `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"}/ozel-ders`;
+const PAGE_URL = `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud"}/ozel-ders`;
 
 export const metadata: Metadata = {
 	title: "Özel Ders | KetaLearn",

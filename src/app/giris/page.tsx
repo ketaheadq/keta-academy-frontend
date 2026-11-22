@@ -31,7 +31,7 @@ function LoginContent() {
 
 		if (isMobileFlow && redirect) {
 			// Hardcode fallback — NEXT_PUBLIC_ vars must be baked in at build time
-			const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "https://admin.ketaakademi.com";
+			const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "https://admin.ketalearn.cloud";
 			const googleUrl = `${strapiUrl}/api/auth/google?redirect=${encodeURIComponent(redirect)}&mobile=true`;
 			// Small delay so user sees the loading state, then redirect
 			const timer = setTimeout(() => {

@@ -4,7 +4,7 @@ import CoursePage from "@/components/features/course/course";
 import { generateSEOMetadata } from "@/lib/seo";
 import { getCourse, getLessonsByCourseId } from "@/lib/strapi";
 
-const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
+const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud";
 
 export async function generateMetadata({
 	params,

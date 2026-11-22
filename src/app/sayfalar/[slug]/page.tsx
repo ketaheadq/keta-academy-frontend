@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		}
 
 		return generateSEOMetadata(page, {
-			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"}/sayfalar/${slug}`,
+			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud"}/sayfalar/${slug}`,
 			type: "website",
 		});
 	} catch (error) {
@@ -177,7 +177,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 
 		// Generate structured data using the utility
 		const structuredData = generateStructuredData(page, {
-			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"}/sayfalar/${slug}`,
+			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud"}/sayfalar/${slug}`,
 		}) as any;
 
 		// Add item count to structured data if available

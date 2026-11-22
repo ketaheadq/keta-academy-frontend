@@ -35,7 +35,7 @@ export interface SEOConfig {
 // Default SEO configuration
 const DEFAULT_SEO: Required<Pick<SEOConfig, "siteName" | "twitterHandle" | "locale" | "type">> = {
 	siteName: "KetaLearn",
-	twitterHandle: "@ketaakademi",
+	twitterHandle: "@ketalearn",
 	locale: "tr_TR",
 	type: "website",
 };
@@ -124,7 +124,7 @@ export function generateStructuredData(
 
 	// Safely resolve required fields with fallbacks
 	const siteName = seoConfig.siteName || "KetaLearn";
-	const baseUrl = (process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com").trim();
+	const baseUrl = (process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud").trim();
 	const contentUrl = config.url || generateDefaultURL(content);
 
 	const baseSchema = {
@@ -271,7 +271,7 @@ function generateDefaultKeywords(content: SEOContent): string {
 }
 
 function generateDefaultURL(content: SEOContent): string {
-	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
+	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud";
 
 	if ("pageType" in content) {
 		return `${baseUrl}/sayfalar/${content.slug}`;

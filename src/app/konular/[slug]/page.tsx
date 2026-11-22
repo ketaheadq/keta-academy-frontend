@@ -7,7 +7,7 @@ import { getCoursesBySubject, getGrades, getSubjectBySlug } from "@/lib/strapi";
 import Continue from "@/sections/continue-wrapper";
 import CourseListing from "@/sections/course-listing-wrapper";
 
-const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
+const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud";
 
 export async function generateMetadata(
 	props: Readonly<{ params: Promise<{ slug: string }> }>,
