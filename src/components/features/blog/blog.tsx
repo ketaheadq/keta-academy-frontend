@@ -61,7 +61,7 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 							</div>
 							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
 								<User className="h-4 w-4 text-primary" />
-								<span className="font-medium">Keta Akademi</span>
+								<span className="font-medium">KetaLearn</span>
 							</div>
 						</div>
 

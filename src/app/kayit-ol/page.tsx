@@ -115,7 +115,7 @@ export default function SignUpPage() {
 								<CardHeader className="pb-4 text-center">
 									<CardTitle className="text-2xl">Hesabınızı Oluşturun</CardTitle>
 									<CardDescription>
-										Keta Akademi'ye katılın ve potansiyelinizi açığa çıkarın
+										KetaLearn'e katılın ve potansiyelinizi açığa çıkarın
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">

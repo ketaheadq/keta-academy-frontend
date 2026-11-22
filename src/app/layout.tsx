@@ -57,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
 		console.error("Failed to fetch settings for metadata:", error);
 		// Fallback metadata if Strapi is not available
 		return {
-			title: "Keta Akademi",
+			title: "KetaLearn",
 			description:
 				"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu",
 			icons: {

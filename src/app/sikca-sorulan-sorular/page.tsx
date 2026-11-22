@@ -16,16 +16,16 @@ import { Button } from "@/components/ui/button";
 const faqs = [
 	{
 		id: "item-1",
-		question: "Keta Akademi nedir?",
+		question: "KetaLearn nedir?",
 		answer:
-			"Keta Akademi, üniversite sınavlarına (YKS, TYT, AYT) hazırlanan öğrencilere kapsamlı bir eğitim platformu sunar. Binlerce ücretsiz ders videosu, güncel taban puanları, blog yazıları ve interaktif içeriklerle öğrencilerin başarıya ulaşmasını hedefliyoruz.",
+			"KetaLearn, üniversite sınavlarına (YKS, TYT, AYT) hazırlanan öğrencilere kapsamlı bir eğitim platformu sunar. Binlerce ücretsiz ders videosu, güncel taban puanları, blog yazıları ve interaktif içeriklerle öğrencilerin başarıya ulaşmasını hedefliyoruz.",
 		icon: <BookOpen className="h-5 w-5 text-primary" />,
 	},
 	{
 		id: "item-2",
 		question: "Koçluk sistemi nasıl çalışır?",
 		answer:
-			"Keta Akademi bünyesinde yer alan uzman rehberler ve eğitim koçları ile öğrencilerimizi birebir buluşturuyoruz. Kişiye özel çalışma programları, hedef belirleme ve motivasyon desteği ile sınav sürecini en verimli şekilde yönetmenizi sağlıyoruz.",
+			"KetaLearn bünyesinde yer alan uzman rehberler ve eğitim koçları ile öğrencilerimizi birebir buluşturuyoruz. Kişiye özel çalışma programları, hedef belirleme ve motivasyon desteği ile sınav sürecini en verimli şekilde yönetmenizi sağlıyoruz.",
 		icon: <Sparkles className="h-5 w-5 text-accent" />,
 	},
 	{
@@ -44,7 +44,7 @@ const faqs = [
 	},
 	{
 		id: "item-5",
-		question: "Keta Akademi tamamen ücretsiz mi?",
+		question: "KetaLearn tamamen ücretsiz mi?",
 		answer:
 			"Platformumuzdaki ders videoları, taban puanları ve blog içerikleri tamamen ücretsizdir. Özel koçluk ve birebir canlı görüşmeler gibi bazı premium servislerimiz ek hizmet olarak sunulmaktadır.",
 		icon: <HelpCircle className="h-5 w-5 text-primary" />,
@@ -80,8 +80,8 @@ export default function FAQPage() {
 						Sıkça Sorulan Sorular
 					</h1>
 					<p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-						Keta Akademi hakkında merak ettiğiniz her şey burada. Eğer aradığınız cevabı
-						bulamazsanız bizimle iletişime geçmekten çekinmeyin.
+						KetaLearn hakkında merak ettiğiniz her şey burada. Eğer aradığınız cevabı bulamazsanız
+						bizimle iletişime geçmekten çekinmeyin.
 					</p>
 				</div>
 

@@ -148,7 +148,7 @@ export interface StrapiAdmissionScore {
 	SEO?: StrapiSEO;
 }
 
-// SEO Component Types (to be created in Strapi)
+// SEO component (`seo.seo` in Strapi)
 export interface StrapiSEO {
 	id: number;
 	metaTitle: string;
@@ -203,6 +203,7 @@ export interface StrapiSubject {
 		id: number;
 		name: string;
 	};
+	SEO?: StrapiSEO | null;
 }
 
 export interface StrapiLesson {
@@ -242,6 +243,7 @@ export interface StrapiCourse {
 	publishedAt: string;
 	slug: string;
 	thumbnail: StrapiImage;
+	image?: StrapiImage | null;
 	subject: StrapiSubject;
 	icon?: {
 		id: number;
@@ -250,6 +252,7 @@ export interface StrapiCourse {
 	grades: StrapiGrade[];
 	isPopular: boolean | null;
 	course_lessons: StrapiCourseLesson[];
+	SEO?: StrapiSEO | null;
 }
 
 export interface StrapiGrade {
@@ -514,9 +517,15 @@ export async function getPageBySlug(slug: string): Promise<StrapiPage | null> {
 	}
 }
 
+// `populate=*` only goes one level deep, so the SEO image would be missing.
+const COURSE_POPULATE = ["thumbnail", "image", "icon", "subject", "grades", "course_lessons"]
+	.map((field) => `populate[${field}]=true`)
+	.concat("populate[SEO][populate]=metaImage")
+	.join("&");
+
 export async function getCourse(slug: string) {
 	const response = await fetchStrapiData<StrapiResponse<StrapiCourse[]>>(
-		`courses?populate=*&filters[slug][$eq]=${slug}`,
+		`courses?${COURSE_POPULATE}&filters[slug][$eq]=${slug}`,
 	);
 	return response.data[0];
 }
@@ -537,7 +546,7 @@ export async function getAllCourseLessons(token: string) {
 			`course-lessons?populate=*&sort=id:asc&pagination[page]=${page}&pagination[pageSize]=50`,
 			token,
 		);
-		lessons.push(...response.data.filter(link => link.course && link.lesson));
+		lessons.push(...response.data.filter((link) => link.course && link.lesson));
 		pageCount = response.meta.pagination.pageCount;
 		page++;
 	} while (page <= pageCount);
@@ -545,7 +554,9 @@ export async function getAllCourseLessons(token: string) {
 }
 
 export async function getSubjects() {
-	const response = await fetchStrapiData<StrapiResponse<StrapiSubject[]>>("subjects?populate=icon");
+	const response = await fetchStrapiData<StrapiResponse<StrapiSubject[]>>(
+		"subjects?populate[icon]=true&populate[SEO][populate]=metaImage",
+	);
 	return response.data;
 }
 
@@ -616,35 +627,56 @@ export interface QuizResult {
 	earnedPoints: number;
 	percentage: number;
 	passed: boolean;
-	attempts: { questionId: number; selectedAnswer: string; correctAnswer: string; isCorrect: boolean; explanation: StrapiBlock[] }[];
+	attempts: {
+		questionId: number;
+		selectedAnswer: string;
+		correctAnswer: string;
+		isCorrect: boolean;
+		explanation: StrapiBlock[];
+	}[];
 }
 
 async function learningRequest<T>(path: string, token: string, options?: RequestInit): Promise<T> {
-	const response = await fetch(STRAPI_URL + '/api/learning/' + path, {
+	const response = await fetch(STRAPI_URL + "/api/learning/" + path, {
 		...options,
-		headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+		headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
 	});
-	if (!response.ok) throw new Error('Learning request failed: ' + response.status);
+	if (!response.ok) throw new Error("Learning request failed: " + response.status);
 	return (await response.json()).data;
 }
 
 export async function getUserLessonProgress(documentIds: string[] | undefined, token: string) {
-	const rows = await learningRequest<StrapiLessonProgress[]>('lesson-progress', token);
+	const rows = await learningRequest<StrapiLessonProgress[]>("lesson-progress", token);
 	if (!documentIds) return rows;
 	const requested = new Set(documentIds);
-	return rows.filter(row => requested.has(row.documentId));
+	return rows.filter((row) => requested.has(row.documentId));
 }
 
 export function updateLessonProgress(documentId: string, isCompleted: boolean, token: string) {
-	return learningRequest<StrapiLessonProgress>('lesson-progress/' + encodeURIComponent(documentId), token, {
-		method: 'PUT', body: JSON.stringify({ isCompleted }),
-	});
+	return learningRequest<StrapiLessonProgress>(
+		"lesson-progress/" + encodeURIComponent(documentId),
+		token,
+		{
+			method: "PUT",
+			body: JSON.stringify({ isCompleted }),
+		},
+	);
 }
 
-export function submitQuiz(documentId: string, answers: Record<number, number>, submissionId: string, token: string) {
-	return learningRequest<QuizResult>('quizzes/' + encodeURIComponent(documentId) + '/attempts', token, {
-		method: 'POST', body: JSON.stringify({ answers, submissionId }),
-	});
+export function submitQuiz(
+	documentId: string,
+	answers: Record<number, number>,
+	submissionId: string,
+	token: string,
+) {
+	return learningRequest<QuizResult>(
+		"quizzes/" + encodeURIComponent(documentId) + "/attempts",
+		token,
+		{
+			method: "POST",
+			body: JSON.stringify({ answers, submissionId }),
+		},
+	);
 }
 
 export async function getAdmissionScores(): Promise<StrapiAdmissionScore[]> {
@@ -866,13 +898,14 @@ export interface StrapiTutoringProfile {
 	publishedAt: string;
 	subjects: StrapiSubject[];
 	profilePicture: StrapiImage;
+	SEO?: StrapiSEO | null;
 }
 
 // Tutoring Profile API functions
 export async function getTutoringProfiles(): Promise<StrapiTutoringProfile[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiTutoringProfile[]>>(
-			"tutoring-profiles?populate=*",
+			"tutoring-profiles?populate[subjects]=true&populate[profilePicture]=true&populate[SEO][populate]=metaImage",
 		);
 		return response.data;
 	} catch (error) {

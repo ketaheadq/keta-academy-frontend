@@ -1,9 +1,26 @@
+import type { Metadata } from "next";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
 import CourseGrid from "@/components/shared/grids/course-grid-wrapper";
 import { getCourseIcon } from "@/lib/icons";
+import { generateSEOMetadata } from "@/lib/seo";
 import { getCoursesBySubject, getGrades, getSubjectBySlug } from "@/lib/strapi";
 import Continue from "@/sections/continue-wrapper";
 import CourseListing from "@/sections/course-listing-wrapper";
+
+const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com";
+
+export async function generateMetadata(
+	props: Readonly<{ params: Promise<{ slug: string }> }>,
+): Promise<Metadata> {
+	const { slug } = await props.params;
+	const subject = await getSubjectBySlug(slug);
+	if (!subject) return { title: "Konu bulunamadı | KetaLearn" };
+
+	return generateSEOMetadata(subject, {
+		url: `${FRONTEND_URL}/konular/${slug}`,
+		keywords: ["KetaLearn", subject.title, "ders", "konu anlatımı", "online eğitim"],
+	});
+}
 
 export default async function CoursePage(props: Readonly<{ params: Promise<{ slug: string }> }>) {
 	const params = await props.params;

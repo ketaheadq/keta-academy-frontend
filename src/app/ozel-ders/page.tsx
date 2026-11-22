@@ -1,28 +1,56 @@
 import { Calendar, Search, Video } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { use, useId } from "react";
 import TutoringContent from "@/components/features/tutoring/tutoring-content";
 import { Button } from "@/components/ui/button";
 import ScrollToSectionButton from "@/components/ui/scroll-to-section-button";
+import { generateTutoringStructuredData } from "@/lib/seo";
 import { getTutoringProfiles } from "@/lib/strapi";
+
+const PAGE_URL = `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketaakademi.com"}/ozel-ders`;
+
+export const metadata: Metadata = {
+	title: "Özel Ders | KetaLearn",
+	description:
+		"Alanında uzman öğretmenlerle birebir özel ders alın. Hedeflerinize özel, kişiselleştirilmiş öğrenme deneyimi.",
+	alternates: { canonical: PAGE_URL },
+	openGraph: {
+		title: "Özel Ders | KetaLearn",
+		description: "Alanında uzman öğretmenlerle birebir özel ders alın.",
+		url: PAGE_URL,
+		siteName: "KetaLearn",
+		locale: "tr_TR",
+		type: "website",
+	},
+};
 
 export default function TutoringPage() {
 	// Fetch tutoring profiles from Strapi
 	const tutoringProfiles = use(getTutoringProfiles());
 	const howItWorksId = useId();
 
+	const structuredData = generateTutoringStructuredData(tutoringProfiles, PAGE_URL);
+
 	return (
 		<div className="min-h-screen bg-background">
+			<script
+				type="application/ld+json"
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD must be inlined
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+				}}
+			/>
 			{/* Hero Section */}
 			<div
-				className="bg-slate-950 bg-cover bg-center px-4 py-14 sm:px-6 sm:pt-24 sm:pb-24 lg:px-8"
+				className="bg-center bg-cover bg-slate-950 px-4 py-14 sm:px-6 sm:pt-24 sm:pb-24 lg:px-8"
 				style={{
 					backgroundImage:
 						"linear-gradient(rgb(2 6 23 / 65%), rgb(2 6 23 / 75%)), url('/images/keta-ozelders-sayfas%C4%B1.jpg')",
 				}}
 			>
 				<div className="mx-auto max-w-4xl text-center sm:animate-float sm:pt-10">
-					<h1 className="mb-5 text-balance font-bold text-3xl text-white tracking-tight min-[400px]:text-4xl sm:mb-8 sm:text-5xl lg:text-7xl">
+					<h1 className="mb-5 text-balance font-bold text-3xl text-white tracking-tight sm:mb-8 sm:text-5xl lg:text-7xl min-[400px]:text-4xl">
 						Uzman Öğretmenlerle <br className="hidden sm:block" />
 						<span className="text-amber-300">Birebir Eğitim</span>
 					</h1>
@@ -33,13 +61,13 @@ export default function TutoringPage() {
 
 					<div className="mx-auto flex max-w-xs flex-col justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-6">
 						<Link href="/iletisim" className="w-full sm:w-auto">
-							<Button className="h-14 w-full rounded-2xl bg-accent px-6 sm:w-auto sm:px-10 font-bold text-accent-foreground text-lg shadow-accent transition-all hover:scale-105 hover:bg-accent/90 hover:shadow-[0_0_30px_rgba(253,154,0,0.4)]">
+							<Button className="h-14 w-full rounded-2xl bg-accent px-6 font-bold text-accent-foreground text-lg shadow-accent transition-all hover:scale-105 hover:bg-accent/90 hover:shadow-[0_0_30px_rgba(253,154,0,0.4)] sm:w-auto sm:px-10">
 								Hemen Başla
 							</Button>
 						</Link>
 						<ScrollToSectionButton
 							sectionId={howItWorksId}
-							className="h-14 w-full rounded-2xl border-2 border-primary/20 bg-white px-6 sm:w-auto sm:px-10 font-bold text-lg text-primary transition-all hover:scale-105 hover:border-primary/50 hover:bg-slate-100"
+							className="h-14 w-full rounded-2xl border-2 border-primary/20 bg-white px-6 font-bold text-lg text-primary transition-all hover:scale-105 hover:border-primary/50 hover:bg-slate-100 sm:w-auto sm:px-10"
 						>
 							Nasıl Çalışır?
 						</ScrollToSectionButton>
@@ -53,7 +81,7 @@ export default function TutoringPage() {
 			{/* How It Works Section */}
 			<div id={howItWorksId} className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-24 lg:px-8">
 				<div className="mb-10 text-center sm:mb-20">
-					<h2 className="mb-4 text-balance font-bold text-3xl text-foreground sm:text-4xl tracking-tight md:text-5xl">
+					<h2 className="mb-4 text-balance font-bold text-3xl text-foreground tracking-tight sm:text-4xl md:text-5xl">
 						Geleceğinizi 3 Adımda Planlayın
 					</h2>
 					<div className="mx-auto mb-6 h-1 w-20 rounded-full bg-accent" />
@@ -115,13 +143,13 @@ export default function TutoringPage() {
 
 			{/* CTA Section */}
 			<div
-				className="overflow-hidden rounded-3xl bg-slate-950 bg-cover bg-center px-4 py-14 text-center shadow-2xl sm:rounded-4xl sm:px-16 sm:py-20"
+				className="overflow-hidden rounded-3xl bg-center bg-cover bg-slate-950 px-4 py-14 text-center shadow-2xl sm:rounded-4xl sm:px-16 sm:py-20"
 				style={{
 					backgroundImage:
 						"linear-gradient(rgb(2 6 23 / 70%), rgb(2 6 23 / 78%)), url('/images/keta-ozel-ders-2.jpg')",
 				}}
 			>
-				<h2 className="mx-auto max-w-2xl text-balance font-bold text-3xl text-white sm:text-4xl tracking-tight md:text-5xl">
+				<h2 className="mx-auto max-w-2xl text-balance font-bold text-3xl text-white tracking-tight sm:text-4xl md:text-5xl">
 					Geleceğiniz İçin <br className="hidden sm:block" /> İlk Adımı Bugün Atın
 				</h2>
 				<p className="mx-auto mt-6 max-w-xl text-lg text-slate-100">
@@ -129,7 +157,7 @@ export default function TutoringPage() {
 				</p>
 				<div className="mt-10 flex flex-col justify-center gap-6 sm:flex-row">
 					<Link href="/iletisim" className="w-full sm:w-auto">
-						<Button className="h-14 w-full rounded-2xl bg-accent px-6 sm:w-auto sm:px-10 font-bold text-accent-foreground text-lg shadow-2xl transition-all hover:scale-105 hover:bg-accent/90">
+						<Button className="h-14 w-full rounded-2xl bg-accent px-6 font-bold text-accent-foreground text-lg shadow-2xl transition-all hover:scale-105 hover:bg-accent/90 sm:w-auto sm:px-10">
 							Hemen Keşfet
 						</Button>
 					</Link>

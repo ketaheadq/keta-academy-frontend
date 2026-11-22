@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 	} catch (error) {
 		console.error("Error generating metadata:", error);
 		return {
-			title: "Keta Akademi",
+			title: "KetaLearn",
 			description: "Eğitim platformu",
 		};
 	}
