@@ -1,18 +1,38 @@
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_STRAPI_URL: ${NEXT_PUBLIC_STRAPI_URL:-https://admin.ketaakademi.com}
-        NEXT_PUBLIC_FRONTEND_URL: ${NEXT_PUBLIC_FRONTEND_URL:-https://ketaakademi.com}
-    container_name: nextjs
-    restart: always
-    ports:
-      - "3000:3000"
+  strapi:
+    build: .
+    container_name: strapi
+    restart: unless-stopped
+    env_file: .env
     environment:
-      - NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL:-https://admin.ketaakademi.com}
-      - NEXT_PUBLIC_FRONTEND_URL=${NEXT_PUBLIC_FRONTEND_URL:-https://ketaakademi.com}
-      - NODE_ENV=production
-    env_file:
-      - .env
+      NODE_ENV: production
+      DATABASE_CLIENT: postgres
+    ports:
+      - "127.0.0.1:1337:1337"
+    volumes:
+      - ./public/uploads:/opt/app/public/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ketalearn
+      POSTGRES_USER: ketalearn
+      POSTGRES_PASSWORD: "${LOCAL_POSTGRES_PASSWORD:?Set LOCAL_POSTGRES_PASSWORD in .env}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "ketalearn", "-d", "ketalearn"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: strapi-network
