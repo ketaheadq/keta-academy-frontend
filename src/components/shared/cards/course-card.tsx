@@ -1,11 +1,13 @@
 "use client";
 
 import { BookOpen, CheckCircle, Clock, Play } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCourseProgress } from "@/components/shared/course-progress-provider";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getCourseIcon } from "@/lib/icons";
 import type { StrapiCourse } from "@/lib/strapi";
 import { cn } from "@/lib/utils";
 import { useJWT } from "@/stores/auth-store";
@@ -15,29 +17,56 @@ interface CourseCardProps {
 	title?: React.ReactNode;
 }
 
-export default function CourseCard({
-	course,
-	title,
-}: Readonly<CourseCardProps>) {
+export default function CourseCard({ course, title }: Readonly<CourseCardProps>) {
 	const jwt = useJWT();
 	const progressByCourse = useCourseProgress();
 	const progress = progressByCourse?.get(course.id) ?? 0;
 	const isComplete = progress === 100;
-	const buttonText = isComplete ? "Bitti" : progress > 0 ? "Devam Et" : jwt && !progressByCourse ? "Kursu Aç" : "Kursa Başla";
+	// The title and description are already printed on the thumbnail, so they're only
+	// kept for screen readers and search engines. Without an image, show icon + title.
+	const cover = course.thumbnail?.url ? course.thumbnail : course.image?.url ? course.image : null;
+	const CourseIcon = getCourseIcon(course.icon?.name ?? "");
+	const buttonText = isComplete
+		? "Bitti"
+		: progress > 0
+			? "Devam Et"
+			: jwt && !progressByCourse
+				? "Kursu Aç"
+				: "Kursa Başla";
 
 	return (
-		<Card className="relative h-full transition-shadow hover:shadow-lg">
-			<CardHeader className="pb-3">
+		<Card className="relative h-full gap-4 overflow-hidden pt-0 transition-shadow hover:shadow-lg">
+			<div className="relative aspect-video w-full bg-secondary">
+				{cover ? (
+					<Image
+						src={cover.url}
+						alt={course.title}
+						fill
+						sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+						className="object-cover"
+					/>
+				) : (
+					<div className="flex h-full flex-col items-center justify-center gap-3 bg-primary/10 p-6 text-center">
+						<CourseIcon aria-hidden="true" className="h-10 w-10 text-primary" />
+						<span aria-hidden="true" className="line-clamp-2 font-semibold text-foreground text-lg">
+							{title || course.title}
+						</span>
+					</div>
+				)}
+			</div>
+			<CardHeader>
 				<div className="flex items-start justify-between">
 					<div className="flex-1">
-						<div className="mb-2 flex flex-wrap items-center gap-2">
+						<div className="flex flex-wrap items-center gap-2">
 							{course.grades?.length ? (
-								<Badge variant="secondary">{course.grades.map(grade => grade.title).join(", ")}</Badge>
+								<Badge variant="secondary">
+									{course.grades.map((grade) => grade.title).join(", ")}
+								</Badge>
 							) : null}
 							{course.subject && <Badge variant="outline">{course.subject.title}</Badge>}
 						</div>
-						<CardTitle className="mb-2 text-lg">{title || course.title}</CardTitle>
-						<CardDescription>{course.description}</CardDescription>
+						<CardTitle className="sr-only">{title || course.title}</CardTitle>
+						<CardDescription className="sr-only">{course.description}</CardDescription>
 					</div>
 				</div>
 			</CardHeader>

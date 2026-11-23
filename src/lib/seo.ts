@@ -3,6 +3,7 @@ import type {
 	StrapiAdmissionScore,
 	StrapiBlog,
 	StrapiCourse,
+	StrapiLesson,
 	StrapiPage,
 	StrapiPageSEO,
 	StrapiSEO,
@@ -18,7 +19,8 @@ export type SEOContent =
 	| StrapiBlog
 	| StrapiVideo
 	| StrapiAdmissionScore
-	| StrapiSubject;
+	| StrapiSubject
+	| StrapiLesson;
 
 export interface SEOConfig {
 	title?: string;
