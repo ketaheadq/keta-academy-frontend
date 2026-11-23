@@ -1,8 +1,8 @@
 "use client";
 
-import { Copy, MessageCircle, Share, X } from "lucide-react";
+import { Copy, Share, X } from "lucide-react";
 import { useState } from "react";
-import { FacebookIcon, TwitterIcon } from "@/components/ui/brand-icons";
+import { FacebookIcon, TikTokIcon, WhatsAppIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
 
 interface ShareButtonProps {
@@ -20,6 +20,7 @@ export default function ShareButton({
 }: Readonly<ShareButtonProps>) {
 	const [showShareModal, setShowShareModal] = useState(false);
 	const [copySuccess, setCopySuccess] = useState(false);
+	const [tiktokCopied, setTiktokCopied] = useState(false);
 
 	const handleCopyLink = async () => {
 		try {
@@ -39,10 +40,23 @@ export default function ShareButton({
 		window.open(whatsappUrl, "_blank");
 	};
 
-	const handleShareTwitter = () => {
-		const text = `${title} - ${description || ""}`;
-		const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-		window.open(twitterUrl, "_blank");
+	// TikTok has no web share URL: use the device's share sheet (mobile), else copy the link.
+	const handleShareTikTok = async () => {
+		if (typeof navigator.share === "function") {
+			try {
+				await navigator.share({ title, text: description, url });
+				return;
+			} catch (err) {
+				if ((err as Error).name === "AbortError") return;
+			}
+		}
+		try {
+			await navigator.clipboard.writeText(url);
+			setTiktokCopied(true);
+			setTimeout(() => setTiktokCopied(false), 2500);
+		} catch (err) {
+			console.error("Failed to copy link:", err);
+		}
 	};
 
 	const handleShareFacebook = () => {
@@ -92,33 +106,27 @@ export default function ShareButton({
 									<Button
 										onClick={handleShareWhatsApp}
 										variant="outline"
-										className="flex h-16 flex-col items-center space-y-1"
+										className="flex h-16 flex-col items-center gap-1"
 									>
-										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/100">
-											<MessageCircle className="h-4 w-4 text-background" />
-										</div>
+										<WhatsAppIcon className="size-6 text-[#25D366]" />
 										<span className="text-xs">WhatsApp</span>
 									</Button>
 
 									<Button
-										onClick={handleShareTwitter}
+										onClick={handleShareTikTok}
 										variant="outline"
-										className="flex h-16 flex-col items-center space-y-1"
+										className="flex h-16 flex-col items-center gap-1"
 									>
-										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-											<TwitterIcon className="h-4 w-4 text-background" />
-										</div>
-										<span className="text-xs">Twitter</span>
+										<TikTokIcon className="size-6 text-black" />
+										<span className="text-xs">{tiktokCopied ? "Link kopyalandı" : "TikTok"}</span>
 									</Button>
 
 									<Button
 										onClick={handleShareFacebook}
 										variant="outline"
-										className="flex h-16 flex-col items-center space-y-1"
+										className="flex h-16 flex-col items-center gap-1"
 									>
-										<div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-											<FacebookIcon className="h-4 w-4 text-background" />
-										</div>
+										<FacebookIcon className="size-6 text-[#0866FF]" />
 										<span className="text-xs">Facebook</span>
 									</Button>
 								</div>
