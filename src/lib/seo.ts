@@ -11,6 +11,7 @@ import type {
 	StrapiTutoringProfile,
 	StrapiVideo,
 } from "./strapi";
+import { tutorPath } from "./strapi";
 
 // Types for different content that can have SEO
 export type SEOContent =
@@ -310,6 +311,7 @@ export function generateTutoringStructuredData(
 				position: index + 1,
 				item: {
 					"@type": "Person",
+					url: `${new URL(url).origin}${tutorPath(profile)}`,
 					name: profile.SEO?.metaTitle || profile.name,
 					jobTitle: profile.title,
 					description: profile.SEO?.metaDescription || profile.experties || undefined,
