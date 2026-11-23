@@ -52,7 +52,7 @@ export default function CoursePage({
 		lessonProgress,
 		isLoading: isLoadingProgress,
 		markLessonComplete,
-	} = useLessonProgress(lessons.map(lesson => lesson.documentId));
+	} = useLessonProgress(lessons.map((lesson) => lesson.documentId));
 
 	useEffect(() => {
 		const initialLessons: ExtendedLesson[] = lessons.map((lesson, index) => ({
@@ -143,7 +143,7 @@ export default function CoursePage({
 
 	const handleStartQuiz = (quiz: StrapiQuiz) => {
 		if (!jwt) {
-			router.push('/giris');
+			router.push("/giris");
 			return;
 		}
 		setCurrentQuiz(quiz);
@@ -217,9 +217,17 @@ export default function CoursePage({
 										</div>
 									</div>
 
-									{currentLesson.content?.length ? <RichTextRenderer content={currentLesson.content} /> : null}
-									{currentLesson.attachments?.map(attachment => (
-										<a key={attachment.id} href={attachment.url} target="_blank" rel="noreferrer" className="block py-2 underline">
+									{currentLesson.content?.length ? (
+										<RichTextRenderer content={currentLesson.content} />
+									) : null}
+									{currentLesson.attachments?.map((attachment) => (
+										<a
+											key={attachment.id}
+											href={attachment.url}
+											target="_blank"
+											rel="noreferrer"
+											className="block py-2 underline"
+										>
 											{attachment.name}
 										</a>
 									))}
@@ -372,13 +380,15 @@ export default function CoursePage({
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="p-0">
-								<ScrollArea className="h-96">
+								{/* Radix wraps the content in a `display: table` div that grows with the longest
+								    line, which disables truncate/line-clamp; force it back to a normal block. */}
+								<ScrollArea className="[&_[data-slot=scroll-area-viewport]>div]:block! h-96">
 									<div className="space-y-2 p-4">
 										{extendedLessons.map((lesson, index) => (
 											<div key={lesson.documentId}>
 												<button
 													type="button"
-													className={`w-full cursor-pointer rounded-lg p-3 transition-colors ${
+													className={`w-full cursor-pointer rounded-lg p-3 text-left transition-colors ${
 														currentLesson?.id === lesson.id
 															? "border-2 border-primary bg-primary/10"
 															: "border-2 border-transparent hover:bg-secondary"
@@ -394,14 +404,13 @@ export default function CoursePage({
 															)}
 														</div>
 														<div className="min-w-0 flex-1">
-															<div className="flex items-center justify-between">
-																<p className="truncate font-medium text-foreground text-sm">
+															<div className="flex items-center justify-between gap-2">
+																<p
+																	className="min-w-0 flex-1 truncate font-medium text-foreground text-sm"
+																	title={`${lesson.order}. ${lesson.title}`}
+																>
 																	{lesson.order}. {lesson.title}
 																</p>
-																<div className="flex items-center space-x-1 text-muted-foreground text-xs">
-																	<Clock className="h-3 w-3" />
-																	<span>{formatDuration(lesson.duration)}</span>
-																</div>
 															</div>
 															<p className="mt-1 line-clamp-2 text-muted-foreground text-xs">
 																{lesson.description}
@@ -428,7 +437,13 @@ export default function CoursePage({
 				{showQuiz && currentQuiz && jwt && (
 					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
 						<div className="max-h-[90vh] overflow-y-auto">
-							<Quiz quiz={currentQuiz} onSubmit={(answers, submissionId) => submitQuiz(currentQuiz.documentId, answers, submissionId, jwt)} onClose={handleCloseQuiz} />
+							<Quiz
+								quiz={currentQuiz}
+								onSubmit={(answers, submissionId) =>
+									submitQuiz(currentQuiz.documentId, answers, submissionId, jwt)
+								}
+								onClose={handleCloseQuiz}
+							/>
 						</div>
 					</div>
 				)}
