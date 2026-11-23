@@ -538,7 +538,8 @@ export async function getLessonsByCourseId(courseId: number) {
 		const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourseLesson>>(
 			`course-lessons?populate[lesson][populate][quiz][populate][questions][populate][options]=true&populate[lesson][populate][attachments]=true&populate[lesson][populate][SEO][populate]=metaImage&filters[course][id][$eq]=${courseId}&sort=order:asc&pagination[page]=${page}&pagination[pageSize]=100`,
 		);
-		courseLessons.push(...response.data);
+		// Unpublished (or deleted) lessons come back as `lesson: null`; skip those links.
+		courseLessons.push(...response.data.filter((link) => link.lesson));
 		if (page >= (response.meta?.pagination?.pageCount ?? 1)) break;
 	}
 	return courseLessons.sort((a, b) => a.order - b.order);
