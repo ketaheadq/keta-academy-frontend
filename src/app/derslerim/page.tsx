@@ -4,26 +4,37 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
 import CourseCard from "@/components/shared/cards/course-card";
-import { getCourses, type StrapiCourse } from "@/lib/strapi";
-import { useIsAuthenticated } from "@/stores/auth-store";
+import { getCoursesByDocumentIds, getMyCourses, type StrapiCourse } from "@/lib/strapi";
+import { useIsAuthenticated, useJWT } from "@/stores/auth-store";
 
 export default function DerslerimPage() {
 	const isAuthenticated = useIsAuthenticated();
+	const jwt = useJWT();
 	const [continueCourses, setCourses] = useState<StrapiCourse[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		if (!isAuthenticated) return;
+		if (!isAuthenticated || !jwt) return;
 		let active = true;
 		setIsLoading(true);
 		setError(null);
-		getCourses()
-			.then(courses => { if (active) setCourses(courses); })
-			.catch(() => { if (active) setError("Veriler yüklenirken bir hata oluştu"); })
-			.finally(() => { if (active) setIsLoading(false); });
-		return () => { active = false; };
-	}, [isAuthenticated]);
+		// Only the courses this user started, not the whole catalog.
+		getMyCourses(jwt)
+			.then((mine) => getCoursesByDocumentIds(mine.map((course) => course.documentId)))
+			.then((courses) => {
+				if (active) setCourses(courses);
+			})
+			.catch(() => {
+				if (active) setError("Veriler yüklenirken bir hata oluştu");
+			})
+			.finally(() => {
+				if (active) setIsLoading(false);
+			});
+		return () => {
+			active = false;
+		};
+	}, [isAuthenticated, jwt]);
 
 	// If not authenticated, show login message
 	if (!isAuthenticated) {

@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import ShareButton from "@/components/ui/share-button";
 import { useLessonProgress } from "@/hooks/useLessonProgress";
 import type { StrapiCourse, StrapiGrade, StrapiLesson, StrapiQuiz } from "@/lib/strapi";
-import { submitQuiz } from "@/lib/strapi";
+import { startCourse, submitQuiz } from "@/lib/strapi";
 import { extractYouTubeVideoId } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth-store";
 import LessonVideo from "./lesson-video";
@@ -43,6 +43,14 @@ export default function CoursePage({
 	const router = useRouter();
 	const pathname = usePathname();
 	const { user, jwt, isAuthenticated } = useAuthStore();
+
+	// Opening a course while signed in counts as starting it (shows up in /derslerim).
+	useEffect(() => {
+		if (!jwt) return;
+		startCourse(course.documentId, jwt).catch((error) =>
+			console.error("Could not mark course as started", error),
+		);
+	}, [jwt, course.documentId]);
 
 	// Convert StrapiLesson to ExtendedLesson format for compatibility
 	const [extendedLessons, setExtendedLessons] = useState<ExtendedLesson[]>([]);

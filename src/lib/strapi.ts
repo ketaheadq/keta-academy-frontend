@@ -573,6 +573,28 @@ export async function getGrades() {
 	return response.data;
 }
 
+/** Published courses with the given documentIds, in the same order as `documentIds`. */
+export async function getCoursesByDocumentIds(documentIds: string[]): Promise<StrapiCourse[]> {
+	if (!documentIds.length) return [];
+	const courses: StrapiCourse[] = [];
+	// Chunk to keep the query string short and within the 100-row page size.
+	for (let i = 0; i < documentIds.length; i += 50) {
+		const filters = documentIds
+			.slice(i, i + 50)
+			.map((id, index) => `filters[documentId][$in][${index}]=${encodeURIComponent(id)}`)
+			.join("&");
+		const response = await fetchStrapiData<StrapiResponse<StrapiCourse[]>>(
+			`courses?${filters}&populate=*&pagination[pageSize]=100`,
+			{ revalidate: 0 },
+		);
+		courses.push(...response.data);
+	}
+	const position = new Map(documentIds.map((id, index) => [id, index]));
+	return courses.sort(
+		(a, b) => (position.get(a.documentId) ?? 0) - (position.get(b.documentId) ?? 0),
+	);
+}
+
 export async function getCourses() {
 	const response = await fetchStrapiData<StrapiResponse<StrapiCourse[]>>("courses?populate=*");
 	return response.data;
@@ -658,6 +680,20 @@ export async function getUserLessonProgress(documentIds: string[] | undefined, t
 	if (!documentIds) return rows;
 	const requested = new Set(documentIds);
 	return rows.filter((row) => requested.has(row.documentId));
+}
+
+export type MyCourse = { documentId: string; status: CourseStatus };
+
+/** Courses the signed-in user has started, most recent first. */
+export function getMyCourses(token: string) {
+	return learningRequest<MyCourse[]>("courses", token);
+}
+
+/** Marks a course as started for the signed-in user (idempotent). */
+export function startCourse(documentId: string, token: string) {
+	return learningRequest<MyCourse>(`courses/${encodeURIComponent(documentId)}/start`, token, {
+		method: "POST",
+	});
 }
 
 export function updateLessonProgress(documentId: string, isCompleted: boolean, token: string) {
