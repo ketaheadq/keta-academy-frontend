@@ -68,15 +68,12 @@ export default function FAQPage() {
 	return (
 		<div className="min-h-screen animate-fadeIn">
 			<BreadcrumbNav
-				breadcrumbs={[
-					{ label: "Ana Sayfa", href: "/" },
-					{ label: "Sıkça Sorulan Sorular", href: "/sikca-sorulan-sorular" },
-				]}
+				breadcrumbs={[{ label: "Sıkça Sorulan Sorular", href: "/sikca-sorulan-sorular" }]}
 			/>
 
 			<div className="container mx-auto max-w-4xl px-4 py-12">
 				<div className="mb-16 text-center">
-					<h1 className="mb-6 bg-linear-to-r from-primary to-primary bg-clip-text font-bold text-4xl text-transparent md:text-5xl">
+					<h1 className="mb-6 bg-linear-to-r from-primary to-primary bg-clip-text font-bold text-3xl text-transparent sm:text-4xl md:text-5xl">
 						Sıkça Sorulan Sorular
 					</h1>
 					<p className="mx-auto max-w-2xl text-lg text-muted-foreground">
@@ -85,24 +82,26 @@ export default function FAQPage() {
 					</p>
 				</div>
 
-				<div className="rounded-2xl border border-border bg-white p-6 shadow-blue-500/5 shadow-xl md:p-8">
+				<div className="rounded-2xl border border-border bg-white p-3 shadow-blue-500/5 shadow-xl sm:p-6 md:p-8">
 					<div className="w-full space-y-4">
 						{faqs.map((faq) => {
 							const isOpen = openId === faq.id;
 							return (
 								<div
 									key={faq.id}
-									className={`rounded-xl border border-border px-4 transition-all duration-300 ${
+									className={`rounded-xl border border-border px-3 transition-all duration-300 sm:px-4 ${
 										isOpen ? "border-primary bg-primary/10/30 shadow-sm" : "hover:bg-secondary/50"
 									}`}
 								>
+									{/* h-auto + whitespace-normal: Button defaults to one fixed-height line, which pushed long questions off-screen on mobile */}
 									<Button
-										variant="secondary"
+										variant="ghost"
 										type="button"
+										aria-expanded={isOpen}
 										onClick={() => toggle(faq.id)}
-										className="group flex w-full items-center justify-between py-4 text-left"
+										className="group flex h-auto w-full items-center justify-between gap-3 whitespace-normal px-0 py-4 text-left hover:bg-transparent"
 									>
-										<div className="flex items-center gap-4 font-semibold text-foreground text-lg">
+										<div className="flex min-w-0 items-center gap-3 font-semibold text-base text-foreground sm:gap-4 sm:text-lg">
 											<div
 												className={`shrink-0 rounded-lg border border-border bg-white p-2 shadow-sm transition-transform duration-300 ${isOpen ? "scale-110" : "group-hover:scale-110"}`}
 											>
@@ -111,15 +110,16 @@ export default function FAQPage() {
 											{faq.question}
 										</div>
 										<ChevronDown
-											className={`h-5 w-5 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+											className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
 										/>
 									</Button>
+									{/* grid-rows 0fr→1fr animates to the real height (max-h-96 clipped long answers on narrow screens) */}
 									<div
-										className={`overflow-hidden transition-all duration-300 ease-in-out ${
-											isOpen ? "max-h-96 pb-4 opacity-100" : "max-h-0 opacity-0"
+										className={`grid transition-all duration-300 ease-in-out ${
+											isOpen ? "grid-rows-[1fr] pb-4 opacity-100" : "grid-rows-[0fr] opacity-0"
 										}`}
 									>
-										<p className="pt-0 pl-14 text-base text-muted-foreground leading-relaxed">
+										<p className="overflow-hidden text-base text-muted-foreground leading-relaxed sm:pl-14">
 											{faq.answer}
 										</p>
 									</div>

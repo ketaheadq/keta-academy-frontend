@@ -193,7 +193,8 @@ export default function CoursePage({
 
 				<div className="grid gap-6 lg:grid-cols-3">
 					{/* Main Content - Video Player */}
-					<div className="space-y-6 lg:col-span-2">
+					{/* min-w-0: grid items default to min-width:auto, so wide content pushed the page past the viewport on mobile */}
+					<div className="min-w-0 space-y-6 lg:col-span-2">
 						{/* Video Player */}
 						<Card className="py-0">
 							<CardContent className="p-0">
@@ -209,20 +210,12 @@ export default function CoursePage({
 										}}
 									/>
 								)}
-								<div className="p-6">
-									<div className="mb-4 flex items-center justify-between">
-										<div>
-											<h1 className="mb-2 font-bold text-2xl text-foreground">
-												{currentLesson.title}
-											</h1>
-											<p className="text-muted-foreground">{currentLesson.description}</p>
-										</div>
-										<div className="flex items-center space-x-2">
-											<Clock className="h-4 w-4 text-muted-foreground" />
-											<span className="text-muted-foreground text-sm">
-												{formatDuration(currentLesson.duration)}
-											</span>
-										</div>
+								<div className="p-4 sm:p-6">
+									<div className="mb-4">
+										<h1 className="mb-2 break-words font-bold text-foreground text-xl sm:text-2xl">
+											{currentLesson.title}
+										</h1>
+										<p className="text-muted-foreground">{currentLesson.description}</p>
 									</div>
 
 									{currentLesson.content?.length ? (
@@ -234,13 +227,13 @@ export default function CoursePage({
 											href={attachment.url}
 											target="_blank"
 											rel="noreferrer"
-											className="block py-2 underline"
+											className="block break-all py-2 underline"
 										>
 											{attachment.name}
 										</a>
 									))}
-									<div className="flex items-center justify-between">
-										<div className="flex items-center space-x-4">
+									<div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+										<div className="flex items-center gap-2">
 											<Button
 												variant="outline"
 												onClick={handlePreviousLesson}
@@ -262,7 +255,7 @@ export default function CoursePage({
 											</Button>
 										</div>
 
-										<div className="flex items-center space-x-2">
+										<div className="flex flex-wrap items-center gap-2">
 											<ShareButton
 												url={getCurrentLessonUrl()}
 												title={currentLesson.title}
@@ -373,7 +366,7 @@ export default function CoursePage({
 					</div>
 
 					{/* Sidebar - Lessons List */}
-					<div className="lg:col-span-1">
+					<div className="min-w-0 lg:col-span-1">
 						<Card className="sticky top-6">
 							<CardHeader>
 								<CardTitle className="flex items-center justify-between">
