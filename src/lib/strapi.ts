@@ -219,6 +219,7 @@ export interface StrapiLesson {
 	updatedAt: string;
 	publishedAt: string;
 	slug: string;
+	SEO?: StrapiSEO | null;
 }
 
 export interface StrapiCourseLesson {
@@ -531,10 +532,16 @@ export async function getCourse(slug: string) {
 }
 
 export async function getLessonsByCourseId(courseId: number) {
-	const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourseLesson>>(
-		`course-lessons?populate[lesson][populate][quiz][populate][questions][populate][options]=true&populate[lesson][populate][attachments]=true&filters[course][id][$eq]=${courseId}`,
-	);
-	return response.data.sort((a, b) => a.order - b.order);
+	// Strapi returns 25 rows per page by default, so walk every page (100 is the max page size).
+	const courseLessons: StrapiCourseLesson[] = [];
+	for (let page = 1; ; page++) {
+		const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourseLesson>>(
+			`course-lessons?populate[lesson][populate][quiz][populate][questions][populate][options]=true&populate[lesson][populate][attachments]=true&populate[lesson][populate][SEO][populate]=metaImage&filters[course][id][$eq]=${courseId}&sort=order:asc&pagination[page]=${page}&pagination[pageSize]=100`,
+		);
+		courseLessons.push(...response.data);
+		if (page >= (response.meta?.pagination?.pageCount ?? 1)) break;
+	}
+	return courseLessons.sort((a, b) => a.order - b.order);
 }
 
 export async function getAllCourseLessons(token: string) {
