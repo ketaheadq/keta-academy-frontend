@@ -1,9 +1,9 @@
 "use client";
 
-import { MessageCircle, Share } from "lucide-react";
+import { Share } from "lucide-react";
 import type { FC } from "react";
 import { toast } from "sonner";
-import { FacebookIcon, TwitterIcon } from "@/components/ui/brand-icons";
+import { FacebookIcon, TikTokIcon, WhatsAppIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
 
 interface ShareComponentProps {
@@ -12,19 +12,12 @@ interface ShareComponentProps {
 
 const getSocialIcon = (platform: string) => {
 	switch (platform) {
-		case "twitter":
-			return <TwitterIcon className="h-8 w-8" />;
 		case "facebook":
-			return <FacebookIcon className="h-8 w-8" />;
+			return <FacebookIcon className="size-7 text-[#0866FF]" />;
 		case "whatsapp":
-			return <MessageCircle className="h-8 w-8" />;
+			return <WhatsAppIcon className="size-7 text-[#25D366]" />;
 		case "tiktok":
-			return (
-				<svg className="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-					<title>Tiktok</title>
-					<path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-				</svg>
-			);
+			return <TikTokIcon className="size-7" />;
 		case "copy":
 			return <Share className="h-8 w-8" />;
 		default:
@@ -34,8 +27,6 @@ const getSocialIcon = (platform: string) => {
 
 const getSocialColor = (platform: string) => {
 	switch (platform) {
-		case "twitter":
-			return "hover:bg-primary/10 hover:text-background";
 		case "facebook":
 			return "hover:bg-primary/10 hover:text-background";
 		case "whatsapp":
@@ -74,9 +65,6 @@ const ShareComponent: FC<ShareComponentProps> = ({ className = "" }) => {
 				case "linkedin":
 					shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
 					break;
-				case "twitter":
-					shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`;
-					break;
 				case "facebook":
 					shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
 					break;
@@ -104,7 +92,6 @@ const ShareComponent: FC<ShareComponentProps> = ({ className = "" }) => {
 
 	const shareButtons = [
 		{ platform: "copy", label: "Linki Kopyala", visible: true },
-		{ platform: "twitter", label: "X", visible: false },
 		{ platform: "facebook", label: "Facebook", visible: false },
 		{ platform: "whatsapp", label: "WhatsApp", visible: false },
 		{ platform: "tiktok", label: "TikTok", visible: false },
