@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { addParentNumber, DenemeApiError } from "@/lib/deneme";
 import { getTrafficSource, trackDeneme } from "@/lib/deneme-tracking";
+import { RaporHazir } from "./rapor-hazir";
 
 /** Students' own numbers aren't called: the PDF links here to add a parent's number. */
 export function VeliForm({
@@ -18,14 +19,14 @@ export function VeliForm({
 	const [aramaIzni, setAramaIzni] = useState(false);
 	const [sending, setSending] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const [sentTo, setSentTo] = useState<string | null>(null);
+	const [sent, setSent] = useState(false);
 
 	const submit = async (event: React.FormEvent) => {
 		event.preventDefault();
 		setSending(true);
 		setError(null);
 		try {
-			const response = await addParentNumber(raporKey, {
+			await addParentNumber(raporKey, {
 				adSoyad,
 				telefon,
 				raporIzni,
@@ -37,7 +38,7 @@ export function VeliForm({
 				arama_izni: aramaIzni,
 				rapordan: true,
 			});
-			setSentTo(response.telefon);
+			setSent(true);
 		} catch (e) {
 			setError(e instanceof DenemeApiError ? e.message : "Bağlantı sorunu, lütfen tekrar deneyin.");
 		} finally {
@@ -45,13 +46,15 @@ export function VeliForm({
 		}
 	};
 
-	if (sentTo) {
+	if (sent) {
 		return (
 			<section role="status" className="rounded-2xl border border-green-200 bg-green-50 p-5">
 				<CheckCircle2 className="mb-2 h-7 w-7 text-green-700" aria-hidden="true" />
 				<p className="text-foreground">
-					PDF raporun velinize de (<strong>{sentTo}</strong>) SMS ile gönderilecek.
+					Teşekkürler. Çağlar Hoca velini arayıp raporu birlikte değerlendirecek. Raporu veline
+					şimdi de gönderebilirsin:
 				</p>
+				<RaporHazir raporKey={raporKey} denemeBaslik={denemeBaslik} />
 			</section>
 		);
 	}
@@ -86,7 +89,7 @@ export function VeliForm({
 					className="mt-1"
 				/>
 				<span>
-					Raporun bu numaraya gönderilmesi için{" "}
+					Bilgilerin rapor ve değerlendirme için işlenmesine ilişkin{" "}
 					<Link href="/gizlilik-politikasi" target="_blank" className="text-primary underline">
 						KVKK aydınlatma metnini
 					</Link>{" "}

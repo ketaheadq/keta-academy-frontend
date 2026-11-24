@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 
 /**
- * The SMS link (`/rapor/<key>`) opens the PDF report straight away. The PDF is built by
+ * The report link (`/rapor/<key>`, shown after the form) opens the PDF report straight away. The PDF is built by
  * Strapi on each request; this route passes it through so the link stays on our domain.
  */
 const STRAPI_URL = process.env.STRAPI_INTERNAL_URL || process.env.NEXT_PUBLIC_STRAPI_URL;
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 		return message(
 			404,
 			"Rapor bulunamadı",
-			"Linki SMS'teki haliyle açtığınızdan emin olun. Raporlar bir süre sonra silinir.",
+			"Linki eksiksiz açtığınızdan emin olun. Raporlar bir süre sonra silinir.",
 		);
 	if (response.status === 409)
 		return message(

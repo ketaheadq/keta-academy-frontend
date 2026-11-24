@@ -161,7 +161,10 @@ export type RaporTalebiInput = {
 };
 
 export function requestReport(sonucAnahtari: string, input: RaporTalebiInput) {
-	return post<{ telefon: string }>("denemeler/rapor-talebi", { sonucAnahtari, ...input });
+	return post<{ telefon: string; raporAnahtari: string }>("denemeler/rapor-talebi", {
+		sonucAnahtari,
+		...input,
+	});
 }
 
 export function addParentNumber(raporAnahtari: string, input: Omit<RaporTalebiInput, "yakinlik">) {
