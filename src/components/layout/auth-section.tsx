@@ -42,7 +42,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 			<div className="rounded-xl border border-border bg-secondary/40 p-3">
 				<div className="flex items-center gap-3 px-1">
 					{avatar}
-					<div className="min-w-0 wrap-anywhere">
+					<div className="wrap-anywhere min-w-0">
 						<p className="font-semibold text-foreground text-sm">{user.name}</p>
 						<p className="text-muted-foreground text-xs">{user.email}</p>
 					</div>

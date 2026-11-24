@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { pages } from "@/lib/navbar-page-links";
 import { getPageCategories, getSettings } from "@/lib/strapi";
 import AuthSection from "./auth-section";
 import DesktopDropdown from "./desktop-dropdown";
 import MobileMenu from "./mobile-menu";
-import {pages} from "@/lib/navbar-page-links";
 
 export default async function Navbar() {
 	// Fetch data on the server
@@ -31,8 +31,9 @@ export default async function Navbar() {
 
 					{/* Desktop Navigation Menu */}
 					<nav className="hidden items-center gap-8 lg:flex">
-						{pages.map((p , i) => (
+						{pages.map((p) => (
 							<Link
+								key={p.id}
 								href={p.href}
 								className="block rounded p-2 font-medium text-foreground hover:text-primary focus-visible:ring-2 focus-visible:ring-primary"
 							>

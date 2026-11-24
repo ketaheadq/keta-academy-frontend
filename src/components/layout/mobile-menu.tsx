@@ -3,9 +3,9 @@
 import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { pages } from "@/lib/navbar-page-links";
 import type { StrapiPageCategory } from "@/lib/strapi";
 import AuthSection from "./auth-section";
-import {pages} from "@/lib/navbar-page-links";
 
 interface MobileMenuProps {
 	pageCategories: StrapiPageCategory[];
@@ -74,9 +74,9 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 				<div className="slide-in-from-top-2 fixed inset-x-0 top-20 z-50 animate-in bg-white shadow-lg duration-200 lg:hidden">
 					<div className="max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain px-4 py-6">
 						<nav className="space-y-1">
-
-							{pages.map((p , i) => (
+							{pages.map((p) => (
 								<Link
+									key={p.id}
 									href={p.href}
 									onClick={closeMobileMenu}
 									className="block rounded p-2 font-medium text-foreground hover:text-primary focus-visible:ring-2 focus-visible:ring-primary"
