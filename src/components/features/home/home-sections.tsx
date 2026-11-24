@@ -77,9 +77,9 @@ export function HomeVeliler() {
 					Veliler için: çocuğunuz nerede eksik, görün
 				</h2>
 				<p className="mt-3 text-slate-200 leading-relaxed">
-					Ücretsiz denemeyi çözen öğrencinin PDF analiz raporu telefonunuza SMS ile gelir: yanlış
-					yaptığı her soru çözümüyle, konu konu başarısı, izlemesi gereken dersler ve Çağlar
-					Hoca'nın notu. İsterseniz raporu 15 dakikada birlikte değerlendiririz.
+					Ücretsiz denemeyi çözen öğrencinin PDF analiz raporu hemen hazırlanır: yanlış yaptığı her
+					soru çözümüyle, konu konu başarısı, izlemesi gereken dersler ve Çağlar Hoca'nın notu.
+					İsterseniz raporu 15 dakikada birlikte değerlendiririz.
 				</p>
 				<div className="mt-6 flex flex-col gap-3 sm:flex-row">
 					<Button asChild size="lg" className="bg-amber-400 text-slate-950 hover:bg-amber-300">

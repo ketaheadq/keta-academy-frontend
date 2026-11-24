@@ -27,8 +27,8 @@ export default async function VeliPage({ params }: PageProps) {
 								Raporu velinle paylaş
 							</h1>
 							<p className="mt-2 text-muted-foreground">
-								Velinin numarasını yaz, PDF raporun ona da SMS ile gönderilsin. Çağlar Hoca raporu
-								velinle 15 dakikada ücretsiz değerlendirebilir.
+								Velinin numarasını yaz; Çağlar Hoca velini arayıp raporu 15 dakikada ücretsiz
+								birlikte değerlendirsin.
 							</p>
 						</header>
 						<VeliForm raporKey={key} denemeBaslik={rapor.denemeBaslik} />

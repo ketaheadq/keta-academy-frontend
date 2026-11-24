@@ -25,6 +25,7 @@ import {
 } from "@/lib/deneme";
 import { getSessionId, getTrafficSource, trackDeneme } from "@/lib/deneme-tracking";
 import { cn } from "@/lib/utils";
+import { RaporHazir } from "./rapor-hazir";
 
 type Stage = "intro" | "running" | "result";
 type Saved = { startedAt: number; answers: Record<number, string | null>; current: number };
@@ -437,8 +438,8 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 							Geniş analiz raporunu ister misin?
 						</h2>
 						<p className="mt-1 text-muted-foreground text-sm">
-							Ücretsiz. Sonuçlarını Çağlar Hoca'nın gözünden inceleyip PDF olarak telefonuna SMS ile
-							gönderiyoruz.
+							Ücretsiz. Sonuçlarını Çağlar Hoca'nın gözünden inceleyip PDF olarak hemen burada
+							hazırlıyoruz.
 						</p>
 						<ul className="mt-3 space-y-1.5 text-foreground text-sm">
 							{ANALIZ_MADDELERI.map((item) => (
@@ -533,7 +534,7 @@ function ReportRequestForm({
 	const [aramaIzni, setAramaIzni] = useState(false);
 	const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
 	const [error, setError] = useState<string | null>(null);
-	const [sentTo, setSentTo] = useState<string | null>(null);
+	const [raporKey, setRaporKey] = useState<string | null>(null);
 
 	const submit = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -554,24 +555,24 @@ function ReportRequestForm({
 				kaynak: getTrafficSource().kaynak,
 			});
 			trackDeneme("rapor_talebi", deneme.baslik, { yakinlik, arama_izni: aramaIzni });
-			setSentTo(response.telefon);
+			setRaporKey(response.raporAnahtari);
 		} catch (e) {
 			setError(e instanceof DenemeApiError ? e.message : "Bağlantı sorunu, lütfen tekrar deneyin.");
 			setStatus("error");
 		}
 	};
 
-	if (sentTo) {
+	if (raporKey) {
 		return (
 			<section role="status" className="rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6">
 				<CheckCircle2 className="mb-2 h-8 w-8 text-green-700" aria-hidden="true" />
-				<h2 className="font-bold text-foreground text-xl">Raporun hazırlanıyor</h2>
-				<p className="mt-2 text-foreground">
-					PDF analiz raporun <strong>{sentTo}</strong> numarasına SMS ile gönderilecek.
+				<h2 className="font-bold text-foreground text-xl">Analiz raporun</h2>
+				<RaporHazir raporKey={raporKey} denemeBaslik={deneme.baslik} />
+				<p className="mt-4 text-sm">
+					<Link href="/kurslar" className="text-muted-foreground underline">
+						Derslere göz at
+					</Link>
 				</p>
-				<Button asChild variant="outline" className="mt-4">
-					<Link href="/kurslar">Bu arada derslere göz at</Link>
-				</Button>
 			</section>
 		);
 	}
@@ -582,10 +583,11 @@ function ReportRequestForm({
 			className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6"
 		>
 			<h2 id="rapor-form-baslik" className="font-bold text-foreground text-xl">
-				Raporu hangi numaraya gönderelim?
+				Raporunu hazırlayalım
 			</h2>
 			<p className="mt-1 text-muted-foreground text-sm">
-				PDF raporun hazır olunca linki SMS ile gelir. E-posta istemiyoruz.
+				Rapor birkaç saniye içinde burada açılır. Numarayı, Çağlar Hoca sonucu sizinle
+				değerlendirebilsin diye istiyoruz. E-posta istemiyoruz.
 			</p>
 			<form onSubmit={submit} className="mt-4 space-y-4">
 				<div>
@@ -652,7 +654,7 @@ function ReportRequestForm({
 						className="mt-1"
 					/>
 					<span>
-						Raporun bu numaraya gönderilmesi için{" "}
+						Bilgilerimin rapor ve değerlendirme için işlenmesine ilişkin{" "}
 						<Link href="/gizlilik-politikasi" target="_blank" className="text-primary underline">
 							KVKK aydınlatma metnini
 						</Link>{" "}
@@ -677,7 +679,7 @@ function ReportRequestForm({
 					</p>
 				)}
 				<Button type="submit" className="w-full" disabled={status === "sending"}>
-					{status === "sending" ? "Gönderiliyor..." : "Raporu gönder"}
+					{status === "sending" ? "Hazırlanıyor..." : "Raporumu hazırla"}
 				</Button>
 			</form>
 		</section>

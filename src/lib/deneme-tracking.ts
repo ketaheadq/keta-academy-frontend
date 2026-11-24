@@ -61,7 +61,9 @@ export type DenemeEvent =
 	| "deneme_bitir"
 	| "analiz_sorusu"
 	| "ornek_rapor_tiklama"
-	| "rapor_talebi";
+	| "rapor_talebi"
+	| "rapor_ac_tiklama"
+	| "rapor_paylas";
 
 export function trackDeneme(
 	event: DenemeEvent,
