@@ -6,7 +6,7 @@
 	border-radius: 1.5rem;
 	background: #e7ebf5;
 	color: #0f172a;
-	padding: 2rem 1.5rem calc(1rem + 28%);
+	padding: 1.5rem 1.25rem calc(0.5rem + 24%);
 }
 
 .hero::before {
@@ -40,5 +40,24 @@
 @media (min-width: 1024px) {
 	.hero::before {
 		background-image: url("/images/ketalearn-hero-desktop.jpg");
+	}
+}
+
+/* Slides with their own image (Anasayfa Slaytı → Görsel) */
+.custom::before {
+	background: var(--slide-image) center / cover no-repeat;
+	mask-image: linear-gradient(to bottom, transparent, black 38%);
+}
+
+@media (min-width: 768px) {
+	.custom::before {
+		background-image: var(--slide-image);
+		mask-image: linear-gradient(to right, transparent 30%, black 60%);
+	}
+}
+
+@media (min-width: 1024px) {
+	.custom::before {
+		background-image: var(--slide-image);
 	}
 }

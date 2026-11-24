@@ -32,6 +32,8 @@ interface CoursePageProps {
 	lessons: StrapiLesson[];
 	ders_ismi?: string;
 	searchParams?: { ders_ismi?: string };
+	/** Lesson documentId → a mock exam that covers the lesson's topic. */
+	miniDenemeler?: Record<string, { baslik: string; slug: string }>;
 }
 
 export default function CoursePage({
@@ -39,6 +41,7 @@ export default function CoursePage({
 	lessons,
 	ders_ismi,
 	searchParams,
+	miniDenemeler = {},
 }: Readonly<CoursePageProps>) {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -221,6 +224,16 @@ export default function CoursePage({
 									{currentLesson.content?.length ? (
 										<RichTextRenderer content={currentLesson.content} />
 									) : null}
+									{miniDenemeler[currentLesson.documentId] && (
+										<Link
+											href={`/deneme-sinavlari/${miniDenemeler[currentLesson.documentId].slug}`}
+											className="mt-4 flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 p-3 font-medium text-primary hover:bg-primary/10"
+										>
+											<Target className="h-4 w-4 shrink-0" aria-hidden="true" />
+											Bu konunun mini denemesini çöz:{" "}
+											{miniDenemeler[currentLesson.documentId].baslik}
+										</Link>
+									)}
 									{currentLesson.attachments?.map((attachment) => (
 										<a
 											key={attachment.id}

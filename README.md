@@ -76,3 +76,19 @@ This roadmap outlines the planned improvements to make KetaLearn the premier edu
 
 ## 📄 License
 This project is proprietary. All rights reserved.
+
+## Deneme sınavları
+
+Free mock exams that unlock a detailed report for a phone number. Backend, settings and decisions: see the Strapi repo README ("Deneme sınavları").
+
+| Page | What it does |
+|---|---|
+| `/deneme-sinavlari` | Exam list with filters by exam type (LGS, TYT…) and grade |
+| `/deneme-sinavlari/[slug]` | Exam page: no sign-up, timer, question navigator; resumes after a refresh, submits when time is up. The net shows right away; the topic report is locked behind the phone form (name, phone, relation, KVKK consent, separate call consent) |
+| `/rapor/[key]` | Personal report from the SMS link (noindex): net, rank, topic table, "şu dersi izle" lessons, teacher's note, 15-minute call offer with WhatsApp. Students' reports ask for a parent's number |
+| Home | Slider from the panel (Anasayfa Slaytı), "Bu dönemin denemeleri", Çağlar Hoca and parents sections |
+| Lesson pages | "Bu konunun mini denemesini çöz" when an exam covers the lesson's topic |
+
+GA4 events (each with the exam name and traffic source): `deneme_sayfasi_goruntuleme`, `deneme_baslat`, `deneme_bitir`, `rapor_talebi`, `rapor_acildi`, `rapor_video_tiklama`, `gorusme_tiklama`. The source is the first landing's `utm_source`, else the referring site, else `dogrudan`; link Instagram posts and ads straight to an exam page with `?utm_source=…`.
+
+No new environment variables on the frontend.

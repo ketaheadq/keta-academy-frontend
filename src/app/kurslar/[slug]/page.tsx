@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
 import CoursePage from "@/components/features/course/course";
+import { getLessonExams } from "@/lib/deneme";
 import { generateSEOMetadata } from "@/lib/seo";
 import { getCourse, getLessonsByCourseId } from "@/lib/strapi";
 
@@ -75,5 +76,14 @@ export default async function DerslerPage({
 	// Extract lessons from course-lessons (they're already sorted by order)
 	const lessons = courseLessons.map((courseLesson) => courseLesson.lesson);
 
-	return <CoursePage course={course} lessons={lessons} ders_ismi={ders_ismi} />;
+	const miniDenemeler = await getLessonExams(lessons.map((lesson) => lesson.documentId));
+
+	return (
+		<CoursePage
+			course={course}
+			lessons={lessons}
+			ders_ismi={ders_ismi}
+			miniDenemeler={miniDenemeler}
+		/>
+	);
 }
