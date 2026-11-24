@@ -1,12 +1,11 @@
-import { Calendar, Search, Video } from "lucide-react";
+import { GraduationCap, MessageCircle, Search } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { use, useId } from "react";
 import TutoringContent from "@/components/features/tutoring/tutoring-content";
 import { Button } from "@/components/ui/button";
 import ScrollToSectionButton from "@/components/ui/scroll-to-section-button";
 import { generateTutoringStructuredData } from "@/lib/seo";
-import { getTutoringProfiles } from "@/lib/strapi";
+import { getContactPage, getTutoringProfiles, getTutorRatingSummaries } from "@/lib/strapi";
 
 const PAGE_URL = `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud"}/ozel-ders`;
 
@@ -25,10 +24,14 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function TutoringPage() {
-	// Fetch tutoring profiles from Strapi
-	const tutoringProfiles = use(getTutoringProfiles());
-	const howItWorksId = useId();
+const howItWorksId = "nasil-calisir";
+
+export default async function TutoringPage() {
+	const [tutoringProfiles, ratings, contactPage] = await Promise.all([
+		getTutoringProfiles(),
+		getTutorRatingSummaries(),
+		getContactPage().catch(() => null),
+	]);
 
 	const structuredData = generateTutoringStructuredData(tutoringProfiles, PAGE_URL);
 
@@ -60,7 +63,7 @@ export default function TutoringPage() {
 					</p>
 
 					<div className="mx-auto flex max-w-xs flex-col justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-6">
-						<Link href="/iletisim" className="w-full sm:w-auto">
+						<Link href="#ogretmenler" className="w-full sm:w-auto">
 							<Button className="h-14 w-full rounded-2xl bg-accent px-6 font-bold text-accent-foreground text-lg shadow-accent transition-all hover:scale-105 hover:bg-accent/90 hover:shadow-[0_0_30px_rgba(253,154,0,0.4)] sm:w-auto sm:px-10">
 								Hemen Başla
 							</Button>
@@ -76,7 +79,11 @@ export default function TutoringPage() {
 			</div>
 
 			{/* Interactive Content */}
-			<TutoringContent data={tutoringProfiles} />
+			<TutoringContent
+				data={tutoringProfiles}
+				ratings={ratings}
+				fallbackPhone={contactPage?.phone}
+			/>
 
 			{/* How It Works Section */}
 			<div id={howItWorksId} className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-24 lg:px-8">
@@ -95,9 +102,9 @@ export default function TutoringPage() {
 						<div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-background">
 							<Search className="h-8 w-8" />
 						</div>
-						<h3 className="mb-3 font-bold text-2xl text-foreground">1. Öğretmen Seç</h3>
+						<h3 className="mb-3 font-bold text-2xl text-foreground">1. Öğretmeni Seç</h3>
 						<p className="text-muted-foreground leading-relaxed">
-							Hedeflerinize uygun uzman öğretmeni binlerce profesyonel arasından kolayca bulun.
+							Öğretmen profillerini, verdiği dersleri ve öğrenci değerlendirmelerini inceleyin.
 						</p>
 						<span
 							aria-hidden="true"
@@ -109,11 +116,11 @@ export default function TutoringPage() {
 
 					<div className="group relative rounded-3xl border border-border bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
 						<div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent transition-all duration-500 group-hover:bg-accent group-hover:text-accent-foreground">
-							<Calendar className="h-8 w-8" />
+							<MessageCircle className="h-8 w-8" />
 						</div>
-						<h3 className="mb-3 font-bold text-2xl text-foreground">2. Ders Rezerve Et</h3>
+						<h3 className="mb-3 font-bold text-2xl text-foreground">2. WhatsApp'tan Yaz</h3>
 						<p className="text-muted-foreground leading-relaxed">
-							Size en uygun zaman dilimini seçin ve dakikalar içinde dersinizi planlayın.
+							Öğretmene WhatsApp'tan yazın ya da arayın; hedefinizi ve uygun saatleri konuşun.
 						</p>
 						<span
 							aria-hidden="true"
@@ -125,11 +132,11 @@ export default function TutoringPage() {
 
 					<div className="group relative rounded-3xl border border-border bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
 						<div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-foreground/10 text-foreground transition-all duration-500 group-hover:bg-foreground group-hover:text-background">
-							<Video className="h-8 w-8" />
+							<GraduationCap className="h-8 w-8" />
 						</div>
-						<h3 className="mb-3 font-bold text-2xl text-foreground">3. Öğrenmeye Başla</h3>
+						<h3 className="mb-3 font-bold text-2xl text-foreground">3. Deneme Dersiyle Başla</h3>
 						<p className="text-muted-foreground leading-relaxed">
-							Yüksek kaliteli görüntülü görüşme ile her yerden eğitime başlayın.
+							Ücretsiz deneme dersinde seviyenizi belirleyin, size özel programla devam edin.
 						</p>
 						<span
 							aria-hidden="true"
@@ -153,12 +160,12 @@ export default function TutoringPage() {
 					Geleceğiniz İçin <br className="hidden sm:block" /> İlk Adımı Bugün Atın
 				</h2>
 				<p className="mx-auto mt-6 max-w-xl text-lg text-slate-100">
-					Binlerce başarılı öğrenci arasına siz de katılın. İlk dersinizi deneyin ve farkı yaşayın.
+					Öğretmeninizi seçin, ücretsiz deneme dersinizi planlayın ve farkı yaşayın.
 				</p>
 				<div className="mt-10 flex flex-col justify-center gap-6 sm:flex-row">
-					<Link href="/iletisim" className="w-full sm:w-auto">
+					<Link href="#ogretmenler" className="w-full sm:w-auto">
 						<Button className="h-14 w-full rounded-2xl bg-accent px-6 font-bold text-accent-foreground text-lg shadow-2xl transition-all hover:scale-105 hover:bg-accent/90 sm:w-auto sm:px-10">
-							Hemen Keşfet
+							Öğretmenleri Gör
 						</Button>
 					</Link>
 				</div>

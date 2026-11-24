@@ -1,90 +1,89 @@
 "use client";
 
-import { Award, Globe, Heart, MessageCircle, Search, Shield, Users } from "lucide-react";
+import { ArrowRight, Search, Users } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import type { StrapiTutoringProfile } from "@/lib/strapi";
+import {
+	EMPTY_RATING,
+	type StrapiTutoringProfile,
+	type TutorRatingSummary,
+	tutorPath,
+} from "@/lib/strapi";
+import { RatingStars } from "./rating-stars";
+import { TutorContactButtons } from "./tutor-contact-buttons";
 
-function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
-	const [showDetails, setShowDetails] = useState(false);
-	const [isFavorite, setIsFavorite] = useState(false);
+function TutorCard({
+	tutor,
+	rating,
+	phone,
+}: Readonly<{ tutor: StrapiTutoringProfile; rating: TutorRatingSummary; phone?: string | null }>) {
+	const href = tutorPath(tutor);
+	const subjects = tutor.subjects ?? [];
 
-	// Parse expertise string into array
-	const expertiseList = tutor.experties ? tutor.experties.split(",") : [];
-	const router = useRouter();
 	return (
-		<div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
-			{/* Header */}
-			<div className="relative p-6 pb-4">
-				<div className="flex items-start gap-4">
-					<div className="relative">
-						<div className="relative h-14 w-14 sm:h-20 sm:w-20">
-							<Image
-								src={tutor.profilePicture?.url || "/placeholder.svg"}
-								alt={tutor.name}
-								fill
-								sizes="(min-width: 640px) 80px, 56px"
-								className="rounded-full border-4 border-white object-cover shadow-lg"
-							/>
-						</div>
-						<div className="absolute -right-1 -bottom-1 h-6 w-6 rounded-full border-2 border-white bg-primary" />
-						<div className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-							<Shield className="h-3 w-3 text-background" />
-						</div>
-					</div>
-
-					<div className="min-w-0 flex-1">
-						<div className="flex items-start justify-between">
-							<div>
-								<h3 className="mb-1 font-bold text-foreground text-xl">{tutor.name}</h3>
-								<p className="mb-2 font-medium text-primary">{tutor.title}</p>
-							</div>
-
-							<button
-								type="button"
-								onClick={() => setIsFavorite(!isFavorite)}
-								className={`shrink-0 rounded-full p-2 transition-colors ${
-									isFavorite
-										? "bg-destructive/10 text-destructive"
-										: "bg-secondary text-muted-foreground hover:text-destructive"
-								}`}
-							>
-								<Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
-							</button>
-						</div>
-
-						<div className="mb-3 flex flex-wrap gap-2">
-							{tutor.subjects.slice(0, 2).map((subject) => (
-								<span
-									key={subject.slug}
-									className="rounded-full bg-primary/10 px-2 py-1 font-medium text-primary text-xs"
-								>
-									{subject.title}
-								</span>
-							))}
-							{tutor.subjects.length > 2 && (
-								<span className="rounded-full bg-secondary px-2 py-1 font-medium text-muted-foreground text-xs">
-									+{tutor.subjects.length - 2} daha
-								</span>
-							)}
-						</div>
-					</div>
+		// The name link stretches over the whole card (after:inset-0); contact buttons sit above it (z-10).
+		<article className="relative flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
+			<div className="flex items-start gap-4 p-6 pb-4">
+				<div className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20">
+					<Image
+						src={tutor.profilePicture?.url || "/placeholder.svg"}
+						alt=""
+						fill
+						sizes="(min-width: 640px) 80px, 64px"
+						className="rounded-full border-4 border-white object-cover shadow-lg"
+					/>
 				</div>
 
-				<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
-					{tutor.experties} alanlarında uzman öğretmen. {tutor.exprienceYears} yıllık deneyimle
-					öğrencilere kaliteli eğitim sunmaktadır.
-				</p>
+				<div className="min-w-0 flex-1">
+					<h3 className="font-bold text-foreground text-xl">
+						<Link href={href} className="after:absolute after:inset-0 hover:underline">
+							{tutor.name}
+						</Link>
+					</h3>
+					<p className="mb-2 font-medium text-primary">{tutor.title}</p>
+					<div className="flex flex-wrap items-center gap-2 text-sm">
+						{rating.count > 0 ? (
+							<>
+								<RatingStars value={rating.average} />
+								<span className="font-semibold text-foreground">
+									{rating.average.toLocaleString("tr-TR")}
+								</span>
+								<span className="text-muted-foreground">({rating.count})</span>
+							</>
+						) : (
+							<span className="text-muted-foreground">Henüz değerlendirme yok</span>
+						)}
+					</div>
+				</div>
 			</div>
+
+			{subjects.length > 0 && (
+				<div className="flex flex-wrap gap-2 px-6 pb-4">
+					{subjects.slice(0, 3).map((subject) => (
+						<span
+							key={subject.slug}
+							className="rounded-full bg-primary/10 px-2 py-1 font-medium text-primary text-xs"
+						>
+							{subject.title}
+						</span>
+					))}
+					{subjects.length > 3 && (
+						<span className="rounded-full bg-secondary px-2 py-1 font-medium text-muted-foreground text-xs">
+							+{subjects.length - 3} daha
+						</span>
+					)}
+				</div>
+			)}
 
 			{/* Stats */}
 			<div className="px-6 pb-4">
 				<div className="grid grid-cols-3 gap-2 text-center sm:gap-4">
 					<div className="rounded-lg bg-primary/10 px-1 py-2 sm:p-3">
-						<div className="font-bold text-lg text-primary">{tutor.successRate}%</div>
-						<div className="text-muted-foreground text-xs">Başarı Oranı</div>
+						<div className="font-bold text-lg text-primary">
+							{rating.satisfaction !== null ? `%${rating.satisfaction}` : "—"}
+						</div>
+						<div className="text-muted-foreground text-xs">Memnuniyet</div>
 					</div>
 					<div className="rounded-lg bg-primary/10 px-1 py-2 sm:p-3">
 						<div className="font-bold text-lg text-primary">{tutor.studentCount}</div>
@@ -97,100 +96,37 @@ function TutorCard({ tutor }: Readonly<{ tutor: StrapiTutoringProfile }>) {
 				</div>
 			</div>
 
-			{/* Quick Info */}
-			<div className="px-6 pb-4">
-				<div className="flex items-center justify-between">
+			<div className="mt-auto px-6 pb-6">
+				<div className="mb-4 flex items-center justify-between">
 					<div className="font-bold text-2xl text-foreground">
 						₺{tutor.price}
 						<span className="font-normal text-muted-foreground text-sm">/saat</span>
 					</div>
-					<div className="rounded-full bg-primary/10 px-2 py-1 font-medium text-primary text-xs">
-						Çevrimiçi
-					</div>
-				</div>
-			</div>
-
-			{/* Actions */}
-			<div className="px-6 pb-6">
-				<div className="flex gap-2">
-					<Button
-						onClick={() => router.push("/iletisim")}
-						className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 font-semibold text-background transition-colors hover:bg-primary"
+					<span
+						className="flex items-center gap-1 font-medium text-primary text-sm"
+						aria-hidden="true"
 					>
-						<MessageCircle className="h-4 w-4" />
-						Bize Ulaşın
-					</Button>
+						Profili gör <ArrowRight className="h-4 w-4" />
+					</span>
 				</div>
-
-				<button
-					type="button"
-					aria-expanded={showDetails}
-					onClick={() => setShowDetails(!showDetails)}
-					className="mt-2 w-full rounded-lg py-2 font-medium text-primary text-sm transition-colors hover:bg-primary/10 hover:underline"
-				>
-					{showDetails ? "Daha Az Göster" : "Detayları Göster"}
-				</button>
+				<TutorContactButtons tutorName={tutor.name} phone={phone} compact />
 			</div>
-
-			{/* Expanded Details */}
-			{showDetails && (
-				<div className="border-border border-t bg-secondary px-6 py-6">
-					{/* Education & Achievements */}
-					<div className="mb-6">
-						<h4 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
-							<Award className="h-4 w-4" />
-							Uzmanlık Alanları
-						</h4>
-						<div className="flex flex-wrap gap-2">
-							{expertiseList.map((expertise) => (
-								<span
-									key={expertise.trim()}
-									className="rounded-full border bg-white px-3 py-1 text-muted-foreground text-sm"
-								>
-									{expertise}
-								</span>
-							))}
-						</div>
-					</div>
-
-					{/* Subjects */}
-					<div className="mb-6">
-						<h4 className="mb-3 font-semibold text-foreground">Verdiği Dersler</h4>
-						<div className="flex flex-wrap gap-2">
-							{tutor.subjects.map((subject) => (
-								<span
-									key={subject.slug}
-									className="rounded-full bg-primary/10 px-3 py-1 text-primary text-sm"
-								>
-									{subject.title}
-								</span>
-							))}
-						</div>
-					</div>
-
-					{/* Languages */}
-					<div className="mb-6">
-						<h4 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
-							<Globe className="h-4 w-4" />
-							Diller
-						</h4>
-						<div className="flex gap-2">
-							<span className="rounded-full bg-primary/10 px-3 py-1 text-primary text-sm">
-								Türkçe
-							</span>
-							<span className="rounded-full bg-primary/10 px-3 py-1 text-primary text-sm">
-								İngilizce
-							</span>
-						</div>
-					</div>
-				</div>
-			)}
-		</div>
+		</article>
 	);
 }
 
-export default function TutoringContent({ data }: Readonly<{ data: StrapiTutoringProfile[] }>) {
+export default function TutoringContent({
+	data,
+	ratings,
+	fallbackPhone,
+}: Readonly<{
+	data: StrapiTutoringProfile[];
+	ratings: Record<string, TutorRatingSummary>;
+	/** Contact page phone, used for tutors without their own number. */
+	fallbackPhone?: string | null;
+}>) {
 	const tutors = data;
+	const ratingOf = (tutor: StrapiTutoringProfile) => ratings[tutor.documentId] ?? EMPTY_RATING;
 	const [selectedSubject, setSelectedSubject] = useState("all");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [sortBy, setSortBy] = useState("rating");
@@ -223,13 +159,13 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 			const matchesSearch =
 				tutor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				tutor.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				tutor.experties.toLowerCase().includes(searchQuery.toLowerCase());
+				(tutor.experties ?? "").toLowerCase().includes(searchQuery.toLowerCase());
 			return matchesSubject && matchesSearch;
 		})
 		.sort((a, b) => {
 			switch (sortBy) {
 				case "rating":
-					return b.successRate - a.successRate;
+					return ratingOf(b).average - ratingOf(a).average || ratingOf(b).count - ratingOf(a).count;
 				case "price":
 					return a.price - b.price;
 				case "experience":
@@ -240,7 +176,7 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 		});
 
 	return (
-		<div className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
+		<div id="ogretmenler" className="mx-auto scroll-mt-20 px-4 py-12 sm:px-6 lg:px-8">
 			{/* Filters */}
 			<div className="mb-8 rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
 				<div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -278,9 +214,9 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 						<select
 							value={sortBy}
 							onChange={(e) => setSortBy(e.target.value)}
-							className="w-full min-w-0 rounded-xl border border-border px-4 py-2 sm:w-auto focus:border-transparent focus:ring-2 focus:ring-primary"
+							className="w-full min-w-0 rounded-xl border border-border px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-primary sm:w-auto"
 						>
-							<option value="rating">Başarı Oranına Göre</option>
+							<option value="rating">Puana Göre</option>
 							<option value="price">Fiyata Göre</option>
 							<option value="experience">Deneyime Göre</option>
 						</select>
@@ -291,7 +227,12 @@ export default function TutoringContent({ data }: Readonly<{ data: StrapiTutorin
 			{/* Tutors Grid */}
 			<div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
 				{filteredTutors.map((tutor) => (
-					<TutorCard key={tutor.id} tutor={tutor} />
+					<TutorCard
+						key={tutor.id}
+						tutor={tutor}
+						rating={ratingOf(tutor)}
+						phone={tutor.phone || fallbackPhone}
+					/>
 				))}
 			</div>
 

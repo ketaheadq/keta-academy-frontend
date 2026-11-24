@@ -930,11 +930,16 @@ export interface StrapiTutoringProfile {
 	id: number;
 	documentId: string;
 	name: string;
+	/** URL slug for /ozel-ders/[slug]; falls back to documentId when empty. */
+	slug?: string | null;
 	title: string;
+	/** Used for the WhatsApp and call buttons; falls back to the contact page phone. */
+	phone?: string | null;
 	content: StrapiBlock[];
 	experties: string; // Note: keeping the typo from API
 	price: number;
-	successRate: number;
+	/** Legacy, manually entered value. Satisfaction now comes from member reviews. */
+	successRate?: number | null;
 	studentCount: number;
 	exprienceYears: number; // Note: keeping the typo from API
 	createdAt: string;
@@ -946,16 +951,103 @@ export interface StrapiTutoringProfile {
 }
 
 // Tutoring Profile API functions
+const TUTOR_POPULATE =
+	"populate[subjects]=true&populate[profilePicture]=true&populate[SEO][populate]=metaImage";
+
 export async function getTutoringProfiles(): Promise<StrapiTutoringProfile[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiTutoringProfile[]>>(
-			"tutoring-profiles?populate[subjects]=true&populate[profilePicture]=true&populate[SEO][populate]=metaImage",
+			`tutoring-profiles?${TUTOR_POPULATE}&pagination[pageSize]=100`,
 		);
 		return response.data;
 	} catch (error) {
 		console.error("Error fetching tutoring profiles - check Strapi permissions:", error);
 		return [];
 	}
+}
+
+/** URL segment for a tutor's page: the slug, or the documentId when no slug is set. */
+export function tutorPath(tutor: Pick<StrapiTutoringProfile, "slug" | "documentId">) {
+	return `/ozel-ders/${encodeURIComponent(tutor.slug || tutor.documentId)}`;
+}
+
+/** Finds a tutor by slug, falling back to documentId (for tutors without a slug). */
+export async function getTutoringProfile(slugOrId: string): Promise<StrapiTutoringProfile | null> {
+	const value = encodeURIComponent(slugOrId);
+	for (const field of ["slug", "documentId"]) {
+		const response = await fetchStrapiData<StrapiResponse<StrapiTutoringProfile[]>>(
+			`tutoring-profiles?filters[${field}][$eq]=${value}&${TUTOR_POPULATE}`,
+		);
+		if (response.data?.length) return response.data[0];
+	}
+	return null;
+}
+
+// Tutor reviews
+export type TutorRatingSummary = {
+	count: number;
+	average: number;
+	/** Average rating as a percentage of 5 stars; null when there are no reviews. */
+	satisfaction: number | null;
+};
+export type TutorReview = { rating: number; comment: string; author: string; updatedAt: string };
+export type MyTutorReview = { rating: number; comment: string };
+
+export const EMPTY_RATING: TutorRatingSummary = { count: 0, average: 0, satisfaction: null };
+
+/** Rating summary of every tutor, keyed by tutor documentId. */
+export async function getTutorRatingSummaries(): Promise<Record<string, TutorRatingSummary>> {
+	try {
+		const response = await fetchStrapiData<{
+			data: (TutorRatingSummary & { tutorDocumentId: string })[];
+		}>("tutor-reviews/summary", { revalidate: 0 }); // fresh, so a new review shows up right away
+		return Object.fromEntries(
+			(response.data ?? []).map(({ tutorDocumentId, ...summary }) => [tutorDocumentId, summary]),
+		);
+	} catch (error) {
+		console.error("Error fetching tutor rating summaries:", error);
+		return {};
+	}
+}
+
+async function reviewRequest<T>(path: string, options: RequestInit = {}, token?: string) {
+	const response = await fetch(`${STRAPI_URL}/api/tutor-reviews/${path}`, {
+		cache: "no-store",
+		...options,
+		headers: {
+			"Content-Type": "application/json",
+			...(token ? { Authorization: `Bearer ${token}` } : {}),
+		},
+	});
+	if (!response.ok) throw new Error(`Review request failed: ${response.status}`);
+	return (await response.json()) as T;
+}
+
+export function getTutorReviews(tutorDocumentId: string) {
+	return reviewRequest<{ data: TutorReview[]; meta: TutorRatingSummary }>(
+		encodeURIComponent(tutorDocumentId),
+	);
+}
+
+export async function getMyTutorReview(tutorDocumentId: string, token: string) {
+	const response = await reviewRequest<{ data: MyTutorReview | null }>(
+		`${encodeURIComponent(tutorDocumentId)}/mine`,
+		{},
+		token,
+	);
+	return response.data;
+}
+
+export function saveTutorReview(tutorDocumentId: string, review: MyTutorReview, token: string) {
+	return reviewRequest(
+		encodeURIComponent(tutorDocumentId),
+		{ method: "PUT", body: JSON.stringify(review) },
+		token,
+	);
+}
+
+export function deleteTutorReview(tutorDocumentId: string, token: string) {
+	return reviewRequest(encodeURIComponent(tutorDocumentId), { method: "DELETE" }, token);
 }
 
 // Contact Page Types
