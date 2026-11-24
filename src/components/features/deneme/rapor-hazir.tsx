@@ -45,8 +45,8 @@ export function RaporHazir({
 
 	if (!ready && !timedOut) {
 		return (
-			<p className="mt-3 flex items-center gap-2 text-foreground">
-				<Loader2 className="h-5 w-5 animate-spin text-primary" aria-hidden="true" />
+			<p className="text-foreground mt-3 flex items-center gap-2">
+				<Loader2 className="text-primary h-5 w-5 animate-spin" aria-hidden="true" />
 				Raporun hazırlanıyor, genellikle bir dakikadan kısa sürer…
 			</p>
 		);
@@ -56,7 +56,7 @@ export function RaporHazir({
 	return (
 		<div className="mt-3">
 			{timedOut && !ready && (
-				<p className="mb-3 text-muted-foreground text-sm">
+				<p className="text-muted-foreground mb-3 text-sm">
 					Hazırlanması biraz uzun sürüyor. Linki birkaç dakika sonra açabilirsin.
 				</p>
 			)}
@@ -83,7 +83,7 @@ export function RaporHazir({
 					<WhatsAppIcon className="size-5" /> WhatsApp'ta paylaş
 				</a>
 			</div>
-			<p className="mt-3 text-muted-foreground text-sm">
+			<p className="text-muted-foreground mt-3 text-sm">
 				Linki kaydetmek için kendine ya da veline WhatsApp'tan gönderebilirsin.
 			</p>
 		</div>

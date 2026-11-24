@@ -15,9 +15,4 @@ export const pages: Ipages[] = [
 		href: "/kurslar",
 		id: "2",
 	},
-	{
-		displayName: "Deneme Sınavları",
-		href: "/deneme-sinavlari",
-		id: "3",
-	},
 ];

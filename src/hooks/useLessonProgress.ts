@@ -14,31 +14,38 @@ export function useLessonProgress(documentIds: string[]) {
 		setIsLoading(Boolean(jwt));
 		if (jwt) {
 			getUserLessonProgress(JSON.parse(lessonIds), jwt)
-				.then(rows => {
+				.then((rows) => {
 					if (active) {
-						setLessonProgress(previous => ({
-							...Object.fromEntries(rows.map(row => [row.documentId, row.isCompleted])),
+						setLessonProgress((previous) => ({
+							...Object.fromEntries(rows.map((row) => [row.documentId, row.isCompleted])),
 							...previous,
 						}));
 					}
 				})
-				.catch(error => console.error("Could not load lesson progress", error))
-				.finally(() => { if (active) setIsLoading(false); });
+				.catch((error) => console.error("Could not load lesson progress", error))
+				.finally(() => {
+					if (active) setIsLoading(false);
+				});
 		}
-		return () => { active = false; };
+		return () => {
+			active = false;
+		};
 	}, [jwt, lessonIds]);
 
-	const markLessonComplete = useCallback(async (documentId: string) => {
-		if (!jwt) return;
-		try {
-			const row = await updateLessonProgress(documentId, true, jwt);
-			if (useAuthStore.getState().jwt === jwt) {
-				setLessonProgress(previous => ({ ...previous, [row.documentId]: row.isCompleted }));
+	const markLessonComplete = useCallback(
+		async (documentId: string) => {
+			if (!jwt) return;
+			try {
+				const row = await updateLessonProgress(documentId, true, jwt);
+				if (useAuthStore.getState().jwt === jwt) {
+					setLessonProgress((previous) => ({ ...previous, [row.documentId]: row.isCompleted }));
+				}
+			} catch (error) {
+				console.error("Could not save lesson progress", error);
 			}
-		} catch (error) {
-			console.error("Could not save lesson progress", error);
-		}
-	}, [jwt]);
+		},
+		[jwt],
+	);
 
 	return { lessonProgress, isLoading, markLessonComplete };
 }

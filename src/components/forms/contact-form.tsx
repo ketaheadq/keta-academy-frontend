@@ -67,7 +67,7 @@ export default function ContactForm() {
 	return (
 		<Card className="border-0 bg-white/90 shadow-xl backdrop-blur-sm">
 			<CardHeader className="pb-6">
-				<CardTitle className="text-2xl text-foreground">Bize Mesaj Gönderin</CardTitle>
+				<CardTitle className="text-foreground text-2xl">Bize Mesaj Gönderin</CardTitle>
 				<CardDescription className="text-base">
 					Formu doldurarak bizimle iletişime geçebilirsiniz. En kısa sürede size dönüş yapacağız.
 				</CardDescription>
@@ -75,11 +75,11 @@ export default function ContactForm() {
 			<CardContent>
 				{isSubmitted ? (
 					<div className="py-12 text-center">
-						<div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
-							<CheckCircle className="h-10 w-10 text-primary" />
+						<div className="bg-primary/10 mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full">
+							<CheckCircle className="text-primary h-10 w-10" />
 						</div>
-						<h3 className="mb-2 font-semibold text-2xl text-foreground">Mesajınız Gönderildi!</h3>
-						<p className="mb-4 text-muted-foreground">
+						<h3 className="text-foreground mb-2 text-2xl font-semibold">Mesajınız Gönderildi!</h3>
+						<p className="text-muted-foreground mb-4">
 							Teşekkür ederiz. En kısa sürede size dönüş yapacağız.
 						</p>
 						<Badge variant="secondary" className="bg-primary/10 text-primary">
@@ -92,7 +92,7 @@ export default function ContactForm() {
 						<div>
 							<label
 								htmlFor={categoryId}
-								className="mb-2 block font-medium text-muted-foreground text-sm"
+								className="text-muted-foreground mb-2 block text-sm font-medium"
 							>
 								Konu Kategorisi
 							</label>
@@ -101,7 +101,7 @@ export default function ContactForm() {
 								name="category"
 								value={formData.category}
 								onChange={handleInputChange}
-								className="w-full rounded-lg border border-border px-4 py-3 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
+								className="border-border focus:ring-primary w-full rounded-lg border px-4 py-3 transition-all focus:border-transparent focus:ring-2"
 								required
 							>
 								<option value="general">Genel Bilgi</option>
@@ -117,7 +117,7 @@ export default function ContactForm() {
 							<div>
 								<label
 									htmlFor={nameId}
-									className="mb-2 block font-medium text-muted-foreground text-sm"
+									className="text-muted-foreground mb-2 block text-sm font-medium"
 								>
 									Ad Soyad *
 								</label>
@@ -137,7 +137,7 @@ export default function ContactForm() {
 							<div>
 								<label
 									htmlFor={emailId}
-									className="mb-2 block font-medium text-muted-foreground text-sm"
+									className="text-muted-foreground mb-2 block text-sm font-medium"
 								>
 									E-posta *
 								</label>
@@ -159,7 +159,7 @@ export default function ContactForm() {
 							<div>
 								<label
 									htmlFor={phoneId}
-									className="mb-2 block font-medium text-muted-foreground text-sm"
+									className="text-muted-foreground mb-2 block text-sm font-medium"
 								>
 									Telefon
 								</label>
@@ -178,7 +178,7 @@ export default function ContactForm() {
 							<div>
 								<label
 									htmlFor={subjectId}
-									className="mb-2 block font-medium text-muted-foreground text-sm"
+									className="text-muted-foreground mb-2 block text-sm font-medium"
 								>
 									Konu *
 								</label>
@@ -199,7 +199,7 @@ export default function ContactForm() {
 						<div>
 							<label
 								htmlFor={messageId}
-								className="mb-2 block font-medium text-muted-foreground text-sm"
+								className="text-muted-foreground mb-2 block text-sm font-medium"
 							>
 								Mesaj *
 							</label>
@@ -220,7 +220,7 @@ export default function ContactForm() {
 							<Button
 								type="submit"
 								disabled={isSubmitting}
-								className="h-12 w-full transform bg-linear-to-r from-primary to-primary font-semibold text-background text-lg transition-all hover:scale-[1.02] hover:from-primary hover:to-primary disabled:transform-none"
+								className="from-primary to-primary text-background hover:from-primary hover:to-primary h-12 w-full transform bg-linear-to-r text-lg font-semibold transition-all hover:scale-[1.02] disabled:transform-none"
 							>
 								{isSubmitting ? (
 									<div className="flex items-center gap-2">
@@ -236,7 +236,7 @@ export default function ContactForm() {
 							</Button>
 						</div>
 
-						<p className="text-center text-muted-foreground text-sm">
+						<p className="text-muted-foreground text-center text-sm">
 							Mesajınızı göndererek{" "}
 							<a href="/privacy" className="text-primary hover:underline">
 								gizlilik politikamızı

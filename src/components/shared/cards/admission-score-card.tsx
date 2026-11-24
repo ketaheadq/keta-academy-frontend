@@ -76,8 +76,8 @@ export default function AdmissionScoreCard({
 					>
 						<div className="absolute inset-0 bg-black/10" />
 						<div className="relative z-10 flex flex-col items-center">
-							<Award className="mb-1 h-8 w-8 text-background" />
-							<div className="text-center font-bold text-background text-xs">
+							<Award className="text-background mb-1 h-8 w-8" />
+							<div className="text-background text-center text-xs font-bold">
 								{admissionScore.isPopular ? "POPÜLER" : "TABAN"}
 							</div>
 						</div>
@@ -91,11 +91,11 @@ export default function AdmissionScoreCard({
 						{/* Top section */}
 						<div className="flex-1">
 							<div className="mb-2 flex items-start justify-between">
-								<h3 className="mr-2 line-clamp-2 flex-1 font-bold text-foreground text-lg leading-tight">
+								<h3 className="text-foreground mr-2 line-clamp-2 flex-1 text-lg leading-tight font-bold">
 									{admissionScore.title}
 								</h3>
 								{admissionScore.isPopular && (
-									<Badge className="shrink-0 border-accent bg-accent/10 text-accent">
+									<Badge className="border-accent bg-accent/10 text-accent shrink-0">
 										<Star className="mr-1 h-3 w-3" />
 										Popüler
 									</Badge>
@@ -104,14 +104,14 @@ export default function AdmissionScoreCard({
 
 							{/* Content preview */}
 							{admissionScore.content && admissionScore.content.length > 0 && (
-								<p className="mb-2 line-clamp-2 text-muted-foreground text-sm">
+								<p className="text-muted-foreground mb-2 line-clamp-2 text-sm">
 									{admissionScore.content[0]?.children?.[0]?.text ||
 										"Taban puanları ve detaylar mevcut"}
 								</p>
 							)}
 
 							{/* Stats row */}
-							<div className="flex items-center space-x-4 text-muted-foreground text-xs">
+							<div className="text-muted-foreground flex items-center space-x-4 text-xs">
 								<div className="flex items-center">
 									<Calendar className="mr-1 h-3 w-3" />
 									{new Date(admissionScore.publishedAt).toLocaleDateString("tr-TR")}
@@ -131,7 +131,7 @@ export default function AdmissionScoreCard({
 							{showRelatedData &&
 								admissionScore.related_datas &&
 								admissionScore.related_datas.length > 0 && (
-									<div className="flex items-center text-muted-foreground text-xs">
+									<div className="text-muted-foreground flex items-center text-xs">
 										<Users className="mr-1 h-3 w-3" />
 										{admissionScore.related_datas.length} ilgili veri
 									</div>

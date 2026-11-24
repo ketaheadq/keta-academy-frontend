@@ -54,7 +54,7 @@ export function DenemeList({ denemeler }: Readonly<{ denemeler: DenemeSummary[] 
 							aria-pressed={isActive(option.filter)}
 							onClick={() => setFilter(option.filter)}
 							className={cn(
-								"rounded-full px-4 py-2 font-medium text-sm transition-colors",
+								"rounded-full px-4 py-2 text-sm font-medium transition-colors",
 								isActive(option.filter)
 									? "bg-primary text-primary-foreground"
 									: "bg-secondary text-muted-foreground hover:text-foreground",
@@ -72,7 +72,7 @@ export function DenemeList({ denemeler }: Readonly<{ denemeler: DenemeSummary[] 
 					))}
 				</div>
 			) : (
-				<p className="rounded-xl border bg-white p-8 text-center text-muted-foreground">
+				<p className="text-muted-foreground rounded-xl border bg-white p-8 text-center">
 					Bu filtrede henüz deneme yok. Yakında eklenecek.
 				</p>
 			)}

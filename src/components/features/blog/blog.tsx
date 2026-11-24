@@ -18,6 +18,7 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 		});
 	};
 
+	// biome-ignore lint/suspicious/noExplicitAny: Strapi rich text blocks structure
 	const getReadingTime = (content: any[]) => {
 		// Calculate reading time based on content length
 		const wordsPerMinute = 200;
@@ -25,6 +26,7 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 
 		content.forEach((block) => {
 			if (block.children) {
+				// biome-ignore lint/suspicious/noExplicitAny: block child node
 				block.children.forEach((child: any) => {
 					if (child.text) {
 						wordCount += child.text.split(" ").length;
@@ -45,22 +47,22 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 				<div className="mx-auto max-w-4xl">
 					{/* Blog Header */}
 					<header className="mb-12 text-center">
-						<h1 className="mb-8 bg-linear-to-r from-primary to-primary bg-clip-text font-black text-5xl text-foreground leading-tight">
+						<h1 className="from-primary to-primary text-foreground mb-8 bg-linear-to-r bg-clip-text text-5xl leading-tight font-black">
 							{blog.title}
 						</h1>
 
 						{/* Blog Meta */}
-						<div className="mb-8 flex flex-wrap items-center justify-center gap-8 text-muted-foreground">
+						<div className="text-muted-foreground mb-8 flex flex-wrap items-center justify-center gap-8">
 							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
-								<Calendar className="h-4 w-4 text-primary" />
+								<Calendar className="text-primary h-4 w-4" />
 								<span className="font-medium">{formatDate(blog.publishedAt)}</span>
 							</div>
 							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
-								<Clock className="h-4 w-4 text-primary" />
+								<Clock className="text-primary h-4 w-4" />
 								<span className="font-medium">{readingTime} dk okuma</span>
 							</div>
 							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
-								<User className="h-4 w-4 text-primary" />
+								<User className="text-primary h-4 w-4" />
 								<span className="font-medium">KetaLearn</span>
 							</div>
 						</div>
@@ -72,15 +74,15 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 					</header>
 
 					{/* Blog Content */}
-					<article className="rounded-3xl border border-border bg-white p-12 shadow-xl">
+					<article className="border-border rounded-3xl border bg-white p-12 shadow-xl">
 						<BlogRichTextRenderer content={blog.content} />
 					</article>
 
 					{/* Blog Footer */}
-					<footer className="mt-12 rounded-3xl bg-linear-to-r from-primary to-primary p-8 text-background shadow-xl">
+					<footer className="from-primary to-primary text-background mt-12 rounded-3xl bg-linear-to-r p-8 shadow-xl">
 						<div className="text-center">
-							<h3 className="mb-3 font-bold text-2xl">Bu yazıyı beğendiniz mi?</h3>
-							<p className="mb-6 font-light text-lg text-primary-foreground">
+							<h3 className="mb-3 text-2xl font-bold">Bu yazıyı beğendiniz mi?</h3>
+							<p className="text-primary-foreground mb-6 text-lg font-light">
 								Daha fazla eğitim içeriği için blog sayfamızı takip edin.
 							</p>
 							<ShareComponent className="justify-center gap-4" />

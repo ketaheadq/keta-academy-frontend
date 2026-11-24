@@ -38,12 +38,10 @@ export default function CourseGrid({
 					allLabel: "Tüm Konular",
 				},
 			]}
-			renderItem={(course) => (
-				<CourseCard key={course.id} course={course} />
-			)}
+			renderItem={(course) => <CourseCard key={course.id} course={course} />}
 			title={title}
 			emptyStateConfig={{
-				icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />,
+				icon: <Calculator className="text-muted-foreground mx-auto mb-4 h-12 w-12" />,
 				title: "Ders bulunamadı",
 				description: "Filtreleri değiştirerek dersleri bulabilirsiniz.",
 			}}

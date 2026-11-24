@@ -17,6 +17,7 @@ import { normalizeTurkish } from "@/lib/utils";
 // Generic interfaces for dynamic filtering
 interface FilterableItem {
 	id: string | number;
+	// biome-ignore lint/suspicious/noExplicitAny: generic item properties
 	[key: string]: any;
 }
 
@@ -49,9 +50,9 @@ export default function DynamicGrid<T extends FilterableItem>({
 	filterConfigs,
 	searchFields,
 	renderItem,
-	title = <h1 className="font-semibold text-2xl text-foreground">📚 Öğeler</h1>,
+	title = <h1 className="text-foreground text-2xl font-semibold">📚 Öğeler</h1>,
 	emptyStateConfig = {
-		icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />,
+		icon: <Calculator className="text-muted-foreground mx-auto mb-4 h-12 w-12" />,
 		title: "Sonuç bulunamadı",
 		description: "Aradığınızı bulmak için filtrelerinizi ayarlayın.",
 	},
@@ -77,6 +78,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 	const shouldShowPagination = enablePagination ?? items.length > itemsPerPage;
 
 	// Helper function to get nested property value - now memoized
+	// biome-ignore lint/suspicious/noExplicitAny: generic nested property traversal
 	const getNestedValue = useCallback((obj: any, path: string): any => {
 		return path.split(".").reduce((current, key) => {
 			if (current && typeof current === "object") {
@@ -161,11 +163,15 @@ export default function DynamicGrid<T extends FilterableItem>({
 			{/* Search and Filter Section */}
 			<section className="mb-8">
 				<div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-					{title && <h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">{title}</h2>}
+					{title && (
+						<h2 className="text-foreground mb-6 flex items-center text-2xl font-semibold">
+							{title}
+						</h2>
+					)}
 					<div className="flex w-full items-center gap-2 sm:w-auto sm:gap-4">
 						{searchFields.length > 0 && (
 							<div className="relative min-w-0 flex-1">
-								<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+								<Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
 								<Input
 									placeholder="Ara..."
 									value={searchTerm}
@@ -199,7 +205,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 								<div key={config.field}>
 									<label
 										htmlFor={selectId}
-										className="mb-2 block font-medium text-muted-foreground text-sm"
+										className="text-muted-foreground mb-2 block text-sm font-medium"
 									>
 										{config.label}
 									</label>
@@ -240,7 +246,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 				{filteredItems.length === 0 && (
 					<div className="py-12 text-center">
 						{emptyStateConfig.icon}
-						<h3 className="mb-2 font-semibold text-foreground text-lg">{emptyStateConfig.title}</h3>
+						<h3 className="text-foreground mb-2 text-lg font-semibold">{emptyStateConfig.title}</h3>
 						<p className="text-muted-foreground">{emptyStateConfig.description}</p>
 					</div>
 				)}

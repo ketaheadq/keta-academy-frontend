@@ -20,22 +20,22 @@ export default function ErrorPage({
 
 	return (
 		<div className="flex min-h-[80vh] items-center justify-center p-4">
-			<Card className="w-full max-w-md border-destructive/20 shadow-destructive/5 shadow-lg">
+			<Card className="border-destructive/20 shadow-destructive/5 w-full max-w-md shadow-lg">
 				<CardHeader className="text-center">
-					<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
-						<AlertTriangle className="h-8 w-8 text-destructive" />
+					<div className="bg-destructive/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+						<AlertTriangle className="text-destructive h-8 w-8" />
 					</div>
-					<CardTitle className="font-bold text-2xl text-foreground tracking-tight">
+					<CardTitle className="text-foreground text-2xl font-bold tracking-tight">
 						Bir şeyler yanlış gitti!
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="text-center text-muted-foreground">
+				<CardContent className="text-muted-foreground text-center">
 					<p>
 						Beklenmedik bir hata oluştu. Sorunu çözmek için çalışıyoruz. Lütfen sayfayı yenilemeyi
 						veya ana sayfaya dönmeyi deneyin.
 					</p>
 					{process.env.NODE_ENV === "development" && (
-						<div className="mt-4 rounded-md bg-muted p-4 text-left font-mono text-destructive text-xs">
+						<div className="bg-muted text-destructive mt-4 rounded-md p-4 text-left font-mono text-xs">
 							{error.message || "Bilinmeyen hata"}
 						</div>
 					)}

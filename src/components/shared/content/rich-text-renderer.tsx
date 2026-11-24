@@ -5,6 +5,7 @@ import Image from "next/image";
 import type React from "react";
 
 interface RichTextRendererProps {
+	// biome-ignore lint/suspicious/noExplicitAny: blocks-react-renderer expects any[] blocks
 	content: any[]; // Using any to avoid type conflicts with BlocksRenderer
 	className?: string;
 }
@@ -16,7 +17,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 				content={content}
 				blocks={{
 					paragraph: ({ children }) => (
-						<p className="mb-4 text-muted-foreground leading-relaxed">{children}</p>
+						<p className="text-muted-foreground mb-4 leading-relaxed">{children}</p>
 					),
 					heading: ({ children, level }) => {
 						const headingClasses = {
@@ -55,19 +56,19 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 					},
 					"list-item": ({ children }) => <li className="text-muted-foreground">{children}</li>,
 					quote: ({ children }) => (
-						<blockquote className="mb-4 border-primary border-l-4 bg-primary/10 py-2 pl-4 text-muted-foreground italic">
+						<blockquote className="border-primary bg-primary/10 text-muted-foreground mb-4 border-l-4 py-2 pl-4 italic">
 							{children}
 						</blockquote>
 					),
 					code: ({ children }) => (
-						<pre className="mb-4 overflow-x-auto rounded-lg bg-foreground p-4 text-background">
+						<pre className="bg-foreground text-background mb-4 overflow-x-auto rounded-lg p-4">
 							<code>{children}</code>
 						</pre>
 					),
 					link: ({ children, url }) => (
 						<a
 							href={url}
-							className="text-primary underline hover:text-background"
+							className="text-primary hover:text-background underline"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -91,7 +92,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 									}}
 								/>
 								{image.caption && (
-									<p className="mt-2 text-center text-muted-foreground text-sm italic">
+									<p className="text-muted-foreground mt-2 text-center text-sm italic">
 										{image.caption}
 									</p>
 								)}
@@ -105,7 +106,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 					underline: ({ children }) => <u>{children}</u>,
 					strikethrough: ({ children }) => <s>{children}</s>,
 					code: ({ children }) => (
-						<code className="rounded bg-secondary px-1 py-0.5 font-mono text-sm">{children}</code>
+						<code className="bg-secondary rounded px-1 py-0.5 font-mono text-sm">{children}</code>
 					),
 				}}
 			/>

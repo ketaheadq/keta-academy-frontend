@@ -75,7 +75,7 @@ export default async function TutorPage({ params }: PageProps) {
 	];
 
 	return (
-		<div className="min-h-screen bg-secondary">
+		<div className="bg-secondary min-h-screen">
 			<BreadcrumbNav
 				breadcrumbs={[
 					{ label: "Özel Ders", href: "/ozel-ders" },
@@ -100,13 +100,13 @@ export default async function TutorPage({ params }: PageProps) {
 									/>
 								</div>
 								<div className="min-w-0">
-									<h1 className="font-bold text-2xl text-foreground sm:text-3xl">{tutor.name}</h1>
-									<p className="mt-1 font-medium text-primary">{tutor.title}</p>
+									<h1 className="text-foreground text-2xl font-bold sm:text-3xl">{tutor.name}</h1>
+									<p className="text-primary mt-1 font-medium">{tutor.title}</p>
 									<div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
 										{rating.count > 0 ? (
 											<>
 												<RatingStars value={rating.average} />
-												<span className="font-semibold text-foreground">
+												<span className="text-foreground font-semibold">
 													{rating.average.toLocaleString("tr-TR")}
 												</span>
 												<a href="#reviews-title" className="text-muted-foreground underline">
@@ -122,7 +122,7 @@ export default async function TutorPage({ params }: PageProps) {
 											{tutor.subjects.map((subject) => (
 												<span
 													key={subject.slug}
-													className="rounded-full bg-primary/10 px-3 py-1 font-medium text-primary text-sm"
+													className="bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium"
 												>
 													{subject.title}
 												</span>
@@ -134,9 +134,9 @@ export default async function TutorPage({ params }: PageProps) {
 
 							<div className="mt-6 grid grid-cols-3 gap-2 text-center sm:gap-4">
 								{stats.map((stat) => (
-									<div key={stat.label} className="rounded-xl bg-primary/10 px-1 py-3">
-										<stat.icon className="mx-auto mb-1 h-4 w-4 text-primary" aria-hidden="true" />
-										<div className="font-bold text-lg text-primary">{stat.value}</div>
+									<div key={stat.label} className="bg-primary/10 rounded-xl px-1 py-3">
+										<stat.icon className="text-primary mx-auto mb-1 h-4 w-4" aria-hidden="true" />
+										<div className="text-primary text-lg font-bold">{stat.value}</div>
 										<div className="text-muted-foreground text-xs">{stat.label}</div>
 									</div>
 								))}
@@ -145,7 +145,7 @@ export default async function TutorPage({ params }: PageProps) {
 
 						{(tutor.content?.length || expertise.length > 0) && (
 							<section className="rounded-2xl border bg-white p-4 shadow-sm sm:p-6">
-								<h2 className="mb-4 flex items-center gap-2 font-bold text-foreground text-xl">
+								<h2 className="text-foreground mb-4 flex items-center gap-2 text-xl font-bold">
 									<BookOpen className="h-5 w-5" aria-hidden="true" />
 									Hakkında
 								</h2>
@@ -154,7 +154,7 @@ export default async function TutorPage({ params }: PageProps) {
 										{expertise.map((item) => (
 											<span
 												key={item}
-												className="rounded-full border bg-white px-3 py-1 text-muted-foreground text-sm"
+												className="text-muted-foreground rounded-full border bg-white px-3 py-1 text-sm"
 											>
 												{item}
 											</span>
@@ -171,17 +171,17 @@ export default async function TutorPage({ params }: PageProps) {
 					{/* Right: price + contact (desktop) */}
 					<aside className="hidden min-w-0 lg:block">
 						<div className="sticky top-6 rounded-2xl border bg-white p-6 shadow-sm">
-							<div className="font-bold text-3xl text-foreground">
+							<div className="text-foreground text-3xl font-bold">
 								₺{tutor.price}
-								<span className="font-normal text-base text-muted-foreground">/saat</span>
+								<span className="text-muted-foreground text-base font-normal">/saat</span>
 							</div>
-							<p className="mt-2 text-muted-foreground text-sm">
+							<p className="text-muted-foreground mt-2 text-sm">
 								Ücretsiz deneme dersi ve seviye tespiti için {tutor.name} ile doğrudan iletişime
 								geçin.
 							</p>
 							<TutorContactButtons tutorName={tutor.name} phone={phone} className="mt-4" />
 							{!phone && (
-								<p className="mt-4 text-muted-foreground text-sm">
+								<p className="text-muted-foreground mt-4 text-sm">
 									İletişim bilgisi yakında eklenecek.
 								</p>
 							)}
@@ -194,9 +194,9 @@ export default async function TutorPage({ params }: PageProps) {
 			{phone && (
 				<div className="sticky bottom-0 z-40 border-t bg-white/95 px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] backdrop-blur lg:hidden">
 					<div className="mx-auto flex max-w-6xl items-center gap-3">
-						<div className="shrink-0 font-bold text-foreground text-xl">
+						<div className="text-foreground shrink-0 text-xl font-bold">
 							₺{tutor.price}
-							<span className="font-normal text-muted-foreground text-xs">/saat</span>
+							<span className="text-muted-foreground text-xs font-normal">/saat</span>
 						</div>
 						<TutorContactButtons tutorName={tutor.name} phone={phone} compact className="flex-1" />
 					</div>

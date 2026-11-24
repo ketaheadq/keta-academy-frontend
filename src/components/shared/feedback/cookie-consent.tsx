@@ -22,8 +22,9 @@ export default function CookieConsent() {
 		setIsVisible(false);
 
 		// Enable analytics/tracking here
-		if (globalThis.window !== undefined && (globalThis.window as any).gtag) {
-			(globalThis.window as any).gtag("consent", "update", {
+		const win = globalThis.window as (Window & { gtag?: (...args: unknown[]) => void }) | undefined;
+		if (win?.gtag) {
+			win.gtag("consent", "update", {
 				analytics_storage: "granted",
 			});
 		}
@@ -41,20 +42,20 @@ export default function CookieConsent() {
 			<Card className="shadow-lg">
 				<CardContent className="p-4">
 					<div className="mb-3 flex items-start justify-between">
-						<h3 className="font-semibold text-sm">Çerez Bildirimi</h3>
+						<h3 className="text-sm font-semibold">Çerez Bildirimi</h3>
 						<Button
 							variant="ghost"
 							size="sm"
 							onClick={handleDecline}
-							className="h-6 w-6 p-0 hover:bg-secondary"
+							className="hover:bg-secondary h-6 w-6 p-0"
 						>
 							<X className="h-4 w-4" />
 						</Button>
 					</div>
 
-					<p className="mb-4 text-muted-foreground text-sm">
+					<p className="text-muted-foreground mb-4 text-sm">
 						Çerezleri kullanarak deneyiminizi ve site kullanımınızı iyileştirmek için kullanıyoruz.{" "}
-						<a href="/gizlilik-politikasi" className="underline hover:text-foreground">
+						<a href="/gizlilik-politikasi" className="hover:text-foreground underline">
 							Daha fazla bilgi al
 						</a>
 					</p>

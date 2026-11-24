@@ -39,7 +39,8 @@ export default function LessonVideo({
 		const iframe = document.createElement("iframe");
 		iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params}`;
 		iframe.title = title;
-		iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+		iframe.allow =
+			"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
 		iframe.allowFullscreen = true;
 		iframe.className = "absolute inset-0 h-full w-full border-0";
 
@@ -78,7 +79,10 @@ export default function LessonVideo({
 	return (
 		<>
 			<Script src="https://www.youtube.com/iframe_api" strategy="afterInteractive" />
-			<div ref={container} className="relative aspect-video overflow-hidden rounded-t-lg bg-black" />
+			<div
+				ref={container}
+				className="relative aspect-video overflow-hidden rounded-t-lg bg-black"
+			/>
 		</>
 	);
 }

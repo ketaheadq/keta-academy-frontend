@@ -120,7 +120,7 @@ export default function Pagination({
 					if (page === "ellipsis") {
 						return (
 							<div key={page} className="px-2">
-								<MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+								<MoreHorizontal className="text-muted-foreground h-4 w-4" />
 							</div>
 						);
 					}

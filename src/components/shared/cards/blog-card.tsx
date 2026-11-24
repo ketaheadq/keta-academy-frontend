@@ -74,7 +74,7 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 					<CardTitle className="mb-2 text-lg">{blog.title}</CardTitle>
 
 					{/* Content Preview */}
-					<div className="mb-3 text-muted-foreground text-sm">
+					<div className="text-muted-foreground mb-3 text-sm">
 						<p className="line-clamp-3">{getContentPreview()}</p>
 					</div>
 

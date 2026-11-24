@@ -1,5 +1,6 @@
 // Strapi authentication utilities
 
+// biome-ignore lint/suspicious/noExplicitAny: type guard input
 function isValidStrapiUser(obj: any): obj is StrapiUser {
 	return (
 		typeof obj === "object" &&
@@ -34,7 +35,7 @@ export interface AuthError {
 		status: number;
 		name: string;
 		message: string;
-		details?: any;
+		details?: unknown;
 	};
 }
 

@@ -11,8 +11,11 @@ export default function Continue({ courses }: Readonly<{ courses: StrapiCourse[]
 
 	return (
 		<DynamicContinue
-			items={courses.map(course => ({ ...course, progress: progressByCourse.get(course.id) ?? 0 }))}
-			renderItem={course => <CourseCard key={course.id} course={course} />}
+			items={courses.map((course) => ({
+				...course,
+				progress: progressByCourse.get(course.id) ?? 0,
+			}))}
+			renderItem={(course) => <CourseCard key={course.id} course={course} />}
 			title="📈 Kaldığın Yerden Devam Et:"
 		/>
 	);

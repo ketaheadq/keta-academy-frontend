@@ -25,7 +25,7 @@ export interface StrapiImage {
 	caption: string | null;
 	width: number;
 	height: number;
-	formats: any;
+	formats: Record<string, unknown> | null;
 	hash: string;
 	ext: string;
 	mime: string;
@@ -166,7 +166,7 @@ export interface StrapiPageSEO {
 	canonicalURL?: string;
 	preventIndexing?: boolean;
 	metaImage?: StrapiImage;
-	structuredData?: any;
+	structuredData?: Record<string, unknown> | null;
 }
 
 export interface StrapiPage {
@@ -269,6 +269,7 @@ export interface StrapiGrade {
 
 export interface StrapiResponse<T> {
 	data: T;
+	// biome-ignore lint/suspicious/noExplicitAny: generic Strapi response metadata
 	meta: any;
 }
 
@@ -278,8 +279,10 @@ export interface StrapiBlock {
 	children: Array<{
 		text: string;
 		type?: string;
+		// biome-ignore lint/suspicious/noExplicitAny: arbitrary Strapi block attributes
 		[key: string]: any;
 	}>;
+	// biome-ignore lint/suspicious/noExplicitAny: arbitrary Strapi block attributes
 	[key: string]: any;
 }
 
@@ -403,14 +406,16 @@ export interface AnswerOptionFormData {
 }
 
 // Type guards
-export const isQuizResponse = (data: any): data is StrapiResponse<StrapiQuiz> => {
-	return data?.data && typeof data.data.id === "number" && data.data.title;
+export const isQuizResponse = (data: unknown): data is StrapiResponse<StrapiQuiz> => {
+	const d = data as { data?: { id?: unknown; title?: unknown } } | undefined;
+	return typeof d?.data?.id === "number" && Boolean(d?.data?.title);
 };
 
 export const isQuizCollectionResponse = (
-	data: any,
+	data: unknown,
 ): data is StrapiCollectionResponse<StrapiQuiz> => {
-	return Array.isArray(data?.data) && data?.meta?.pagination;
+	const d = data as { data?: unknown; meta?: { pagination?: unknown } } | undefined;
+	return Array.isArray(d?.data) && Boolean(d?.meta?.pagination);
 };
 
 // Quiz-related API functions
@@ -458,7 +463,7 @@ export async function fetchStrapiDataUsingToken<T>(endpoint: string, token: stri
 }
 export async function fetchStrapiData<T>(
 	endpoint: string,
-	{ revalidate = 300, allowForbidden = true } = {},
+	{ revalidate = 300, allowForbidden = true, quiet = false } = {},
 ): Promise<T> {
 	try {
 		const fullUrl = `${STRAPI_URL}/api/${endpoint}`;
@@ -479,20 +484,26 @@ export async function fetchStrapiData<T>(
 		}
 
 		if (!response.ok) {
-			console.error(`❌ Strapi API error: ${response.status} ${response.statusText}`);
-			console.error(`Endpoint: ${endpoint}`);
+			if (!quiet) {
+				console.error(`❌ Strapi API error: ${response.status} ${response.statusText}`);
+				console.error(`Endpoint: ${endpoint}`);
+			}
 			throw new Error(`Failed to fetch data: ${response.statusText}`);
 		}
 
 		return await response.json();
 	} catch (error) {
-		console.error("Error fetching Strapi data:", error);
+		if (!quiet) console.error("Error fetching Strapi data:", error);
 		throw error;
 	}
 }
 
 export async function getSettings(): Promise<StrapiSettings> {
-	const response = await fetchStrapiData<StrapiResponse<StrapiSettings>>("setting?populate=*");
+	// Every caller already falls back to defaults, so a missing Setting entry is
+	// reported once by the caller instead of dumping a stack trace per request.
+	const response = await fetchStrapiData<StrapiResponse<StrapiSettings>>("setting?populate=*", {
+		quiet: true,
+	});
 	if (!response.data?.siteName) {
 		throw new Error("Site settings have not been published or are unavailable");
 	}
@@ -667,11 +678,11 @@ export interface QuizResult {
 }
 
 async function learningRequest<T>(path: string, token: string, options?: RequestInit): Promise<T> {
-	const response = await fetch(STRAPI_URL + "/api/learning/" + path, {
+	const response = await fetch(`${STRAPI_URL}/api/learning/${path}`, {
 		...options,
-		headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+		headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
 	});
-	if (!response.ok) throw new Error("Learning request failed: " + response.status);
+	if (!response.ok) throw new Error(`Learning request failed: ${response.status}`);
 	return (await response.json()).data;
 }
 
@@ -698,7 +709,7 @@ export function startCourse(documentId: string, token: string) {
 
 export function updateLessonProgress(documentId: string, isCompleted: boolean, token: string) {
 	return learningRequest<StrapiLessonProgress>(
-		"lesson-progress/" + encodeURIComponent(documentId),
+		`lesson-progress/${encodeURIComponent(documentId)}`,
 		token,
 		{
 			method: "PUT",
@@ -713,14 +724,10 @@ export function submitQuiz(
 	submissionId: string,
 	token: string,
 ) {
-	return learningRequest<QuizResult>(
-		"quizzes/" + encodeURIComponent(documentId) + "/attempts",
-		token,
-		{
-			method: "POST",
-			body: JSON.stringify({ answers, submissionId }),
-		},
-	);
+	return learningRequest<QuizResult>(`quizzes/${encodeURIComponent(documentId)}/attempts`, token, {
+		method: "POST",
+		body: JSON.stringify({ answers, submissionId }),
+	});
 }
 
 export async function getAdmissionScores(): Promise<StrapiAdmissionScore[]> {

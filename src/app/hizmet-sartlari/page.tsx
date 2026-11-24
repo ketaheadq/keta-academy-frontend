@@ -40,22 +40,22 @@ function TermsOfServiceContent() {
 			<Card className="shadow-lg">
 				<CardHeader className="border-b">
 					<div className="flex items-center space-x-3">
-						<div className="rounded-lg bg-primary/10 p-2">
-							<FileText className="h-6 w-6 text-primary" />
+						<div className="bg-primary/10 rounded-lg p-2">
+							<FileText className="text-primary h-6 w-6" />
 						</div>
 						<div>
-							<div className="h-8 w-48 animate-pulse rounded bg-secondary" />
-							<div className="mt-2 h-4 w-32 animate-pulse rounded bg-secondary" />
+							<div className="bg-secondary h-8 w-48 animate-pulse rounded" />
+							<div className="bg-secondary mt-2 h-4 w-32 animate-pulse rounded" />
 						</div>
 					</div>
 				</CardHeader>
 				<CardContent className="p-6 sm:p-8">
 					<div className="space-y-6">
-						{new Array(6).fill(null).map((_, i) => (
-							<div key={`${id}-skeleton-${i}`} className="space-y-2">
-								<div className="h-4 w-full animate-pulse rounded bg-secondary" />
-								<div className="h-4 w-5/6 animate-pulse rounded bg-secondary" />
-								{i % 2 === 0 && <div className="h-4 w-4/6 animate-pulse rounded bg-secondary" />}
+						{["sk-1", "sk-2", "sk-3", "sk-4", "sk-5", "sk-6"].map((skId, i) => (
+							<div key={skId} className="space-y-2">
+								<div className="bg-secondary h-4 w-full animate-pulse rounded" />
+								<div className="bg-secondary h-4 w-5/6 animate-pulse rounded" />
+								{i % 2 === 0 && <div className="bg-secondary h-4 w-4/6 animate-pulse rounded" />}
 							</div>
 						))}
 					</div>
@@ -68,9 +68,9 @@ function TermsOfServiceContent() {
 		return (
 			<Card className="shadow-lg">
 				<CardContent className="p-8 text-center">
-					<FileText className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-					<h3 className="mb-2 font-medium text-foreground text-lg">Yükleme Hatası</h3>
-					<p className="mb-4 text-muted-foreground">
+					<FileText className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+					<h3 className="text-foreground mb-2 text-lg font-medium">Yükleme Hatası</h3>
+					<p className="text-muted-foreground mb-4">
 						{error || "Hizmet şartları yüklenirken bir hata oluştu."}
 					</p>
 					<Button variant="outline" onClick={() => router.refresh()}>
@@ -93,12 +93,12 @@ function TermsOfServiceContent() {
 		<Card className="shadow-lg">
 			<CardHeader className="border-b">
 				<div className="flex items-center space-x-3">
-					<div className="rounded-lg bg-primary/10 p-2">
-						<FileText className="h-6 w-6 text-primary" />
+					<div className="bg-primary/10 rounded-lg p-2">
+						<FileText className="text-primary h-6 w-6" />
 					</div>
 					<div>
 						<CardTitle className="text-2xl">Hizmet Şartları</CardTitle>
-						<p className="mt-1 text-muted-foreground text-sm">
+						<p className="text-muted-foreground mt-1 text-sm">
 							Son güncelleme: {new Date(termsOfService.updatedAt).toLocaleDateString("tr-TR")}
 						</p>
 					</div>
@@ -110,14 +110,14 @@ function TermsOfServiceContent() {
 						{paragraphs.map(({ text, key }) => (
 							<p
 								key={key}
-								className="overflow-wrap-anywhere wrap-break-word mb-4 text-muted-foreground leading-relaxed"
+								className="overflow-wrap-anywhere text-muted-foreground mb-4 leading-relaxed wrap-break-word"
 							>
 								{text}
 							</p>
 						))}
 					</div>
 				) : (
-					<div className="py-12 text-center text-muted-foreground">
+					<div className="text-muted-foreground py-12 text-center">
 						<FileText className="mx-auto mb-4 h-12 w-12 opacity-50" />
 						<p className="text-sm">Hizmet şartları içeriği bulunamadı.</p>
 					</div>
@@ -129,7 +129,7 @@ function TermsOfServiceContent() {
 
 export default function TermsOfServicePage() {
 	return (
-		<div className="min-h-screen bg-secondary px-4 py-12 sm:px-6 lg:px-8">
+		<div className="bg-secondary min-h-screen px-4 py-12 sm:px-6 lg:px-8">
 			<div className="mx-auto max-w-4xl">
 				{/* Header */}
 				<div className="mb-8">
@@ -150,7 +150,7 @@ export default function TermsOfServicePage() {
 						Sorularınız için{" "}
 						<a
 							href="mailto:destek@ketaacademy.com"
-							className="font-medium text-primary transition-colors hover:text-background"
+							className="text-primary hover:text-background font-medium transition-colors"
 						>
 							destek@ketaacademy.com
 						</a>{" "}

@@ -11,7 +11,7 @@ const CourseProgressContext = createContext<Map<number, number> | null>(null);
 
 export function CourseProgressProvider({ children }: Readonly<{ children: React.ReactNode }>) {
 	const jwt = useJWT();
-	const pathname = usePathname();
+	const _pathname = usePathname();
 	const [snapshot, setSnapshot] = useState<ProgressSnapshot | null>(null);
 
 	useEffect(() => {
@@ -23,11 +23,14 @@ export function CourseProgressProvider({ children }: Readonly<{ children: React.
 		let active = true;
 		Promise.all([getAllCourseLessons(jwt), getUserLessonProgress(undefined, jwt)])
 			.then(([lessons, progress]) => {
-				if (active) setSnapshot({ jwt, byCourseId: calculateCourseProgressById(lessons, progress) });
+				if (active)
+					setSnapshot({ jwt, byCourseId: calculateCourseProgressById(lessons, progress) });
 			})
-			.catch(error => console.error("Could not load course progress", error));
-		return () => { active = false; };
-	}, [jwt, pathname]);
+			.catch((error) => console.error("Could not load course progress", error));
+		return () => {
+			active = false;
+		};
+	}, [jwt]);
 
 	return (
 		<CourseProgressContext.Provider value={snapshot?.jwt === jwt ? snapshot.byCourseId : null}>

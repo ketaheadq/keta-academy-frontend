@@ -1,6 +1,7 @@
 "use client";
 
 import { BookOpen, Eye, Play, Target, Video } from "lucide-react";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -75,9 +76,9 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 	// Show loading state while video is being initialized
 	if (!currentVideo) {
 		return (
-			<div className="flex min-h-screen items-center justify-center bg-secondary">
+			<div className="bg-secondary flex min-h-screen items-center justify-center">
 				<div className="text-center">
-					<div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-primary border-b-2" />
+					<div className="border-primary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2" />
 					<p className="text-muted-foreground">Video yükleniyor...</p>
 				</div>
 			</div>
@@ -107,7 +108,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 										className="absolute inset-0 border-0"
 									/>
 								) : (
-									<div className="absolute inset-0 flex items-center justify-center text-background">
+									<div className="text-background absolute inset-0 flex items-center justify-center">
 										<div className="text-center">
 											<p className="mb-2 text-lg">Video yüklenemedi</p>
 											<p className="text-muted-foreground text-sm">
@@ -120,7 +121,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 							<div className="p-6">
 								<div className="mb-4 flex items-center justify-between">
 									<div className="flex-1">
-										<h1 className="mb-2 font-bold text-2xl text-foreground">
+										<h1 className="text-foreground mb-2 text-2xl font-bold">
 											{currentVideo.title}
 										</h1>
 										{currentVideo.isPopular && (
@@ -175,25 +176,25 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 						<CardContent>
 							<div className="grid gap-6 md:grid-cols-2">
 								<div>
-									<h3 className="mb-2 font-semibold text-foreground">Video Açıklaması</h3>
-									<p className="mb-4 text-muted-foreground">{currentVideo.title}</p>
+									<h3 className="text-foreground mb-2 font-semibold">Video Açıklaması</h3>
+									<p className="text-muted-foreground mb-4">{currentVideo.title}</p>
 
 									<div className="space-y-2">
 										<div className="flex items-center space-x-2">
-											<Eye className="h-4 w-4 text-muted-foreground" />
+											<Eye className="text-muted-foreground h-4 w-4" />
 											<span className="text-muted-foreground text-sm">
 												Yayınlanma: {new Date(currentVideo.publishedAt).toLocaleDateString("tr-TR")}
 											</span>
 										</div>
 										{currentVideo.isPopular && (
 											<div className="flex items-center space-x-2">
-												<Video className="h-4 w-4 text-accent" />
+												<Video className="text-accent h-4 w-4" />
 												<span className="text-accent text-sm">Popüler İçerik</span>
 											</div>
 										)}
 										{currentVideo.page && (
 											<div className="flex items-center space-x-2">
-												<Target className="h-4 w-4 text-muted-foreground" />
+												<Target className="text-muted-foreground h-4 w-4" />
 												<span className="text-muted-foreground text-sm">
 													Sayfa: {currentVideo.page.title}
 												</span>
@@ -201,7 +202,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 										)}
 										{video.related_datas && video.related_datas.length > 0 && (
 											<div className="flex items-center space-x-2">
-												<BookOpen className="h-4 w-4 text-muted-foreground" />
+												<BookOpen className="text-muted-foreground h-4 w-4" />
 												<span className="text-muted-foreground text-sm">
 													{video.related_datas.length} İlgili Video
 												</span>
@@ -211,10 +212,12 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 								</div>
 
 								<div>
-									<div className="flex h-48 w-full items-center justify-center rounded-lg bg-secondary">
-										<img
+									<div className="bg-secondary flex h-48 w-full items-center justify-center rounded-lg">
+										<Image
 											src={getYouTubeThumbnail(currentVideo.href)}
 											alt={currentVideo.title}
+											width={320}
+											height={180}
 											className="h-48 w-full rounded-lg object-cover"
 											onError={(e) => {
 												e.currentTarget.src = "/placeholder.svg";
@@ -250,25 +253,27 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 												type="button"
 												className={`cursor-pointer rounded-lg p-3 transition-colors ${
 													currentVideo?.id === videoItem.id
-														? "border-2 border-primary bg-primary/10"
-														: "border-2 border-transparent hover:bg-secondary"
+														? "border-primary bg-primary/10 border-2"
+														: "hover:bg-secondary border-2 border-transparent"
 												}`}
 												onClick={() => handleVideoSelect(videoItem)}
 											>
 												<div className="flex items-start space-x-3">
 													{/* Video Thumbnail */}
 													<div className="shrink-0">
-														<div className="relative h-12 w-16 overflow-hidden rounded bg-secondary">
-															<img
+														<div className="bg-secondary relative h-12 w-16 overflow-hidden rounded">
+															<Image
 																src={getYouTubeThumbnail(videoItem.href)}
 																alt={videoItem.title}
-																className="h-full w-full object-cover"
+																fill
+																sizes="64px"
+																className="object-cover"
 																onError={(e) => {
 																	e.currentTarget.src = "/placeholder.svg";
 																}}
 															/>
 															<div className="absolute inset-0 flex items-center justify-center">
-																<Play className="h-4 w-4 text-background drop-shadow-lg" />
+																<Play className="text-background h-4 w-4 drop-shadow-lg" />
 															</div>
 														</div>
 													</div>
@@ -276,7 +281,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 													{/* Video Info */}
 													<div className="min-w-0 flex-1">
 														<div className="mb-1 flex items-start justify-between">
-															<p className="line-clamp-2 font-medium text-foreground text-sm leading-tight">
+															<p className="text-foreground line-clamp-2 text-sm leading-tight font-medium">
 																{videoItem.title}
 															</p>
 															{videoItem.isPopular && (
@@ -285,7 +290,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 																</Badge>
 															)}
 														</div>
-														<p className="mb-1 text-muted-foreground text-xs">
+														<p className="text-muted-foreground mb-1 text-xs">
 															{index === 0 ? "Ana Video" : `İlgili Video ${index}`}
 														</p>
 														<p className="text-muted-foreground text-xs">

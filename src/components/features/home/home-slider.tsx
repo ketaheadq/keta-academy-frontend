@@ -62,7 +62,7 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 		>
 			<div
 				ref={trackRef}
-				className="flex snap-x snap-mandatory overflow-x-auto rounded-3xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+				className="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto rounded-3xl [&::-webkit-scrollbar]:hidden"
 			>
 				{slides.map((slide, index) => (
 					<div key={slide.id} className="w-full shrink-0 snap-start">
@@ -76,16 +76,16 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 						>
 							<div className={styles.copy}>
 								{index === 0 ? (
-									<h1 className="max-w-3xl text-balance font-bold text-3xl tracking-tight sm:text-5xl">
+									<h1 className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
 										{slide.baslik}
 									</h1>
 								) : (
-									<h2 className="max-w-3xl text-balance font-bold text-3xl tracking-tight sm:text-5xl">
+									<h2 className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
 										{slide.baslik}
 									</h2>
 								)}
 								{slide.altMetin && (
-									<p className="mt-3 max-w-xl text-pretty text-base text-slate-700 sm:mt-4 sm:text-lg">
+									<p className="mt-3 max-w-xl text-base text-pretty text-slate-700 sm:mt-4 sm:text-lg">
 										{slide.altMetin}
 									</p>
 								)}
@@ -108,7 +108,7 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 						type="button"
 						onClick={() => goTo(active - 1)}
 						aria-label="Önceki slayt"
-						className="rounded-full p-1 text-muted-foreground hover:text-foreground"
+						className="text-muted-foreground hover:text-foreground rounded-full p-1"
 					>
 						<ChevronLeft className="h-5 w-5" />
 					</button>
@@ -121,7 +121,7 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 							aria-current={index === active}
 							className={cn(
 								"h-2.5 rounded-full transition-all",
-								index === active ? "w-6 bg-primary" : "w-2.5 bg-border",
+								index === active ? "bg-primary w-6" : "bg-border w-2.5",
 							)}
 						/>
 					))}
@@ -129,7 +129,7 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 						type="button"
 						onClick={() => goTo(active + 1)}
 						aria-label="Sonraki slayt"
-						className="rounded-full p-1 text-muted-foreground hover:text-foreground"
+						className="text-muted-foreground hover:text-foreground rounded-full p-1"
 					>
 						<ChevronRight className="h-5 w-5" />
 					</button>

@@ -160,16 +160,16 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 			{/* Sticky timer bar */}
 			<div className="sticky top-0 z-30 -mx-4 flex items-center justify-between gap-3 border-b bg-white/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:border">
 				<div className="text-sm">
-					<span className="font-semibold text-foreground">
+					<span className="text-foreground font-semibold">
 						Soru {saved.current + 1}/{total}
 					</span>
-					<span className="ml-2 text-muted-foreground">{answered} cevaplandı</span>
+					<span className="text-muted-foreground ml-2">{answered} cevaplandı</span>
 				</div>
 				<div
 					role="timer"
 					aria-label="Kalan süre"
 					className={cn(
-						"flex items-center gap-1 rounded-full px-3 py-1 font-mono font-semibold text-sm",
+						"flex items-center gap-1 rounded-full px-3 py-1 font-mono text-sm font-semibold",
 						remaining <= 60 ? "bg-destructive/10 text-destructive" : "bg-primary/10 text-primary",
 					)}
 				>
@@ -182,7 +182,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 				aria-labelledby="soru-baslik"
 				className="rounded-2xl border bg-white p-4 shadow-sm sm:p-6"
 			>
-				<h2 id="soru-baslik" className="mb-3 font-semibold text-muted-foreground text-sm">
+				<h2 id="soru-baslik" className="text-muted-foreground mb-3 text-sm font-semibold">
 					{question.no}. soru
 				</h2>
 				<div className="text-foreground text-lg">
@@ -207,7 +207,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 							>
 								<span
 									className={cn(
-										"flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-bold text-sm",
+										"flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold",
 										selected
 											? "bg-primary text-primary-foreground"
 											: "bg-secondary text-foreground",
@@ -223,7 +223,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 						);
 					})}
 				</fieldset>
-				<p className="mt-2 text-muted-foreground text-xs">
+				<p className="text-muted-foreground mt-2 text-xs">
 					Seçili şıkka tekrar dokunursan soru boş kalır.
 				</p>
 
@@ -258,8 +258,8 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 							aria-current={index === saved.current ? "step" : undefined}
 							aria-label={`${soru.no}. soru${saved.answers[index] ? ", cevaplandı" : ""}`}
 							className={cn(
-								"h-9 w-9 rounded-lg border font-medium text-sm",
-								index === saved.current && "ring-2 ring-primary",
+								"h-9 w-9 rounded-lg border text-sm font-medium",
+								index === saved.current && "ring-primary ring-2",
 								saved.answers[index]
 									? "border-primary bg-primary text-primary-foreground"
 									: "bg-white",
@@ -278,7 +278,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 					</Button>
 				</div>
 				{submitError && (
-					<p role="alert" className="mt-3 text-destructive text-sm">
+					<p role="alert" className="text-destructive mt-3 text-sm">
 						{submitError}
 					</p>
 				)}
@@ -304,12 +304,12 @@ function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: ()
 				</div>
 				{deneme.konular.length > 0 && (
 					<div className="mt-5">
-						<h2 className="mb-2 font-semibold text-foreground">Kapsadığı konular</h2>
+						<h2 className="text-foreground mb-2 font-semibold">Kapsadığı konular</h2>
 						<ul className="flex flex-wrap gap-2">
 							{deneme.konular.map((k) => (
 								<li
 									key={k.slug}
-									className="rounded-full bg-primary/10 px-3 py-1 text-primary text-sm"
+									className="bg-primary/10 text-primary rounded-full px-3 py-1 text-sm"
 								>
 									{k.ad}
 								</li>
@@ -320,7 +320,7 @@ function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: ()
 				<Button size="lg" className="mt-6 w-full sm:w-auto" onClick={onStart}>
 					Kayıt gerekmez, hemen başla
 				</Button>
-				<p className="mt-2 text-muted-foreground text-sm">
+				<p className="text-muted-foreground mt-2 text-sm">
 					Süre başla dediğinde başlar. Bitirince netin hemen görünür.
 				</p>
 			</section>
@@ -335,9 +335,9 @@ function Stat({
 	label,
 }: Readonly<{ icon: typeof Clock; value: string; label: string }>) {
 	return (
-		<div className="rounded-xl bg-secondary p-3 text-center">
-			<Icon className="mx-auto mb-1 h-4 w-4 text-primary" aria-hidden="true" />
-			<div className="font-bold text-foreground text-lg">{value}</div>
+		<div className="bg-secondary rounded-xl p-3 text-center">
+			<Icon className="text-primary mx-auto mb-1 h-4 w-4" aria-hidden="true" />
+			<div className="text-foreground text-lg font-bold">{value}</div>
 			<div className="text-muted-foreground text-xs">{label}</div>
 		</div>
 	);
@@ -358,7 +358,7 @@ function SampleReport({ onOpen }: Readonly<{ onOpen?: () => void }>) {
 			className="rounded-2xl border bg-white p-5 shadow-sm"
 		>
 			<div className="mb-3 flex items-baseline justify-between gap-2">
-				<h2 id="ornek-rapor-baslik" className="font-semibold text-foreground">
+				<h2 id="ornek-rapor-baslik" className="text-foreground font-semibold">
 					Örnek analiz raporu
 				</h2>
 				<a
@@ -366,7 +366,7 @@ function SampleReport({ onOpen }: Readonly<{ onOpen?: () => void }>) {
 					target="_blank"
 					rel="noopener"
 					onClick={onOpen}
-					className="flex items-center gap-1 text-primary text-sm underline"
+					className="text-primary flex items-center gap-1 text-sm underline"
 				>
 					<FileText className="h-4 w-4" aria-hidden="true" />
 					Örneğin tamamı (PDF)
@@ -391,7 +391,7 @@ function SampleReport({ onOpen }: Readonly<{ onOpen?: () => void }>) {
 					/>
 				))}
 			</a>
-			<p className="mt-3 text-muted-foreground text-xs">
+			<p className="text-muted-foreground mt-3 text-xs">
 				Örnektir: senin raporun kendi cevaplarınla hazırlanır.
 			</p>
 		</aside>
@@ -417,7 +417,7 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 				aria-labelledby="sonuc-baslik"
 				className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6"
 			>
-				<h2 id="sonuc-baslik" className="font-bold text-2xl text-foreground">
+				<h2 id="sonuc-baslik" className="text-foreground text-2xl font-bold">
 					Sonucun
 				</h2>
 				<div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -432,20 +432,20 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 				<div className="space-y-6">
 					<section
 						aria-labelledby="analiz-baslik"
-						className="rounded-2xl border border-primary/30 bg-primary/5 p-5 sm:p-6"
+						className="border-primary/30 bg-primary/5 rounded-2xl border p-5 sm:p-6"
 					>
-						<h2 id="analiz-baslik" className="font-bold text-foreground text-xl">
+						<h2 id="analiz-baslik" className="text-foreground text-xl font-bold">
 							Geniş analiz raporunu ister misin?
 						</h2>
-						<p className="mt-1 text-muted-foreground text-sm">
+						<p className="text-muted-foreground mt-1 text-sm">
 							Ücretsiz. Sonuçlarını Çağlar Hoca'nın gözünden inceleyip PDF olarak hemen burada
 							hazırlıyoruz.
 						</p>
-						<ul className="mt-3 space-y-1.5 text-foreground text-sm">
+						<ul className="text-foreground mt-3 space-y-1.5 text-sm">
 							{ANALIZ_MADDELERI.map((item) => (
 								<li key={item} className="flex gap-2">
 									<CheckCircle2
-										className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+										className="text-primary mt-0.5 h-4 w-4 shrink-0"
 										aria-hidden="true"
 									/>
 									{item}
@@ -504,7 +504,7 @@ function ResultStat({
 				highlight ? "bg-primary text-primary-foreground" : "bg-secondary",
 			)}
 		>
-			<div className="font-bold text-3xl">{value}</div>
+			<div className="text-3xl font-bold">{value}</div>
 			<div
 				className={cn(
 					"text-sm",
@@ -566,7 +566,7 @@ function ReportRequestForm({
 		return (
 			<section role="status" className="rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6">
 				<CheckCircle2 className="mb-2 h-8 w-8 text-green-700" aria-hidden="true" />
-				<h2 className="font-bold text-foreground text-xl">Analiz raporun</h2>
+				<h2 className="text-foreground text-xl font-bold">Analiz raporun</h2>
 				<RaporHazir raporKey={raporKey} denemeBaslik={deneme.baslik} />
 				<p className="mt-4 text-sm">
 					<Link href="/kurslar" className="text-muted-foreground underline">
@@ -582,16 +582,16 @@ function ReportRequestForm({
 			aria-labelledby="rapor-form-baslik"
 			className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6"
 		>
-			<h2 id="rapor-form-baslik" className="font-bold text-foreground text-xl">
+			<h2 id="rapor-form-baslik" className="text-foreground text-xl font-bold">
 				Raporunu hazırlayalım
 			</h2>
-			<p className="mt-1 text-muted-foreground text-sm">
+			<p className="text-muted-foreground mt-1 text-sm">
 				Rapor birkaç saniye içinde burada açılır. Numarayı, Çağlar Hoca sonucu sizinle
 				değerlendirebilsin diye istiyoruz. E-posta istemiyoruz.
 			</p>
 			<form onSubmit={submit} className="mt-4 space-y-4">
 				<div>
-					<label htmlFor="rapor-ad" className="mb-1 block font-medium text-sm">
+					<label htmlFor="rapor-ad" className="mb-1 block text-sm font-medium">
 						Numara sahibinin adı soyadı
 					</label>
 					<input
@@ -600,11 +600,11 @@ function ReportRequestForm({
 						autoComplete="name"
 						value={adSoyad}
 						onChange={(e) => setAdSoyad(e.target.value)}
-						className="w-full rounded-lg border border-border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+						className="border-border focus:ring-primary w-full rounded-lg border px-3 py-2 focus:ring-2 focus:outline-none"
 					/>
 				</div>
 				<div>
-					<label htmlFor="rapor-telefon" className="mb-1 block font-medium text-sm">
+					<label htmlFor="rapor-telefon" className="mb-1 block text-sm font-medium">
 						Cep telefonu
 					</label>
 					<input
@@ -616,11 +616,11 @@ function ReportRequestForm({
 						placeholder="05xx xxx xx xx"
 						value={telefon}
 						onChange={(e) => setTelefon(e.target.value)}
-						className="w-full rounded-lg border border-border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+						className="border-border focus:ring-primary w-full rounded-lg border px-3 py-2 focus:ring-2 focus:outline-none"
 					/>
 				</div>
 				<fieldset>
-					<legend className="mb-1 font-medium text-sm">Numara kime ait?</legend>
+					<legend className="mb-1 text-sm font-medium">Numara kime ait?</legend>
 					<div className="flex flex-wrap gap-2">
 						{YAKINLIK.map((option) => (
 							<label

@@ -41,7 +41,7 @@ export default async function DenemePage({ params }: PageProps) {
 	if (!deneme) notFound();
 
 	return (
-		<div className="min-h-screen bg-secondary">
+		<div className="bg-secondary min-h-screen">
 			<BreadcrumbNav
 				breadcrumbs={[
 					{ label: "Deneme Sınavları", href: "/deneme-sinavlari" },
@@ -50,14 +50,14 @@ export default async function DenemePage({ params }: PageProps) {
 			/>
 			<div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
 				<div className="mb-6">
-					<p className="font-medium text-primary text-sm">
+					<p className="text-primary text-sm font-medium">
 						{SINAV_TURU_LABEL[deneme.sinavTuru]}
 						{deneme.sinif ? ` · ${deneme.sinif.title}` : ""}
 						{deneme.ders ? ` · ${deneme.ders.title}` : ""}
 					</p>
-					<h1 className="mt-1 font-bold text-2xl text-foreground sm:text-3xl">{deneme.baslik}</h1>
+					<h1 className="text-foreground mt-1 text-2xl font-bold sm:text-3xl">{deneme.baslik}</h1>
 					{deneme.aciklama && (
-						<p className="mt-2 max-w-3xl text-muted-foreground">{deneme.aciklama}</p>
+						<p className="text-muted-foreground mt-2 max-w-3xl">{deneme.aciklama}</p>
 					)}
 				</div>
 				<DenemeRunner deneme={deneme} />

@@ -78,7 +78,7 @@ export default function SignUpPage() {
 										Eğitim yolculuğunuzun ilk adımı
 									</span>
 								</div>
-								<h1 className="mb-4 font-bold text-4xl text-foreground">
+								<h1 className="text-foreground mb-4 text-4xl font-bold">
 									Öğrenme Yolculuğunuza Bugün Başlayın
 								</h1>
 								<p className="text-muted-foreground text-xl">
@@ -96,12 +96,12 @@ export default function SignUpPage() {
 											key={feature.id}
 											className="flex items-start space-x-3 rounded-lg bg-white p-4 shadow-sm"
 										>
-											<div className="rounded-lg bg-secondary p-2">
+											<div className="bg-secondary rounded-lg p-2">
 												<IconComponent className={`h-5 w-5 ${feature.color}`} />
 											</div>
 											<div>
-												<h3 className="font-semibold text-foreground text-sm">{feature.title}</h3>
-												<p className="mt-1 text-muted-foreground text-xs">{feature.description}</p>
+												<h3 className="text-foreground text-sm font-semibold">{feature.title}</h3>
+												<p className="text-muted-foreground mt-1 text-xs">{feature.description}</p>
 											</div>
 										</div>
 									);
@@ -129,7 +129,7 @@ export default function SignUpPage() {
 									<Button
 										onClick={handleGoogleSignUp}
 										disabled={isSigningUp || isLoading}
-										className="h-12 w-full border border-border bg-white text-foreground shadow-sm hover:bg-secondary"
+										className="border-border text-foreground hover:bg-secondary h-12 w-full border bg-white shadow-sm"
 										variant="outline"
 									>
 										{isSigningUp || isLoading ? (
@@ -147,18 +147,18 @@ export default function SignUpPage() {
 
 									{/* Benefits */}
 									<div className="space-y-3 border-t pt-4">
-										<h4 className="font-medium text-foreground text-sm">Neler elde edeceksiniz:</h4>
+										<h4 className="text-foreground text-sm font-medium">Neler elde edeceksiniz:</h4>
 										<div className="space-y-2">
-											<div className="flex items-center space-x-3 text-muted-foreground text-sm">
-												<Shield className="h-4 w-4 shrink-0 text-primary" />
+											<div className="text-muted-foreground flex items-center space-x-3 text-sm">
+												<Shield className="text-primary h-4 w-4 shrink-0" />
 												<span>Tüm kurslara ücretsiz erişim</span>
 											</div>
-											<div className="flex items-center space-x-3 text-muted-foreground text-sm">
-												<BookOpen className="h-4 w-4 shrink-0 text-primary" />
+											<div className="text-muted-foreground flex items-center space-x-3 text-sm">
+												<BookOpen className="text-primary h-4 w-4 shrink-0" />
 												<span>İlerleme takibi</span>
 											</div>
-											<div className="flex items-center space-x-3 text-muted-foreground text-sm">
-												<Users className="h-4 w-4 shrink-0 text-primary" />
+											<div className="text-muted-foreground flex items-center space-x-3 text-sm">
+												<Users className="text-primary h-4 w-4 shrink-0" />
 												<span>Topluluk desteği ve etkileşim</span>
 											</div>
 										</div>
@@ -170,7 +170,7 @@ export default function SignUpPage() {
 											Zaten hesabınız var mı?{" "}
 											<Link
 												href="/giris"
-												className="font-medium text-primary hover:text-background"
+												className="text-primary hover:text-background font-medium"
 											>
 												Buradan giriş yapın
 											</Link>
@@ -180,7 +180,7 @@ export default function SignUpPage() {
 							</Card>
 
 							{/* Terms */}
-							<p className="text-center text-muted-foreground text-xs">
+							<p className="text-muted-foreground text-center text-xs">
 								Hesap oluşturarak{" "}
 								<Link href="/hizmet-sartlari" className="text-primary hover:text-background">
 									Hizmet Şartlarımızı

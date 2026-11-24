@@ -32,7 +32,7 @@ export default function BlogGrid({
 			itemsPerPage={itemsPerPage}
 			enablePagination={enablePagination}
 			emptyStateConfig={{
-				icon: <BookOpen className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />,
+				icon: <BookOpen className="text-muted-foreground mx-auto mb-4 h-12 w-12" />,
 				title: "Blog yazısı bulunamadı",
 				description: "Aradığınız kriterlere uygun blog yazısı bulunamadı.",
 			}}

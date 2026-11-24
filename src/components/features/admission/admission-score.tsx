@@ -16,7 +16,7 @@ export default function AdmissionScorePage({ admissionScore }: Readonly<Admissio
 		<div className="space-y-8">
 			{/* Header */}
 			<div className="text-center">
-				<h1 className="mb-4 font-bold text-3xl text-foreground tracking-tight">
+				<h1 className="text-foreground mb-4 text-3xl font-bold tracking-tight">
 					{admissionScore.title}
 				</h1>
 				{hasContent && (
@@ -29,9 +29,9 @@ export default function AdmissionScorePage({ admissionScore }: Readonly<Admissio
 			{/* No Content Fallback */}
 			{!hasContent && (
 				<div className="flex flex-col items-center justify-center py-8 text-center">
-					<School className="mb-4 h-12 w-12 text-muted-foreground" />
-					<h3 className="mb-1 font-semibold text-lg">Genel Bilgiler</h3>
-					<p className="max-w-md text-muted-foreground text-sm">
+					<School className="text-muted-foreground mb-4 h-12 w-12" />
+					<h3 className="mb-1 text-lg font-semibold">Genel Bilgiler</h3>
+					<p className="text-muted-foreground max-w-md text-sm">
 						{admissionScore.title} ile ilgili detaylı taban puan bilgileri aşağıdaki tabloda yer
 						almaktadır.
 					</p>

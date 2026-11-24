@@ -36,7 +36,7 @@ export default function AdmissionGrid({
 			itemsPerPage={itemsPerPage}
 			enablePagination={enablePagination}
 			emptyStateConfig={{
-				icon: <Calculator className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />,
+				icon: <Calculator className="text-muted-foreground mx-auto mb-4 h-12 w-12" />,
 				title: "Taban puan bulunamadı",
 				description: "Filtreleri değiştirerek taban puanları bulabilirsiniz.",
 			}}

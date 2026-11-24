@@ -16,15 +16,15 @@ export default function PermissionWarning({
 	return (
 		<div className="mx-auto max-w-2xl">
 			<Alert className="border-accent bg-accent/10">
-				<AlertTriangle className="h-4 w-4 text-accent" />
+				<AlertTriangle className="text-accent h-4 w-4" />
 				<AlertTitle className="text-accent">İçerik Yüklenemedi - İzin Hatası</AlertTitle>
-				<AlertDescription className="space-y-3 text-accent">
+				<AlertDescription className="text-accent space-y-3">
 					<p>
 						<strong>{contentType}</strong> içeriği yüklenemiyor. Bu sorun genellikle Strapi yönetim
 						panelinde gerekli izinlerin ayarlanmamış olmasından kaynaklanır.
 					</p>
 
-					<div className="rounded border border-accent bg-white p-3">
+					<div className="border-accent rounded border bg-white p-3">
 						<h4 className="mb-2 flex items-center font-semibold">
 							<Settings className="mr-2 h-4 w-4" />
 							Çözüm Adımları:
@@ -43,7 +43,7 @@ export default function PermissionWarning({
 					</div>
 
 					{endpoint && (
-						<div className="rounded bg-accent/10 p-2 text-accent text-xs">
+						<div className="bg-accent/10 text-accent rounded p-2 text-xs">
 							<strong>Endpoint:</strong> <code className="rounded bg-white px-1">{endpoint}</code>
 						</div>
 					)}

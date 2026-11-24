@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/modifiers";
 
 interface BlogRichTextRendererProps {
+	// biome-ignore lint/suspicious/noExplicitAny: blocks-react-renderer expects any[] blocks
 	content: any[];
 	className?: string;
 }
@@ -27,7 +28,7 @@ const MODIFIERS = {
 };
 
 const ParagraphBlock = ({ children }: { children?: React.ReactNode }) => (
-	<p className="mb-6 font-light text-foreground text-lg leading-relaxed tracking-wide">
+	<p className="text-foreground mb-6 text-lg leading-relaxed font-light tracking-wide">
 		{children}
 	</p>
 );
@@ -68,15 +69,15 @@ const ListBlock = ({
 };
 
 const ListItemBlock = ({ children }: { children?: React.ReactNode }) => (
-	<li className="relative pl-8 font-light text-foreground text-lg leading-relaxed before:absolute before:left-0 before:font-bold before:text-primary before:content-['▶']">
+	<li className="text-foreground before:text-primary relative pl-8 text-lg leading-relaxed font-light before:absolute before:left-0 before:font-bold before:content-['▶']">
 		{children}
 	</li>
 );
 
 const QuoteBlock = ({ children }: { children?: React.ReactNode }) => (
-	<div className="relative my-10 rounded-2xl border-primary border-l-4 bg-linear-to-r from-primary/20 to-primary/20 p-8 shadow-lg">
-		<Quote className="absolute top-4 left-4 h-6 w-6 text-primary opacity-60" />
-		<blockquote className="pl-8 font-medium text-muted-foreground text-xl italic leading-relaxed">
+	<div className="border-primary from-primary/20 to-primary/20 relative my-10 rounded-2xl border-l-4 bg-linear-to-r p-8 shadow-lg">
+		<Quote className="text-primary absolute top-4 left-4 h-6 w-6 opacity-60" />
+		<blockquote className="text-muted-foreground pl-8 text-xl leading-relaxed font-medium italic">
 			{children}
 		</blockquote>
 	</div>
@@ -84,16 +85,16 @@ const QuoteBlock = ({ children }: { children?: React.ReactNode }) => (
 
 const CodeBlock = ({ children }: { children?: React.ReactNode }) => (
 	<div className="relative my-8 overflow-hidden rounded-2xl shadow-xl">
-		<div className="flex items-center gap-2 bg-foreground px-4 py-3">
-			<Code2 className="h-4 w-4 text-primary" />
-			<span className="font-mono text-muted-foreground text-sm">Code</span>
+		<div className="bg-foreground flex items-center gap-2 px-4 py-3">
+			<Code2 className="text-primary h-4 w-4" />
+			<span className="text-muted-foreground font-mono text-sm">Code</span>
 			<div className="ml-auto flex gap-1">
-				<div className="h-3 w-3 rounded-full bg-destructive" />
-				<div className="h-3 w-3 rounded-full bg-accent" />
-				<div className="h-3 w-3 rounded-full bg-primary" />
+				<div className="bg-destructive h-3 w-3 rounded-full" />
+				<div className="bg-accent h-3 w-3 rounded-full" />
+				<div className="bg-primary h-3 w-3 rounded-full" />
 			</div>
 		</div>
-		<pre className="overflow-x-auto bg-foreground p-6 text-primary">
+		<pre className="bg-foreground text-primary overflow-x-auto p-6">
 			<code className="font-mono text-sm leading-relaxed">{children}</code>
 		</pre>
 	</div>
@@ -102,7 +103,7 @@ const CodeBlock = ({ children }: { children?: React.ReactNode }) => (
 const LinkBlock = ({ children, url }: { children?: React.ReactNode; url: string }) => (
 	<a
 		href={url}
-		className="inline-flex items-center gap-1 font-medium text-primary decoration-2 underline-offset-4 transition-all duration-200 hover:text-background hover:underline"
+		className="text-primary hover:text-background inline-flex items-center gap-1 font-medium decoration-2 underline-offset-4 transition-all duration-200 hover:underline"
 		target="_blank"
 		rel="noopener noreferrer"
 	>

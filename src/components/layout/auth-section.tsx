@@ -32,33 +32,33 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 			className="h-8 w-8 shrink-0 rounded-full border-2 object-cover"
 		/>
 	) : (
-		<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary">
-			<User className="h-4 w-4 text-background" aria-hidden="true" />
+		<div className="bg-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+			<User className="text-background h-4 w-4" aria-hidden="true" />
 		</div>
 	);
 
 	if (mobile && isAuthenticated && user) {
 		return (
-			<div className="rounded-xl border border-border bg-secondary/40 p-3">
+			<div className="border-border bg-secondary/40 rounded-xl border p-3">
 				<div className="flex items-center gap-3 px-1">
 					{avatar}
-					<div className="wrap-anywhere min-w-0">
-						<p className="font-semibold text-foreground text-sm">{user.name}</p>
+					<div className="min-w-0 wrap-anywhere">
+						<p className="text-foreground text-sm font-semibold">{user.name}</p>
 						<p className="text-muted-foreground text-xs">{user.email}</p>
 					</div>
 				</div>
-				<div className="mt-3 space-y-1 border-border border-t pt-2">
+				<div className="border-border mt-3 space-y-1 border-t pt-2">
 					<Link
 						href="/derslerim"
 						onClick={handleLinkClick}
-						className="flex min-h-11 items-center rounded-lg px-2 font-medium text-foreground text-sm hover:bg-secondary"
+						className="text-foreground hover:bg-secondary flex min-h-11 items-center rounded-lg px-2 text-sm font-medium"
 					>
 						Derslerim
 					</Link>
 					<button
 						type="button"
 						onClick={handleSignOut}
-						className="flex min-h-11 w-full items-center gap-2 rounded-lg px-2 text-left font-medium text-destructive text-sm hover:bg-secondary"
+						className="text-destructive hover:bg-secondary flex min-h-11 w-full items-center gap-2 rounded-lg px-2 text-left text-sm font-medium"
 					>
 						<LogOut className="h-4 w-4" aria-hidden="true" />
 						Çıkış Yap
@@ -77,7 +77,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 					<div className="group relative">
 						<button
 							type="button"
-							className="flex items-center space-x-2 text-muted-foreground transition-colors hover:text-background"
+							className="text-muted-foreground hover:text-background flex items-center space-x-2 transition-colors"
 						>
 							{avatar}
 							<span className="font-medium">{user.name}</span>
@@ -88,20 +88,20 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 						<div className="invisible absolute top-full right-0 z-50 mt-2 w-48 rounded-md border bg-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
 							<div className="py-2">
 								<div className="border-border border-b px-4 py-2">
-									<p className="font-medium text-foreground text-sm">{user.name}</p>
+									<p className="text-foreground text-sm font-medium">{user.name}</p>
 									<p className="text-muted-foreground text-xs">{user.email}</p>
 								</div>
 								<Link
 									href="/derslerim"
 									onClick={handleLinkClick}
-									className="block px-4 py-2 text-muted-foreground text-sm hover:bg-secondary hover:text-primary-foreground"
+									className="text-muted-foreground hover:bg-secondary hover:text-primary-foreground block px-4 py-2 text-sm"
 								>
 									Derslerim
 								</Link>
 								<button
 									type="button"
 									onClick={handleSignOut}
-									className="flex w-full items-center space-x-2 px-4 py-2 text-left text-muted-foreground text-sm hover:bg-secondary hover:text-destructive"
+									className="text-muted-foreground hover:bg-secondary hover:text-destructive flex w-full items-center space-x-2 px-4 py-2 text-left text-sm"
 								>
 									<LogOut className="h-4 w-4" />
 									<span>Çıkış Yap</span>
@@ -116,13 +116,13 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 					<Link href="/giris" onClick={handleLinkClick}>
 						<Button
 							variant="ghost"
-							className="font-medium text-text transition-colors hover:text-background"
+							className="text-text hover:text-background font-medium transition-colors"
 						>
 							Giriş Yap
 						</Button>
 					</Link>
 					<Link href="/kayit-ol" onClick={handleLinkClick}>
-						<Button className="rounded-lg bg-primary px-4 py-2 text-background transition-colors hover:bg-primary">
+						<Button className="bg-primary text-background hover:bg-primary rounded-lg px-4 py-2 transition-colors">
 							Üye Ol
 						</Button>
 					</Link>

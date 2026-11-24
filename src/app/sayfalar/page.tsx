@@ -11,7 +11,7 @@ export default async function SayfalarPage() {
 			<BreadcrumbNav breadcrumbs={[{ label: "Sayfalar", href: "/sayfalar" }]} />
 
 			<div className="py-8">
-				<h1 className="mb-8 font-bold text-3xl text-foreground">Tüm Sayfalar</h1>
+				<h1 className="text-foreground mb-8 text-3xl font-bold">Tüm Sayfalar</h1>
 
 				<div className="grid gap-8">
 					{pageCategories.map((category) => (
@@ -25,11 +25,11 @@ export default async function SayfalarPage() {
 										<Link
 											key={page.id}
 											href={`/sayfalar/${page.slug}`}
-											className="block rounded-lg border p-3 transition-colors hover:border-primary hover:bg-primary/10"
+											className="hover:border-primary hover:bg-primary/10 block rounded-lg border p-3 transition-colors"
 										>
-											<h3 className="font-medium text-foreground">{page.title}</h3>
+											<h3 className="text-foreground font-medium">{page.title}</h3>
 											{page.pageType && (
-												<p className="mt-1 text-muted-foreground text-sm">Tür: {page.pageType}</p>
+												<p className="text-muted-foreground mt-1 text-sm">Tür: {page.pageType}</p>
 											)}
 										</Link>
 									))}

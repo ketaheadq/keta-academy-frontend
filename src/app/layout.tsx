@@ -18,75 +18,58 @@ const geistMono = Geist_Mono({
 	subsets: ["latin"],
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-	try {
-		const settings = await getSettings();
+const SITE_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud";
+const SITE_NAME = "KetaLearn";
+const DEFAULT_DESCRIPTION =
+	"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu";
 
-		return {
-			title: settings.siteName,
-			description:
-				settings.defaultSEODescription ||
-				"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu",
-			icons: {
-				icon: [
-					{ url: "/favicon/ketalearn.svg", sizes: "any", type: "image/svg+xml" },
-					{ url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-					{ url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-					{
-						url: "/favicon/android-chrome-192x192.png",
-						sizes: "192x192",
-						type: "image/png",
-					},
-					{
-						url: "/favicon/android-chrome-512x512.png",
-						sizes: "512x512",
-						type: "image/png",
-					},
-				],
-				apple: [
-					{
-						url: "/favicon/apple-touch-icon.png",
-						sizes: "180x180",
-						type: "image/png",
-					},
-				],
-			},
-			manifest: "/favicon/site.webmanifest",
-		};
-	} catch (error) {
-		console.error("Failed to fetch settings for metadata:", error);
-		// Fallback metadata if Strapi is not available
-		return {
-			title: "KetaLearn",
-			description:
-				"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu",
-			icons: {
-				icon: [
-					{ url: "/favicon/ketalearn.svg", sizes: "any", type: "image/svg+xml" },
-					{ url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-					{ url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-					{
-						url: "/favicon/android-chrome-192x192.png",
-						sizes: "192x192",
-						type: "image/png",
-					},
-					{
-						url: "/favicon/android-chrome-512x512.png",
-						sizes: "512x512",
-						type: "image/png",
-					},
-				],
-				apple: [
-					{
-						url: "/favicon/apple-touch-icon.png",
-						sizes: "180x180",
-						type: "image/png",
-					},
-				],
-			},
-			manifest: "/favicon/site.webmanifest",
-		};
-	}
+const ICONS: Metadata["icons"] = {
+	icon: [
+		{ url: "/favicon/ketalearn.svg", sizes: "any", type: "image/svg+xml" },
+		{ url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+		{ url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+		{
+			url: "/favicon/android-chrome-192x192.png",
+			sizes: "192x192",
+			type: "image/png",
+		},
+		{
+			url: "/favicon/android-chrome-512x512.png",
+			sizes: "512x512",
+			type: "image/png",
+		},
+	],
+	apple: [
+		{
+			url: "/favicon/apple-touch-icon.png",
+			sizes: "180x180",
+			type: "image/png",
+		},
+	],
+};
+
+export async function generateMetadata(): Promise<Metadata> {
+	// metadataBase must be set even when the CMS is unreachable: without it
+	// Next.js emits no rel=canonical and resolves relative OG URLs against the
+	// build host instead of the live domain.
+	const base: Metadata = {
+		metadataBase: new URL(SITE_URL),
+		title: SITE_NAME,
+		description: DEFAULT_DESCRIPTION,
+		icons: ICONS,
+		manifest: "/favicon/site.webmanifest",
+	};
+
+	const settings = await getSettings().catch((error: Error) => {
+		console.warn(`Metadata is using built-in defaults: ${error.message}`);
+		return null;
+	});
+
+	return {
+		...base,
+		title: settings?.siteName || SITE_NAME,
+		description: settings?.defaultSEODescription || DEFAULT_DESCRIPTION,
+	};
 }
 
 export default async function RootLayout({

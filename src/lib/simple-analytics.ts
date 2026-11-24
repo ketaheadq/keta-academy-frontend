@@ -5,6 +5,11 @@
  * No security concerns, handled by Google's infrastructure
  */
 
+type WindowWithAnalytics = Window & {
+	gtag?: (command: string, action: string, params?: Record<string, unknown>) => void;
+	dataLayer?: Array<Record<string, unknown>>;
+};
+
 /**
  * Track 404 events to Google Analytics
  */
@@ -16,14 +21,16 @@ export function track404ToGA(data: {
 	// Only run on client side
 	if (globalThis.window === undefined) return;
 
+	const win = globalThis.window as WindowWithAnalytics;
+
 	// Check if gtag is available
-	if (typeof (globalThis.window as any).gtag !== "function") {
+	if (typeof win.gtag !== "function") {
 		console.warn("Google Analytics not loaded");
 		return;
 	}
 
 	// Send 404 event to GA4
-	(globalThis.window as any).gtag("event", "page_not_found", {
+	win.gtag("event", "page_not_found", {
 		event_category: "Error",
 		event_label: `${data.contentType}: ${data.requestedSlug}`,
 		custom_parameters: {
@@ -47,9 +54,11 @@ export function track404ToGTM(data: {
 }) {
 	if (globalThis.window === undefined) return;
 
+	const win = globalThis.window as WindowWithAnalytics;
+
 	// Push to dataLayer for GTM
-	(globalThis.window as any).dataLayer = (globalThis.window as any).dataLayer || [];
-	(globalThis.window as any).dataLayer.push({
+	win.dataLayer = win.dataLayer || [];
+	win.dataLayer.push({
 		event: "404_error",
 		error_type: "404",
 		content_type: data.contentType,

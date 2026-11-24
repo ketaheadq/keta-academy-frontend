@@ -13,7 +13,7 @@ export default function DesktopDropdown({ category }: Readonly<DesktopDropdownPr
 		<div className="group relative">
 			<button
 				type="button"
-				className="flex items-center space-x-1 font-medium text-muted-foreground transition-colors hover:text-primary"
+				className="text-muted-foreground hover:text-primary flex items-center space-x-1 font-medium transition-colors"
 			>
 				<span>{category.title}</span>
 				<ChevronDown className="h-4 w-4" />
@@ -24,7 +24,7 @@ export default function DesktopDropdown({ category }: Readonly<DesktopDropdownPr
 						<Link
 							key={`page-${page.id}`}
 							href={`/sayfalar/${page.slug}`}
-							className="block px-4 py-2 text-muted-foreground text-sm hover:bg-primary hover:text-background"
+							className="text-muted-foreground hover:bg-primary hover:text-background block px-4 py-2 text-sm"
 						>
 							{page.title}
 						</Link>

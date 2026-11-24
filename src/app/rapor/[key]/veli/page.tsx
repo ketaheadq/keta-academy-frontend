@@ -17,16 +17,16 @@ export default async function VeliPage({ params }: PageProps) {
 	const rapor = await getRaporOzeti(key).catch(() => null);
 
 	return (
-		<div className="min-h-screen bg-secondary">
+		<div className="bg-secondary min-h-screen">
 			<div className="mx-auto max-w-xl space-y-5 px-4 py-10 sm:px-6">
 				{rapor ? (
 					<>
 						<header>
-							<p className="font-medium text-primary text-sm">{rapor.denemeBaslik}</p>
-							<h1 className="mt-1 font-bold text-2xl text-foreground sm:text-3xl">
+							<p className="text-primary text-sm font-medium">{rapor.denemeBaslik}</p>
+							<h1 className="text-foreground mt-1 text-2xl font-bold sm:text-3xl">
 								Raporu velinle paylaş
 							</h1>
-							<p className="mt-2 text-muted-foreground">
+							<p className="text-muted-foreground mt-2">
 								Velinin numarasını yaz; Çağlar Hoca velini arayıp raporu 15 dakikada ücretsiz
 								birlikte değerlendirsin.
 							</p>
@@ -43,8 +43,8 @@ export default async function VeliPage({ params }: PageProps) {
 					</>
 				) : (
 					<div className="rounded-2xl border bg-white p-8 text-center">
-						<h1 className="font-bold text-2xl text-foreground">Rapor bulunamadı</h1>
-						<p className="mt-2 text-muted-foreground">
+						<h1 className="text-foreground text-2xl font-bold">Rapor bulunamadı</h1>
+						<p className="text-muted-foreground mt-2">
 							Linki rapordaki haliyle açtığınızdan emin olun.
 						</p>
 						<Button asChild className="mt-4">

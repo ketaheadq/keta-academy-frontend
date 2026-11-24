@@ -9,7 +9,7 @@ const BoldModifier = ({
 }) => (
 	<strong
 		className={clsx(
-			"bg-linear-to-r from-primary to-primary bg-clip-text font-bold text-foreground",
+			"from-primary to-primary text-foreground bg-linear-to-r bg-clip-text font-bold",
 			className,
 		)}
 	>
@@ -27,7 +27,7 @@ const ItalicModifier = ({
 }: {
 	children: React.ReactNode;
 	className?: string;
-}) => <em className={clsx("font-medium text-muted-foreground italic", className)}>{children}</em>;
+}) => <em className={clsx("text-muted-foreground font-medium italic", className)}>{children}</em>;
 
 export const ItalicModifierComponent = (props: { children: React.ReactNode }) => (
 	<ItalicModifier {...props} />
@@ -40,7 +40,7 @@ const UnderlineModifier = ({
 	children: React.ReactNode;
 	className?: string;
 }) => (
-	<u className={clsx("underline decoration-2 decoration-blue-400 underline-offset-2", className)}>
+	<u className={clsx("underline decoration-blue-400 decoration-2 underline-offset-2", className)}>
 		{children}
 	</u>
 );
@@ -55,7 +55,7 @@ const StrikethroughModifier = ({
 }: {
 	children: React.ReactNode;
 	className?: string;
-}) => <s className={clsx("line-through decoration-2 decoration-red-400", className)}>{children}</s>;
+}) => <s className={clsx("line-through decoration-red-400 decoration-2", className)}>{children}</s>;
 
 export const StrikethroughModifierComponent = (props: { children: React.ReactNode }) => (
 	<StrikethroughModifier {...props} />
@@ -70,7 +70,7 @@ const CodeModifier = ({
 }) => (
 	<code
 		className={clsx(
-			"rounded-lg border bg-secondary px-2 py-1 font-mono font-semibold text-primary text-sm",
+			"bg-secondary text-primary rounded-lg border px-2 py-1 font-mono text-sm font-semibold",
 			className,
 		)}
 	>

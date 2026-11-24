@@ -91,7 +91,7 @@ export default function ExpandableContentCard({
 			<CardHeader className="pb-0">
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center space-x-2 text-lg">
-						<School className="h-5 w-5 text-primary" />
+						<School className="text-primary h-5 w-5" />
 						<span>{title}</span>
 					</CardTitle>
 				</div>
@@ -143,7 +143,7 @@ export default function ExpandableContentCard({
 								)}
 							</div>
 						) : (
-							<div className="py-6 text-center text-muted-foreground">
+							<div className="text-muted-foreground py-6 text-center">
 								<FileText className="mx-auto mb-2 h-8 w-8" />
 								<p>İçerik bulunamadı</p>
 							</div>

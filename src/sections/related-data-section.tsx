@@ -32,10 +32,10 @@ export default function RelatedDataSection({
 							<Link
 								key={item.href}
 								href={item.href}
-								className="group flex items-center space-x-2 rounded-lg bg-secondary p-3 transition-colors hover:bg-secondary"
+								className="group bg-secondary hover:bg-secondary flex items-center space-x-2 rounded-lg p-3 transition-colors"
 							>
-								<ExternalLink className="h-4 w-4 shrink-0 text-primary" />
-								<span className="truncate font-medium text-foreground text-sm">{item.title}</span>
+								<ExternalLink className="text-primary h-4 w-4 shrink-0" />
+								<span className="text-foreground truncate text-sm font-medium">{item.title}</span>
 							</Link>
 						))}
 					</div>

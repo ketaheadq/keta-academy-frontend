@@ -23,13 +23,13 @@ export default async function ContactPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-linear-to-br from-primary/20 via-white to-primary/20">
+		<div className="from-primary/20 to-primary/20 min-h-screen bg-linear-to-br via-white">
 			{/* Hero Section */}
-			<div className="bg-linear-to-r from-primary to-primary py-16 text-background">
+			<div className="from-primary to-primary text-background bg-linear-to-r py-16">
 				<div className="container mx-auto px-4">
 					<div className="mx-auto max-w-3xl text-center">
-						<h1 className="mb-6 font-bold text-4xl md:text-5xl">Bizimle İletişime Geçin</h1>
-						<p className="mb-8 text-primary-foreground text-xl">
+						<h1 className="mb-6 text-4xl font-bold md:text-5xl">Bizimle İletişime Geçin</h1>
+						<p className="text-primary-foreground mb-8 text-xl">
 							Sorularınız, önerileriniz veya destek talepleriniz için buradayız. Size en kısa sürede
 							dönüş yapacağız.
 						</p>
@@ -58,8 +58,8 @@ export default async function ContactPage() {
 						{/* Contact Details Card */}
 						<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
 							<CardHeader className="pb-4">
-								<CardTitle className="flex items-center gap-2 text-2xl text-foreground">
-									<MessageCircle className="h-6 w-6 text-primary" />
+								<CardTitle className="text-foreground flex items-center gap-2 text-2xl">
+									<MessageCircle className="text-primary h-6 w-6" />
 									İletişim Bilgileri
 								</CardTitle>
 								<CardDescription>
@@ -68,52 +68,52 @@ export default async function ContactPage() {
 							</CardHeader>
 							<CardContent className="space-y-6">
 								{/* Phone */}
-								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/20">
-									<div className="rounded-lg bg-primary p-2">
-										<Phone className="h-5 w-5 text-background" />
+								<div className="bg-primary/10 hover:bg-primary/20 flex items-start gap-4 rounded-lg p-4 transition-colors">
+									<div className="bg-primary rounded-lg p-2">
+										<Phone className="text-background h-5 w-5" />
 									</div>
 									<div>
-										<h3 className="font-semibold text-foreground">Telefon</h3>
+										<h3 className="text-foreground font-semibold">Telefon</h3>
 										<a
 											href={`tel:${contactData.phone}`}
-											className="font-medium text-primary hover:text-background"
+											className="text-primary hover:text-background font-medium"
 										>
 											{contactData.phone}
 										</a>
-										<p className="mt-1 text-muted-foreground text-sm">
+										<p className="text-muted-foreground mt-1 text-sm">
 											Pazartesi - Cuma: 09:00 - 18:00
 										</p>
 									</div>
 								</div>
 
 								{/* Email */}
-								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/20">
-									<div className="rounded-lg bg-primary p-2">
-										<Mail className="h-5 w-5 text-background" />
+								<div className="bg-primary/10 hover:bg-primary/20 flex items-start gap-4 rounded-lg p-4 transition-colors">
+									<div className="bg-primary rounded-lg p-2">
+										<Mail className="text-background h-5 w-5" />
 									</div>
 									<div>
-										<h3 className="font-semibold text-foreground">E-posta</h3>
+										<h3 className="text-foreground font-semibold">E-posta</h3>
 										<a
 											href={`mailto:${contactData.email}`}
-											className="break-all font-medium text-primary hover:text-background"
+											className="text-primary hover:text-background font-medium break-all"
 										>
 											{contactData.email}
 										</a>
-										<p className="mt-1 text-muted-foreground text-sm">
+										<p className="text-muted-foreground mt-1 text-sm">
 											24 saat içinde yanıt veriyoruz
 										</p>
 									</div>
 								</div>
 
 								{/* Address */}
-								<div className="flex items-start gap-4 rounded-lg bg-primary/10 p-4 transition-colors hover:bg-primary/20">
-									<div className="rounded-lg bg-primary p-2">
-										<MapPin className="h-5 w-5 text-background" />
+								<div className="bg-primary/10 hover:bg-primary/20 flex items-start gap-4 rounded-lg p-4 transition-colors">
+									<div className="bg-primary rounded-lg p-2">
+										<MapPin className="text-background h-5 w-5" />
 									</div>
 									<div>
-										<h3 className="font-semibold text-foreground">Adres</h3>
-										<p className="font-medium text-primary">{contactData.address}</p>
-										<p className="mt-1 text-muted-foreground text-sm">
+										<h3 className="text-foreground font-semibold">Adres</h3>
+										<p className="text-primary font-medium">{contactData.address}</p>
+										<p className="text-muted-foreground mt-1 text-sm">
 											Ofis ziyaretleri randevu ile
 										</p>
 									</div>
@@ -127,7 +127,7 @@ export default async function ContactPage() {
 				<div className="mt-16">
 					<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
 						<CardHeader className="pb-8 text-center">
-							<CardTitle className="mb-4 text-3xl text-foreground">Sıkça Sorulan Sorular</CardTitle>
+							<CardTitle className="text-foreground mb-4 text-3xl">Sıkça Sorulan Sorular</CardTitle>
 							<CardDescription className="text-lg">
 								En çok merak edilen sorular ve yanıtları
 							</CardDescription>
@@ -135,8 +135,8 @@ export default async function ContactPage() {
 						<CardContent>
 							<div className="grid gap-8 md:grid-cols-2">
 								<div className="space-y-6">
-									<div className="rounded-lg border-primary border-l-4 bg-primary/10 p-6">
-										<h3 className="mb-2 font-semibold text-foreground">
+									<div className="border-primary bg-primary/10 rounded-lg border-l-4 p-6">
+										<h3 className="text-foreground mb-2 font-semibold">
 											Özel ders nasıl alabilirim?
 										</h3>
 										<p className="text-muted-foreground">
@@ -145,8 +145,8 @@ export default async function ContactPage() {
 										</p>
 									</div>
 
-									<div className="rounded-lg border-primary border-l-4 bg-primary/10 p-6">
-										<h3 className="mb-2 font-semibold text-foreground">
+									<div className="border-primary bg-primary/10 rounded-lg border-l-4 p-6">
+										<h3 className="text-foreground mb-2 font-semibold">
 											Ders içerikleri ücretsiz mi?
 										</h3>
 										<p className="text-muted-foreground">
@@ -157,8 +157,8 @@ export default async function ContactPage() {
 								</div>
 
 								<div className="space-y-6">
-									<div className="rounded-lg border-primary border-l-4 bg-primary/10 p-6">
-										<h3 className="mb-2 font-semibold text-foreground">
+									<div className="border-primary bg-primary/10 rounded-lg border-l-4 p-6">
+										<h3 className="text-foreground mb-2 font-semibold">
 											Teknik destek nasıl alabilirim?
 										</h3>
 										<p className="text-muted-foreground">
@@ -167,8 +167,8 @@ export default async function ContactPage() {
 										</p>
 									</div>
 
-									<div className="rounded-lg border-accent border-l-4 bg-accent/10 p-6">
-										<h3 className="mb-2 font-semibold text-foreground">
+									<div className="border-accent bg-accent/10 rounded-lg border-l-4 p-6">
+										<h3 className="text-foreground mb-2 font-semibold">
 											Öğretmen olmak istiyorum, nasıl başvurabilirim?
 										</h3>
 										<p className="text-muted-foreground">

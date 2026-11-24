@@ -31,7 +31,7 @@ interface AdmissionScoreTableProps {
 
 interface DynamicTableData {
 	id: number;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 interface ColumnInfo {
@@ -235,7 +235,7 @@ export default function AdmissionScoreTable({
 		setSortField(null);
 	};
 
-	const renderCellValue = (value: any, column: ColumnInfo) => {
+	const renderCellValue = (value: unknown, column: ColumnInfo) => {
 		if (!value) return <span className="text-muted-foreground">—</span>;
 
 		const stringValue = String(value);
@@ -253,7 +253,7 @@ export default function AdmissionScoreTable({
 						Dolmadı
 					</Badge>
 				) : (
-					<span className="font-medium font-mono text-foreground">{stringValue}</span>
+					<span className="text-foreground font-mono font-medium">{stringValue}</span>
 				);
 			default: {
 				const shouldWrap = stringValue.length > 30;
@@ -281,10 +281,10 @@ export default function AdmissionScoreTable({
 		<div className="space-y-6">
 			{/* Table Controls */}
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-				<h2 className="font-semibold text-foreground text-xl">{title} Detayları</h2>
+				<h2 className="text-foreground text-xl font-semibold">{title} Detayları</h2>
 				<div className="flex items-center gap-3">
 					<div className="relative">
-						<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+						<Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 						<Input
 							placeholder="Ara..."
 							value={searchTerm}
@@ -318,7 +318,7 @@ export default function AdmissionScoreTable({
 									<div key={column.key} className="space-y-1.5">
 										<label
 											htmlFor={selectId}
-											className="block font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+											className="text-foreground block text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 										>
 											{column.label}
 										</label>
@@ -373,7 +373,7 @@ export default function AdmissionScoreTable({
 										<TableHead
 											key={column.key}
 											onClick={() => handleSort(column.key)}
-											className="group cursor-pointer select-none bg-muted text-left font-semibold text-muted-foreground transition-colors first:pl-6 last:pr-6 hover:bg-accent"
+											className="group bg-muted text-muted-foreground hover:bg-accent cursor-pointer text-left font-semibold transition-colors select-none first:pl-6 last:pr-6"
 										>
 											<div className="flex items-center gap-1">
 												<span>{column.label}</span>
@@ -386,7 +386,7 @@ export default function AdmissionScoreTable({
 							<TableBody>
 								{filteredData.length > 0 ? (
 									filteredData.map((row) => (
-										<TableRow key={row.id} className="transition-colors hover:bg-accent">
+										<TableRow key={row.id} className="hover:bg-accent transition-colors">
 											{columns.map((column) => (
 												<TableCell key={column.key} className="py-3 text-left first:pl-6 last:pr-6">
 													{renderCellValue(row[column.key], column)}
@@ -398,7 +398,7 @@ export default function AdmissionScoreTable({
 									<TableRow>
 										<TableCell
 											colSpan={columns.length}
-											className="h-24 text-center text-muted-foreground"
+											className="text-muted-foreground h-24 text-center"
 										>
 											Sonuç bulunamadı. Arama kriterlerinizi değiştirin.
 										</TableCell>

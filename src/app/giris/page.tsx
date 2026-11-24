@@ -78,14 +78,14 @@ function LoginContent() {
 	if (isMobileFlow) {
 		return (
 			<div className="flex min-h-screen flex-col items-center justify-center gap-6 px-4">
-				<div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-					<GraduationCap className="h-8 w-8 text-background" />
+				<div className="bg-primary flex h-16 w-16 items-center justify-center rounded-full">
+					<GraduationCap className="text-background h-8 w-8" />
 				</div>
 				<div className="space-y-2 text-center">
-					<h2 className="font-bold text-2xl text-foreground">KetaLearn</h2>
+					<h2 className="text-foreground text-2xl font-bold">KetaLearn</h2>
 					<p className="text-muted-foreground">Google'a yönlendiriliyorsunuz...</p>
 				</div>
-				<Loader2 className="h-8 w-8 animate-spin text-primary" />
+				<Loader2 className="text-primary h-8 w-8 animate-spin" />
 				{error && (
 					<Alert variant="destructive" className="max-w-sm">
 						<AlertDescription>{error}</AlertDescription>
@@ -100,10 +100,10 @@ function LoginContent() {
 		<div className="w-full max-w-md space-y-8">
 			{/* Welcome Section */}
 			<div className="text-center">
-				<div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-					<GraduationCap className="h-8 w-8 text-background" />
+				<div className="bg-primary mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full">
+					<GraduationCap className="text-background h-8 w-8" />
 				</div>
-				<h2 className="mb-2 font-bold text-3xl text-foreground">Tekrar Hoşgeldiniz!</h2>
+				<h2 className="text-foreground mb-2 text-3xl font-bold">Tekrar Hoşgeldiniz!</h2>
 				<p className="text-muted-foreground">Öğrenme yolculuğunuza devam etmek için giriş yapın</p>
 			</div>
 
@@ -134,7 +134,7 @@ function LoginContent() {
 					<Button
 						onClick={handleGoogleSignIn}
 						disabled={isSigningIn || isLoading}
-						className="h-12 w-full border border-border bg-white text-foreground shadow-sm hover:bg-secondary"
+						className="border-border text-foreground hover:bg-secondary h-12 w-full border bg-white shadow-sm"
 						variant="outline"
 					>
 						{isSigningIn || isLoading ? (
@@ -153,25 +153,25 @@ function LoginContent() {
 					{/* Divider */}
 					<div className="relative">
 						<div className="absolute inset-0 flex items-center">
-							<div className="w-full border-border border-t" />
+							<div className="border-border w-full border-t" />
 						</div>
 						<div className="relative flex justify-center text-sm">
-							<span className="bg-white px-2 text-muted-foreground">Neden Google Girişi?</span>
+							<span className="text-muted-foreground bg-white px-2">Neden Google Girişi?</span>
 						</div>
 					</div>
 
 					{/* Benefits */}
 					<div className="space-y-3">
-						<div className="flex items-center space-x-3 text-muted-foreground text-sm">
-							<Shield className="h-4 w-4 shrink-0 text-primary" />
+						<div className="text-muted-foreground flex items-center space-x-3 text-sm">
+							<Shield className="text-primary h-4 w-4 shrink-0" />
 							<span>Güvenli ve şifrelenmiş kimlik doğrulama</span>
 						</div>
-						<div className="flex items-center space-x-3 text-muted-foreground text-sm">
-							<Users className="h-4 w-4 shrink-0 text-primary" />
+						<div className="text-muted-foreground flex items-center space-x-3 text-sm">
+							<Users className="text-primary h-4 w-4 shrink-0" />
 							<span>Şifre hatırlamadan hızlı erişim</span>
 						</div>
-						<div className="flex items-center space-x-3 text-muted-foreground text-sm">
-							<BookOpen className="h-4 w-4 shrink-0 text-primary" />
+						<div className="text-muted-foreground flex items-center space-x-3 text-sm">
+							<BookOpen className="text-primary h-4 w-4 shrink-0" />
 							<span>İlerlemenizi tüm cihazlarda senkronize edin</span>
 						</div>
 					</div>
@@ -180,7 +180,7 @@ function LoginContent() {
 					<div className="border-t pt-4 text-center">
 						<p className="text-muted-foreground text-sm">
 							Hesabınız yok mu?{" "}
-							<Link href="/kayit-ol" className="font-medium text-primary hover:text-background">
+							<Link href="/kayit-ol" className="text-primary hover:text-background font-medium">
 								Buradan kayıt olun
 							</Link>
 						</p>
@@ -189,7 +189,7 @@ function LoginContent() {
 			</Card>
 
 			{/* Terms */}
-			<p className="text-center text-muted-foreground text-xs">
+			<p className="text-muted-foreground text-center text-xs">
 				Giriş yaparak{" "}
 				<Link href="/hizmet-sartlari" className="text-primary hover:text-background">
 					Hizmet Şartlarımızı
@@ -211,7 +211,7 @@ export default function LoginPage() {
 				<Suspense
 					fallback={
 						<div className="flex items-center justify-center">
-							<Loader2 className="h-8 w-8 animate-spin text-primary" />
+							<Loader2 className="text-primary h-8 w-8 animate-spin" />
 						</div>
 					}
 				>

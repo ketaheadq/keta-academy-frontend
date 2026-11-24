@@ -159,7 +159,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			case "Hesaplama Araçları":
 				content = (
 					<section className="text-center">
-						<h2 className="mb-4 font-bold text-2xl">Hesaplama Araçları</h2>
+						<h2 className="mb-4 text-2xl font-bold">Hesaplama Araçları</h2>
 						<p className="text-muted-foreground">Calculation tools will be implemented here</p>
 					</section>
 				);
@@ -169,7 +169,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 				content = (
 					<section className="text-center">
 						<div className="prose prose-lg mx-auto">
-							<p className="mx-auto max-w-3xl text-muted-foreground text-xl">Sayfa yüklenemedi.</p>
+							<p className="text-muted-foreground mx-auto max-w-3xl text-xl">Sayfa yüklenemedi.</p>
 						</div>
 					</section>
 				);
@@ -178,7 +178,7 @@ export default async function Page({ params }: Readonly<PageProps>) {
 		// Generate structured data using the utility
 		const structuredData = generateStructuredData(page, {
 			url: `${process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud"}/sayfalar/${slug}`,
-		}) as any;
+		}) as Record<string, unknown>;
 
 		// Add item count to structured data if available
 		if (itemCount > 0) {

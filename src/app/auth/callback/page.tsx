@@ -30,12 +30,12 @@ function AuthCallbackContent() {
 
 	if (error) {
 		return (
-			<div className="flex min-h-screen items-center justify-center bg-secondary px-4">
+			<div className="bg-secondary flex min-h-screen items-center justify-center px-4">
 				<Card className="w-full max-w-md">
 					<CardContent className="p-6 text-center">
-						<AlertCircle className="mx-auto mb-4 h-12 w-12 text-destructive" />
-						<h2 className="mb-2 font-semibold text-foreground text-xl">Giriş Başarısız</h2>
-						<p className="mb-4 text-muted-foreground">{error}</p>
+						<AlertCircle className="text-destructive mx-auto mb-4 h-12 w-12" />
+						<h2 className="text-foreground mb-2 text-xl font-semibold">Giriş Başarısız</h2>
+						<p className="text-muted-foreground mb-4">{error}</p>
 						<div className="space-y-2">
 							<Button
 								onClick={() => {
@@ -63,11 +63,11 @@ function AuthCallbackContent() {
 
 	if (isLoading) {
 		return (
-			<div className="flex min-h-screen items-center justify-center bg-secondary px-4">
+			<div className="bg-secondary flex min-h-screen items-center justify-center px-4">
 				<Card className="w-full max-w-md">
 					<CardContent className="p-6 text-center">
-						<Loader2 className="mx-auto mb-4 h-12 w-12 animate-spin text-primary" />
-						<h2 className="mb-2 font-semibold text-foreground text-xl">Giriş Yapılıyor...</h2>
+						<Loader2 className="text-primary mx-auto mb-4 h-12 w-12 animate-spin" />
+						<h2 className="text-foreground mb-2 text-xl font-semibold">Giriş Yapılıyor...</h2>
 						<p className="text-muted-foreground">Hesabınız doğrulanıyor, lütfen bekleyin.</p>
 					</CardContent>
 				</Card>
@@ -77,11 +77,11 @@ function AuthCallbackContent() {
 
 	// Success state (this should be brief as user gets redirected)
 	return (
-		<div className="flex min-h-screen items-center justify-center bg-secondary px-4">
+		<div className="bg-secondary flex min-h-screen items-center justify-center px-4">
 			<Card className="w-full max-w-md">
 				<CardContent className="p-6 text-center">
-					<CheckCircle className="mx-auto mb-4 h-12 w-12 text-primary" />
-					<h2 className="mb-2 font-semibold text-foreground text-xl">Giriş Başarılı!</h2>
+					<CheckCircle className="text-primary mx-auto mb-4 h-12 w-12" />
+					<h2 className="text-foreground mb-2 text-xl font-semibold">Giriş Başarılı!</h2>
 					<p className="text-muted-foreground">Yönlendiriliyorsunuz...</p>
 				</CardContent>
 			</Card>
@@ -93,8 +93,8 @@ export default function AuthCallbackPage() {
 	return (
 		<Suspense
 			fallback={
-				<div className="flex min-h-screen items-center justify-center bg-secondary">
-					<Loader2 className="h-12 w-12 animate-spin text-primary" />
+				<div className="bg-secondary flex min-h-screen items-center justify-center">
+					<Loader2 className="text-primary h-12 w-12 animate-spin" />
 				</div>
 			}
 		>

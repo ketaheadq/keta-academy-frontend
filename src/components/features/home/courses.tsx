@@ -7,8 +7,12 @@ export default async function Courses({ preview = false }: Readonly<{ preview?: 
 	const courses = await getPublishedCourses(preview ? 3 : undefined).catch(() => null);
 
 	if (!preview && courses?.length) {
-		const grades = [...new Set(courses.flatMap(course => course.grades?.map(grade => grade.title) ?? []))];
-		const topics = [...new Set(courses.flatMap(course => course.subject ? [course.subject.title] : []))];
+		const grades = [
+			...new Set(courses.flatMap((course) => course.grades?.map((grade) => grade.title) ?? [])),
+		];
+		const topics = [
+			...new Set(courses.flatMap((course) => (course.subject ? [course.subject.title] : []))),
+		];
 		return <CourseGrid courses={courses} grades={grades} topics={topics} title={null} />;
 	}
 
@@ -16,21 +20,26 @@ export default async function Courses({ preview = false }: Readonly<{ preview?: 
 		<section aria-label="Kurs listesi" className={preview ? "py-8 sm:py-10" : "py-4"}>
 			{preview && (
 				<div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
-					<h2 className="font-semibold text-2xl tracking-tight">Dersler</h2>
-					<Link href="/kurslar" className="font-medium text-primary underline-offset-4 hover:underline">
+					<h2 className="text-2xl font-semibold tracking-tight">Dersler</h2>
+					<Link
+						href="/kurslar"
+						className="text-primary font-medium underline-offset-4 hover:underline"
+					>
 						Tüm dersler
 					</Link>
 				</div>
 			)}
 			{courses === null ? (
-				<p role="status" className="rounded-lg border p-4 text-muted-foreground">
+				<p role="status" className="text-muted-foreground rounded-lg border p-4">
 					Dersler şu anda yüklenemiyor. Lütfen biraz sonra tekrar dene.
 				</p>
 			) : courses.length === 0 ? (
-				<p className="rounded-lg border p-4 text-muted-foreground">Henüz yayımlanmış ders yok.</p>
+				<p className="text-muted-foreground rounded-lg border p-4">Henüz yayımlanmış ders yok.</p>
 			) : (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-					{courses.map(course => <CourseCard key={course.documentId} course={course} />)}
+					{courses.map((course) => (
+						<CourseCard key={course.documentId} course={course} />
+					))}
 				</div>
 			)}
 		</section>

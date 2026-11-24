@@ -29,7 +29,7 @@ export default function CourseSelection({
 
 	return (
 		<section className="mb-12">
-			<h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">
+			<h2 className="text-foreground mb-6 flex items-center text-2xl font-semibold">
 				🎯 Sınıf ve Konu Seç:
 			</h2>
 
@@ -77,8 +77,8 @@ export default function CourseSelection({
 						<Card key={course.id} className="transition-shadow hover:shadow-lg">
 							<CardHeader>
 								<div className="flex items-center space-x-3">
-									<div className="rounded-lg bg-primary/10 p-2">
-										<IconComponent className="h-5 w-5 text-primary" />
+									<div className="bg-primary/10 rounded-lg p-2">
+										<IconComponent className="text-primary h-5 w-5" />
 									</div>
 									<div>
 										<CardTitle className="text-lg">{course.title}</CardTitle>
@@ -89,10 +89,10 @@ export default function CourseSelection({
 								</div>
 							</CardHeader>
 							<CardContent>
-								<p className="mb-4 text-muted-foreground text-sm">{course.description}</p>
+								<p className="text-muted-foreground mb-4 text-sm">{course.description}</p>
 								{course.progress > 0 && (
 									<div className="mb-4">
-										<div className="mb-1 flex justify-between text-muted-foreground text-sm">
+										<div className="text-muted-foreground mb-1 flex justify-between text-sm">
 											<span>İlerleme</span>
 											<span>{course.progress}%</span>
 										</div>

@@ -8,7 +8,7 @@ import VideoPage from "@/components/features/course/video";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
 import ExpandableContentCard from "@/components/shared/cards/expandable-content-card";
 import { withNotFoundHandler } from "@/lib/errors";
-import { generateSEOMetadata } from "@/lib/seo";
+import { generateSEOMetadata, type SEOContent } from "@/lib/seo";
 import {
 	getAdmissionScoreBySlug,
 	getBlogBySlug,
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		}
 
 		// Get the specific content based on page type
-		let content: any = null;
+		let content: SEOContent | null = null;
 
 		try {
 			switch (page.pageType) {
@@ -158,7 +158,7 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 					<BreadcrumbNav breadcrumbs={breadcrumbs} />
 					<div className="container mx-auto px-4 py-6">
 						<div className="text-center">
-							<h1 className="mb-4 font-bold text-2xl text-destructive">
+							<h1 className="text-destructive mb-4 text-2xl font-bold">
 								Veri Yüklenirken Hata Oluştu
 							</h1>
 							<p className="text-muted-foreground">
@@ -208,7 +208,7 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 					<BreadcrumbNav breadcrumbs={breadcrumbs} />
 					<div className="container mx-auto px-4 py-6">
 						<div className="text-center">
-							<h1 className="mb-4 font-bold text-2xl text-destructive">
+							<h1 className="text-destructive mb-4 text-2xl font-bold">
 								Veri Yüklenirken Hata Oluştu
 							</h1>
 							<p className="text-muted-foreground">
@@ -257,7 +257,7 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 					<BreadcrumbNav breadcrumbs={breadcrumbs} />
 					<div className="container mx-auto px-4 py-6">
 						<div className="text-center">
-							<h1 className="mb-4 font-bold text-2xl text-destructive">
+							<h1 className="text-destructive mb-4 text-2xl font-bold">
 								Veri Yüklenirken Hata Oluştu
 							</h1>
 							<p className="text-muted-foreground">
@@ -277,7 +277,7 @@ export default async function SayfaDetayi({ params, searchParams }: Readonly<Pag
 		default:
 			return (
 				<div className="container mx-auto px-4 py-8 text-center">
-					<h1 className="font-bold text-2xl">Desteklenmeyen sayfa türü</h1>
+					<h1 className="text-2xl font-bold">Desteklenmeyen sayfa türü</h1>
 				</div>
 			);
 	}

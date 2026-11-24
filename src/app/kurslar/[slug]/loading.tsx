@@ -3,16 +3,16 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CourseLoading() {
-	const id = useId();
+	const _id = useId();
 	return (
-		<div className="min-h-screen bg-secondary">
+		<div className="bg-secondary min-h-screen">
 			{/* Header Skeleton */}
 			<header className="border-b bg-white shadow-sm">
 				<div className="mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex h-16 items-center justify-between">
 						<div className="flex items-center space-x-4">
 							<Skeleton className="h-5 w-20" />
-							<div className="h-6 w-px bg-muted" />
+							<div className="bg-muted h-6 w-px" />
 							<Skeleton className="h-6 w-64" />
 						</div>
 						<div className="flex items-center space-x-4">
@@ -75,16 +75,18 @@ export default function CourseLoading() {
 								<Skeleton className="h-4 w-48" />
 							</CardHeader>
 							<CardContent className="space-y-4">
-								{Array.from({ length: 6 }).map((_, index) => (
-									<div key={`${id}-skeleton-${index}`} className="flex items-start space-x-3 p-3">
-										<Skeleton className="mt-1 h-5 w-5 shrink-0 rounded-full" />
-										<div className="flex-1 space-y-2">
-											<Skeleton className="h-4 w-full" />
-											<Skeleton className="h-3 w-3/4" />
+								{["sk-item-1", "sk-item-2", "sk-item-3", "sk-item-4", "sk-item-5", "sk-item-6"].map(
+									(skKey) => (
+										<div key={skKey} className="flex items-start space-x-3 p-3">
+											<Skeleton className="mt-1 h-5 w-5 shrink-0 rounded-full" />
+											<div className="flex-1 space-y-2">
+												<Skeleton className="h-4 w-full" />
+												<Skeleton className="h-3 w-3/4" />
+											</div>
+											<Skeleton className="h-3 w-8" />
 										</div>
-										<Skeleton className="h-3 w-8" />
-									</div>
-								))}
+									),
+								)}
 							</CardContent>
 						</Card>
 					</div>

@@ -68,7 +68,7 @@ export function VeliForm({
 				autoComplete="off"
 				value={adSoyad}
 				onChange={(e) => setAdSoyad(e.target.value)}
-				className="w-full rounded-lg border border-border bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+				className="border-border focus:ring-primary w-full rounded-lg border bg-white px-3 py-2 focus:ring-2 focus:outline-none"
 			/>
 			<input
 				aria-label="Velinin cep telefonu"
@@ -78,7 +78,7 @@ export function VeliForm({
 				required
 				value={telefon}
 				onChange={(e) => setTelefon(e.target.value)}
-				className="w-full rounded-lg border border-border bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+				className="border-border focus:ring-primary w-full rounded-lg border bg-white px-3 py-2 focus:ring-2 focus:outline-none"
 			/>
 			<label className="flex items-start gap-2 text-sm">
 				<input

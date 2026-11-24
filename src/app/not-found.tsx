@@ -12,28 +12,28 @@ export default function NotFound() {
 				<div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl sm:p-10">
 					<div className="text-center">
 						<div className="flex justify-center">
-							<span className="bg-linear-to-r from-destructive to-accent bg-clip-text font-extrabold text-9xl text-transparent">
+							<span className="from-destructive to-accent bg-linear-to-r bg-clip-text text-9xl font-extrabold text-transparent">
 								404
 							</span>
 						</div>
 
-						<h1 className="mt-6 font-bold text-3xl text-foreground sm:text-4xl">
+						<h1 className="text-foreground mt-6 text-3xl font-bold sm:text-4xl">
 							Sayfa Bulunamadı
 						</h1>
 
-						<p className="mt-4 text-lg text-muted-foreground">
+						<p className="text-muted-foreground mt-4 text-lg">
 							Üzgünüz, aradığınız sayfayı bulamadık.
 						</p>
 
 						<div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 							<Link
 								href="/"
-								className="w-full rounded-md border border-transparent bg-primary px-6 py-3 text-center font-medium text-background text-base transition-colors duration-200 hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:w-auto"
+								className="bg-primary text-background hover:bg-primary focus:ring-primary w-full rounded-md border border-transparent px-6 py-3 text-center text-base font-medium transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto"
 							>
 								Ana Sayfaya Git
 							</Link>
 
-							<BackButton className="w-full rounded-md border border-border bg-white px-6 py-3 font-medium text-base text-muted-foreground transition-colors duration-200 hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:w-auto">
+							<BackButton className="border-border text-muted-foreground hover:bg-secondary focus:ring-primary w-full rounded-md border bg-white px-6 py-3 text-base font-medium transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto">
 								Geri Git
 							</BackButton>
 						</div>

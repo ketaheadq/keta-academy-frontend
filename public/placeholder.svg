@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <title>Placeholder Image</title>
   <rect width="800" height="600" rx="20" fill="#E0E0E0" stroke="#CCCCCC" stroke-width="2"/>
   <path d="M400 250c-25 0-50 15-50 40h100c0-25-25-40-50-40zm-60 50h120v100H340z" fill="#999999"/>
   <path d="M400 350l30 30-30 30-30-30z" fill="#999999"/>

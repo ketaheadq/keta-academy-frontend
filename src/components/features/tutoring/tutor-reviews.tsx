@@ -38,7 +38,7 @@ function StarInput({
 						aria-pressed={value === n}
 						onClick={() => onChange(n)}
 						onMouseEnter={() => setHover(n)}
-						className="rounded p-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+						className="focus-visible:ring-primary rounded p-0.5 focus-visible:ring-2 focus-visible:outline-none"
 					>
 						<Star
 							className={cn(
@@ -133,24 +133,24 @@ export function TutorReviews({
 		>
 			<div className="mb-6 flex flex-wrap items-end justify-between gap-4">
 				<div>
-					<h2 id="reviews-title" className="font-bold text-foreground text-xl">
+					<h2 id="reviews-title" className="text-foreground text-xl font-bold">
 						Öğrenci Değerlendirmeleri
 					</h2>
 					{summary.count > 0 ? (
 						<div className="mt-2 flex flex-wrap items-center gap-2">
-							<span className="font-bold text-2xl text-foreground">
+							<span className="text-foreground text-2xl font-bold">
 								{summary.average.toLocaleString("tr-TR")}
 							</span>
 							<RatingStars value={summary.average} starClassName="h-5 w-5" />
 							<span className="text-muted-foreground text-sm">({summary.count} değerlendirme)</span>
 						</div>
 					) : (
-						<p className="mt-1 text-muted-foreground text-sm">Henüz değerlendirme yok.</p>
+						<p className="text-muted-foreground mt-1 text-sm">Henüz değerlendirme yok.</p>
 					)}
 				</div>
 				{summary.satisfaction !== null && (
-					<div className="rounded-xl bg-primary/10 px-4 py-2 text-center">
-						<div className="font-bold text-primary text-xl">%{summary.satisfaction}</div>
+					<div className="bg-primary/10 rounded-xl px-4 py-2 text-center">
+						<div className="text-primary text-xl font-bold">%{summary.satisfaction}</div>
 						<div className="text-muted-foreground text-xs">Memnuniyet</div>
 					</div>
 				)}
@@ -158,8 +158,8 @@ export function TutorReviews({
 
 			{/* Form */}
 			{isAuthenticated && jwt ? (
-				<form onSubmit={submit} className="mb-8 rounded-xl border bg-secondary/50 p-4">
-					<h3 className="mb-3 font-semibold text-foreground">
+				<form onSubmit={submit} className="bg-secondary/50 mb-8 rounded-xl border p-4">
+					<h3 className="text-foreground mb-3 font-semibold">
 						{hasReview
 							? "Değerlendirmenizi güncelleyin"
 							: `${tutorName} hakkında ne düşünüyorsunuz?`}
@@ -184,7 +184,7 @@ export function TutorReviews({
 						maxLength={1000}
 						rows={3}
 						placeholder="Deneyiminizi diğer öğrenci ve velilerle paylaşın (isteğe bağlı)"
-						className="mt-3 w-full rounded-lg border border-border bg-white p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+						className="border-border focus:ring-primary mt-3 w-full rounded-lg border bg-white p-3 text-sm focus:ring-2 focus:outline-none"
 					/>
 					<div className="mt-3 flex flex-wrap items-center gap-3">
 						<Button type="submit" disabled={!rating || status === "saving"}>
@@ -196,7 +196,7 @@ export function TutorReviews({
 							</Button>
 						)}
 						{status === "saved" && (
-							<span role="status" className="text-green-700 text-sm">
+							<span role="status" className="text-sm text-green-700">
 								Teşekkürler, değerlendirmeniz kaydedildi.
 							</span>
 						)}
@@ -208,13 +208,13 @@ export function TutorReviews({
 					</div>
 				</form>
 			) : (
-				<div className="mb-8 rounded-xl border bg-secondary/50 p-4 text-sm">
+				<div className="bg-secondary/50 mb-8 rounded-xl border p-4 text-sm">
 					Değerlendirme yapmak için{" "}
-					<Link href="/giris" className="font-medium text-primary underline">
+					<Link href="/giris" className="text-primary font-medium underline">
 						giriş yapın
 					</Link>{" "}
 					veya{" "}
-					<Link href="/kayit-ol" className="font-medium text-primary underline">
+					<Link href="/kayit-ol" className="text-primary font-medium underline">
 						üye olun
 					</Link>
 					.
@@ -228,13 +228,13 @@ export function TutorReviews({
 						<li key={`${review.author}-${review.updatedAt}`} className="py-4">
 							<div className="mb-1 flex flex-wrap items-center gap-2">
 								<RatingStars value={review.rating} />
-								<span className="font-medium text-foreground text-sm">{review.author}</span>
+								<span className="text-foreground text-sm font-medium">{review.author}</span>
 								<span className="text-muted-foreground text-xs">
 									{new Date(review.updatedAt).toLocaleDateString("tr-TR")}
 								</span>
 							</div>
 							{review.comment && (
-								<p className="whitespace-pre-line text-muted-foreground text-sm">
+								<p className="text-muted-foreground text-sm whitespace-pre-line">
 									{review.comment}
 								</p>
 							)}

@@ -14,15 +14,15 @@ export function DenemeCard({ deneme }: Readonly<{ deneme: DenemeSummary }>) {
 				{deneme.sinif && <Badge variant="secondary">{deneme.sinif.title}</Badge>}
 				{deneme.ders && <Badge variant="outline">{deneme.ders.title}</Badge>}
 			</div>
-			<h3 className="font-bold text-foreground text-lg leading-snug">
+			<h3 className="text-foreground text-lg leading-snug font-bold">
 				<Link href={`/deneme-sinavlari/${deneme.slug}`} className="after:absolute after:inset-0">
 					{deneme.baslik}
 				</Link>
 			</h3>
 			{deneme.aciklama && (
-				<p className="mt-2 line-clamp-2 text-muted-foreground text-sm">{deneme.aciklama}</p>
+				<p className="text-muted-foreground mt-2 line-clamp-2 text-sm">{deneme.aciklama}</p>
 			)}
-			<div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-muted-foreground text-sm">
+			<div className="text-muted-foreground mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
 				<span className="flex items-center gap-1">
 					<FileQuestion className="h-4 w-4" aria-hidden="true" /> {deneme.soruSayisi} soru
 				</span>

@@ -36,7 +36,7 @@ export default function CourseCard({ course, title }: Readonly<CourseCardProps>)
 
 	return (
 		<Card className="relative h-full gap-4 overflow-hidden pt-0 transition-shadow hover:shadow-lg">
-			<div className="relative aspect-video w-full bg-secondary">
+			<div className="bg-secondary relative aspect-video w-full">
 				{cover ? (
 					<Image
 						src={cover.url}
@@ -46,9 +46,9 @@ export default function CourseCard({ course, title }: Readonly<CourseCardProps>)
 						className="object-cover"
 					/>
 				) : (
-					<div className="flex h-full flex-col items-center justify-center gap-3 bg-primary/10 p-6 text-center">
-						<CourseIcon aria-hidden="true" className="h-10 w-10 text-primary" />
-						<span aria-hidden="true" className="line-clamp-2 font-semibold text-foreground text-lg">
+					<div className="bg-primary/10 flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+						<CourseIcon aria-hidden="true" className="text-primary h-10 w-10" />
+						<span aria-hidden="true" className="text-foreground line-clamp-2 text-lg font-semibold">
 							{title || course.title}
 						</span>
 					</div>
@@ -71,7 +71,7 @@ export default function CourseCard({ course, title }: Readonly<CourseCardProps>)
 				</div>
 			</CardHeader>
 			<CardContent>
-				<div className="mb-4 flex items-center justify-between text-muted-foreground text-sm">
+				<div className="text-muted-foreground mb-4 flex items-center justify-between text-sm">
 					<div className="flex items-center space-x-4">
 						<div className="flex items-center space-x-1">
 							<Clock className="h-4 w-4" />
@@ -85,13 +85,13 @@ export default function CourseCard({ course, title }: Readonly<CourseCardProps>)
 				</div>
 				{progress > 0 && (
 					<div className="mb-4">
-						<div className="mb-1 flex justify-between text-muted-foreground text-sm">
+						<div className="text-muted-foreground mb-1 flex justify-between text-sm">
 							<span>İlerleme</span>
 							<span>{progress}%</span>
 						</div>
-						<div className="h-2 w-full rounded-full bg-secondary">
+						<div className="bg-secondary h-2 w-full rounded-full">
 							<div
-								className="h-2 rounded-full bg-primary transition-all duration-300"
+								className="bg-primary h-2 rounded-full transition-all duration-300"
 								style={{ width: `${progress}%` }}
 							/>
 						</div>

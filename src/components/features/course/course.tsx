@@ -169,9 +169,9 @@ export default function CoursePage({
 	// Show loading state while lessons are being initialized
 	if (extendedLessons.length === 0 || !currentLesson) {
 		return (
-			<div className="flex min-h-screen items-center justify-center bg-secondary">
+			<div className="bg-secondary flex min-h-screen items-center justify-center">
 				<div className="text-center">
-					<div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-primary border-b-2" />
+					<div className="border-primary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2" />
 					<p className="text-muted-foreground">Kurs yükleniyor...</p>
 				</div>
 			</div>
@@ -179,11 +179,11 @@ export default function CoursePage({
 	}
 
 	return (
-		<div className="min-h-screen bg-secondary">
+		<div className="bg-secondary min-h-screen">
 			<div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
 				{/* Show authentication notice if not logged in */}
 				{!isAuthenticated && (
-					<div className="mb-6 rounded-lg border border-primary bg-primary/10 p-4">
+					<div className="border-primary bg-primary/10 mb-6 rounded-lg border p-4">
 						<p className="text-primary text-sm">
 							<strong>Not:</strong> İlerlemenizi kaydetmek için{" "}
 							<Link href="/giris" className="underline">
@@ -215,7 +215,7 @@ export default function CoursePage({
 								)}
 								<div className="p-4 sm:p-6">
 									<div className="mb-4">
-										<h1 className="mb-2 break-words font-bold text-foreground text-xl sm:text-2xl">
+										<h1 className="text-foreground mb-2 text-xl font-bold break-words sm:text-2xl">
 											{currentLesson.title}
 										</h1>
 										<p className="text-muted-foreground">{currentLesson.description}</p>
@@ -227,7 +227,7 @@ export default function CoursePage({
 									{miniDenemeler[currentLesson.documentId] && (
 										<Link
 											href={`/deneme-sinavlari/${miniDenemeler[currentLesson.documentId].slug}`}
-											className="mt-4 flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 p-3 font-medium text-primary hover:bg-primary/10"
+											className="border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 mt-4 flex items-center gap-2 rounded-xl border p-3 font-medium"
 										>
 											<Target className="h-4 w-4 shrink-0" aria-hidden="true" />
 											Bu konunun mini denemesini çöz:{" "}
@@ -240,7 +240,7 @@ export default function CoursePage({
 											href={attachment.url}
 											target="_blank"
 											rel="noreferrer"
-											className="block break-all py-2 underline"
+											className="block py-2 break-all underline"
 										>
 											{attachment.name}
 										</a>
@@ -335,30 +335,30 @@ export default function CoursePage({
 							<CardContent>
 								<div className="grid gap-6 md:grid-cols-2">
 									<div>
-										<h3 className="mb-2 font-semibold text-foreground">Kurs Açıklaması</h3>
-										<p className="mb-4 text-muted-foreground">{course.description}</p>
+										<h3 className="text-foreground mb-2 font-semibold">Kurs Açıklaması</h3>
+										<p className="text-muted-foreground mb-4">{course.description}</p>
 
 										<div className="space-y-2">
 											<div className="flex items-center space-x-2">
-												<Target className="h-4 w-4 text-muted-foreground" />
+												<Target className="text-muted-foreground h-4 w-4" />
 												<span className="text-muted-foreground text-sm">
 													Konu: {course.subject.title}
 												</span>
 											</div>
 											<div className="flex items-center space-x-2">
-												<GraduationCap className="h-4 w-4 text-muted-foreground" />
+												<GraduationCap className="text-muted-foreground h-4 w-4" />
 												<span className="text-muted-foreground text-sm">
 													Sınıf: {course.grades.map((g: StrapiGrade) => g.title).join(", ")}
 												</span>
 											</div>
 											<div className="flex items-center space-x-2">
-												<Clock className="h-4 w-4 text-muted-foreground" />
+												<Clock className="text-muted-foreground h-4 w-4" />
 												<span className="text-muted-foreground text-sm">
 													Toplam Süre: {formatDuration(course.duration)}
 												</span>
 											</div>
 											<div className="flex items-center space-x-2">
-												<BookOpen className="h-4 w-4 text-muted-foreground" />
+												<BookOpen className="text-muted-foreground h-4 w-4" />
 												<span className="text-muted-foreground text-sm">{totalLessons} Ders</span>
 											</div>
 										</div>
@@ -390,13 +390,13 @@ export default function CoursePage({
 								</CardTitle>
 								<CardDescription>
 									Kurstaki ilerlemenizi takip edin
-									{isLoadingProgress && <span className="ml-2 text-primary">(Yükleniyor...)</span>}
+									{isLoadingProgress && <span className="text-primary ml-2">(Yükleniyor...)</span>}
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="p-0">
 								{/* Radix wraps the content in a `display: table` div that grows with the longest
 								    line, which disables truncate/line-clamp; force it back to a normal block. */}
-								<ScrollArea className="[&_[data-slot=scroll-area-viewport]>div]:block! h-96">
+								<ScrollArea className="h-96 [&_[data-slot=scroll-area-viewport]>div]:block!">
 									<div className="space-y-2 p-4">
 										{extendedLessons.map((lesson, index) => (
 											<div key={lesson.documentId}>
@@ -404,29 +404,29 @@ export default function CoursePage({
 													type="button"
 													className={`w-full cursor-pointer rounded-lg p-3 text-left transition-colors ${
 														currentLesson?.id === lesson.id
-															? "border-2 border-primary bg-primary/10"
-															: "border-2 border-transparent hover:bg-secondary"
+															? "border-primary bg-primary/10 border-2"
+															: "hover:bg-secondary border-2 border-transparent"
 													}`}
 													onClick={() => handleLessonSelect(lesson)}
 												>
 													<div className="flex items-start space-x-3">
 														<div className="mt-1 shrink-0">
 															{lessonProgress[lesson.documentId] ? (
-																<CheckCircle className="h-5 w-5 text-primary" />
+																<CheckCircle className="text-primary h-5 w-5" />
 															) : (
-																<Circle className="h-5 w-5 text-muted-foreground" />
+																<Circle className="text-muted-foreground h-5 w-5" />
 															)}
 														</div>
 														<div className="min-w-0 flex-1">
 															<div className="flex items-center justify-between gap-2">
 																<p
-																	className="min-w-0 flex-1 truncate font-medium text-foreground text-sm"
+																	className="text-foreground min-w-0 flex-1 truncate text-sm font-medium"
 																	title={`${lesson.order}. ${lesson.title}`}
 																>
 																	{lesson.order}. {lesson.title}
 																</p>
 															</div>
-															<p className="mt-1 line-clamp-2 text-muted-foreground text-xs">
+															<p className="text-muted-foreground mt-1 line-clamp-2 text-xs">
 																{lesson.description}
 															</p>
 														</div>

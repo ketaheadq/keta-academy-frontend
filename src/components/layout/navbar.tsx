@@ -26,7 +26,7 @@ export default async function Navbar() {
 							className="shrink-0"
 							unoptimized
 						/>
-						<span className="ml-2 font-bold text-foreground text-xl">{settings.siteName}</span>
+						<span className="text-foreground ml-2 text-xl font-bold">{settings.siteName}</span>
 					</Link>
 
 					{/* Desktop Navigation Menu */}
@@ -35,7 +35,7 @@ export default async function Navbar() {
 							<Link
 								key={p.id}
 								href={p.href}
-								className="block rounded p-2 font-medium text-foreground hover:text-primary focus-visible:ring-2 focus-visible:ring-primary"
+								className="text-foreground hover:text-primary focus-visible:ring-primary block rounded p-2 font-medium focus-visible:ring-2"
 							>
 								{p.displayName}
 							</Link>

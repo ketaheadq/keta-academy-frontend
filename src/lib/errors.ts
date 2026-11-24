@@ -19,7 +19,8 @@ export async function withNotFoundHandler<T>(
 			error &&
 			typeof error === "object" &&
 			"digest" in error &&
-			(error as any).digest?.includes("404")
+			typeof (error as { digest?: unknown }).digest === "string" &&
+			(error as { digest: string }).digest.includes("404")
 		) {
 			// Just log for server-side, client-side tracking will be handled by the 404 page
 			if (trackingData) {
@@ -50,7 +51,8 @@ export function withNotFoundHandlerSync<T>(
 			error &&
 			typeof error === "object" &&
 			"digest" in error &&
-			(error as any).digest?.includes("404")
+			typeof (error as { digest?: unknown }).digest === "string" &&
+			(error as { digest: string }).digest.includes("404")
 		) {
 			throw error;
 		}

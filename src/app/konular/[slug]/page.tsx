@@ -51,13 +51,13 @@ export default async function CoursePage(props: Readonly<{ params: Promise<{ slu
 			<main className="mx-auto px-4 py-8 sm:px-6 lg:px-8">
 				{/* Hero Section */}
 				<div className="mb-12 text-center">
-					<h1 className="mb-4 font-bold text-4xl text-foreground">
-						<div className="mb-3 inline-flex rounded-full bg-primary/10 p-3">
-							{IconComponent && <IconComponent className="h-6 w-6 text-primary" />}
+					<h1 className="text-foreground mb-4 text-4xl font-bold">
+						<div className="bg-primary/10 mb-3 inline-flex rounded-full p-3">
+							{IconComponent && <IconComponent className="text-primary h-6 w-6" />}
 						</div>
 						{subject?.title} Öğren
 					</h1>
-					<p className="mx-auto max-w-3xl text-muted-foreground text-xl">
+					<p className="text-muted-foreground mx-auto max-w-3xl text-xl">
 						{subject?.title} dersinde başarı elde et.
 					</p>
 				</div>

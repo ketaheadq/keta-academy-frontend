@@ -41,9 +41,9 @@ export default async function Footer() {
 								className="shrink-0"
 								unoptimized
 							/>
-							<span className="font-bold text-xl">{settings.siteName}</span>
+							<span className="text-xl font-bold">{settings.siteName}</span>
 						</div>
-						<p className="max-w-xs text-muted-foreground text-sm leading-relaxed">
+						<p className="text-muted-foreground max-w-xs text-sm leading-relaxed">
 							{settings.siteName}, öğrencilerin öğrenme sürecini destekleyen bir platformdur.
 						</p>
 					</section>
@@ -51,13 +51,13 @@ export default async function Footer() {
 					{/* Konular - Only show if subjects exist */}
 					{footerSubjects.length > 0 && (
 						<nav className="md:col-span-1 lg:col-span-1">
-							<h3 className="mb-3 font-semibold text-background">Konular</h3>
+							<h3 className="text-background mb-3 font-semibold">Konular</h3>
 							<ul className="space-y-2">
 								{footerSubjects.map((subject) => (
 									<li key={subject.slug}>
 										<Link
 											href={`/konular/${subject.slug}`}
-											className="text-muted-foreground text-sm transition-colors duration-200 hover:text-background"
+											className="text-muted-foreground hover:text-background text-sm transition-colors duration-200"
 										>
 											{subject.title}
 										</Link>
@@ -69,13 +69,13 @@ export default async function Footer() {
 
 					{/* Popular Blogs */}
 					<nav className="md:col-span-1 lg:col-span-3">
-						<h3 className="mb-3 font-semibold text-background">Popüler Yazılar</h3>
+						<h3 className="text-background mb-3 font-semibold">Popüler Yazılar</h3>
 						<ul className="space-y-2">
 							{popularBlogs.map((blog) => (
 								<li key={blog.slug}>
 									<Link
 										href={`/sayfalar/${blog.page?.slug}/${blog.slug}`}
-										className="line-clamp-2 text-muted-foreground text-sm transition-colors duration-200 hover:text-background"
+										className="text-muted-foreground hover:text-background line-clamp-2 text-sm transition-colors duration-200"
 									>
 										{blog.title}
 									</Link>
@@ -86,13 +86,13 @@ export default async function Footer() {
 
 					{/* Support */}
 					<nav className="md:col-span-1 lg:col-span-2">
-						<h3 className="mb-3 font-semibold text-background">Destek</h3>
+						<h3 className="text-background mb-3 font-semibold">Destek</h3>
 						<ul className="space-y-2">
 							{supportLinks.map((link) => (
 								<li key={link.href}>
 									<Link
 										href={link.href}
-										className="text-muted-foreground text-sm transition-colors duration-200 hover:text-background"
+										className="text-muted-foreground hover:text-background text-sm transition-colors duration-200"
 									>
 										{link.name}
 									</Link>
@@ -103,7 +103,7 @@ export default async function Footer() {
 				</div>
 
 				{/* Copyright */}
-				<div className="mt-10 border-border border-t pt-8 pb-2">
+				<div className="border-border mt-10 border-t pt-8 pb-2">
 					<div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
 						<p className="text-muted-foreground text-sm">
 							&copy; {currentYear} {settings.siteName}. Tüm hakları saklıdır.
@@ -112,7 +112,7 @@ export default async function Footer() {
 							{/* TODO: add bluesky https://bsky.app/profile/ketalearn.bsky.social */}
 							<Link
 								href="https://www.instagram.com/keta.akademi/"
-								className="text-muted-foreground transition-colors hover:text-background"
+								className="text-muted-foreground hover:text-background transition-colors"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -120,7 +120,7 @@ export default async function Footer() {
 							</Link>
 							<Link
 								href="https://www.youtube.com/@ketalearn"
-								className="text-muted-foreground transition-colors hover:text-background"
+								className="text-muted-foreground hover:text-background transition-colors"
 								target="_blank"
 								rel="noopener noreferrer"
 							>

@@ -80,15 +80,15 @@ export default function ShareButton({
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
 					<div className="w-full max-w-md rounded-lg bg-white p-6">
 						<div className="mb-4 flex items-center justify-between">
-							<h3 className="font-semibold text-lg">Paylaş</h3>
+							<h3 className="text-lg font-semibold">Paylaş</h3>
 							<Button variant="ghost" size="sm" onClick={() => setShowShareModal(false)}>
 								<X className="h-4 w-4" />
 							</Button>
 						</div>
 
 						<div className="space-y-4">
-							<div className="rounded-lg bg-secondary p-3">
-								<p className="mb-1 font-medium text-foreground text-sm">{title}</p>
+							<div className="bg-secondary rounded-lg p-3">
+								<p className="text-foreground mb-1 text-sm font-medium">{title}</p>
 								{description && <p className="text-muted-foreground text-xs">{description}</p>}
 							</div>
 

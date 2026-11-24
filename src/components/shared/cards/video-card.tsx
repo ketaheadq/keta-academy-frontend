@@ -1,6 +1,7 @@
 "use client";
 
 import { Calendar, Play, Star } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -57,9 +58,11 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 		>
 			<CardContent className="p-0">
 				<div className="relative">
-					<img
+					<Image
 						src={thumbnailUrl}
 						alt={video.title}
+						width={1280}
+						height={720}
 						className="h-48 w-full rounded-t-lg object-cover"
 						onError={(e) => {
 							e.currentTarget.src = "/placeholder.svg";
@@ -82,11 +85,11 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 					</div>
 				</div>
 				<div className="p-4">
-					<h3 className="mb-2 line-clamp-2 font-semibold text-foreground">{video.title}</h3>
+					<h3 className="text-foreground mb-2 line-clamp-2 font-semibold">{video.title}</h3>
 
 					{/* Page Reference */}
 					{video.page && (
-						<div className="mb-3 text-muted-foreground text-xs">
+						<div className="text-muted-foreground mb-3 text-xs">
 							<strong>Sayfa:</strong> {video.page.title}
 						</div>
 					)}

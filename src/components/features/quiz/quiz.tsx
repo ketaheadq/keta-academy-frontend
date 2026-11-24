@@ -103,12 +103,12 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 				<CardHeader className="text-center">
 					<div className="mb-4 flex justify-center">
 						{quizResult.passed ? (
-							<div className="rounded-full bg-primary/10 p-3">
-								<Trophy className="h-8 w-8 text-primary" />
+							<div className="bg-primary/10 rounded-full p-3">
+								<Trophy className="text-primary h-8 w-8" />
 							</div>
 						) : (
-							<div className="rounded-full bg-destructive/10 p-3">
-								<XCircle className="h-8 w-8 text-destructive" />
+							<div className="bg-destructive/10 rounded-full p-3">
+								<XCircle className="text-destructive h-8 w-8" />
 							</div>
 						)}
 					</div>
@@ -124,24 +124,24 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 				<CardContent className="space-y-6">
 					{/* Score Summary */}
 					<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-						<div className="rounded-lg bg-primary/10 p-4 text-center">
-							<div className="font-bold text-2xl text-primary">
+						<div className="bg-primary/10 rounded-lg p-4 text-center">
+							<div className="text-primary text-2xl font-bold">
 								{quizResult.percentage.toFixed(1)}%
 							</div>
 							<div className="text-muted-foreground text-sm">Final Puan</div>
 						</div>
-						<div className="rounded-lg bg-primary/10 p-4 text-center">
-							<div className="font-bold text-2xl text-primary">{quizResult.correctAnswers}</div>
+						<div className="bg-primary/10 rounded-lg p-4 text-center">
+							<div className="text-primary text-2xl font-bold">{quizResult.correctAnswers}</div>
 							<div className="text-muted-foreground text-sm">Doğru</div>
 						</div>
-						<div className="rounded-lg bg-destructive/10 p-4 text-center">
-							<div className="font-bold text-2xl text-destructive">
+						<div className="bg-destructive/10 rounded-lg p-4 text-center">
+							<div className="text-destructive text-2xl font-bold">
 								{quizResult.totalQuestions - quizResult.correctAnswers}
 							</div>
 							<div className="text-muted-foreground text-sm">Yanlış</div>
 						</div>
-						<div className="rounded-lg bg-primary/10 p-4 text-center">
-							<div className="font-bold text-2xl text-primary">
+						<div className="bg-primary/10 rounded-lg p-4 text-center">
+							<div className="text-primary text-2xl font-bold">
 								{quizResult.earnedPoints}/{quizResult.totalPoints}
 							</div>
 							<div className="text-muted-foreground text-sm">Puan</div>
@@ -150,7 +150,7 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 
 					{/* Question Review */}
 					<div className="space-y-4">
-						<h3 className="font-semibold text-lg">Soru İncelemesi</h3>
+						<h3 className="text-lg font-semibold">Soru İncelemesi</h3>
 						{quiz.questions.map((question, index) => {
 							const attempt = quizResult.attempts.find((a) => a.questionId === question.id);
 							const questionText = extractTextFromBlocks(question.text);
@@ -165,13 +165,13 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 										<div className="flex items-start space-x-3">
 											<div className="mt-1 shrink-0">
 												{attempt?.isCorrect ? (
-													<CheckCircle className="h-5 w-5 text-primary" />
+													<CheckCircle className="text-primary h-5 w-5" />
 												) : (
-													<XCircle className="h-5 w-5 text-destructive" />
+													<XCircle className="text-destructive h-5 w-5" />
 												)}
 											</div>
 											<div className="flex-1">
-												<p className="mb-2 font-medium text-foreground">
+												<p className="text-foreground mb-2 font-medium">
 													{index + 1}. {questionText}
 												</p>
 												<div className="space-y-2 text-sm">
@@ -180,8 +180,8 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 														<span
 															className={
 																attempt?.isCorrect
-																	? "font-medium text-primary"
-																	: "font-medium text-destructive"
+																	? "text-primary font-medium"
+																	: "text-destructive font-medium"
 															}
 														>
 															{attempt?.selectedAnswer?.toString()}
@@ -190,13 +190,13 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 													{!attempt?.isCorrect && (
 														<div>
 															<span className="text-muted-foreground">Doğru cevap: </span>
-															<span className="font-medium text-primary">
+															<span className="text-primary font-medium">
 																{attempt?.correctAnswer}
 															</span>
 														</div>
 													)}
 													{explanationText && (
-														<div className="mt-2 rounded bg-primary/10 p-2 text-primary">
+														<div className="bg-primary/10 text-primary mt-2 rounded p-2">
 															<strong>Açıklama:</strong> {explanationText}
 														</div>
 													)}
@@ -211,12 +211,12 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 
 					{/* Action Buttons */}
 					<div className="flex justify-center space-x-4">
-						{(
+						{
 							<Button onClick={handleRetakeQuiz} className="flex items-center space-x-2">
 								<RotateCcw className="h-4 w-4" />
 								<span>Tekrar Dene</span>
 							</Button>
-						)}
+						}
 						<Button variant="outline" onClick={onClose}>
 							Quizi Kapat
 						</Button>
@@ -239,7 +239,7 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 					</div>
 					<div className="flex items-center space-x-4">
 						{timeRemaining && (
-							<div className="flex items-center space-x-2 text-muted-foreground text-sm">
+							<div className="text-muted-foreground flex items-center space-x-2 text-sm">
 								<Clock className="h-4 w-4" />
 								<span>{formatTime(timeRemaining)}</span>
 							</div>
@@ -258,7 +258,7 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 					<div className="flex items-start space-x-3">
 						<Badge className="mt-1">{currentQuestionIndex + 1}</Badge>
 						<div className="flex-1">
-							<h3 className="mb-4 font-medium text-foreground text-lg">
+							<h3 className="text-foreground mb-4 text-lg font-medium">
 								{extractTextFromBlocks(currentQuestion.text)}
 							</h3>
 
@@ -304,7 +304,7 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 								</RadioGroup>
 							)}
 
-							<div className="mt-4 flex items-center space-x-2 text-muted-foreground text-sm">
+							<div className="text-muted-foreground mt-4 flex items-center space-x-2 text-sm">
 								<span>Puan: 1</span>
 								{isAnswered(currentQuestion.id) && (
 									<Badge variant="secondary" className="text-xs">
@@ -334,7 +334,7 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 
 					<div className="flex items-center space-x-4">
 						{!allQuestionsAnswered && (
-							<div className="flex items-center space-x-2 text-accent text-sm">
+							<div className="text-accent flex items-center space-x-2 text-sm">
 								<AlertCircle className="h-4 w-4" />
 								<span>Göndermek için tüm soruları cevaplayın</span>
 							</div>
@@ -348,7 +348,7 @@ export default function Quiz({ quiz, onSubmit, onClose }: Readonly<QuizProps>) {
 							>
 								{isSubmitting ? (
 									<>
-										<div className="h-4 w-4 animate-spin rounded-full border-white border-b-2" />
+										<div className="h-4 w-4 animate-spin rounded-full border-b-2 border-white" />
 										<span>Gönderiliyor...</span>
 									</>
 								) : (

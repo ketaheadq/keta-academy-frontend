@@ -6,6 +6,7 @@ import Link from "next/link";
 interface ContinuableItem {
 	id: string | number;
 	progress: number;
+	// biome-ignore lint/suspicious/noExplicitAny: generic item properties
 	[key: string]: any;
 }
 
@@ -46,15 +47,15 @@ export default function DynamicContinue<T extends ContinuableItem>({
 	return (
 		<section className={`mb-12 ${className}`}>
 			<div className="flex items-center justify-between">
-				<h2 className="mb-6 flex items-center font-semibold text-2xl text-foreground">
+				<h2 className="text-foreground mb-6 flex items-center text-2xl font-semibold">
 					{title}
-					{isLoading && <span className="ml-2 text-primary">(Yükleniyor...)</span>}
+					{isLoading && <span className="text-primary ml-2">(Yükleniyor...)</span>}
 				</h2>
 				{hasMoreItems && viewAllLink && (
 					<div className="mt-6 text-center">
 						<Link
 							href={viewAllLink.href}
-							className="text-muted-foreground underline hover:text-background"
+							className="text-muted-foreground hover:text-background underline"
 						>
 							{viewAllLink.label} ({continueItems.length} ders)
 						</Link>

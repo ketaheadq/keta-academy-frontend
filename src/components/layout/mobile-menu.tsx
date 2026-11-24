@@ -62,7 +62,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 			<button
 				type="button"
 				onClick={toggleMobileMenu}
-				className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-background lg:hidden"
+				className="text-muted-foreground hover:bg-secondary hover:text-background rounded-md p-2 transition-colors lg:hidden"
 				aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 				aria-expanded={isMobileMenuOpen}
 			>
@@ -71,7 +71,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 
 			{/* Mobile Navigation Menu */}
 			{isMobileMenuOpen && (
-				<div className="slide-in-from-top-2 fixed inset-x-0 top-20 z-50 animate-in bg-white shadow-lg duration-200 lg:hidden">
+				<div className="slide-in-from-top-2 animate-in fixed inset-x-0 top-20 z-50 bg-white shadow-lg duration-200 lg:hidden">
 					<div className="max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain px-4 py-6">
 						<nav className="space-y-1">
 							{pages.map((p) => (
@@ -79,7 +79,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 									key={p.id}
 									href={p.href}
 									onClick={closeMobileMenu}
-									className="block rounded p-2 font-medium text-foreground hover:text-primary focus-visible:ring-2 focus-visible:ring-primary"
+									className="text-foreground hover:text-primary focus-visible:ring-primary block rounded p-2 font-medium focus-visible:ring-2"
 								>
 									{p.displayName}
 								</Link>
@@ -94,7 +94,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 									<button
 										type="button"
 										onClick={() => toggleCategory(category.id)}
-										className="flex w-full items-center justify-between p-2 font-medium text-muted-foreground transition-colors hover:text-background focus:text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+										className="text-muted-foreground hover:text-background focus:text-primary focus:ring-primary flex w-full items-center justify-between p-2 font-medium transition-colors focus:ring-1 focus:outline-none"
 										aria-expanded={openCategory === category.id}
 										aria-controls={`mobile-submenu-${category.id}`}
 									>
@@ -110,14 +110,14 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 									{openCategory === category.id && (
 										<div
 											id={`mobile-submenu-${category.id}`}
-											className="slide-in-from-top-1 mt-1 ml-2 animate-in space-y-1 border-border border-l-2 pl-4 duration-150"
+											className="slide-in-from-top-1 animate-in border-border mt-1 ml-2 space-y-1 border-l-2 pl-4 duration-150"
 										>
 											{category.pages.map((page) => (
 												<Link
 													key={`mobile-page-${page.id}`}
 													href={`/sayfalar/${page.slug}`}
 													onClick={closeMobileMenu}
-													className="block rounded py-2 text-muted-foreground text-sm transition-colors hover:text-background focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
+													className="text-muted-foreground hover:text-background focus:text-primary focus:ring-primary block rounded py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
 												>
 													{page.title}
 												</Link>
@@ -129,7 +129,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 						</nav>
 
 						{/* Mobile Authentication Section */}
-						<div className="mt-6 border-border border-t pt-4">
+						<div className="border-border mt-6 border-t pt-4">
 							<AuthSection mobile onNavigate={closeMobileMenu} />
 						</div>
 					</div>
