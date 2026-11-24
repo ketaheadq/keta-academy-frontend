@@ -22,7 +22,7 @@ export const DEFAULT_SLIDES: Slide[] = [
 	{
 		id: "deneme",
 		baslik: "Ücretsiz deneme çöz, eksiklerini gör.",
-		altMetin: "Kayıt olmadan çöz, netini hemen öğren, konu konu raporunu al.",
+		altMetin: "Kayıt olmadan çöz, netini hemen öğren, soru soru PDF analizini al.",
 		butonYazisi: "Ücretsiz deneme çöz",
 		link: "/deneme-sinavlari",
 	},

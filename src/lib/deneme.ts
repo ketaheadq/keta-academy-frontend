@@ -52,27 +52,12 @@ export type SonucOzeti = {
 
 export type Yakinlik = "Veli" | "Ogrenci" | "Diger";
 
-export type Rapor = {
-	hazir: true;
+/** What the parent-number page needs; the report itself is a PDF (`/rapor/<key>`). */
+export type RaporOzeti = {
+	hazir: boolean;
 	ad: string;
 	yakinlik: Yakinlik;
-	deneme: { baslik: string; slug: string; sinavTuru: string };
-	dogru: number;
-	yanlis: number;
-	bos: number;
-	net: number;
-	soruSayisi: number;
-	konular: { slug: string; ad: string; toplam: number; dogru: number; oran: number }[];
-	zayifKonular: {
-		ad: string;
-		slug: string;
-		oran: number;
-		videolar: { baslik: string; url: string }[];
-	}[];
-	siralama: { yuzde: number; katilimci: number } | null;
-	hocaYorumu: string | null;
-	aramaIzni: boolean;
-	whatsappNumarasi: string | null;
+	denemeBaslik: string;
 	veliNumarasiIstenir: boolean;
 };
 
@@ -183,14 +168,10 @@ export function addParentNumber(raporAnahtari: string, input: Omit<RaporTalebiIn
 	return post<{ telefon: string }>(`raporlar/${encodeURIComponent(raporAnahtari)}/veli`, input);
 }
 
-export async function getRapor(
-	key: string,
-	onizleme: boolean,
-): Promise<Rapor | { hazir: false } | null> {
-	const response = await fetch(
-		`${STRAPI_URL}/api/raporlar/${encodeURIComponent(key)}${onizleme ? "?onizleme=1" : ""}`,
-		{ cache: "no-store" },
-	);
+export async function getRaporOzeti(key: string): Promise<RaporOzeti | null> {
+	const response = await fetch(`${STRAPI_URL}/api/raporlar/${encodeURIComponent(key)}`, {
+		cache: "no-store",
+	});
 	if (response.status === 404) return null;
 	if (!response.ok) throw new Error(`Rapor yüklenemedi (${response.status})`);
 	return (await response.json()).data;

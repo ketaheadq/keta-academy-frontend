@@ -59,10 +59,9 @@ export type DenemeEvent =
 	| "deneme_sayfasi_goruntuleme"
 	| "deneme_baslat"
 	| "deneme_bitir"
-	| "rapor_talebi"
-	| "rapor_acildi"
-	| "rapor_video_tiklama"
-	| "gorusme_tiklama";
+	| "analiz_sorusu"
+	| "ornek_rapor_tiklama"
+	| "rapor_talebi";
 
 export function trackDeneme(
 	event: DenemeEvent,
