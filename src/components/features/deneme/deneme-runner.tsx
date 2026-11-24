@@ -6,7 +6,7 @@ import {
 	ChevronRight,
 	Clock,
 	FileQuestion,
-	Lock,
+	FileText,
 	Users,
 } from "lucide-react";
 import Image from "next/image";
@@ -323,7 +323,7 @@ function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: ()
 					Süre başla dediğinde başlar. Bitirince netin hemen görünür.
 				</p>
 			</section>
-			<ReportPreview konular={deneme.konular.map((k) => k.ad)} />
+			<SampleReport />
 		</div>
 	);
 }
@@ -342,44 +342,74 @@ function Stat({
 	);
 }
 
-/** Blurred preview of the topic report that unlocks with a phone number. */
-function ReportPreview({ konular }: Readonly<{ konular: string[] }>) {
-	const rows = konular.length ? konular : ["Konu 1", "Konu 2", "Konu 3"];
-	const widths = [72, 38, 55, 84, 46];
+const ANALIZ_MADDELERI = [
+	"Yanlış ve boş bıraktığın her soru: doğru cevap, çözüm ve hocanın ipucu",
+	"Konu konu başarı oranın",
+	"Eksik konuların için izlemen gereken dersler",
+	"Çağlar Hoca'nın yorumu ve bir haftalık çalışma planı",
+];
+
+/** First two pages of the sample PDF report; links to the whole sample. */
+function SampleReport({ onOpen }: Readonly<{ onOpen?: () => void }>) {
 	return (
 		<aside
-			aria-label="Detaylı rapor önizlemesi"
-			className="relative overflow-hidden rounded-2xl border bg-white p-5 shadow-sm"
+			aria-labelledby="ornek-rapor-baslik"
+			className="rounded-2xl border bg-white p-5 shadow-sm"
 		>
-			<h2 className="mb-3 font-semibold text-foreground">Detaylı konu raporu</h2>
-			<div aria-hidden="true" className="select-none space-y-3 blur-[3px]">
-				{rows.map((name, i) => (
-					<div key={name}>
-						<div className="mb-1 flex justify-between text-sm">
-							<span>{name}</span>
-							<span>%{widths[i % widths.length]}</span>
-						</div>
-						<div className="h-2 rounded-full bg-secondary">
-							<div
-								className="h-2 rounded-full bg-primary"
-								style={{ width: `${widths[i % widths.length]}%` }}
-							/>
-						</div>
-					</div>
+			<div className="mb-3 flex items-baseline justify-between gap-2">
+				<h2 id="ornek-rapor-baslik" className="font-semibold text-foreground">
+					Örnek analiz raporu
+				</h2>
+				<a
+					href="/ornek-deneme-raporu.pdf"
+					target="_blank"
+					rel="noopener"
+					onClick={onOpen}
+					className="flex items-center gap-1 text-primary text-sm underline"
+				>
+					<FileText className="h-4 w-4" aria-hidden="true" />
+					Örneğin tamamı (PDF)
+				</a>
+			</div>
+			<a
+				href="/ornek-deneme-raporu.pdf"
+				target="_blank"
+				rel="noopener"
+				onClick={onOpen}
+				aria-label="Örnek raporu PDF olarak aç"
+				className="grid grid-cols-2 gap-3"
+			>
+				{[1, 2].map((page) => (
+					<Image
+						key={page}
+						src={`/images/ornek-deneme-raporu-${page}.jpg`}
+						alt=""
+						width={744}
+						height={1052}
+						className="h-auto w-full rounded-md border shadow-sm transition hover:shadow-md"
+					/>
 				))}
-				<p className="text-sm">Önerilen dersler ve hocanın yorumu</p>
-			</div>
-			<div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/40 p-4 text-center">
-				<Lock className="h-6 w-6 text-primary" aria-hidden="true" />
-				<p className="font-medium text-foreground text-sm">
-					Sınav bitince konu konu raporun hazırlanır.
-				</p>
-			</div>
+			</a>
+			<p className="mt-3 text-muted-foreground text-xs">
+				Örnektir: senin raporun kendi cevaplarınla hazırlanır.
+			</p>
 		</aside>
 	);
 }
 
 function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: SonucOzeti }>) {
+	const [choice, setChoice] = useState<"ask" | "yes" | "no">("ask");
+	const formRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (choice === "yes") formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+	}, [choice]);
+
+	const answer = (value: "yes" | "no") => {
+		setChoice(value);
+		trackDeneme("analiz_sorusu", deneme.baslik, { cevap: value === "yes" ? "evet" : "hayir" });
+	};
+
 	return (
 		<div className="space-y-6">
 			<section
@@ -398,8 +428,64 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 			</section>
 
 			<div className="grid gap-6 lg:grid-cols-2">
-				<ReportPreview konular={result.konular} />
-				<ReportRequestForm deneme={deneme} result={result} />
+				<div className="space-y-6">
+					<section
+						aria-labelledby="analiz-baslik"
+						className="rounded-2xl border border-primary/30 bg-primary/5 p-5 sm:p-6"
+					>
+						<h2 id="analiz-baslik" className="font-bold text-foreground text-xl">
+							Geniş analiz raporunu ister misin?
+						</h2>
+						<p className="mt-1 text-muted-foreground text-sm">
+							Ücretsiz. Sonuçlarını Çağlar Hoca'nın gözünden inceleyip PDF olarak telefonuna SMS ile
+							gönderiyoruz.
+						</p>
+						<ul className="mt-3 space-y-1.5 text-foreground text-sm">
+							{ANALIZ_MADDELERI.map((item) => (
+								<li key={item} className="flex gap-2">
+									<CheckCircle2
+										className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+										aria-hidden="true"
+									/>
+									{item}
+								</li>
+							))}
+						</ul>
+						{choice === "ask" && (
+							<div className="mt-5 flex flex-wrap gap-3">
+								<Button size="lg" onClick={() => answer("yes")}>
+									Evet, raporu istiyorum
+								</Button>
+								<Button size="lg" variant="outline" onClick={() => answer("no")}>
+									Hayır, teşekkürler
+								</Button>
+							</div>
+						)}
+						{choice === "no" && (
+							<div className="mt-5 flex flex-wrap items-center gap-3 text-sm">
+								<Button asChild>
+									<Link href="/kurslar">Derslere göz at</Link>
+								</Button>
+								<Link href="/deneme-sinavlari" className="text-muted-foreground underline">
+									Başka bir deneme çöz
+								</Link>
+								<button
+									type="button"
+									onClick={() => answer("yes")}
+									className="text-primary underline"
+								>
+									Fikrimi değiştirdim, raporu istiyorum
+								</button>
+							</div>
+						)}
+					</section>
+					{choice === "yes" && (
+						<div ref={formRef} className="scroll-mt-24">
+							<ReportRequestForm deneme={deneme} result={result} />
+						</div>
+					)}
+				</div>
+				<SampleReport onOpen={() => trackDeneme("ornek_rapor_tiklama", deneme.baslik)} />
 			</div>
 		</div>
 	);
@@ -481,7 +567,7 @@ function ReportRequestForm({
 				<CheckCircle2 className="mb-2 h-8 w-8 text-green-700" aria-hidden="true" />
 				<h2 className="font-bold text-foreground text-xl">Raporun hazırlanıyor</h2>
 				<p className="mt-2 text-foreground">
-					Detaylı rapor <strong>{sentTo}</strong> numarasına SMS ile gönderilecek.
+					PDF analiz raporun <strong>{sentTo}</strong> numarasına SMS ile gönderilecek.
 				</p>
 				<Button asChild variant="outline" className="mt-4">
 					<Link href="/kurslar">Bu arada derslere göz at</Link>
@@ -496,11 +582,10 @@ function ReportRequestForm({
 			className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6"
 		>
 			<h2 id="rapor-form-baslik" className="font-bold text-foreground text-xl">
-				Detaylı raporu telefonuna gönderelim
+				Raporu hangi numaraya gönderelim?
 			</h2>
 			<p className="mt-1 text-muted-foreground text-sm">
-				Hangi konularda eksik olduğun, hangi dersleri izlemen gerektiği ve hocanın yorumu. E-posta
-				istemiyoruz.
+				PDF raporun hazır olunca linki SMS ile gelir. E-posta istemiyoruz.
 			</p>
 			<form onSubmit={submit} className="mt-4 space-y-4">
 				<div>
@@ -594,11 +679,6 @@ function ReportRequestForm({
 				<Button type="submit" className="w-full" disabled={status === "sending"}>
 					{status === "sending" ? "Gönderiliyor..." : "Raporu gönder"}
 				</Button>
-				<p className="text-center text-sm">
-					<Link href="/kurslar" className="text-muted-foreground underline">
-						Şimdilik istemiyorum, derslere dön
-					</Link>
-				</p>
 			</form>
 		</section>
 	);
