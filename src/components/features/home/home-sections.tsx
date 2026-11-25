@@ -1,4 +1,4 @@
-import { ArrowRight, GraduationCap, MessageCircle } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { DenemeCard } from "@/components/features/deneme/deneme-card";
 import { Button } from "@/components/ui/button";
@@ -29,32 +29,6 @@ export function HomeDenemeler({ denemeler }: Readonly<{ denemeler: DenemeSummary
 				{denemeler.slice(0, 4).map((deneme) => (
 					<DenemeCard key={deneme.documentId} deneme={deneme} />
 				))}
-			</div>
-		</section>
-	);
-}
-
-/** Trust section: who teaches here. */
-export function HomeHoca() {
-	return (
-		<section aria-labelledby="home-hoca" className="mt-12 rounded-3xl border bg-white p-6 sm:p-10">
-			<div className="flex flex-col gap-6 md:flex-row md:items-center">
-				<div className="bg-primary/10 flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl">
-					<GraduationCap className="text-primary h-8 w-8" aria-hidden="true" />
-				</div>
-				<div className="flex-1">
-					<h2 id="home-hoca" className="text-foreground text-2xl font-bold">
-						Çağlar Hoca kimdir?
-					</h2>
-					<p className="text-muted-foreground mt-2 max-w-3xl leading-relaxed">
-						ODTÜ Fizik mezunu Çağlar Hoca, ortaokul ve lise öğrencilerine LGS, TYT, AYT ve okul
-						sınavları için matematik dersi veriyor. Konuları ezberletmeden, "neden" ve "nasıl"
-						sorularıyla anlatıyor; her öğrenciyle seviyesine ve hedefine göre ilerliyor.
-					</p>
-				</div>
-				<Button asChild variant="outline" className="shrink-0">
-					<Link href="/ozel-ders">Özel ders bilgisi</Link>
-				</Button>
 			</div>
 		</section>
 	);

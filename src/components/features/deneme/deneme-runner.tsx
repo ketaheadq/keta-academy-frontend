@@ -217,7 +217,13 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 								</span>
 								<span className="min-w-0 pt-0.5">
 									{secenek.metin}
-									<MediaImage media={secenek.gorsel} className="mt-2" />
+									<MediaImage
+										media={secenek.gorsel}
+										className={cn(
+											"max-h-28 w-auto max-w-[min(100%,14rem)] object-contain sm:max-h-32",
+											secenek.metin && "mt-2",
+										)}
+									/>
 								</span>
 							</button>
 						);

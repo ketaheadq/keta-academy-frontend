@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Courses from "@/components/features/home/courses";
-import { HomeDenemeler, HomeHoca, HomeVeliler } from "@/components/features/home/home-sections";
+import { HomeDenemeler, HomeVeliler } from "@/components/features/home/home-sections";
 import { HomeSlider } from "@/components/features/home/home-slider";
 import { getDenemeler } from "@/lib/deneme";
 import { getHomeSlides } from "@/lib/home";
@@ -17,7 +17,6 @@ export default async function Home() {
 			<HomeSlider slides={slides} />
 			<HomeDenemeler denemeler={denemeler} />
 			<Courses preview />
-			<HomeHoca />
 			<HomeVeliler />
 		</>
 	);
