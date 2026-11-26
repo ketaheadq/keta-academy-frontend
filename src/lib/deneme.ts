@@ -122,12 +122,22 @@ export class DenemeApiError extends Error {
 	}
 }
 
-async function post<T>(path: string, body: unknown): Promise<T> {
-	const response = await fetch(`${STRAPI_URL}/api/${path}`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(body),
-	});
+/**
+ * POSTs to the deneme API. With a member's JWT the result is saved to their account; an expired
+ * or invalid token (401) must not cost the student their exam, so the call is repeated without it.
+ */
+async function post<T>(path: string, body: unknown, jwt?: string | null): Promise<T> {
+	const send = (token?: string | null) =>
+		fetch(`${STRAPI_URL}/api/${path}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				...(token ? { Authorization: `Bearer ${token}` } : {}),
+			},
+			body: JSON.stringify(body),
+		});
+	let response = await send(jwt);
+	if (jwt && response.status === 401) response = await send(null);
 	const json = await response.json().catch(() => null);
 	if (!response.ok) {
 		throw new DenemeApiError(
@@ -147,8 +157,9 @@ export function submitDeneme(
 		kaynak: string;
 		utm: Record<string, string> | null;
 	},
+	jwt?: string | null,
 ) {
-	return post<SonucOzeti>(`denemeler/${encodeURIComponent(slug)}/sonuc`, body);
+	return post<SonucOzeti>(`denemeler/${encodeURIComponent(slug)}/sonuc`, body, jwt);
 }
 
 export type RaporTalebiInput = {
@@ -160,11 +171,36 @@ export type RaporTalebiInput = {
 	kaynak: string;
 };
 
-export function requestReport(sonucAnahtari: string, input: RaporTalebiInput) {
-	return post<{ telefon: string; raporAnahtari: string }>("denemeler/rapor-talebi", {
-		sonucAnahtari,
-		...input,
+export function requestReport(sonucAnahtari: string, input: RaporTalebiInput, jwt?: string | null) {
+	return post<{ telefon: string; raporAnahtari: string }>(
+		"denemeler/rapor-talebi",
+		{ sonucAnahtari, ...input },
+		jwt,
+	);
+}
+
+/** One of the signed-in member's exam results (GET /denemeler/benim). */
+export type MyDenemeResult = {
+	denemeBaslik: string;
+	denemeSlug: string | null;
+	dogru: number;
+	yanlis: number;
+	bos: number;
+	net: number;
+	soruSayisi: number;
+	tarih: string;
+	rapor: { raporAnahtari: string; hazir: boolean } | null;
+};
+
+/** The member's own exam results, newest first. Throws on network or auth errors. */
+export async function getMyDenemeResults(jwt: string): Promise<MyDenemeResult[]> {
+	const response = await fetch(`${STRAPI_URL}/api/denemeler/benim`, {
+		headers: { Authorization: `Bearer ${jwt}` },
+		cache: "no-store",
 	});
+	if (!response.ok) throw new DenemeApiError("Deneme sonuçları alınamadı", response.status);
+	const json = await response.json();
+	return (json.data ?? []) as MyDenemeResult[];
 }
 
 export function addParentNumber(raporAnahtari: string, input: Omit<RaporTalebiInput, "yakinlik">) {

@@ -3,6 +3,7 @@
 import { FileText, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
+import { getMyDenemeResults } from "@/lib/deneme";
 import { trackDeneme } from "@/lib/deneme-tracking";
 import {
 	getSavedReports,
@@ -11,16 +12,62 @@ import {
 	type SavedReport,
 } from "@/lib/saved-reports";
 import { cn } from "@/lib/utils";
+import { useJWT } from "@/stores/auth-store";
 
-/** Saved reports, read after mount (localStorage isn't there during server rendering). */
+type ShownReport = SavedReport & { hesapta: boolean };
+
+/**
+ * Reports to show: the ones saved on this device (read after mount, localStorage isn't there
+ * during server rendering) plus, for a signed-in member, the ones saved to their account, so
+ * they appear on every device. The account's copy wins when both have the same report.
+ */
 function useSavedReports() {
-	const [reports, setReports] = useState<SavedReport[]>([]);
+	const jwt = useJWT();
+	const [local, setLocal] = useState<SavedReport[]>([]);
+	const [account, setAccount] = useState<SavedReport[]>([]);
 	useEffect(() => {
-		const load = () => setReports(getSavedReports());
+		const load = () => setLocal(getSavedReports());
 		load();
 		return onSavedReportsChange(load);
 	}, []);
-	return reports;
+	useEffect(() => {
+		if (!jwt) {
+			setAccount([]);
+			return;
+		}
+		let active = true;
+		getMyDenemeResults(jwt)
+			.then((results) => {
+				if (!active) return;
+				setAccount(
+					results.flatMap((r) =>
+						r.rapor
+							? [
+									{
+										raporKey: r.rapor.raporAnahtari,
+										denemeSlug: r.denemeSlug ?? "",
+										denemeBaslik: r.denemeBaslik,
+										net: r.net,
+										soruSayisi: r.soruSayisi,
+										tarih: r.tarih,
+									},
+								]
+							: [],
+					),
+				);
+			})
+			.catch(() => {
+				// Offline or session expired: the device's own list still shows.
+			});
+		return () => {
+			active = false;
+		};
+	}, [jwt]);
+	const accountKeys = new Set(account.map((r) => r.raporKey));
+	return [
+		...account.map((r) => ({ ...r, hesapta: true })),
+		...local.filter((r) => !accountKeys.has(r.raporKey)).map((r) => ({ ...r, hesapta: false })),
+	].sort((a, b) => Date.parse(b.tarih) - Date.parse(a.tarih)) as ShownReport[];
 }
 
 const reportUrl = (raporKey: string) => `/rapor/${encodeURIComponent(raporKey)}`;
@@ -68,22 +115,25 @@ export function SavedReportsSection() {
 							>
 								<FileText aria-hidden="true" /> Raporu aç
 							</a>
-							<button
-								type="button"
-								onClick={() => removeReport(report.raporKey)}
-								className="text-muted-foreground hover:text-foreground rounded-md p-2"
-								aria-label={`${report.denemeBaslik} raporunu bu listeden kaldır`}
-								title="Bu listeden kaldır"
-							>
-								<X className="h-4 w-4" aria-hidden="true" />
-							</button>
+							{!report.hesapta && (
+								<button
+									type="button"
+									onClick={() => removeReport(report.raporKey)}
+									className="text-muted-foreground hover:text-foreground rounded-md p-2"
+									aria-label={`${report.denemeBaslik} raporunu bu listeden kaldır`}
+									title="Bu listeden kaldır"
+								>
+									<X className="h-4 w-4" aria-hidden="true" />
+								</button>
+							)}
 						</div>
 					</li>
 				))}
 			</ul>
 			<p className="text-muted-foreground mt-3 text-xs">
-				Bu liste yalnızca bu cihazda saklanır. Kaldırmak raporu silmez; linkini kaydettiysen açmaya
-				devam eder.
+				{reports.some((r) => r.hesapta)
+					? "Hesabına kayıtlı raporlar her cihazda burada görünür."
+					: "Bu liste yalnızca bu cihazda saklanır. Kaldırmak raporu silmez; linkini kaydettiysen açmaya devam eder. Giriş yaparak çözdüğün denemelerin raporları hesabına kaydedilir."}
 			</p>
 		</section>
 	);
