@@ -1,7 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { canonicalUrl } from "@/lib/seo";
 import { getPageCategories } from "@/lib/strapi";
+
+export const metadata: Metadata = {
+	title: "Tüm Sayfalar | KetaLearn",
+	description:
+		"Üniversite taban puanları, bölüm tanıtımları, videolar ve blog yazıları — tüm KetaLearn içerikleri.",
+	alternates: { canonical: canonicalUrl("/sayfalar") },
+};
 
 export default async function SayfalarPage() {
 	const pageCategories = await getPageCategories();

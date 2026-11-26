@@ -1,7 +1,9 @@
 "use client";
 
+import { AnimatePresence, m } from "motion/react";
 import { useState } from "react";
 import { type DenemeSummary, SINAV_TURU_LABEL } from "@/lib/deneme";
+import { DURATION, EASE_OUT } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { DenemeCard } from "./deneme-card";
 
@@ -54,7 +56,7 @@ export function DenemeList({ denemeler }: Readonly<{ denemeler: DenemeSummary[] 
 							aria-pressed={isActive(option.filter)}
 							onClick={() => setFilter(option.filter)}
 							className={cn(
-								"rounded-full px-4 py-2 text-sm font-medium transition-colors",
+								"rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ease-out active:scale-95",
 								isActive(option.filter)
 									? "bg-primary text-primary-foreground"
 									: "bg-secondary text-muted-foreground hover:text-foreground",
@@ -65,17 +67,54 @@ export function DenemeList({ denemeler }: Readonly<{ denemeler: DenemeSummary[] 
 					))}
 				</fieldset>
 			)}
-			{visible.length ? (
-				<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-					{visible.map((deneme) => (
-						<DenemeCard key={deneme.documentId} deneme={deneme} />
-					))}
-				</div>
-			) : (
-				<p className="text-muted-foreground rounded-xl border bg-white p-8 text-center">
-					Bu filtrede henüz deneme yok. Yakında eklenecek.
-				</p>
-			)}
+			{/*
+				Keyed on the filter so a new result set replaces the old one as a whole:
+				the cards that were already there fade out, the survivors settle back in.
+				Per-card layout animation would be smoother but needs the `layout` feature,
+				which measures and reflows — not worth it for a grid this size.
+			*/}
+			<AnimatePresence mode="wait" initial={false}>
+				<m.div
+					key={JSON.stringify(filter)}
+					initial={{ opacity: 0, y: 10 }}
+					animate={{
+						opacity: 1,
+						y: 0,
+						transition: {
+							duration: DURATION.base,
+							ease: EASE_OUT,
+							staggerChildren: 0.045,
+							delayChildren: 0.04,
+						},
+					}}
+					exit={{ opacity: 0, y: -6, transition: { duration: 0.12, ease: EASE_OUT } }}
+					className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+				>
+					{visible.length ? (
+						visible.map((deneme) => (
+							<m.div
+								key={deneme.documentId}
+								variants={{
+									initial: { opacity: 0, y: 12 },
+									animate: { opacity: 1, y: 0 },
+								}}
+							>
+								<DenemeCard deneme={deneme} />
+							</m.div>
+						))
+					) : (
+						<m.p
+							variants={{
+								initial: { opacity: 0, y: 12 },
+								animate: { opacity: 1, y: 0 },
+							}}
+							className="text-muted-foreground col-span-full rounded-xl border bg-white p-8 text-center"
+						>
+							Bu filtrede henüz deneme yok. Yakında eklenecek.
+						</m.p>
+					)}
+				</m.div>
+			</AnimatePresence>
 		</div>
 	);
 }

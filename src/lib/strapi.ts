@@ -426,14 +426,14 @@ export async function getQuizzes() {
 
 export async function getQuizBySlug(slug: string) {
 	const response = await fetchStrapiData<StrapiResponse<StrapiQuiz[]>>(
-		`quizzes?filters[slug][$eq]=${slug}&populate=*`,
+		`quizzes?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`,
 	);
 	return response.data[0]; // Return first match
 }
 
 export async function getQuizzesBySubject(subjectSlug: string) {
 	const response = await fetchStrapiData<StrapiResponse<StrapiQuiz[]>>(
-		`quizzes?filters[subject][slug][$eq]=${subjectSlug}&populate=*`,
+		`quizzes?filters[subject][slug][$eq]=${encodeURIComponent(subjectSlug)}&populate=*`,
 	);
 	return response.data;
 }
@@ -520,7 +520,7 @@ export async function getPageCategories() {
 export async function getPageBySlug(slug: string): Promise<StrapiPage | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiPage[]>>(
-			`pages?filters[slug][$eq]=${slug}&populate=*`,
+			`pages?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
@@ -537,7 +537,7 @@ const COURSE_POPULATE = ["thumbnail", "image", "icon", "subject", "grades", "cou
 
 export async function getCourse(slug: string) {
 	const response = await fetchStrapiData<StrapiResponse<StrapiCourse[]>>(
-		`courses?${COURSE_POPULATE}&filters[slug][$eq]=${slug}`,
+		`courses?${COURSE_POPULATE}&filters[slug][$eq]=${encodeURIComponent(slug)}`,
 	);
 	return response.data[0];
 }
@@ -611,14 +611,14 @@ export async function getCourses() {
 	return response.data;
 }
 
-export async function getPublishedCourses(limit?: number): Promise<StrapiCourse[]> {
+export async function getPublishedCourses(limit?: number, revalidate = 0): Promise<StrapiCourse[]> {
 	const courses: StrapiCourse[] = [];
 	let page = 1;
 	let pageCount: number;
 	do {
 		const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourse>>(
 			`courses?status=published&populate=*&sort=title:asc&pagination[page]=${page}&pagination[pageSize]=${limit ?? 50}`,
-			{ revalidate: 0, allowForbidden: false },
+			{ revalidate, allowForbidden: false },
 		);
 		courses.push(...response.data);
 		pageCount = limit ? 1 : response.meta.pagination.pageCount;
@@ -629,7 +629,7 @@ export async function getPublishedCourses(limit?: number): Promise<StrapiCourse[
 
 export async function getCoursesBySubject(subjectSlug: string) {
 	const response = await fetchStrapiData<StrapiResponse<StrapiCourse[]>>(
-		`courses?filters[subject][slug][$eq]=${subjectSlug}&populate=*`,
+		`courses?filters[subject][slug][$eq]=${encodeURIComponent(subjectSlug)}&populate=*`,
 	);
 	return response.data;
 }
@@ -744,11 +744,9 @@ export async function getAdmissionScores(): Promise<StrapiAdmissionScore[]> {
 
 export async function getAdmissionScoreBySlug(slug: string): Promise<StrapiAdmissionScore | null> {
 	try {
-		console.log(`🔍 Fetching admission score for slug: ${slug}`);
 		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
-			`admission-scores?filters[slug][$eq]=${slug}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`,
+			`admission-scores?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[university][populate]=*&populate[department][populate]=*&populate[page][populate]=*&populate[related_datas][populate]=*&populate[SEO][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[4]=content&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt`,
 		);
-		console.log(`✅ Admission score found: ${response.data.length > 0 ? "Yes" : "No"}`);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
 		console.error("Error fetching admission score by slug - check Strapi permissions:", error);
@@ -759,7 +757,7 @@ export async function getAdmissionScoreBySlug(slug: string): Promise<StrapiAdmis
 export async function getAdmissionScoresByPage(pageSlug: string): Promise<StrapiAdmissionScore[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiAdmissionScore[]>>(
-			`admission-scores?filters[page][slug][$eq]=${pageSlug}&populate[university][populate]=*&populate[department][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt&pagination[pageSize]=100`,
+			`admission-scores?filters[page][slug][$eq]=${encodeURIComponent(pageSlug)}&populate[university][populate]=*&populate[department][populate]=*&fields[0]=id&fields[1]=documentId&fields[2]=title&fields[3]=slug&fields[5]=isPopular&fields[6]=createdAt&fields[7]=updatedAt&fields[8]=publishedAt&pagination[pageSize]=100`,
 		);
 		return response.data;
 	} catch (error) {
@@ -773,9 +771,7 @@ export async function getAdmissionScoresByPage(pageSlug: string): Promise<Strapi
 
 export async function getAdmissionScoreTableDataBySlug(slug: string): Promise<string | null> {
 	try {
-		console.log(`🔍 Fetching table data for admission score slug: ${slug}`);
-
-		const fullUrl = `${STRAPI_URL}/api/admission-scores?filters[slug][$eq]=${slug}&fields[0]=tableData`;
+		const fullUrl = `${STRAPI_URL}/api/admission-scores?filters[slug][$eq]=${encodeURIComponent(slug)}&fields[0]=tableData`;
 
 		const response = await fetch(fullUrl, {
 			headers: {
@@ -797,7 +793,6 @@ export async function getAdmissionScoreTableDataBySlug(slug: string): Promise<st
 		}
 
 		const data = await response.json();
-		console.log(`✅ Table data found: ${data.data && data.data.length > 0 ? "Yes" : "No"}`);
 		return data.data && data.data.length > 0 ? data.data[0].tableData : null;
 	} catch (error) {
 		console.error(
@@ -823,7 +818,7 @@ export async function getUniversities(): Promise<StrapiUniversity[]> {
 export async function getUniversityBySlug(slug: string): Promise<StrapiUniversity | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiUniversity[]>>(
-			`universities?filters[slug][$eq]=${slug}&populate=*`,
+			`universities?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
@@ -847,7 +842,7 @@ export async function getDepartments(): Promise<StrapiDepartment[]> {
 export async function getDepartmentBySlug(slug: string): Promise<StrapiDepartment | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiDepartment[]>>(
-			`departments?filters[slug][$eq]=${slug}&populate=*`,
+			`departments?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
@@ -870,7 +865,7 @@ export async function getVideos(): Promise<StrapiVideo[]> {
 export async function getVideoBySlug(slug: string): Promise<StrapiVideo | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiVideo[]>>(
-			`videos?filters[slug][$eq]=${slug}&populate=*`,
+			`videos?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
@@ -882,7 +877,7 @@ export async function getVideoBySlug(slug: string): Promise<StrapiVideo | null> 
 export async function getVideosByPage(pageSlug: string): Promise<StrapiVideo[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiVideo[]>>(
-			`videos?filters[page][slug][$eq]=${pageSlug}&populate=*&pagination[pageSize]=100`,
+			`videos?filters[page][slug][$eq]=${encodeURIComponent(pageSlug)}&populate=*&pagination[pageSize]=100`,
 		);
 		return response.data;
 	} catch (error) {
@@ -908,7 +903,7 @@ export async function getBlogs(): Promise<StrapiBlog[]> {
 export async function getBlogBySlug(slug: string): Promise<StrapiBlog | null> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiBlog[]>>(
-			`blogs?filters[slug][$eq]=${slug}&populate=*`,
+			`blogs?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`,
 		);
 		return response.data.length > 0 ? response.data[0] : null;
 	} catch (error) {
@@ -920,7 +915,7 @@ export async function getBlogBySlug(slug: string): Promise<StrapiBlog | null> {
 export async function getBlogsByPage(pageSlug: string): Promise<StrapiBlog[]> {
 	try {
 		const response = await fetchStrapiData<StrapiResponse<StrapiBlog[]>>(
-			`blogs?filters[page][slug][$eq]=${pageSlug}&populate=*&pagination[pageSize]=100`,
+			`blogs?filters[page][slug][$eq]=${encodeURIComponent(pageSlug)}&populate=*&pagination[pageSize]=100`,
 		);
 		return response.data;
 	} catch (error) {

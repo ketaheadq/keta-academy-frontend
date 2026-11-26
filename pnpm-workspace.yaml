@@ -1,5 +1,5 @@
 minimumReleaseAgeExclude:
-  - lucide-react@1.78.0 || 1.79.0
+  - lucide-react@1.78.0 || 1.79.0 || 1.81.0
   - "@biomejs/biome@2.6.9"
   - "@biomejs/cli-android-arm64@2.6.9"
   - "@biomejs/cli-android-x64@2.6.9"

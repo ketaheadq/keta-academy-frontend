@@ -37,18 +37,18 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 
 	return (
 		<Card
-			className="cursor-pointer py-0 transition-shadow hover:shadow-lg"
+			className="group cursor-pointer overflow-hidden py-0 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
 			onClick={handleCardClick}
 		>
 			<CardContent className="p-0">
 				{/* Blog Image */}
-				<div className="relative">
+				<div className="relative overflow-hidden">
 					<Image
 						src={blog.image ? blog.image.url : "/images/blog.jpg"}
 						alt={blog.image ? blog.image.alternativeText || blog.title : "Blog Image"}
 						width={blog.image ? blog.image.width || 400 : 400}
 						height={blog.image ? blog.image.height || 250 : 250}
-						className="h-48 w-full rounded-t-lg object-cover"
+						className="h-48 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
 						onError={(e) => {
 							e.currentTarget.src = "/images/blog.jpg";
 						}}
@@ -71,7 +71,9 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 
 				<div className="p-4">
 					{/* Blog Title */}
-					<CardTitle className="mb-2 text-lg">{blog.title}</CardTitle>
+					<CardTitle className="group-hover:text-primary mb-2 text-lg transition-colors">
+						{blog.title}
+					</CardTitle>
 
 					{/* Content Preview */}
 					<div className="text-muted-foreground mb-3 text-sm">
@@ -79,13 +81,13 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 					</div>
 
 					<Button
-						className="w-full cursor-pointer"
+						className="w-full cursor-pointer transition-transform duration-200 ease-out group-hover:scale-[1.02] active:scale-[0.98]"
 						onClick={(e) => {
 							e.stopPropagation();
 							handleCardClick();
 						}}
 					>
-						<ExternalLink className="mr-2 h-4 w-4" />
+						<ExternalLink className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
 						Yazıyı Oku
 					</Button>
 				</div>

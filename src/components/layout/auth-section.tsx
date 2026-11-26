@@ -1,9 +1,12 @@
 "use client";
 
 import { ChevronDown, LogOut, User } from "lucide-react";
+import { AnimatePresence, m } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { dropdownDown } from "@/lib/motion";
 import { useAuthStore } from "@/stores/auth-store";
 
 interface AuthSectionProps {
@@ -11,8 +14,23 @@ interface AuthSectionProps {
 	onNavigate?: () => void;
 }
 
+/** Closing is delayed so moving the pointer from the trigger to the panel does not dismiss it. */
+const CLOSE_DELAY_MS = 140;
+
 export default function AuthSection({ mobile = false, onNavigate }: Readonly<AuthSectionProps>) {
 	const { user, isAuthenticated, signOut } = useAuthStore();
+	const [menuOpen, setMenuOpen] = useState(false);
+	const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+	const keepOpen = () => {
+		clearTimeout(closeTimer.current);
+		setMenuOpen(true);
+	};
+	const scheduleClose = () => {
+		closeTimer.current = setTimeout(() => setMenuOpen(false), CLOSE_DELAY_MS);
+	};
+
+	useEffect(() => () => clearTimeout(closeTimer.current), []);
 
 	const handleSignOut = async () => {
 		await signOut();
@@ -51,14 +69,14 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 					<Link
 						href="/derslerim"
 						onClick={handleLinkClick}
-						className="text-foreground hover:bg-secondary flex min-h-11 items-center rounded-lg px-2 text-sm font-medium"
+						className="text-foreground hover:bg-secondary flex min-h-11 items-center rounded-lg px-2 text-sm font-medium transition-colors"
 					>
 						Derslerim
 					</Link>
 					<button
 						type="button"
 						onClick={handleSignOut}
-						className="text-destructive hover:bg-secondary flex min-h-11 w-full items-center gap-2 rounded-lg px-2 text-left text-sm font-medium"
+						className="text-destructive hover:bg-secondary flex min-h-11 w-full items-center gap-2 rounded-lg px-2 text-left text-sm font-medium transition-colors"
 					>
 						<LogOut className="h-4 w-4" aria-hidden="true" />
 						Çıkış Yap
@@ -74,40 +92,77 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 				// User is logged in - show user info and logout
 				<div className="flex items-center space-x-4">
 					{/* User Profile Dropdown */}
-					<div className="group relative">
+					{/* biome-ignore lint/a11y/noStaticElementInteractions: the wrapper only bridges pointer and focus intent between the button and its panel; the button is the control. */}
+					<div
+						className="relative"
+						onMouseEnter={keepOpen}
+						onMouseLeave={scheduleClose}
+						onFocus={keepOpen}
+						onBlur={(e) => {
+							if (!e.currentTarget.contains(e.relatedTarget as Node | null)) scheduleClose();
+						}}
+						onKeyDown={(e) => {
+							if (e.key === "Escape") setMenuOpen(false);
+						}}
+					>
 						<button
 							type="button"
-							className="text-muted-foreground hover:text-background flex items-center space-x-2 transition-colors"
+							aria-expanded={menuOpen}
+							aria-haspopup="menu"
+							className="text-muted-foreground hover:text-background flex items-center space-x-2 rounded transition-colors"
 						>
 							{avatar}
 							<span className="font-medium">{user.name}</span>
-							<ChevronDown className="h-4 w-4" />
+							<m.span
+								animate={{ rotate: menuOpen ? 180 : 0 }}
+								transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+								aria-hidden="true"
+								className="flex"
+							>
+								<ChevronDown className="h-4 w-4" />
+							</m.span>
 						</button>
 
 						{/* Dropdown Menu */}
-						<div className="invisible absolute top-full right-0 z-50 mt-2 w-48 rounded-md border bg-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
-							<div className="py-2">
-								<div className="border-border border-b px-4 py-2">
-									<p className="text-foreground text-sm font-medium">{user.name}</p>
-									<p className="text-muted-foreground text-xs">{user.email}</p>
-								</div>
-								<Link
-									href="/derslerim"
-									onClick={handleLinkClick}
-									className="text-muted-foreground hover:bg-secondary hover:text-primary-foreground block px-4 py-2 text-sm"
+						<AnimatePresence>
+							{menuOpen && (
+								<m.div
+									initial="initial"
+									animate="animate"
+									exit="exit"
+									variants={dropdownDown}
+									role="menu"
+									className="absolute top-full right-0 z-50 mt-2 w-48 overflow-hidden rounded-md border bg-white shadow-lg"
 								>
-									Derslerim
-								</Link>
-								<button
-									type="button"
-									onClick={handleSignOut}
-									className="text-muted-foreground hover:bg-secondary hover:text-destructive flex w-full items-center space-x-2 px-4 py-2 text-left text-sm"
-								>
-									<LogOut className="h-4 w-4" />
-									<span>Çıkış Yap</span>
-								</button>
-							</div>
-						</div>
+									<div className="py-2">
+										<div className="border-border border-b px-4 py-2">
+											<p className="text-foreground text-sm font-medium">{user.name}</p>
+											<p className="text-muted-foreground text-xs">{user.email}</p>
+										</div>
+										<Link
+											role="menuitem"
+											href="/derslerim"
+											onClick={() => {
+												setMenuOpen(false);
+												handleLinkClick();
+											}}
+											className="text-muted-foreground hover:bg-secondary hover:text-primary-foreground block px-4 py-2 text-sm transition-colors"
+										>
+											Derslerim
+										</Link>
+										<button
+											type="button"
+											role="menuitem"
+											onClick={handleSignOut}
+											className="text-muted-foreground hover:bg-secondary hover:text-destructive flex w-full items-center space-x-2 px-4 py-2 text-left text-sm transition-colors"
+										>
+											<LogOut className="h-4 w-4" />
+											<span>Çıkış Yap</span>
+										</button>
+									</div>
+								</m.div>
+							)}
+						</AnimatePresence>
 					</div>
 				</div>
 			) : (
@@ -122,7 +177,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 						</Button>
 					</Link>
 					<Link href="/kayit-ol" onClick={handleLinkClick}>
-						<Button className="bg-primary text-background hover:bg-primary rounded-lg px-4 py-2 transition-colors">
+						<Button className="bg-primary text-background hover:bg-primary rounded-lg px-4 py-2 transition-all hover:scale-[1.03] active:scale-[0.97]">
 							Üye Ol
 						</Button>
 					</Link>

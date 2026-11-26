@@ -1,17 +1,50 @@
-name: Deploy to Server
+name: Verify and Deploy
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  NEXT_PUBLIC_STRAPI_URL: https://admin.ketalearn.cloud
+  NEXT_PUBLIC_FRONTEND_URL: https://ketalearn.cloud
 
 jobs:
-  deploy:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint and format check
+        run: pnpm run lint:check
+
+      - name: Type check
+        run: pnpm run typecheck
+
+      - name: Build
+        run: pnpm run build
+
+  deploy:
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
       - name: Executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -21,7 +54,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           command_timeout: 30m
           script: |
-            # Navigate to the project directory (Update this path to match your server!)
             cd ~/nextjs-frontend
 
             echo "Pulling latest changes..."

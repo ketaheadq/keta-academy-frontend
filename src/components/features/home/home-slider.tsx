@@ -1,9 +1,11 @@
 "use client";
 
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { m } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { DURATION, EASE_OUT } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import styles from "../../../app/hero.module.css";
 
@@ -17,6 +19,16 @@ export type Slide = {
 };
 
 const AUTOPLAY_MS = 6000;
+
+/** Headline, standfirst and button land one after another as a slide becomes active. */
+const copyContainer = {
+	hidden: {},
+	shown: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
+};
+const copyLine = {
+	hidden: { opacity: 0, y: 14 },
+	shown: { opacity: 1, y: 0, transition: { duration: DURATION.slow, ease: EASE_OUT } },
+};
 
 /**
  * Home page slider managed in the panel (Anasayfa Slaytı). Swipe on mobile (scroll snap);
@@ -33,7 +45,12 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 		if (!track) return;
 		const count = track.children.length;
 		const next = (index + count) % count;
-		track.scrollTo({ left: next * track.clientWidth, behavior: "smooth" });
+		// JS `behavior` beats the CSS reduced-motion guard, so it has to be decided here.
+		const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		track.scrollTo({
+			left: next * track.clientWidth,
+			behavior: reduce ? "auto" : "smooth",
+		});
 	}, []);
 
 	useEffect(() => {
@@ -74,29 +91,53 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 									: undefined
 							}
 						>
-							<div className={styles.copy}>
+							<m.div
+								className={styles.copy}
+								variants={copyContainer}
+								initial="hidden"
+								animate={active === index ? "shown" : "hidden"}
+							>
 								{index === 0 ? (
-									<h1 className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
+									<m.h1
+										variants={copyLine}
+										className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl"
+									>
 										{slide.baslik}
-									</h1>
+									</m.h1>
 								) : (
-									<h2 className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
+									<m.h2
+										variants={copyLine}
+										className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl"
+									>
 										{slide.baslik}
-									</h2>
+									</m.h2>
 								)}
 								{slide.altMetin && (
-									<p className="mt-3 max-w-xl text-base text-pretty text-slate-700 sm:mt-4 sm:text-lg">
+									<m.p
+										variants={copyLine}
+										className="mt-3 max-w-xl text-base text-pretty text-slate-700 sm:mt-4 sm:text-lg"
+									>
 										{slide.altMetin}
-									</p>
+									</m.p>
 								)}
 								{slide.link && slide.butonYazisi && (
-									<Button asChild size="lg" className="mt-5 sm:mt-6">
-										<Link href={slide.link}>
-											{slide.butonYazisi} <ArrowRight aria-hidden="true" />
-										</Link>
-									</Button>
+									<m.div variants={copyLine}>
+										<Button
+											asChild
+											size="lg"
+											className="group mt-5 transition-transform hover:scale-[1.02] active:scale-[0.98] sm:mt-6"
+										>
+											<Link href={slide.link}>
+												{slide.butonYazisi}{" "}
+												<ArrowRight
+													className="transition-transform group-hover:translate-x-0.5"
+													aria-hidden="true"
+												/>
+											</Link>
+										</Button>
+									</m.div>
 								)}
-							</div>
+							</m.div>
 						</div>
 					</div>
 				))}
@@ -108,7 +149,7 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 						type="button"
 						onClick={() => goTo(active - 1)}
 						aria-label="Önceki slayt"
-						className="text-muted-foreground hover:text-foreground rounded-full p-1"
+						className="text-muted-foreground hover:text-foreground rounded-full p-1 transition-transform duration-200 ease-out hover:scale-125 active:scale-95"
 					>
 						<ChevronLeft className="h-5 w-5" />
 					</button>
@@ -120,8 +161,8 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 							aria-label={`${index + 1}. slayt`}
 							aria-current={index === active}
 							className={cn(
-								"h-2.5 rounded-full transition-all",
-								index === active ? "bg-primary w-6" : "bg-border w-2.5",
+								"h-2.5 rounded-full transition-[width,background-color] duration-300 ease-out active:scale-90",
+								index === active ? "bg-primary w-6" : "bg-border w-2.5 hover:bg-slate-400",
 							)}
 						/>
 					))}
@@ -129,7 +170,7 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 						type="button"
 						onClick={() => goTo(active + 1)}
 						aria-label="Sonraki slayt"
-						className="text-muted-foreground hover:text-foreground rounded-full p-1"
+						className="text-muted-foreground hover:text-foreground rounded-full p-1 transition-transform duration-200 ease-out hover:scale-125 active:scale-95"
 					>
 						<ChevronRight className="h-5 w-5" />
 					</button>

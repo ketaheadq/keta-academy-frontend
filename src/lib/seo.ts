@@ -43,6 +43,16 @@ const DEFAULT_SEO: Required<Pick<SEOConfig, "siteName" | "twitterHandle" | "loca
 	type: "website",
 };
 
+/** Absolute origin for canonical URLs; trailing slash stripped as in sitemap.ts. */
+export const SITE_ORIGIN = (
+	process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud"
+).replace(/\/$/, "");
+
+/** Canonical URL for an App Router path, e.g. `canonicalUrl("/kurslar")`. */
+export function canonicalUrl(path: string): string {
+	return `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
 /**
  * Generate metadata for any content type with SEO support
  */
@@ -97,8 +107,8 @@ export function generateSEOMetadata(
 			description: description?.substring(0, 160) || "",
 			type: seoConfig.type,
 			locale: seoConfig.locale,
-			url: canonicalUrl,
 			siteName: seoConfig.siteName,
+			...(canonicalUrl && { url: canonicalUrl }),
 			...(seoData?.metaImage && {
 				images: [
 					{
@@ -110,9 +120,7 @@ export function generateSEOMetadata(
 				],
 			}),
 		},
-		alternates: {
-			canonical: canonicalUrl,
-		},
+		...(canonicalUrl && { alternates: { canonical: canonicalUrl } }),
 	};
 }
 
@@ -135,7 +143,7 @@ export function generateStructuredData(
 		"@type": "WebPage",
 		name: content.title,
 		description: generateDefaultDescription(content),
-		url: contentUrl,
+		...(contentUrl && { url: contentUrl }),
 		inLanguage: "tr-TR",
 		isPartOf: {
 			"@type": "WebSite",
@@ -157,12 +165,16 @@ export function generateStructuredData(
 						name: "Ana Sayfa",
 						item: baseUrl,
 					},
-					{
-						"@type": "ListItem",
-						position: 2,
-						name: content.title,
-						item: contentUrl,
-					},
+					...(contentUrl
+						? [
+								{
+									"@type": "ListItem",
+									position: 2,
+									name: content.title,
+									item: contentUrl,
+								},
+							]
+						: []),
 				],
 			},
 		};
@@ -273,23 +285,34 @@ function generateDefaultKeywords(content: SEOContent): string {
 	return baseKeywords.join(", ");
 }
 
-function generateDefaultURL(content: SEOContent): string {
+function generateDefaultURL(content: SEOContent): string | undefined {
 	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud";
+
+	// Videos, blogs and admission scores have no route of their own: they render
+	// under their parent page at /sayfalar/[page]/[slug]. Without that parent slug
+	// there is no valid URL to point at, and a canonical to a 404 is worse than
+	// none, so return undefined and let the caller omit it.
+	const parentPageSlug =
+		"page" in content ? (content.page as StrapiPage | undefined)?.slug : undefined;
+	const underParentPage = parentPageSlug
+		? `${baseUrl}/sayfalar/${parentPageSlug}/${content.slug}`
+		: undefined;
 
 	if ("pageType" in content) {
 		return `${baseUrl}/sayfalar/${content.slug}`;
 	}
-	if ("subject" in content) {
+	if ("course_lessons" in content) {
 		return `${baseUrl}/kurslar/${content.slug}`;
 	}
-	if ("href" in content) {
-		return `${baseUrl}/videos/${content.slug}`;
+	// StrapiSubject: title/description/slug only, and it is the /konular listing route.
+	if (!("content" in content) && !("href" in content) && !("videoURL" in content)) {
+		return `${baseUrl}/konular/${content.slug}`;
 	}
-	if ("content" in content && Array.isArray(content.content)) {
-		return `${baseUrl}/blogs/${content.slug}`;
+	if ("href" in content || "tableData" in content || Array.isArray(content.content)) {
+		return underParentPage;
 	}
-
-	return baseUrl;
+	// StrapiLesson: shown inside its course, addressed with ?ders_ismi=<lesson slug>.
+	return undefined;
 }
 
 /**

@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import { Toaster, toast } from "sonner";
+import MotionProvider from "@/components/motion/motion-provider";
 import { CourseProgressProvider } from "@/components/shared/course-progress-provider";
 import errors from "../lib/error-messages";
 import Loading from "./loading";
@@ -32,9 +33,13 @@ function ProvidersContent({ children }: Readonly<{ children: React.ReactNode }>)
 }
 
 export function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
+	// Outside the Suspense boundary so the fallback below — which animates too —
+	// is already inside LazyMotion when it mounts.
 	return (
-		<Suspense fallback={<Loading />}>
-			<ProvidersContent>{children}</ProvidersContent>
-		</Suspense>
+		<MotionProvider>
+			<Suspense fallback={<Loading />}>
+				<ProvidersContent>{children}</ProvidersContent>
+			</Suspense>
+		</MotionProvider>
 	);
 }

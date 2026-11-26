@@ -106,6 +106,25 @@
 			transform: translateX(100%);
 		}
 	}
+
+	/*
+	 * Entrance for server-only surfaces (route fallbacks, not-found, error).
+	 * Those must paint before hydration, so they cannot wait for motion to load;
+	 * the curve and distance mirror DURATION.slow / y:16 in lib/motion.ts.
+	 */
+	@keyframes rise {
+		from {
+			opacity: 0;
+			transform: translateY(16px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	--animate-rise: rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @layer base {
@@ -116,6 +135,38 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+
+/*
+ * Motion handles prefers-reduced-motion for everything rendered through
+ * <m> (MotionConfig reducedMotion="user"), but the raw keyframes above are
+ * plain CSS and would keep looping regardless. This covers both.
+ */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		/* biome-ignore lint/complexity/noImportantStyles: unlayered already beats Tailwind utilities; this has to beat the loader's inline animation styles too. */
+		animation-duration: 0.01ms !important;
+		/* biome-ignore lint/complexity/noImportantStyles: see above. */
+		animation-iteration-count: 1 !important;
+		/* biome-ignore lint/complexity/noImportantStyles: see above. */
+		transition-duration: 0.01ms !important;
+		/* biome-ignore lint/complexity/noImportantStyles: see above. */
+		scroll-behavior: auto !important;
+	}
+}
+
+/*
+ * Reveals are server-rendered at opacity 0 and only lifted by JS. Until
+ * MotionProvider marks the document, show them: a page whose scripts failed or
+ * never arrived should read as content, not as blank space.
+ */
+html:not([data-motion-ready]) [style*="opacity:0"] {
+	/* biome-ignore lint/complexity/noImportantStyles: the value it overrides is an inline style, which only !important can beat. */
+	opacity: 1 !important;
+	/* biome-ignore lint/complexity/noImportantStyles: see above. */
+	transform: none !important;
 }
 
 @layer utilities {

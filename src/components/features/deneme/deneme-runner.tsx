@@ -9,6 +9,7 @@ import {
 	FileText,
 	Users,
 } from "lucide-react";
+import { AnimatePresence, m } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -24,6 +25,7 @@ import {
 	type Yakinlik,
 } from "@/lib/deneme";
 import { getSessionId, getTrafficSource, trackDeneme } from "@/lib/deneme-tracking";
+import { DURATION, EASE_OUT, slideQuestion } from "@/lib/motion";
 import { saveReport } from "@/lib/saved-reports";
 import { cn } from "@/lib/utils";
 import { useJWT } from "@/stores/auth-store";
@@ -64,6 +66,8 @@ const formatTime = (seconds: number) =>
 export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 	const [stage, setStage] = useState<Stage>("intro");
 	const [saved, setSaved] = useState<Saved | null>(null);
+	/** +1 forwards, -1 backwards — so the card slides the way the student is moving. */
+	const [dir, setDir] = useState(1);
 	const [now, setNow] = useState(() => Date.now());
 	const [result, setResult] = useState<SonucOzeti | null>(null);
 	const [submitting, setSubmitting] = useState(false);
@@ -119,7 +123,9 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 			sessionStorage.removeItem(storageKey(deneme.slug));
 			setResult(response);
 			setStage("result");
-			window.scrollTo({ top: 0, behavior: "smooth" });
+			// JS `behavior` overrides the CSS reduced-motion guard, so it is decided here.
+			const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+			window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
 		} catch (error) {
 			submittedRef.current = false;
 			setSubmitError(
@@ -161,11 +167,19 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 				[saved.current]: saved.answers[saved.current] === letter ? null : letter,
 			},
 		});
-	const go = (index: number) =>
-		setSaved({ ...saved, current: Math.min(total - 1, Math.max(0, index)) });
+	const go = (index: number) => {
+		const next = Math.min(total - 1, Math.max(0, index));
+		setDir(next >= saved.current ? 1 : -1);
+		setSaved({ ...saved, current: next });
+	};
 
 	return (
-		<div className="space-y-4">
+		<m.div
+			className="space-y-4"
+			initial={{ opacity: 0, y: 12 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: DURATION.slow, ease: EASE_OUT }}
+		>
 			{/* Sticky timer bar */}
 			<div className="sticky top-0 z-30 -mx-4 flex items-center justify-between gap-3 border-b bg-white/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:border">
 				<div className="text-sm">
@@ -178,8 +192,10 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 					role="timer"
 					aria-label="Kalan süre"
 					className={cn(
-						"flex items-center gap-1 rounded-full px-3 py-1 font-mono text-sm font-semibold",
-						remaining <= 60 ? "bg-destructive/10 text-destructive" : "bg-primary/10 text-primary",
+						"flex items-center gap-1 rounded-full px-3 py-1 font-mono text-sm font-semibold transition-colors duration-300",
+						remaining <= 60
+							? "bg-destructive/10 text-destructive animate-pulse"
+							: "bg-primary/10 text-primary",
 					)}
 				>
 					<Clock className="h-4 w-4" aria-hidden="true" />
@@ -187,80 +203,95 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 				</div>
 			</div>
 
-			<section
-				aria-labelledby="soru-baslik"
-				className="rounded-2xl border bg-white p-4 shadow-sm sm:p-6"
-			>
-				<h2 id="soru-baslik" className="text-muted-foreground mb-3 text-sm font-semibold">
-					{question.no}. soru
-				</h2>
-				<div className="text-foreground text-lg">
-					<RichTextRenderer content={question.metin} />
-				</div>
-				<MediaImage media={question.gorsel} className="mt-3" />
+			<AnimatePresence mode="wait" initial={false}>
+				<m.section
+					key={saved.current}
+					aria-labelledby="soru-baslik"
+					variants={slideQuestion(dir)}
+					initial="initial"
+					animate="animate"
+					exit="exit"
+					className="rounded-2xl border bg-white p-4 shadow-sm sm:p-6"
+				>
+					<h2 id="soru-baslik" className="text-muted-foreground mb-3 text-sm font-semibold">
+						{question.no}. soru
+					</h2>
+					<div className="text-foreground text-lg">
+						<RichTextRenderer content={question.metin} />
+					</div>
+					<MediaImage media={question.gorsel} className="mt-3" />
 
-				<fieldset className="mt-5 space-y-2">
-					<legend className="sr-only">Cevabınız</legend>
-					{question.secenekler.map((secenek) => {
-						const selected = saved.answers[saved.current] === secenek.harf;
-						return (
-							<button
-								key={secenek.harf}
-								type="button"
-								aria-pressed={selected}
-								onClick={() => choose(secenek.harf)}
-								className={cn(
-									"flex w-full items-start gap-3 rounded-xl border-2 p-3 text-left transition-colors",
-									selected ? "border-primary bg-primary/10" : "border-border hover:bg-secondary",
-								)}
-							>
-								<span
+					<fieldset className="mt-5 space-y-2">
+						<legend className="sr-only">Cevabınız</legend>
+						{question.secenekler.map((secenek) => {
+							const selected = saved.answers[saved.current] === secenek.harf;
+							return (
+								<button
+									key={secenek.harf}
+									type="button"
+									aria-pressed={selected}
+									onClick={() => choose(secenek.harf)}
 									className={cn(
-										"flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold",
-										selected
-											? "bg-primary text-primary-foreground"
-											: "bg-secondary text-foreground",
+										"flex w-full items-start gap-3 rounded-xl border-2 p-3 text-left transition-colors",
+										selected ? "border-primary bg-primary/10" : "border-border hover:bg-secondary",
 									)}
 								>
-									{secenek.harf}
-								</span>
-								<span className="min-w-0 pt-0.5">
-									{secenek.metin}
-									<MediaImage
-										media={secenek.gorsel}
+									<span
 										className={cn(
-											"max-h-28 w-auto max-w-[min(100%,14rem)] object-contain sm:max-h-32",
-											secenek.metin && "mt-2",
+											"flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold",
+											selected
+												? "bg-primary text-primary-foreground"
+												: "bg-secondary text-foreground",
 										)}
-									/>
-								</span>
-							</button>
-						);
-					})}
-				</fieldset>
-				<p className="text-muted-foreground mt-2 text-xs">
-					Seçili şıkka tekrar dokunursan soru boş kalır.
-				</p>
+									>
+										{secenek.harf}
+									</span>
+									<span className="min-w-0 pt-0.5">
+										{secenek.metin}
+										<MediaImage
+											media={secenek.gorsel}
+											className={cn(
+												"max-h-28 w-auto max-w-[min(100%,14rem)] object-contain sm:max-h-32",
+												secenek.metin && "mt-2",
+											)}
+										/>
+									</span>
+								</button>
+							);
+						})}
+					</fieldset>
+					<p className="text-muted-foreground mt-2 text-xs">
+						Seçili şıkka tekrar dokunursan soru boş kalır.
+					</p>
 
-				<div className="mt-6 flex items-center justify-between gap-2">
-					<Button
-						variant="outline"
-						onClick={() => go(saved.current - 1)}
-						disabled={saved.current === 0}
-					>
-						<ChevronLeft className="h-4 w-4" /> Önceki
-					</Button>
-					{saved.current < total - 1 ? (
-						<Button onClick={() => go(saved.current + 1)}>
-							Sonraki <ChevronRight className="h-4 w-4" />
+					<div className="mt-6 flex items-center justify-between gap-2">
+						<Button
+							variant="outline"
+							onClick={() => go(saved.current - 1)}
+							disabled={saved.current === 0}
+							className="transition-transform active:scale-[0.97]"
+						>
+							<ChevronLeft className="h-4 w-4" /> Önceki
 						</Button>
-					) : (
-						<Button onClick={finish} disabled={submitting}>
-							{submitting ? "Gönderiliyor..." : "Sınavı bitir"}
-						</Button>
-					)}
-				</div>
-			</section>
+						{saved.current < total - 1 ? (
+							<Button
+								onClick={() => go(saved.current + 1)}
+								className="transition-transform active:scale-[0.97]"
+							>
+								Sonraki <ChevronRight className="h-4 w-4" />
+							</Button>
+						) : (
+							<Button
+								onClick={finish}
+								disabled={submitting}
+								className="transition-transform active:scale-[0.97]"
+							>
+								{submitting ? "Gönderiliyor..." : "Sınavı bitir"}
+							</Button>
+						)}
+					</div>
+				</m.section>
+			</AnimatePresence>
 
 			{/* Question navigator */}
 			<nav aria-label="Sorular" className="rounded-2xl border bg-white p-4 shadow-sm">
@@ -273,8 +304,8 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 							aria-current={index === saved.current ? "step" : undefined}
 							aria-label={`${soru.no}. soru${saved.answers[index] ? ", cevaplandı" : ""}`}
 							className={cn(
-								"h-9 w-9 rounded-lg border text-sm font-medium",
-								index === saved.current && "ring-primary ring-2",
+								"h-9 w-9 rounded-lg border text-sm font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0",
+								index === saved.current && "ring-primary scale-105 ring-2",
 								saved.answers[index]
 									? "border-primary bg-primary text-primary-foreground"
 									: "bg-white",
@@ -293,12 +324,17 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 					</Button>
 				</div>
 				{submitError && (
-					<p role="alert" className="text-destructive mt-3 text-sm">
+					<m.p
+						role="alert"
+						initial={{ opacity: 0, y: -6 }}
+						animate={{ opacity: 1, y: 0 }}
+						className="text-destructive mt-3 text-sm"
+					>
 						{submitError}
-					</p>
+					</m.p>
 				)}
 			</nav>
-		</div>
+		</m.div>
 	);
 }
 
@@ -306,9 +342,19 @@ function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: ()
 	return (
 		<>
 			<SavedReportNotice denemeSlug={deneme.slug} />
-			<div className="grid gap-6 lg:grid-cols-3">
+			<m.div
+				className="grid gap-6 lg:grid-cols-3"
+				initial={{ opacity: 0, y: 12 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: DURATION.slow, ease: EASE_OUT }}
+			>
 				<section className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6 lg:col-span-2">
-					<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+					<m.div
+						className="grid grid-cols-2 gap-3 sm:grid-cols-3"
+						initial="hidden"
+						animate="shown"
+						variants={{ shown: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } } }}
+					>
 						<Stat icon={FileQuestion} value={`${deneme.soruSayisi}`} label="soru" />
 						<Stat icon={Clock} value={`${deneme.sureDakika} dk`} label="süre" />
 						{deneme.cozenSayisi !== null && (
@@ -318,7 +364,7 @@ function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: ()
 								label="öğrenci çözdü"
 							/>
 						)}
-					</div>
+					</m.div>
 					{deneme.konular.length > 0 && (
 						<div className="mt-5">
 							<h2 className="text-foreground mb-2 font-semibold">Kapsadığı konular</h2>
@@ -334,7 +380,11 @@ function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: ()
 							</ul>
 						</div>
 					)}
-					<Button size="lg" className="mt-6 w-full sm:w-auto" onClick={onStart}>
+					<Button
+						size="lg"
+						onClick={onStart}
+						className="mt-6 w-full transition-transform hover:scale-[1.01] active:scale-[0.98] sm:w-auto"
+					>
 						Kayıt gerekmez, hemen başla
 					</Button>
 					<p className="text-muted-foreground mt-2 text-sm">
@@ -342,7 +392,7 @@ function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: ()
 					</p>
 				</section>
 				<SampleReport />
-			</div>
+			</m.div>
 		</>
 	);
 }
@@ -353,11 +403,17 @@ function Stat({
 	label,
 }: Readonly<{ icon: typeof Clock; value: string; label: string }>) {
 	return (
-		<div className="bg-secondary rounded-xl p-3 text-center">
+		<m.div
+			variants={{
+				hidden: { opacity: 0, y: 10 },
+				shown: { opacity: 1, y: 0, transition: { duration: 0.3, ease: EASE_OUT } },
+			}}
+			className="bg-secondary rounded-xl p-3 text-center"
+		>
 			<Icon className="text-primary mx-auto mb-1 h-4 w-4" aria-hidden="true" />
 			<div className="text-foreground text-lg font-bold">{value}</div>
 			<div className="text-muted-foreground text-xs">{label}</div>
-		</div>
+		</m.div>
 	);
 }
 
@@ -421,7 +477,9 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 	const formRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (choice === "yes") formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+		if (choice !== "yes") return;
+		const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		formRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
 	}, [choice]);
 
 	const answer = (value: "yes" | "no") => {
@@ -430,7 +488,12 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 	};
 
 	return (
-		<div className="space-y-6">
+		<m.div
+			className="space-y-6"
+			initial={{ opacity: 0, y: 12 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: DURATION.slow, ease: EASE_OUT }}
+		>
 			<section
 				aria-labelledby="sonuc-baslik"
 				className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6"
@@ -438,12 +501,17 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 				<h2 id="sonuc-baslik" className="text-foreground text-2xl font-bold">
 					Sonucun
 				</h2>
-				<div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+				<m.div
+					className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4"
+					initial="hidden"
+					animate="shown"
+					variants={{ shown: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } } }}
+				>
 					<ResultStat label="Net" value={result.net.toLocaleString("tr-TR")} highlight />
 					<ResultStat label="Doğru" value={result.dogru} />
 					<ResultStat label="Yanlış" value={result.yanlis} />
 					<ResultStat label="Boş" value={result.bos} />
-				</div>
+				</m.div>
 			</section>
 
 			<div className="grid gap-6 lg:grid-cols-2">
@@ -459,54 +527,86 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 							Ücretsiz. Sonuçlarını Çağlar Hoca'nın gözünden inceleyip PDF olarak hemen burada
 							hazırlıyoruz.
 						</p>
-						<ul className="text-foreground mt-3 space-y-1.5 text-sm">
+						<m.ul
+							className="text-foreground mt-3 space-y-1.5 text-sm"
+							initial="hidden"
+							animate="shown"
+							variants={{ shown: { transition: { staggerChildren: 0.06, delayChildren: 0.3 } } }}
+						>
 							{ANALIZ_MADDELERI.map((item) => (
-								<li key={item} className="flex gap-2">
+								<m.li
+									key={item}
+									variants={{
+										hidden: { opacity: 0, x: -8 },
+										shown: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE_OUT } },
+									}}
+									className="flex gap-2"
+								>
 									<CheckCircle2
 										className="text-primary mt-0.5 h-4 w-4 shrink-0"
 										aria-hidden="true"
 									/>
 									{item}
-								</li>
+								</m.li>
 							))}
-						</ul>
-						{choice === "ask" && (
-							<div className="mt-5 flex flex-wrap gap-3">
-								<Button size="lg" onClick={() => answer("yes")}>
-									Evet, raporu istiyorum
-								</Button>
-								<Button size="lg" variant="outline" onClick={() => answer("no")}>
-									Hayır, teşekkürler
-								</Button>
-							</div>
-						)}
-						{choice === "no" && (
-							<div className="mt-5 flex flex-wrap items-center gap-3 text-sm">
-								<Button asChild>
-									<Link href="/kurslar">Derslere göz at</Link>
-								</Button>
-								<Link href="/deneme-sinavlari" className="text-muted-foreground underline">
-									Başka bir deneme çöz
-								</Link>
-								<button
-									type="button"
-									onClick={() => answer("yes")}
-									className="text-primary underline"
+						</m.ul>
+						<AnimatePresence mode="wait" initial={false}>
+							{choice === "ask" && (
+								<m.div
+									key="ask"
+									className="mt-5 flex flex-wrap gap-3"
+									initial={{ opacity: 0, y: 8 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, transition: { duration: 0.12 } }}
 								>
-									Fikrimi değiştirdim, raporu istiyorum
-								</button>
-							</div>
-						)}
+									<Button size="lg" onClick={() => answer("yes")}>
+										Evet, raporu istiyorum
+									</Button>
+									<Button size="lg" variant="outline" onClick={() => answer("no")}>
+										Hayır, teşekkürler
+									</Button>
+								</m.div>
+							)}
+							{choice === "no" && (
+								<m.div
+									key="no"
+									className="mt-5 flex flex-wrap items-center gap-3 text-sm"
+									initial={{ opacity: 0, y: 8 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, transition: { duration: 0.12 } }}
+								>
+									<Button asChild>
+										<Link href="/kurslar">Derslere göz at</Link>
+									</Button>
+									<Link href="/deneme-sinavlari" className="text-muted-foreground underline">
+										Başka bir deneme çöz
+									</Link>
+									<button
+										type="button"
+										onClick={() => answer("yes")}
+										className="text-primary underline"
+									>
+										Fikrimi değiştirdim, raporu istiyorum
+									</button>
+								</m.div>
+							)}
+						</AnimatePresence>
 					</section>
 					{choice === "yes" && (
-						<div ref={formRef} className="scroll-mt-24">
+						<m.div
+							ref={formRef}
+							initial={{ opacity: 0, y: 14 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: DURATION.slow, ease: EASE_OUT }}
+							className="scroll-mt-24"
+						>
 							<ReportRequestForm deneme={deneme} result={result} />
-						</div>
+						</m.div>
 					)}
 				</div>
 				<SampleReport onOpen={() => trackDeneme("ornek_rapor_tiklama", deneme.baslik)} />
 			</div>
-		</div>
+		</m.div>
 	);
 }
 
@@ -516,7 +616,11 @@ function ResultStat({
 	highlight,
 }: Readonly<{ label: string; value: string | number; highlight?: boolean }>) {
 	return (
-		<div
+		<m.div
+			variants={{
+				hidden: { opacity: 0, y: 12, scale: 0.96 },
+				shown: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, ease: EASE_OUT } },
+			}}
 			className={cn(
 				"rounded-xl p-4 text-center",
 				highlight ? "bg-primary text-primary-foreground" : "bg-secondary",
@@ -531,7 +635,7 @@ function ResultStat({
 			>
 				{label}
 			</div>
-		</div>
+		</m.div>
 	);
 }
 
@@ -555,7 +659,7 @@ function ReportRequestForm({
 	const [raporKey, setRaporKey] = useState<string | null>(null);
 	const jwt = useJWT();
 
-	const submit = async (event: React.FormEvent) => {
+	const submit = async (event: React.SubmitEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (!yakinlik) {
 			setError("Numaranın kime ait olduğunu seçin.");
@@ -595,8 +699,21 @@ function ReportRequestForm({
 
 	if (raporKey) {
 		return (
-			<section role="status" className="rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6">
-				<CheckCircle2 className="mb-2 h-8 w-8 text-green-700" aria-hidden="true" />
+			<m.section
+				role="status"
+				initial={{ opacity: 0, y: 12, scale: 0.98 }}
+				animate={{ opacity: 1, y: 0, scale: 1 }}
+				transition={{ duration: DURATION.slow, ease: EASE_OUT }}
+				className="rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6"
+			>
+				<m.div
+					initial={{ scale: 0.4, opacity: 0 }}
+					animate={{ scale: 1, opacity: 1 }}
+					transition={{ type: "spring", stiffness: 380, damping: 18, delay: 0.1 }}
+					className="w-fit origin-left"
+				>
+					<CheckCircle2 className="mb-2 h-8 w-8 text-green-700" aria-hidden="true" />
+				</m.div>
 				<h2 className="text-foreground text-xl font-bold">Analiz raporun</h2>
 				<RaporHazir raporKey={raporKey} denemeBaslik={deneme.baslik} />
 				<p className="mt-4 text-sm">
@@ -604,13 +721,16 @@ function ReportRequestForm({
 						Derslere göz at
 					</Link>
 				</p>
-			</section>
+			</m.section>
 		);
 	}
 
 	return (
-		<section
+		<m.section
 			aria-labelledby="rapor-form-baslik"
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: DURATION.slow, ease: EASE_OUT }}
 			className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6"
 		>
 			<h2 id="rapor-form-baslik" className="text-foreground text-xl font-bold">
@@ -705,14 +825,25 @@ function ReportRequestForm({
 					</span>
 				</label>
 				{status === "error" && error && (
-					<p role="alert" className="text-destructive text-sm">
+					<m.p
+						role="alert"
+						// A short lateral nudge reads as "this was rejected" faster than a fade alone.
+						initial={{ opacity: 0, x: 0 }}
+						animate={{ opacity: 1, x: [0, -6, 6, -4, 4, 0] }}
+						transition={{ duration: 0.34, ease: "easeOut" }}
+						className="text-destructive text-sm"
+					>
 						{error}
-					</p>
+					</m.p>
 				)}
-				<Button type="submit" className="w-full" disabled={status === "sending"}>
+				<Button
+					type="submit"
+					className="w-full transition-transform active:scale-[0.99]"
+					disabled={status === "sending"}
+				>
 					{status === "sending" ? "Hazırlanıyor..." : "Raporumu hazırla"}
 				</Button>
 			</form>
-		</section>
+		</m.section>
 	);
 }

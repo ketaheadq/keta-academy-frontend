@@ -65,7 +65,7 @@ export default function AdmissionScoreCard({
 
 	return (
 		<Card
-			className="cursor-pointer overflow-hidden border-0 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
+			className="group cursor-pointer overflow-hidden border-0 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl"
 			onClick={handleCardClick}
 		>
 			<CardContent className="p-0">
@@ -76,7 +76,7 @@ export default function AdmissionScoreCard({
 					>
 						<div className="absolute inset-0 bg-black/10" />
 						<div className="relative z-10 flex flex-col items-center">
-							<Award className="text-background mb-1 h-8 w-8" />
+							<Award className="text-background mb-1 h-8 w-8 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-rotate-6" />
 							<div className="text-background text-center text-xs font-bold">
 								{admissionScore.isPopular ? "POPÜLER" : "TABAN"}
 							</div>
@@ -91,7 +91,7 @@ export default function AdmissionScoreCard({
 						{/* Top section */}
 						<div className="flex-1">
 							<div className="mb-2 flex items-start justify-between">
-								<h3 className="text-foreground mr-2 line-clamp-2 flex-1 text-lg leading-tight font-bold">
+								<h3 className="text-foreground group-hover:text-primary mr-2 line-clamp-2 flex-1 text-lg leading-tight font-bold transition-colors">
 									{admissionScore.title}
 								</h3>
 								{admissionScore.isPopular && (
@@ -145,7 +145,7 @@ export default function AdmissionScoreCard({
 									handleCardClick();
 								}}
 							>
-								<TrendingUp className="mr-1 h-3 w-3" />
+								<TrendingUp className="mr-1 h-3 w-3 transition-transform duration-300 ease-out group-hover:scale-125" />
 								Detayları Gör
 							</Button>
 						</div>

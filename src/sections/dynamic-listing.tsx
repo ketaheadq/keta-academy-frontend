@@ -1,5 +1,7 @@
 "use client";
 
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
+
 // Generic interfaces for dynamic listing
 interface ListableItem {
 	id: string | number;
@@ -40,10 +42,16 @@ export default function DynamicListing<T extends ListableItem>({
 
 	return (
 		<section className={`mb-12 ${className}`}>
-			<div className="mb-6">
+			<Reveal className="mb-6">
 				<h2 className="text-foreground mb-6 flex items-center text-2xl font-semibold">{title}</h2>
-			</div>
-			<div className={gridClasses}>{displayedItems.map((item) => renderItem(item))}</div>
+			</Reveal>
+			<RevealGroup className={gridClasses} gap={0.08}>
+				{displayedItems.map((item) => (
+					<RevealItem key={String(item.id)} className="[&>*]:h-full">
+						{renderItem(item)}
+					</RevealItem>
+				))}
+			</RevealGroup>
 		</section>
 	);
 }

@@ -5,10 +5,12 @@ import { HomeDenemeler, HomeVeliler } from "@/components/features/home/home-sect
 import { HomeSlider } from "@/components/features/home/home-slider";
 import { getDenemeler } from "@/lib/deneme";
 import { getHomeSlides } from "@/lib/home";
+import { canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
 	title: "KetaLearn | Ücretsiz dersler ve deneme sınavları",
 	description: "Ücretsiz ders videolarını izle, deneme sınavı çöz, ilerlemeni takip et.",
+	alternates: { canonical: canonicalUrl("/") },
 };
 
 export default async function Home() {

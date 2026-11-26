@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Courses from "@/components/features/home/courses";
+import { canonicalUrl } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Dersler | KetaLearn" };
+export const metadata: Metadata = {
+	title: "Dersler | KetaLearn",
+	alternates: { canonical: canonicalUrl("/kurslar") },
+};
 
 export default function CoursesPage() {
 	return (

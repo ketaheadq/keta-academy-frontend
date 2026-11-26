@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 
 const faqs = [
@@ -66,13 +67,13 @@ export default function FAQPage() {
 	};
 
 	return (
-		<div className="animate-fadeIn min-h-screen">
+		<div className="min-h-screen">
 			<BreadcrumbNav
 				breadcrumbs={[{ label: "Sıkça Sorulan Sorular", href: "/sikca-sorulan-sorular" }]}
 			/>
 
 			<div className="container mx-auto max-w-4xl px-4 py-12">
-				<div className="mb-16 text-center">
+				<Reveal className="mb-16 text-center">
 					<h1 className="from-primary to-primary mb-6 bg-linear-to-r bg-clip-text text-3xl font-bold text-transparent sm:text-4xl md:text-5xl">
 						Sıkça Sorulan Sorular
 					</h1>
@@ -80,17 +81,17 @@ export default function FAQPage() {
 						KetaLearn hakkında merak ettiğiniz her şey burada. Eğer aradığınız cevabı bulamazsanız
 						bizimle iletişime geçmekten çekinmeyin.
 					</p>
-				</div>
+				</Reveal>
 
 				<div className="border-border rounded-2xl border bg-white p-3 shadow-xl shadow-blue-500/5 sm:p-6 md:p-8">
-					<div className="w-full space-y-4">
+					<RevealGroup className="w-full space-y-4" amount={0.05}>
 						{faqs.map((faq) => {
 							const isOpen = openId === faq.id;
 							return (
-								<div
+								<RevealItem
 									key={faq.id}
-									className={`border-border rounded-xl border px-3 transition-all duration-300 sm:px-4 ${
-										isOpen ? "border-primary bg-primary/10/30 shadow-sm" : "hover:bg-secondary/50"
+									className={`border-border rounded-xl border px-3 transition-[background-color,border-color,box-shadow] duration-300 sm:px-4 ${
+										isOpen ? "border-primary bg-primary/5 shadow-sm" : "hover:bg-secondary/50"
 									}`}
 								>
 									{/* h-auto + whitespace-normal: Button defaults to one fixed-height line, which pushed long questions off-screen on mobile */}
@@ -123,14 +124,14 @@ export default function FAQPage() {
 											{faq.answer}
 										</p>
 									</div>
-								</div>
+								</RevealItem>
 							);
 						})}
-					</div>
+					</RevealGroup>
 				</div>
 
 				{/* Contact CTA */}
-				<div className="animate-slideUp mt-20 text-center">
+				<Reveal className="mt-20 text-center">
 					<div className="bg-primary/10 text-primary mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium">
 						<MessageCircle className="h-4 w-4" />
 						Hala sorunuz mu var?
@@ -145,18 +146,18 @@ export default function FAQPage() {
 					<div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
 						<a
 							href="mailto:info@ketalearn.cloud"
-							className="bg-primary text-background hover:bg-primary w-full rounded-full px-8 py-3 font-semibold shadow-lg shadow-blue-500/20 transition-all hover:scale-105 sm:w-auto"
+							className="bg-primary text-background hover:bg-primary w-full rounded-full px-8 py-3 font-semibold shadow-lg shadow-blue-500/20 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] active:translate-y-0 active:scale-[0.98] sm:w-auto"
 						>
 							Bize Ulaşın
 						</a>
 						<a
 							href="/iletisim"
-							className="border-border text-muted-foreground hover:bg-secondary w-full rounded-full border bg-white px-8 py-3 font-semibold transition-all hover:scale-105 sm:w-auto"
+							className="border-border text-muted-foreground hover:bg-secondary w-full rounded-full border bg-white px-8 py-3 font-semibold transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] active:translate-y-0 active:scale-[0.98] sm:w-auto"
 						>
 							İletişim Formu
 						</a>
 					</div>
-				</div>
+				</Reveal>
 			</div>
 		</div>
 	);

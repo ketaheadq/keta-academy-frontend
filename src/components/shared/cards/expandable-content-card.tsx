@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronDown, ChevronUp, FileText, School } from "lucide-react";
+import { ChevronDown, FileText, School } from "lucide-react";
+import { AnimatePresence, m } from "motion/react";
 import { useEffect, useState } from "react";
 import RichTextRenderer from "@/components/shared/content/rich-text-renderer";
 import { Button } from "@/components/ui/button";
@@ -98,58 +99,75 @@ export default function ExpandableContentCard({
 			</CardHeader>
 
 			<CardContent className="-mt-10 pt-0">
-				{isExpanded ? (
-					<div className="fade-in animate-in duration-300">
-						<RichTextRenderer content={content} />
-						{hasMoreContent && (
-							<div className="flex justify-between">
-								<p>. . .</p>
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => setIsExpanded(!isExpanded)}
-									className="flex items-center space-x-1 transition-all duration-300"
-									aria-expanded={isExpanded}
-								>
-									<span className="text-sm">Daha Az Göster</span>
-									{isExpanded && (
-										<ChevronUp className="h-4 w-4 transition-transform duration-300" />
+				<AnimatePresence mode="wait" initial={false}>
+					{isExpanded ? (
+						<m.div
+							key="full"
+							initial={{ opacity: 0, y: 6 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: -6 }}
+							transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
+						>
+							<RichTextRenderer content={content} />
+							{hasMoreContent && (
+								<div className="flex justify-between">
+									<p>. . .</p>
+									<Button
+										variant="outline"
+										size="sm"
+										onClick={() => setIsExpanded(!isExpanded)}
+										className="flex items-center space-x-1 transition-all duration-300"
+										aria-expanded={isExpanded}
+									>
+										<span className="text-sm">Daha Az Göster</span>
+										<ChevronDown
+											className="h-4 w-4 rotate-180 transition-transform duration-300"
+											aria-hidden="true"
+										/>
+									</Button>
+								</div>
+							)}
+						</m.div>
+					) : (
+						<m.div
+							key="preview"
+							initial={{ opacity: 0, y: 6 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: -6 }}
+							transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
+							className="space-y-4"
+						>
+							{previewContent.length > 0 ? (
+								<div>
+									<RichTextRenderer content={previewContent} />
+									{hasMoreContent && (
+										<div className="flex justify-between">
+											<p>...</p>
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={() => setIsExpanded(!isExpanded)}
+												className="flex items-center space-x-1 transition-all duration-300"
+												aria-expanded={isExpanded}
+											>
+												<span className="text-sm">Devamını Oku</span>
+												<ChevronDown
+													className="h-4 w-4 transition-transform duration-300"
+													aria-hidden="true"
+												/>
+											</Button>
+										</div>
 									)}
-								</Button>
-							</div>
-						)}
-					</div>
-				) : (
-					<div className="space-y-4">
-						{previewContent.length > 0 ? (
-							<div className="fade-in animate-in duration-300">
-								<RichTextRenderer content={previewContent} />
-								{hasMoreContent && (
-									<div className="flex justify-between">
-										<p>...</p>
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() => setIsExpanded(!isExpanded)}
-											className="flex items-center space-x-1 transition-all duration-300"
-											aria-expanded={isExpanded}
-										>
-											<span className="text-sm">Devamını Oku</span>
-											{!isExpanded && (
-												<ChevronDown className="h-4 w-4 transition-transform duration-300" />
-											)}
-										</Button>
-									</div>
-								)}
-							</div>
-						) : (
-							<div className="text-muted-foreground py-6 text-center">
-								<FileText className="mx-auto mb-2 h-8 w-8" />
-								<p>İçerik bulunamadı</p>
-							</div>
-						)}
-					</div>
-				)}
+								</div>
+							) : (
+								<div className="text-muted-foreground py-6 text-center">
+									<FileText className="mx-auto mb-2 h-8 w-8" />
+									<p>İçerik bulunamadı</p>
+								</div>
+							)}
+						</m.div>
+					)}
+				</AnimatePresence>
 			</CardContent>
 		</Card>
 	);

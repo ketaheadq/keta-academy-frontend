@@ -1,6 +1,8 @@
 import { ArrowRight, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { DenemeCard } from "@/components/features/deneme/deneme-card";
+import { MeterBar } from "@/components/motion/meter-bar";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import type { DenemeSummary } from "@/lib/deneme";
 
@@ -9,7 +11,7 @@ export function HomeDenemeler({ denemeler }: Readonly<{ denemeler: DenemeSummary
 	if (!denemeler.length) return null;
 	return (
 		<section aria-labelledby="home-denemeler" className="mt-5 sm:mt-10">
-			<div className="mb-3 flex items-end justify-between gap-4 sm:mb-4">
+			<Reveal className="mb-3 flex items-end justify-between gap-4 sm:mb-4">
 				<div>
 					<h2 id="home-denemeler" className="text-foreground text-xl font-bold sm:text-2xl">
 						Bu dönemin denemeleri
@@ -20,16 +22,22 @@ export function HomeDenemeler({ denemeler }: Readonly<{ denemeler: DenemeSummary
 				</div>
 				<Link
 					href="/deneme-sinavlari"
-					className="text-primary flex shrink-0 items-center gap-1 text-sm font-medium"
+					className="text-primary group flex shrink-0 items-center gap-1 text-sm font-medium"
 				>
-					Tümünü gör <ArrowRight className="h-4 w-4" aria-hidden="true" />
+					Tümünü gör{" "}
+					<ArrowRight
+						className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+						aria-hidden="true"
+					/>
 				</Link>
-			</div>
-			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+			</Reveal>
+			<RevealGroup className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 				{denemeler.slice(0, 4).map((deneme) => (
-					<DenemeCard key={deneme.documentId} deneme={deneme} />
+					<RevealItem key={deneme.documentId}>
+						<DenemeCard deneme={deneme} />
+					</RevealItem>
 				))}
-			</div>
+			</RevealGroup>
 		</section>
 	);
 }
@@ -46,7 +54,7 @@ export function HomeVeliler() {
 			aria-labelledby="home-veliler"
 			className="mt-12 mb-4 grid gap-6 rounded-3xl bg-slate-950 p-6 text-white sm:p-10 lg:grid-cols-2"
 		>
-			<div>
+			<Reveal>
 				<h2 id="home-veliler" className="text-2xl font-bold sm:text-3xl">
 					Veliler için: çocuğunuz nerede eksik, görün
 				</h2>
@@ -56,22 +64,31 @@ export function HomeVeliler() {
 					İsterseniz raporu 15 dakikada birlikte değerlendiririz.
 				</p>
 				<div className="mt-6 flex flex-col gap-3 sm:flex-row">
-					<Button asChild size="lg" className="bg-amber-400 text-slate-950 hover:bg-amber-300">
+					<Button
+						asChild
+						size="lg"
+						className="bg-amber-400 text-slate-950 transition-transform hover:scale-[1.02] hover:bg-amber-300 active:scale-[0.98]"
+					>
 						<Link href="/deneme-sinavlari">Ücretsiz deneme çöz</Link>
 					</Button>
 					<Button
 						asChild
 						size="lg"
 						variant="outline"
-						className="border-white/40 bg-transparent text-white hover:bg-white/10"
+						className="border-white/40 bg-transparent text-white transition-transform hover:scale-[1.02] hover:bg-white/10 active:scale-[0.98]"
 					>
 						<Link href="/ozel-ders">
 							<MessageCircle aria-hidden="true" /> Deneme dersi için yazın
 						</Link>
 					</Button>
 				</div>
-			</div>
-			<figure className="rounded-2xl bg-white p-5 text-slate-900">
+			</Reveal>
+			<Reveal
+				as="figure"
+				variant="scale"
+				delay={0.12}
+				className="rounded-2xl bg-white p-5 text-slate-900"
+			>
 				<figcaption className="mb-3 text-sm font-semibold">
 					Örnek rapor · konu bazında başarı
 				</figcaption>
@@ -82,12 +99,12 @@ export function HomeVeliler() {
 								<span>{konu.ad}</span>
 								<span className="font-semibold">%{konu.oran}</span>
 							</div>
-							<div className="h-2 rounded-full bg-slate-100" aria-hidden="true">
-								<div
-									className={`h-2 rounded-full ${konu.oran >= 75 ? "bg-green-600" : konu.oran >= 50 ? "bg-amber-500" : "bg-red-500"}`}
-									style={{ width: `${konu.oran}%` }}
-								/>
-							</div>
+							<MeterBar
+								value={konu.oran}
+								className={
+									konu.oran >= 75 ? "bg-green-600" : konu.oran >= 50 ? "bg-amber-500" : "bg-red-500"
+								}
+							/>
 						</li>
 					))}
 				</ul>
@@ -99,11 +116,11 @@ export function HomeVeliler() {
 					href="/ornek-deneme-raporu.pdf"
 					target="_blank"
 					rel="noopener"
-					className="mt-3 inline-block text-sm font-medium underline"
+					className="mt-3 inline-block text-sm font-medium underline underline-offset-2 transition-colors hover:text-slate-600"
 				>
 					Örnek PDF raporu inceleyin
 				</a>
-			</figure>
+			</Reveal>
 		</section>
 	);
 }

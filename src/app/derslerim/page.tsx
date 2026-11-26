@@ -122,13 +122,13 @@ export default function DerslerimPage() {
 									Henüz ders başlatmadınız
 								</h3>
 								<p className="text-muted-foreground mb-4">
-									İlk dersinizi başlatmak için konular sayfasına gidin.
+									İlk dersinizi başlatmak için dersler sayfasına gidin.
 								</p>
 								<Link
-									href="/konular"
+									href="/kurslar"
 									className="bg-primary text-background hover:bg-primary focus:ring-primary inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
 								>
-									Konulara Git
+									Derslere Git
 								</Link>
 							</div>
 						</div>

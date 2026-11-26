@@ -53,21 +53,27 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 
 	return (
 		<Card
-			className="cursor-pointer py-0 transition-shadow hover:shadow-lg"
+			className="group cursor-pointer overflow-hidden py-0 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
 			onClick={handleCardClick}
 		>
 			<CardContent className="p-0">
-				<div className="relative">
+				<div className="relative overflow-hidden">
 					<Image
 						src={thumbnailUrl}
 						alt={video.title}
 						width={1280}
 						height={720}
-						className="h-48 w-full rounded-t-lg object-cover"
+						className="h-48 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
 						onError={(e) => {
 							e.currentTarget.src = "/placeholder.svg";
 						}}
 					/>
+					{/* The dim wash and the play badge arrive together, so the thumbnail reads as a control. */}
+					<div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/30">
+						<span className="flex h-14 w-14 scale-75 items-center justify-center rounded-full bg-white/90 opacity-0 shadow-lg transition-[transform,opacity] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100">
+							<Play className="text-primary ml-0.5 h-6 w-6" aria-hidden="true" />
+						</span>
+					</div>
 					<div className="absolute top-2 left-2">
 						<Badge variant="secondary">
 							<Calendar className="mr-1 h-3 w-3" />
@@ -85,7 +91,9 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 					</div>
 				</div>
 				<div className="p-4">
-					<h3 className="text-foreground mb-2 line-clamp-2 font-semibold">{video.title}</h3>
+					<h3 className="text-foreground group-hover:text-primary mb-2 line-clamp-2 font-semibold transition-colors">
+						{video.title}
+					</h3>
 
 					{/* Page Reference */}
 					{video.page && (
@@ -95,7 +103,7 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 					)}
 
 					<Button
-						className="w-full cursor-pointer"
+						className="w-full cursor-pointer transition-transform duration-200 ease-out group-hover:scale-[1.02] active:scale-[0.98]"
 						onClick={(e) => {
 							e.stopPropagation();
 							handleCardClick();

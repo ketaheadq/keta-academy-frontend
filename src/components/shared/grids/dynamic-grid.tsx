@@ -1,6 +1,7 @@
 "use client";
 
 import { Calculator, Filter, Search } from "lucide-react";
+import { AnimatePresence, m } from "motion/react";
 import { useCallback, useId, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { DURATION, EASE_OUT } from "@/lib/motion";
 import { normalizeTurkish } from "@/lib/utils";
 
 // Generic interfaces for dynamic filtering
@@ -146,6 +148,11 @@ export default function DynamicGrid<T extends FilterableItem>({
 		? filteredItems.slice(startIndex, endIndex)
 		: filteredItems;
 
+	// Deliberately excludes searchTerm: remounting the grid on every keystroke would
+	// restart the stagger while the user is still typing. Filters and paging are
+	// discrete actions, so they earn the transition.
+	const resultKey = `${currentPage}|${JSON.stringify(selectedFilters)}`;
+
 	// Reset to first page when filters change
 	useMemo(() => {
 		setCurrentPage(1);
@@ -185,10 +192,13 @@ export default function DynamicGrid<T extends FilterableItem>({
 						{filterConfigs.length > 0 && (
 							<Button
 								variant="outline"
+								aria-expanded={showFilters}
 								onClick={() => setShowFilters(!showFilters)}
-								className="flex items-center space-x-2"
+								className="flex items-center space-x-2 transition-transform duration-200 ease-out active:scale-[0.97]"
 							>
-								<Filter className="h-4 w-4" />
+								<Filter
+									className={`h-4 w-4 transition-transform duration-300 ease-out ${showFilters ? "rotate-90" : ""}`}
+								/>
 								<span>Filtreler</span>
 							</Button>
 						)}
@@ -196,59 +206,113 @@ export default function DynamicGrid<T extends FilterableItem>({
 				</div>
 
 				{/* Filter Controls */}
-				{showFilters && filterConfigs.length > 0 && (
-					<div className="mt-4 grid grid-cols-1 gap-4 rounded-lg border bg-white p-4 md:grid-cols-2">
-						{filterConfigs.map((config) => {
-							const selectId = `filter-${config.field}`; // Unique ID for this select
+				<AnimatePresence initial={false}>
+					{showFilters && filterConfigs.length > 0 && (
+						<m.div
+							key="filter-panel"
+							initial={{ opacity: 0, height: 0 }}
+							animate={{ opacity: 1, height: "auto" }}
+							exit={{ opacity: 0, height: 0 }}
+							transition={{ duration: DURATION.base, ease: EASE_OUT }}
+							className="overflow-hidden"
+						>
+							<m.div
+								variants={{
+									hidden: {},
+									shown: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } },
+								}}
+								initial="hidden"
+								animate="shown"
+								className="mt-4 grid grid-cols-1 gap-4 rounded-lg border bg-white p-4 md:grid-cols-2"
+							>
+								{filterConfigs.map((config) => {
+									const selectId = `filter-${config.field}`; // Unique ID for this select
 
-							return (
-								<div key={config.field}>
-									<label
-										htmlFor={selectId}
-										className="text-muted-foreground mb-2 block text-sm font-medium"
-									>
-										{config.label}
-									</label>
-									<Select
-										value={selectedFilters[config.field]}
-										onValueChange={(value) => handleFilterChange(config.field, value)}
-									>
-										<SelectTrigger id={selectId}>
-											<SelectValue />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem
-												key={`all-${config.field}`}
-												value={config.allLabel || `All ${config.label}`}
+									return (
+										<m.div
+											key={config.field}
+											variants={{
+												hidden: { opacity: 0, y: 10 },
+												shown: { opacity: 1, y: 0 },
+											}}
+										>
+											<label
+												htmlFor={selectId}
+												className="text-muted-foreground mb-2 block text-sm font-medium"
 											>
-												{config.allLabel || `All ${config.label}`}
-											</SelectItem>
-											{config.options?.filter(Boolean).map((option) => (
-												<SelectItem key={`${id}-${config.field}-${option}`} value={option}>
-													{option}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-								</div>
-							);
-						})}
-					</div>
-				)}
+												{config.label}
+											</label>
+											<Select
+												value={selectedFilters[config.field]}
+												onValueChange={(value) => handleFilterChange(config.field, value)}
+											>
+												<SelectTrigger id={selectId}>
+													<SelectValue />
+												</SelectTrigger>
+												<SelectContent>
+													<SelectItem
+														key={`all-${config.field}`}
+														value={config.allLabel || `All ${config.label}`}
+													>
+														{config.allLabel || `All ${config.label}`}
+													</SelectItem>
+													{config.options?.filter(Boolean).map((option) => (
+														<SelectItem key={`${id}-${config.field}-${option}`} value={option}>
+															{option}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+										</m.div>
+									);
+								})}
+							</m.div>
+						</m.div>
+					)}
+				</AnimatePresence>
 			</section>
 
 			{/* Items Grid */}
 			<section className="mb-8">
-				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{paginatedItems.map((item, index) => renderItem(item, startIndex + index))}
-				</div>
+				<AnimatePresence mode="wait" initial={false}>
+					<m.div
+						key={resultKey}
+						variants={{
+							hidden: {},
+							shown: { transition: { staggerChildren: 0.04, delayChildren: 0.03 } },
+						}}
+						initial="hidden"
+						animate="shown"
+						exit={{ opacity: 0, transition: { duration: 0.1 } }}
+						className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+					>
+						{paginatedItems.map((item, index) => (
+							<m.div
+								key={String(item.id)}
+								variants={{
+									hidden: { opacity: 0, y: 12 },
+									shown: { opacity: 1, y: 0 },
+								}}
+								/* The wrapper is the grid item now, so the card has to be told to fill the row. */
+								className="[&>*]:h-full"
+							>
+								{renderItem(item, startIndex + index)}
+							</m.div>
+						))}
+					</m.div>
+				</AnimatePresence>
 
 				{filteredItems.length === 0 && (
-					<div className="py-12 text-center">
+					<m.div
+						initial={{ opacity: 0, y: 12 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: DURATION.base, ease: EASE_OUT, delay: 0.08 }}
+						className="py-12 text-center"
+					>
 						{emptyStateConfig.icon}
 						<h3 className="text-foreground mb-2 text-lg font-semibold">{emptyStateConfig.title}</h3>
 						<p className="text-muted-foreground">{emptyStateConfig.description}</p>
-					</div>
+					</m.div>
 				)}
 			</section>
 

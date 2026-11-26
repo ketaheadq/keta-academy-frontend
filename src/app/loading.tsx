@@ -6,7 +6,7 @@ export default function Loading() {
 				<div className="animate-pulse-gentle bg-primary/20 absolute top-1/2 left-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl" />
 				<div className="animate-float bg-primary/20 absolute top-1/2 left-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full blur-xl" />
 
-				<div className="relative text-center">
+				<div className="animate-rise relative text-center">
 					{/* Modern Spinner */}
 					<div className="mb-8 flex justify-center">
 						<div className="relative h-16 w-16">
@@ -19,7 +19,7 @@ export default function Loading() {
 					</div>
 
 					{/* Loading Text */}
-					<div className="animate-fadeIn space-y-3">
+					<div className="space-y-3">
 						<h2 className="text-foreground text-2xl font-bold tracking-tight sm:text-3xl">
 							KetaLearn <span className="text-primary">Hazırlanıyor</span>
 						</h2>

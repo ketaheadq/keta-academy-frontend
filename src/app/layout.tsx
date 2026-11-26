@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { connection } from "next/server";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
+import { SITE_ORIGIN } from "@/lib/seo";
 import { getSettings } from "@/lib/strapi";
 import "./globals.css";
 import { Providers } from "./provider";
@@ -18,7 +19,6 @@ const geistMono = Geist_Mono({
 	subsets: ["latin"],
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://ketalearn.cloud";
 const SITE_NAME = "KetaLearn";
 const DEFAULT_DESCRIPTION =
 	"Öğrencilere üniversite sınavında başarı için tüm derslerde konu anlatımları, güncel taban-tavan puanları, bloglar ve yayınlar sunan etkileşimli eğitim platformu";
@@ -50,10 +50,10 @@ const ICONS: Metadata["icons"] = {
 
 export async function generateMetadata(): Promise<Metadata> {
 	// metadataBase must be set even when the CMS is unreachable: without it
-	// Next.js emits no rel=canonical and resolves relative OG URLs against the
-	// build host instead of the live domain.
+	// Next.js resolves relative OG image and canonical URLs against the build
+	// host instead of the live domain.
 	const base: Metadata = {
-		metadataBase: new URL(SITE_URL),
+		metadataBase: new URL(SITE_ORIGIN),
 		title: SITE_NAME,
 		description: DEFAULT_DESCRIPTION,
 		icons: ICONS,

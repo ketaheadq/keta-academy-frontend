@@ -3,6 +3,7 @@
 import { BookOpen, CheckCircle, Clock, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { MeterBar } from "@/components/motion/meter-bar";
 import { useCourseProgress } from "@/components/shared/course-progress-provider";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -35,7 +36,7 @@ export default function CourseCard({ course, title }: Readonly<CourseCardProps>)
 				: "Kursa Başla";
 
 	return (
-		<Card className="relative h-full gap-4 overflow-hidden pt-0 transition-shadow hover:shadow-lg">
+		<Card className="group relative h-full gap-4 overflow-hidden pt-0 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-lg">
 			<div className="bg-secondary relative aspect-video w-full">
 				{cover ? (
 					<Image
@@ -43,10 +44,10 @@ export default function CourseCard({ course, title }: Readonly<CourseCardProps>)
 						alt={course.title}
 						fill
 						sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-						className="object-cover"
+						className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
 					/>
 				) : (
-					<div className="bg-primary/10 flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+					<div className="bg-primary/10 flex h-full flex-col items-center justify-center gap-3 p-6 text-center transition-transform duration-500 ease-out group-hover:scale-[1.04]">
 						<CourseIcon aria-hidden="true" className="text-primary h-10 w-10" />
 						<span aria-hidden="true" className="text-foreground line-clamp-2 text-lg font-semibold">
 							{title || course.title}
@@ -89,12 +90,8 @@ export default function CourseCard({ course, title }: Readonly<CourseCardProps>)
 							<span>İlerleme</span>
 							<span>{progress}%</span>
 						</div>
-						<div className="bg-secondary h-2 w-full rounded-full">
-							<div
-								className="bg-primary h-2 rounded-full transition-all duration-300"
-								style={{ width: `${progress}%` }}
-							/>
-						</div>
+						{/* The percentage is printed above, so the bar itself stays decorative. */}
+						<MeterBar value={progress} className="bg-primary" />
 					</div>
 				)}
 

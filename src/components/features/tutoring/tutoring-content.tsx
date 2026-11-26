@@ -1,9 +1,11 @@
 "use client";
 
 import { ArrowRight, Search, Users } from "lucide-react";
+import { AnimatePresence, m } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { DURATION, EASE_OUT } from "@/lib/motion";
 import {
 	EMPTY_RATING,
 	type StrapiTutoringProfile,
@@ -23,7 +25,7 @@ function TutorCard({
 
 	return (
 		// The name link stretches over the whole card (after:inset-0); contact buttons sit above it (z-10).
-		<article className="border-border relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
+		<article className="border-border group relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 			<div className="flex items-start gap-4 p-6 pb-4">
 				<div className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20">
 					<Image
@@ -36,7 +38,7 @@ function TutorCard({
 				</div>
 
 				<div className="min-w-0 flex-1">
-					<h3 className="text-foreground text-xl font-bold">
+					<h3 className="text-foreground group-hover:text-primary text-xl font-bold transition-colors">
 						<Link href={href} className="after:absolute after:inset-0 hover:underline">
 							{tutor.name}
 						</Link>
@@ -106,7 +108,8 @@ function TutorCard({
 						className="text-primary flex items-center gap-1 text-sm font-medium"
 						aria-hidden="true"
 					>
-						Profili gör <ArrowRight className="h-4 w-4" />
+						Profili gör{" "}
+						<ArrowRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
 					</span>
 				</div>
 				<TutorContactButtons tutorName={tutor.name} phone={phone} compact />
@@ -187,9 +190,9 @@ export default function TutoringContent({
 								type="button"
 								key={subject.id}
 								onClick={() => setSelectedSubject(subject.id)}
-								className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+								className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ease-out active:scale-95 ${
 									selectedSubject === subject.id
-										? "bg-primary text-background scale-105 shadow-lg"
+										? "bg-primary text-background scale-[1.02] shadow-lg"
 										: "bg-secondary text-muted-foreground hover:bg-secondary"
 								}`}
 							>
@@ -225,20 +228,45 @@ export default function TutoringContent({
 			</div>
 
 			{/* Tutors Grid */}
-			<div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
-				{filteredTutors.map((tutor) => (
-					<TutorCard
-						key={tutor.id}
-						tutor={tutor}
-						rating={ratingOf(tutor)}
-						phone={tutor.phone || fallbackPhone}
-					/>
-				))}
-			</div>
+			<AnimatePresence mode="wait" initial={false}>
+				<m.div
+					key={`${selectedSubject}|${sortBy}`}
+					variants={{
+						hidden: {},
+						shown: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } },
+					}}
+					initial="hidden"
+					animate="shown"
+					exit={{ opacity: 0, transition: { duration: 0.1 } }}
+					className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-2"
+				>
+					{filteredTutors.map((tutor) => (
+						<m.div
+							key={tutor.id}
+							variants={{
+								hidden: { opacity: 0, y: 12 },
+								shown: { opacity: 1, y: 0 },
+							}}
+							className="[&>*]:h-full"
+						>
+							<TutorCard
+								tutor={tutor}
+								rating={ratingOf(tutor)}
+								phone={tutor.phone || fallbackPhone}
+							/>
+						</m.div>
+					))}
+				</m.div>
+			</AnimatePresence>
 
 			{/* Empty State */}
 			{filteredTutors.length === 0 && (
-				<div className="py-16 text-center">
+				<m.div
+					initial={{ opacity: 0, y: 14 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: DURATION.base, ease: EASE_OUT }}
+					className="py-16 text-center"
+				>
 					<div className="bg-secondary mx-auto mb-6 flex h-32 w-32 items-center justify-center rounded-full">
 						<Users className="text-muted-foreground h-12 w-12" />
 					</div>
@@ -252,11 +280,11 @@ export default function TutoringContent({
 							setSelectedSubject("all");
 							setSearchQuery("");
 						}}
-						className="bg-primary text-background hover:bg-primary rounded-xl px-6 py-3 font-semibold transition-colors"
+						className="bg-primary text-background hover:bg-primary rounded-xl px-6 py-3 font-semibold transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
 					>
 						Filtreleri Temizle
 					</button>
-				</div>
+				</m.div>
 			)}
 		</div>
 	);

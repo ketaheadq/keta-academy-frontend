@@ -1,6 +1,15 @@
 import { BookOpen, Clock, Mail, MessageCircle, Phone, Users } from "lucide-react";
+import type { Metadata } from "next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { canonicalUrl } from "@/lib/seo";
 import { getContactPage, type StrapiContactPage } from "@/lib/strapi";
+
+export const metadata: Metadata = {
+	title: "İletişim | KetaLearn",
+	description:
+		"Sorularınız, önerileriniz veya destek talepleriniz için bize ulaşın. En kısa sürede dönüş yapıyoruz.",
+	alternates: { canonical: canonicalUrl("/iletisim") },
+};
 
 export default async function ContactPage() {
 	let contactData: StrapiContactPage;
