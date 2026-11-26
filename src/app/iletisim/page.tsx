@@ -1,4 +1,4 @@
-import { BookOpen, Clock, Mail, MapPin, MessageCircle, Phone, Users } from "lucide-react";
+import { BookOpen, Clock, Mail, MessageCircle, Phone, Users } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getContactPage, type StrapiContactPage } from "@/lib/strapi";
 
@@ -18,7 +18,7 @@ export default async function ContactPage() {
 			publishedAt: "2025-07-03T12:03:46.303Z",
 			phone: "05451304287",
 			email: "caglar_yildiz@outlook.com.tr",
-			address: "Keklikpınarı Mah. 913. sok.",
+			address: "",
 		};
 	}
 
@@ -101,20 +101,6 @@ export default async function ContactPage() {
 										</a>
 										<p className="text-muted-foreground mt-1 text-sm">
 											24 saat içinde yanıt veriyoruz
-										</p>
-									</div>
-								</div>
-
-								{/* Address */}
-								<div className="bg-primary/10 hover:bg-primary/20 flex items-start gap-4 rounded-lg p-4 transition-colors">
-									<div className="bg-primary rounded-lg p-2">
-										<MapPin className="text-background h-5 w-5" />
-									</div>
-									<div>
-										<h3 className="text-foreground font-semibold">Adres</h3>
-										<p className="text-primary font-medium">{contactData.address}</p>
-										<p className="text-muted-foreground mt-1 text-sm">
-											Ofis ziyaretleri randevu ile
 										</p>
 									</div>
 								</div>

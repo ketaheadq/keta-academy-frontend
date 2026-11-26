@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SavedReportsSection } from "@/components/features/deneme/saved-reports";
 import Courses from "@/components/features/home/courses";
 import { HomeDenemeler, HomeVeliler } from "@/components/features/home/home-sections";
 import { HomeSlider } from "@/components/features/home/home-slider";
@@ -15,6 +16,7 @@ export default async function Home() {
 	return (
 		<>
 			<HomeSlider slides={slides} />
+			<SavedReportsSection />
 			<HomeDenemeler denemeler={denemeler} />
 			<Courses preview />
 			<HomeVeliler />

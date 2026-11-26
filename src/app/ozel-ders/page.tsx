@@ -1,6 +1,5 @@
 import { GraduationCap, MessageCircle, Search } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import TutoringContent from "@/components/features/tutoring/tutoring-content";
 import { Button } from "@/components/ui/button";
 import ScrollToSectionButton from "@/components/ui/scroll-to-section-button";
@@ -25,6 +24,9 @@ export const metadata: Metadata = {
 };
 
 const howItWorksId = "nasil-calisir";
+/** Anchor of the tutor list (TutoringContent). A plain <a>, not next/link: Link swallows a
+ * same-page hash link when the hash is already in the URL, so the button did nothing. */
+const tutorsId = "ogretmenler";
 
 export default async function TutoringPage() {
 	const [tutoringProfiles, ratings, contactPage] = await Promise.all([
@@ -62,11 +64,11 @@ export default async function TutoringPage() {
 					</p>
 
 					<div className="mx-auto flex max-w-xs flex-col justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-6">
-						<Link href="#ogretmenler" className="w-full sm:w-auto">
+						<a href={`#${tutorsId}`} className="w-full sm:w-auto">
 							<Button className="bg-accent text-accent-foreground shadow-accent hover:bg-accent/90 h-14 w-full rounded-2xl px-6 text-lg font-bold transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(253,154,0,0.4)] sm:w-auto sm:px-10">
 								Hemen Başla
 							</Button>
-						</Link>
+						</a>
 						<ScrollToSectionButton
 							sectionId={howItWorksId}
 							className="border-primary/20 text-primary hover:border-primary/50 h-14 w-full rounded-2xl border-2 bg-white px-6 text-lg font-bold transition-all hover:scale-105 hover:bg-slate-100 sm:w-auto sm:px-10"
@@ -162,11 +164,11 @@ export default async function TutoringPage() {
 					Öğretmeninizi seçin, ücretsiz deneme dersinizi planlayın ve farkı yaşayın.
 				</p>
 				<div className="mt-10 flex flex-col justify-center gap-6 sm:flex-row">
-					<Link href="#ogretmenler" className="w-full sm:w-auto">
+					<a href={`#${tutorsId}`} className="w-full sm:w-auto">
 						<Button className="bg-accent text-accent-foreground hover:bg-accent/90 h-14 w-full rounded-2xl px-6 text-lg font-bold shadow-2xl transition-all hover:scale-105 sm:w-auto sm:px-10">
 							Öğretmenleri Gör
 						</Button>
-					</Link>
+					</a>
 				</div>
 			</div>
 		</div>

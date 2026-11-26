@@ -24,8 +24,10 @@ import {
 	type Yakinlik,
 } from "@/lib/deneme";
 import { getSessionId, getTrafficSource, trackDeneme } from "@/lib/deneme-tracking";
+import { saveReport } from "@/lib/saved-reports";
 import { cn } from "@/lib/utils";
 import { RaporHazir } from "./rapor-hazir";
+import { SavedReportNotice } from "./saved-reports";
 
 type Stage = "intro" | "running" | "result";
 type Saved = { startedAt: number; answers: Record<number, string | null>; current: number };
@@ -295,43 +297,46 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 
 function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: () => void }>) {
 	return (
-		<div className="grid gap-6 lg:grid-cols-3">
-			<section className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6 lg:col-span-2">
-				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-					<Stat icon={FileQuestion} value={`${deneme.soruSayisi}`} label="soru" />
-					<Stat icon={Clock} value={`${deneme.sureDakika} dk`} label="süre" />
-					{deneme.cozenSayisi !== null && (
-						<Stat
-							icon={Users}
-							value={deneme.cozenSayisi.toLocaleString("tr-TR")}
-							label="öğrenci çözdü"
-						/>
-					)}
-				</div>
-				{deneme.konular.length > 0 && (
-					<div className="mt-5">
-						<h2 className="text-foreground mb-2 font-semibold">Kapsadığı konular</h2>
-						<ul className="flex flex-wrap gap-2">
-							{deneme.konular.map((k) => (
-								<li
-									key={k.slug}
-									className="bg-primary/10 text-primary rounded-full px-3 py-1 text-sm"
-								>
-									{k.ad}
-								</li>
-							))}
-						</ul>
+		<>
+			<SavedReportNotice denemeSlug={deneme.slug} />
+			<div className="grid gap-6 lg:grid-cols-3">
+				<section className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6 lg:col-span-2">
+					<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+						<Stat icon={FileQuestion} value={`${deneme.soruSayisi}`} label="soru" />
+						<Stat icon={Clock} value={`${deneme.sureDakika} dk`} label="süre" />
+						{deneme.cozenSayisi !== null && (
+							<Stat
+								icon={Users}
+								value={deneme.cozenSayisi.toLocaleString("tr-TR")}
+								label="öğrenci çözdü"
+							/>
+						)}
 					</div>
-				)}
-				<Button size="lg" className="mt-6 w-full sm:w-auto" onClick={onStart}>
-					Kayıt gerekmez, hemen başla
-				</Button>
-				<p className="text-muted-foreground mt-2 text-sm">
-					Süre başla dediğinde başlar. Bitirince netin hemen görünür.
-				</p>
-			</section>
-			<SampleReport />
-		</div>
+					{deneme.konular.length > 0 && (
+						<div className="mt-5">
+							<h2 className="text-foreground mb-2 font-semibold">Kapsadığı konular</h2>
+							<ul className="flex flex-wrap gap-2">
+								{deneme.konular.map((k) => (
+									<li
+										key={k.slug}
+										className="bg-primary/10 text-primary rounded-full px-3 py-1 text-sm"
+									>
+										{k.ad}
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+					<Button size="lg" className="mt-6 w-full sm:w-auto" onClick={onStart}>
+						Kayıt gerekmez, hemen başla
+					</Button>
+					<p className="text-muted-foreground mt-2 text-sm">
+						Süre başla dediğinde başlar. Bitirince netin hemen görünür.
+					</p>
+				</section>
+				<SampleReport />
+			</div>
+		</>
 	);
 }
 
@@ -562,6 +567,14 @@ function ReportRequestForm({
 			});
 			trackDeneme("rapor_talebi", deneme.baslik, { yakinlik, arama_izni: aramaIzni });
 			setRaporKey(response.raporAnahtari);
+			// Keep the link on this device so the home page can show it again later.
+			saveReport({
+				raporKey: response.raporAnahtari,
+				denemeSlug: deneme.slug,
+				denemeBaslik: deneme.baslik,
+				net: result.net,
+				soruSayisi: result.soruSayisi,
+			});
 		} catch (e) {
 			setError(e instanceof DenemeApiError ? e.message : "Bağlantı sorunu, lütfen tekrar deneyin.");
 			setStatus("error");
