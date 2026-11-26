@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { MyDenemeResults } from "@/components/features/deneme/my-results";
 import { BreadcrumbNav } from "@/components/layout/breadcrum-nav";
 import CourseCard from "@/components/shared/cards/course-card";
 import { getCoursesByDocumentIds, getMyCourses, type StrapiCourse } from "@/lib/strapi";
@@ -132,6 +133,8 @@ export default function DerslerimPage() {
 							</div>
 						</div>
 					))}
+
+				{jwt && <MyDenemeResults jwt={jwt} />}
 			</main>
 		</div>
 	);

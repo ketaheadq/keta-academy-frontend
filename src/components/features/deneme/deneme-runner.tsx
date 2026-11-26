@@ -26,6 +26,7 @@ import {
 import { getSessionId, getTrafficSource, trackDeneme } from "@/lib/deneme-tracking";
 import { saveReport } from "@/lib/saved-reports";
 import { cn } from "@/lib/utils";
+import { useJWT } from "@/stores/auth-store";
 import { RaporHazir } from "./rapor-hazir";
 import { SavedReportNotice } from "./saved-reports";
 
@@ -68,6 +69,8 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 	const [submitting, setSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	const submittedRef = useRef(false);
+	// Signed-in members get the result saved to their account.
+	const jwt = useJWT();
 	const total = deneme.sorular.length;
 	const limitSeconds = deneme.sureDakika * 60;
 
@@ -101,13 +104,17 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 		setSubmitError(null);
 		const source = getTrafficSource();
 		try {
-			const response = await submitDeneme(deneme.slug, {
-				cevaplar: saved.answers,
-				oturumId: getSessionId(),
-				sureSaniye: Math.min(limitSeconds, Math.floor((Date.now() - saved.startedAt) / 1000)),
-				kaynak: source.kaynak,
-				utm: source.utm,
-			});
+			const response = await submitDeneme(
+				deneme.slug,
+				{
+					cevaplar: saved.answers,
+					oturumId: getSessionId(),
+					sureSaniye: Math.min(limitSeconds, Math.floor((Date.now() - saved.startedAt) / 1000)),
+					kaynak: source.kaynak,
+					utm: source.utm,
+				},
+				jwt,
+			);
 			trackDeneme("deneme_bitir", deneme.baslik, { net: response.net });
 			sessionStorage.removeItem(storageKey(deneme.slug));
 			setResult(response);
@@ -121,7 +128,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 		} finally {
 			setSubmitting(false);
 		}
-	}, [saved, deneme.slug, deneme.baslik, limitSeconds]);
+	}, [saved, deneme.slug, deneme.baslik, limitSeconds, jwt]);
 
 	useEffect(() => {
 		if (stage !== "running") return;
@@ -546,6 +553,7 @@ function ReportRequestForm({
 	const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
 	const [error, setError] = useState<string | null>(null);
 	const [raporKey, setRaporKey] = useState<string | null>(null);
+	const jwt = useJWT();
 
 	const submit = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -557,14 +565,18 @@ function ReportRequestForm({
 		setStatus("sending");
 		setError(null);
 		try {
-			const response = await requestReport(result.sonucAnahtari, {
-				adSoyad,
-				telefon,
-				yakinlik,
-				raporIzni,
-				aramaIzni,
-				kaynak: getTrafficSource().kaynak,
-			});
+			const response = await requestReport(
+				result.sonucAnahtari,
+				{
+					adSoyad,
+					telefon,
+					yakinlik,
+					raporIzni,
+					aramaIzni,
+					kaynak: getTrafficSource().kaynak,
+				},
+				jwt,
+			);
 			trackDeneme("rapor_talebi", deneme.baslik, { yakinlik, arama_izni: aramaIzni });
 			setRaporKey(response.raporAnahtari);
 			// Keep the link on this device so the home page can show it again later.
