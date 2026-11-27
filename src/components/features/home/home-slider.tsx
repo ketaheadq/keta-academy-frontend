@@ -70,112 +70,141 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 	const stopAutoplay = () => setAutoplay(false);
 
 	return (
-		<section
-			aria-roledescription="carousel"
-			aria-label="Öne çıkanlar"
-			className="relative"
-			onPointerDown={stopAutoplay}
-			onFocusCapture={stopAutoplay}
-		>
-			<div
-				ref={trackRef}
-				className="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto rounded-3xl [&::-webkit-scrollbar]:hidden"
-			>
-				{slides.map((slide, index) => (
-					<div key={slide.id} className="w-full shrink-0 snap-start">
-						<div
-							className={cn(styles.hero, slide.gorselUrl && styles.custom)}
-							style={
-								slide.gorselUrl
-									? ({ "--slide-image": `url("${slide.gorselUrl}")` } as React.CSSProperties)
-									: undefined
-							}
-						>
-							<m.div
-								className={styles.copy}
-								variants={copyContainer}
-								initial="hidden"
-								animate={active === index ? "shown" : "hidden"}
-							>
-								{index === 0 ? (
-									<m.h1
-										variants={copyLine}
-										className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl"
-									>
-										{slide.baslik}
-									</m.h1>
-								) : (
-									<m.h2
-										variants={copyLine}
-										className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl"
-									>
-										{slide.baslik}
-									</m.h2>
-								)}
-								{slide.altMetin && (
-									<m.p
-										variants={copyLine}
-										className="mt-3 max-w-xl text-base text-pretty text-slate-700 sm:mt-4 sm:text-lg"
-									>
-										{slide.altMetin}
-									</m.p>
-								)}
-								{slide.link && slide.butonYazisi && (
-									<m.div variants={copyLine}>
-										<Button
-											asChild
-											size="lg"
-											className="group mt-5 transition-transform hover:scale-[1.02] active:scale-[0.98] sm:mt-6"
-										>
-											<Link href={slide.link}>
-												{slide.butonYazisi}{" "}
-												<ArrowRight
-													className="transition-transform group-hover:translate-x-0.5"
-													aria-hidden="true"
-												/>
-											</Link>
-										</Button>
-									</m.div>
-								)}
-							</m.div>
-						</div>
-					</div>
-				))}
-			</div>
-
-			{slides.length > 1 && (
-				<div className="mt-2 flex items-center justify-center gap-3 sm:mt-3">
-					<button
-						type="button"
-						onClick={() => goTo(active - 1)}
-						aria-label="Önceki slayt"
-						className="text-muted-foreground hover:text-foreground rounded-full p-1 transition-transform duration-200 ease-out hover:scale-125 active:scale-95"
-					>
-						<ChevronLeft className="h-5 w-5" />
-					</button>
-					{slides.map((slide, index) => (
-						<button
-							key={slide.id}
-							type="button"
-							onClick={() => goTo(index)}
-							aria-label={`${index + 1}. slayt`}
-							aria-current={index === active}
-							className={cn(
-								"h-2.5 rounded-full transition-[width,background-color] duration-300 ease-out active:scale-90",
-								index === active ? "bg-primary w-6" : "bg-border w-2.5 hover:bg-slate-400",
-							)}
-						/>
-					))}
-					<button
-						type="button"
-						onClick={() => goTo(active + 1)}
-						aria-label="Sonraki slayt"
-						className="text-muted-foreground hover:text-foreground rounded-full p-1 transition-transform duration-200 ease-out hover:scale-125 active:scale-95"
-					>
-						<ChevronRight className="h-5 w-5" />
-					</button>
-				</div>
+		<>
+			{slides[0]?.gorselUrl ? (
+				<link rel="preload" as="image" href={slides[0].gorselUrl} fetchPriority="high" />
+			) : (
+				<>
+					<link
+						rel="preload"
+						as="image"
+						href="/images/ketalearn-hero-mobile.jpg"
+						media="(max-width: 767px)"
+						fetchPriority="high"
+					/>
+					<link
+						rel="preload"
+						as="image"
+						href="/images/ketalearn-hero-tablet.jpg"
+						media="(min-width: 768px) and (max-width: 1023px)"
+						fetchPriority="high"
+					/>
+					<link
+						rel="preload"
+						as="image"
+						href="/images/ketalearn-hero-desktop.jpg"
+						media="(min-width: 1024px)"
+						fetchPriority="high"
+					/>
+				</>
 			)}
-		</section>
+			<section
+				aria-roledescription="carousel"
+				aria-label="Öne çıkanlar"
+				className="relative"
+				onPointerDown={stopAutoplay}
+				onFocusCapture={stopAutoplay}
+			>
+				<div
+					ref={trackRef}
+					className="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto rounded-3xl [&::-webkit-scrollbar]:hidden"
+				>
+					{slides.map((slide, index) => (
+						<div key={slide.id} className="w-full shrink-0 snap-start">
+							<div
+								className={cn(styles.hero, slide.gorselUrl && styles.custom)}
+								style={
+									slide.gorselUrl
+										? ({ "--slide-image": `url("${slide.gorselUrl}")` } as React.CSSProperties)
+										: undefined
+								}
+							>
+								<m.div
+									className={styles.copy}
+									variants={copyContainer}
+									initial="hidden"
+									animate={active === index ? "shown" : "hidden"}
+								>
+									{index === 0 ? (
+										<m.h1
+											variants={copyLine}
+											className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl"
+										>
+											{slide.baslik}
+										</m.h1>
+									) : (
+										<m.h2
+											variants={copyLine}
+											className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl"
+										>
+											{slide.baslik}
+										</m.h2>
+									)}
+									{slide.altMetin && (
+										<m.p
+											variants={copyLine}
+											className="mt-3 max-w-xl text-base text-pretty text-slate-700 sm:mt-4 sm:text-lg dark:text-slate-300"
+										>
+											{slide.altMetin}
+										</m.p>
+									)}
+									{slide.link && slide.butonYazisi && (
+										<m.div variants={copyLine}>
+											<Button
+												asChild
+												size="lg"
+												className="group mt-5 transition-transform hover:scale-[1.02] active:scale-[0.98] sm:mt-6"
+											>
+												<Link href={slide.link}>
+													{slide.butonYazisi}{" "}
+													<ArrowRight
+														className="transition-transform group-hover:translate-x-0.5"
+														aria-hidden="true"
+													/>
+												</Link>
+											</Button>
+										</m.div>
+									)}
+								</m.div>
+							</div>
+						</div>
+					))}
+				</div>
+
+				{slides.length > 1 && (
+					<div className="mt-2 flex items-center justify-center gap-3 sm:mt-3">
+						<button
+							type="button"
+							onClick={() => goTo(active - 1)}
+							aria-label="Önceki slayt"
+							className="text-muted-foreground hover:text-foreground rounded-full p-1 transition-transform duration-200 ease-out hover:scale-125 active:scale-95"
+						>
+							<ChevronLeft className="h-5 w-5" />
+						</button>
+						{slides.map((slide, index) => (
+							<button
+								key={slide.id}
+								type="button"
+								onClick={() => goTo(index)}
+								aria-label={`${index + 1}. slayt`}
+								aria-current={index === active}
+								className={cn(
+									"h-2.5 rounded-full transition-[width,background-color] duration-300 ease-out active:scale-90",
+									index === active ? "bg-primary w-6" : "bg-border w-2.5 hover:bg-slate-400",
+								)}
+							/>
+						))}
+						<button
+							type="button"
+							onClick={() => goTo(active + 1)}
+							aria-label="Sonraki slayt"
+							className="text-muted-foreground hover:text-foreground rounded-full p-1 transition-transform duration-200 ease-out hover:scale-125 active:scale-95"
+						>
+							<ChevronRight className="h-5 w-5" />
+						</button>
+					</div>
+				)}
+			</section>
+		</>
 	);
 }

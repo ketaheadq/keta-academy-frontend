@@ -14,20 +14,20 @@ const supportLinks = [
 export default async function Footer() {
 	const currentYear = new Date().getFullYear();
 
-	const settings = await getSettings().catch(() => ({
-		siteName: "KetaLearn",
-	}));
-
-	// Fetch dynamic data for footer
-	const subjects = await getSubjects().catch(() => []);
-	const blogs = await getBlogs().catch(() => []);
+	const [settings, subjects, blogs] = await Promise.all([
+		getSettings().catch(() => ({
+			siteName: "KetaLearn",
+		})),
+		getSubjects().catch(() => []),
+		getBlogs().catch(() => []),
+	]);
 
 	// Get up to 5 subjects and popular blogs
 	const footerSubjects = subjects.slice(0, 5);
 	const popularBlogs = blogs.filter((blog) => blog.isPopular).slice(0, 5);
 
 	return (
-		<footer className="bg-foreground text-background">
+		<footer className="bg-slate-950 text-slate-100">
 			<div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:grid-cols-9 lg:gap-14 xl:gap-16">
 					{/* Logo and Description */}
@@ -39,11 +39,10 @@ export default async function Footer() {
 								width={40}
 								height={40}
 								className="shrink-0"
-								unoptimized
 							/>
 							<span className="text-xl font-bold">{settings.siteName}</span>
 						</div>
-						<p className="text-muted-foreground max-w-xs text-sm leading-relaxed">
+						<p className="max-w-xs text-sm leading-relaxed text-slate-400">
 							{settings.siteName}, öğrencilerin öğrenme sürecini destekleyen bir platformdur.
 						</p>
 					</section>
@@ -51,13 +50,13 @@ export default async function Footer() {
 					{/* Konular - Only show if subjects exist */}
 					{footerSubjects.length > 0 && (
 						<nav className="md:col-span-1 lg:col-span-1">
-							<h3 className="text-background mb-3 font-semibold">Konular</h3>
+							<h2 className="mb-3 font-semibold text-slate-100">Konular</h2>
 							<ul className="space-y-2">
 								{footerSubjects.map((subject) => (
 									<li key={subject.slug}>
 										<Link
 											href={`/konular/${subject.slug}`}
-											className="text-muted-foreground hover:text-background text-sm transition-colors duration-200"
+											className="text-sm text-slate-400 transition-colors duration-200 hover:text-white"
 										>
 											{subject.title}
 										</Link>
@@ -69,13 +68,13 @@ export default async function Footer() {
 
 					{/* Popular Blogs */}
 					<nav className="md:col-span-1 lg:col-span-3">
-						<h3 className="text-background mb-3 font-semibold">Popüler Yazılar</h3>
+						<h2 className="mb-3 font-semibold text-slate-100">Popüler Yazılar</h2>
 						<ul className="space-y-2">
 							{popularBlogs.map((blog) => (
 								<li key={blog.slug}>
 									<Link
 										href={`/sayfalar/${blog.page?.slug}/${blog.slug}`}
-										className="text-muted-foreground hover:text-background line-clamp-2 text-sm transition-colors duration-200"
+										className="line-clamp-2 text-sm text-slate-400 transition-colors duration-200 hover:text-white"
 									>
 										{blog.title}
 									</Link>
@@ -86,13 +85,13 @@ export default async function Footer() {
 
 					{/* Support */}
 					<nav className="md:col-span-1 lg:col-span-2">
-						<h3 className="text-background mb-3 font-semibold">Destek</h3>
+						<h2 className="mb-3 font-semibold text-slate-100">Destek</h2>
 						<ul className="space-y-2">
 							{supportLinks.map((link) => (
 								<li key={link.href}>
 									<Link
 										href={link.href}
-										className="text-muted-foreground hover:text-background text-sm transition-colors duration-200"
+										className="text-sm text-slate-400 transition-colors duration-200 hover:text-white"
 									>
 										{link.name}
 									</Link>
@@ -103,16 +102,16 @@ export default async function Footer() {
 				</div>
 
 				{/* Copyright */}
-				<div className="border-border mt-10 border-t pt-8 pb-2">
+				<div className="mt-10 border-t border-slate-800 pt-8 pb-2">
 					<div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-						<p className="text-muted-foreground text-sm">
+						<p className="text-sm text-slate-400">
 							&copy; {currentYear} {settings.siteName}. Tüm hakları saklıdır.
 						</p>
 						<div className="flex items-center gap-4">
-							{/* TODO: add bluesky https://bsky.app/profile/ketalearn.bsky.social */}
 							<Link
 								href="https://www.instagram.com/keta.akademi/"
-								className="text-muted-foreground hover:text-background transition-colors"
+								aria-label="KetaLearn Instagram sayfası (yeni sekmede açılır)"
+								className="text-slate-400 transition-colors hover:text-white"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -120,7 +119,8 @@ export default async function Footer() {
 							</Link>
 							<Link
 								href="https://www.youtube.com/@ketalearn"
-								className="text-muted-foreground hover:text-background transition-colors"
+								aria-label="KetaLearn YouTube kanalı (yeni sekmede açılır)"
+								className="text-slate-400 transition-colors hover:text-white"
 								target="_blank"
 								rel="noopener noreferrer"
 							>

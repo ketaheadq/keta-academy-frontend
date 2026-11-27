@@ -3,7 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { dropdownDown } from "@/lib/motion";
 import type { StrapiPageCategory } from "@/lib/strapi";
 
@@ -17,6 +17,8 @@ const CLOSE_DELAY_MS = 140;
 export default function DesktopDropdown({ category }: Readonly<DesktopDropdownProps>) {
 	const [open, setOpen] = useState(false);
 	const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+	const triggerRef = useRef<HTMLButtonElement>(null);
+	const menuId = useId();
 
 	const keepOpen = () => {
 		clearTimeout(closeTimer.current);
@@ -28,24 +30,30 @@ export default function DesktopDropdown({ category }: Readonly<DesktopDropdownPr
 
 	useEffect(() => () => clearTimeout(closeTimer.current), []);
 
+	useEffect(() => {
+		if (!open) return;
+		const closeOnEscape = (event: KeyboardEvent) => {
+			if (event.key !== "Escape") return;
+			setOpen(false);
+			triggerRef.current?.focus();
+		};
+		document.addEventListener("keydown", closeOnEscape);
+		return () => document.removeEventListener("keydown", closeOnEscape);
+	}, [open]);
+
 	return (
-		// biome-ignore lint/a11y/noStaticElementInteractions: the wrapper only bridges pointer and focus intent between the trigger and its panel; the button is the control.
-		<div
-			className="relative"
-			onMouseEnter={keepOpen}
-			onMouseLeave={scheduleClose}
-			onFocus={keepOpen}
-			onBlur={(e) => {
-				if (!e.currentTarget.contains(e.relatedTarget as Node | null)) scheduleClose();
-			}}
-			onKeyDown={(e) => {
-				if (e.key === "Escape") setOpen(false);
-			}}
-		>
+		<div className="relative">
 			<button
+				ref={triggerRef}
 				type="button"
 				aria-expanded={open}
 				aria-haspopup="menu"
+				aria-controls={menuId}
+				onClick={() => setOpen((current) => !current)}
+				onMouseEnter={keepOpen}
+				onMouseLeave={scheduleClose}
+				onFocus={keepOpen}
+				onBlur={scheduleClose}
 				className="text-muted-foreground hover:text-primary flex items-center space-x-1 font-medium transition-colors"
 			>
 				<span>{category.title}</span>
@@ -61,12 +69,35 @@ export default function DesktopDropdown({ category }: Readonly<DesktopDropdownPr
 			<AnimatePresence>
 				{open && (
 					<m.div
+						id={menuId}
 						initial="initial"
 						animate="animate"
 						exit="exit"
 						variants={dropdownDown}
 						role="menu"
-						className="absolute top-full left-0 z-50 mt-2 w-48 overflow-hidden rounded-md border bg-white shadow-lg"
+						tabIndex={-1}
+						onMouseEnter={keepOpen}
+						onMouseLeave={scheduleClose}
+						onFocus={keepOpen}
+						onBlur={(e) => {
+							if (!e.currentTarget.contains(e.relatedTarget as Node | null)) scheduleClose();
+						}}
+						onKeyDown={(e) => {
+							if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) return;
+							const items = Array.from(
+								e.currentTarget.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]'),
+							);
+							if (items.length === 0) return;
+							e.preventDefault();
+							const currentIndex = items.indexOf(document.activeElement as HTMLAnchorElement);
+							let nextIndex = currentIndex;
+							if (e.key === "Home") nextIndex = 0;
+							else if (e.key === "End") nextIndex = items.length - 1;
+							else if (e.key === "ArrowDown") nextIndex = (currentIndex + 1) % items.length;
+							else nextIndex = (currentIndex - 1 + items.length) % items.length;
+							items[nextIndex]?.focus();
+						}}
+						className="bg-popover absolute top-full left-0 z-50 mt-2 w-48 overflow-hidden rounded-md border shadow-lg"
 					>
 						<m.div
 							variants={{

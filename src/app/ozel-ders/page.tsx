@@ -72,7 +72,7 @@ export default async function TutoringPage() {
 						</a>
 						<ScrollToSectionButton
 							sectionId={howItWorksId}
-							className="border-primary/20 text-primary hover:border-primary/50 h-14 w-full rounded-2xl border-2 bg-white px-6 text-lg font-bold transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-slate-100 active:translate-y-0 active:scale-[0.98] sm:w-auto sm:px-10"
+							className="border-primary/20 hover:border-primary/50 h-14 w-full rounded-2xl border-2 bg-white px-6 text-lg font-bold text-slate-950 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-slate-100 active:translate-y-0 active:scale-[0.98] sm:w-auto sm:px-10"
 						>
 							Nasıl Çalışır?
 						</ScrollToSectionButton>
@@ -101,7 +101,7 @@ export default async function TutoringPage() {
 
 				<RevealGroup className="grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-3 lg:gap-12" gap={0.1}>
 					<RevealItem className="*:h-full">
-						<div className="group border-border relative rounded-3xl border bg-white p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+						<div className="group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 							<div className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-background mb-6 flex h-16 w-16 items-center justify-center rounded-2xl transition-colors duration-300">
 								<Search className="h-8 w-8" />
 							</div>
@@ -111,7 +111,7 @@ export default async function TutoringPage() {
 							</p>
 							<span
 								aria-hidden="true"
-								className="absolute top-8 right-8 text-4xl font-black text-slate-600"
+								className="text-muted-foreground/40 absolute top-8 right-8 text-4xl font-black"
 							>
 								01
 							</span>
@@ -119,7 +119,7 @@ export default async function TutoringPage() {
 					</RevealItem>
 
 					<RevealItem className="*:h-full">
-						<div className="group border-border relative rounded-3xl border bg-white p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+						<div className="group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 							<div className="bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground mb-6 flex h-16 w-16 items-center justify-center rounded-2xl transition-colors duration-300">
 								<MessageCircle className="h-8 w-8" />
 							</div>
@@ -129,7 +129,7 @@ export default async function TutoringPage() {
 							</p>
 							<span
 								aria-hidden="true"
-								className="absolute top-8 right-8 text-4xl font-black text-slate-600"
+								className="text-muted-foreground/40 absolute top-8 right-8 text-4xl font-black"
 							>
 								02
 							</span>
@@ -137,7 +137,7 @@ export default async function TutoringPage() {
 					</RevealItem>
 
 					<RevealItem className="*:h-full">
-						<div className="group border-border relative rounded-3xl border bg-white p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+						<div className="group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 							<div className="bg-foreground/10 text-foreground group-hover:bg-foreground group-hover:text-background mb-6 flex h-16 w-16 items-center justify-center rounded-2xl transition-colors duration-300">
 								<GraduationCap className="h-8 w-8" />
 							</div>
@@ -147,7 +147,7 @@ export default async function TutoringPage() {
 							</p>
 							<span
 								aria-hidden="true"
-								className="absolute top-8 right-8 text-4xl font-black text-slate-600"
+								className="text-muted-foreground/40 absolute top-8 right-8 text-4xl font-black"
 							>
 								03
 							</span>

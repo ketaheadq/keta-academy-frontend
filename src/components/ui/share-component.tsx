@@ -28,9 +28,9 @@ const getSocialIcon = (platform: string) => {
 const getSocialColor = (platform: string) => {
 	switch (platform) {
 		case "facebook":
-			return "hover:bg-primary/10 hover:text-background";
+			return "hover:bg-primary/10 hover:text-primary";
 		case "whatsapp":
-			return "hover:bg-primary/10 hover:text-background";
+			return "hover:bg-primary/10 hover:text-primary";
 		case "tiktok":
 			return "hover:bg-foreground hover:text-background";
 		case "copy":
@@ -75,10 +75,14 @@ const ShareComponent: FC<ShareComponentProps> = ({ className = "" }) => {
 					// TikTok doesn't have a direct share URL, so we'll copy the link
 					navigator.clipboard
 						.writeText(url)
-						.then(() => toast.success("Link kopyalandı! TikTok'ta paylaşabilirsiniz."));
+						.then(() => toast.success("Link kopyalandı! TikTok'ta paylaşabilirsiniz."))
+						.catch(() => toast.error("Link kopyalanamadı."));
 					return;
 				case "copy":
-					navigator.clipboard.writeText(url).then(() => toast.success("Link kopyalandı!"));
+					navigator.clipboard
+						.writeText(url)
+						.then(() => toast.success("Link kopyalandı!"))
+						.catch(() => toast.error("Link kopyalanamadı."));
 					return;
 				default:
 					break;

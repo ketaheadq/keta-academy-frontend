@@ -2,11 +2,20 @@
 	position: relative;
 	isolation: isolate;
 	overflow: hidden;
-	border: 1px solid var(--border);
+	border: 1px solid var(--color-border);
 	border-radius: 1.5rem;
 	background: #e7ebf5;
 	color: #0f172a;
 	padding: 1.5rem 1.25rem calc(0.5rem + 24%);
+	transition:
+		background-color 300ms ease,
+		color 300ms ease,
+		border-color 300ms ease;
+}
+
+.dark .hero {
+	background: #111827;
+	color: #f8fafc;
 }
 
 .hero::before {

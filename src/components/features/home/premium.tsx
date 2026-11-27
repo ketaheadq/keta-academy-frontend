@@ -58,7 +58,7 @@ export default function Premium() {
 
 							<Button
 								size="lg"
-								className="bg-accent text-background hover:bg-accent h-14 rounded-full px-10 text-base shadow-lg shadow-orange-500/25 transition-all duration-300 hover:scale-105 active:scale-95"
+								className="bg-accent text-accent-foreground hover:bg-accent h-14 rounded-full px-10 text-base shadow-lg shadow-orange-500/25 transition-all duration-300 hover:scale-105 active:scale-95"
 							>
 								Premium'a Geç
 							</Button>
@@ -66,7 +66,7 @@ export default function Premium() {
 
 						<div className="grid gap-8">
 							<div className="group animate-slideUp" style={{ animationDelay: "0.2s" }}>
-								<Card className="border-accent hover:border-accent overflow-hidden bg-white/50 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-200/50">
+								<Card className="border-accent hover:border-accent bg-card/70 overflow-hidden p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-200/50">
 									<div className="bg-accent/10 group-hover:bg-accent/10 mb-6 flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
 										<Video className="text-accent h-7 w-7" />
 									</div>
@@ -83,7 +83,7 @@ export default function Premium() {
 							</div>
 
 							<div className="group animate-slideUp" style={{ animationDelay: "0.4s" }}>
-								<Card className="border-accent hover:border-accent overflow-hidden bg-white/50 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-200/50">
+								<Card className="border-accent hover:border-accent bg-card/70 overflow-hidden p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-200/50">
 									<div className="bg-accent/10 group-hover:bg-accent/10 mb-6 flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6">
 										<MessageCircle className="text-accent h-7 w-7" />
 									</div>

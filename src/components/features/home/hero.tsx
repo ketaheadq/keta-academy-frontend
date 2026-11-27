@@ -66,7 +66,7 @@ export default function Hero() {
 							<Button
 								size="lg"
 								variant="outline"
-								className="group border-border text-muted-foreground h-14 rounded-full bg-white/50 px-10 text-base backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95"
+								className="group border-border text-muted-foreground bg-card/70 h-14 rounded-full px-10 text-base backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95"
 							>
 								<Play className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
 								Nasıl Çalışır?

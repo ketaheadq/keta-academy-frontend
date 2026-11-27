@@ -57,11 +57,15 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 
 		document.addEventListener("keydown", handleEscape);
 
-		return () => {
-			document.body.style.overflow = "unset";
-			document.removeEventListener("keydown", handleEscape);
-		};
+		return () => document.removeEventListener("keydown", handleEscape);
 	}, [isMobileMenuOpen, closeMobileMenu]);
+
+	useEffect(
+		() => () => {
+			document.body.style.overflow = "unset";
+		},
+		[],
+	);
 
 	return (
 		<>
@@ -69,7 +73,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 			<button
 				type="button"
 				onClick={toggleMobileMenu}
-				className="text-muted-foreground hover:bg-secondary hover:text-background relative h-10 w-10 rounded-md transition-colors lg:hidden"
+				className="text-muted-foreground hover:bg-secondary hover:text-foreground relative h-10 w-10 rounded-md transition-colors lg:hidden"
 				aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 				aria-expanded={isMobileMenuOpen}
 			>
@@ -110,7 +114,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: -14 }}
 						transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-						className="fixed inset-x-0 top-20 z-50 bg-white shadow-lg lg:hidden"
+						className="bg-card fixed inset-x-0 top-20 z-50 shadow-lg lg:hidden"
 					>
 						<div className="max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain px-4 py-6">
 							<m.nav
@@ -147,7 +151,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 											<button
 												type="button"
 												onClick={() => toggleCategory(category.id)}
-												className="text-muted-foreground hover:text-background focus:text-primary focus:ring-primary flex w-full items-center justify-between p-2 font-medium transition-colors focus:ring-1 focus:outline-none"
+												className="text-muted-foreground hover:text-foreground focus:text-primary focus:ring-primary flex w-full items-center justify-between p-2 font-medium transition-colors focus:ring-1 focus:outline-none"
 												aria-expanded={isOpen}
 												aria-controls={`mobile-submenu-${category.id}`}
 											>
@@ -176,7 +180,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 															key={`mobile-page-${page.id}`}
 															href={`/sayfalar/${page.slug}`}
 															onClick={closeMobileMenu}
-															className="text-muted-foreground hover:text-background focus:text-primary focus:ring-primary block rounded py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
+															className="text-muted-foreground hover:text-foreground focus:text-primary focus:ring-primary block rounded py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
 														>
 															{page.title}
 														</Link>

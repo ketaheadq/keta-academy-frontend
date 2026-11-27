@@ -27,7 +27,7 @@ export function TutorContactButtons({
 					onClick={() => trackTutorContact("whatsapp", tutorName)}
 					className={cn(
 						buttonVariants({ size: compact ? "default" : "lg" }),
-						"relative z-10 flex-1 bg-[#25D366] text-white hover:bg-[#1ebe5b]",
+						"relative z-10 flex-1 bg-green-700 text-white hover:bg-green-800",
 					)}
 				>
 					<WhatsAppIcon className="size-5" />

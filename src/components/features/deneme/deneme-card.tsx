@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 /** Exam card for the list page and the home page. The whole card links to the exam page. */
 export function DenemeCard({ deneme }: Readonly<{ deneme: DenemeSummary }>) {
 	return (
-		<article className="group relative flex h-full flex-col rounded-2xl border bg-white p-5 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/5">
+		<article className="group bg-card relative flex h-full flex-col rounded-2xl border p-5 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/5">
 			<div className="mb-3 flex flex-wrap gap-2">
 				<Badge>{SINAV_TURU_LABEL[deneme.sinavTuru]}</Badge>
 				{deneme.sinif && <Badge variant="secondary">{deneme.sinif.title}</Badge>}

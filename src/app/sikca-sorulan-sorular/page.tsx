@@ -83,7 +83,7 @@ export default function FAQPage() {
 					</p>
 				</Reveal>
 
-				<div className="border-border rounded-2xl border bg-white p-3 shadow-xl shadow-blue-500/5 sm:p-6 md:p-8">
+				<div className="border-border bg-card rounded-2xl border p-3 shadow-xl shadow-blue-500/5 sm:p-6 md:p-8">
 					<RevealGroup className="w-full space-y-4" amount={0.05}>
 						{faqs.map((faq) => {
 							const isOpen = openId === faq.id;
@@ -104,7 +104,7 @@ export default function FAQPage() {
 									>
 										<div className="text-foreground flex min-w-0 items-center gap-3 text-base font-semibold sm:gap-4 sm:text-lg">
 											<div
-												className={`border-border shrink-0 rounded-lg border bg-white p-2 shadow-sm transition-transform duration-300 ${isOpen ? "scale-110" : "group-hover:scale-110"}`}
+												className={`border-border bg-card shrink-0 rounded-lg border p-2 shadow-sm transition-transform duration-300 ${isOpen ? "scale-110" : "group-hover:scale-110"}`}
 											>
 												{faq.icon}
 											</div>
@@ -152,7 +152,7 @@ export default function FAQPage() {
 						</a>
 						<a
 							href="/iletisim"
-							className="border-border text-muted-foreground hover:bg-secondary w-full rounded-full border bg-white px-8 py-3 font-semibold transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] active:translate-y-0 active:scale-[0.98] sm:w-auto"
+							className="border-border text-muted-foreground hover:bg-secondary bg-card w-full rounded-full border px-8 py-3 font-semibold transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] active:translate-y-0 active:scale-[0.98] sm:w-auto"
 						>
 							İletişim Formu
 						</a>

@@ -65,7 +65,7 @@ export default function ContactForm() {
 	};
 
 	return (
-		<Card className="border-0 bg-white/90 shadow-xl backdrop-blur-sm">
+		<Card className="bg-card/90 border-0 shadow-xl backdrop-blur-sm">
 			<CardHeader className="pb-6">
 				<CardTitle className="text-foreground text-2xl">Bize Mesaj Gönderin</CardTitle>
 				<CardDescription className="text-base">

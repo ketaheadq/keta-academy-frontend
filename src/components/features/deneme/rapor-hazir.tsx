@@ -36,7 +36,7 @@ export function RaporHazir({
 			if (Date.now() - started > GIVE_UP_MS) return setTimedOut(true);
 			timer = setTimeout(check, POLL_MS);
 		};
-		check();
+		void check();
 		return () => {
 			stopped = true;
 			clearTimeout(timer);
@@ -77,7 +77,7 @@ export function RaporHazir({
 					onClick={() => trackDeneme("rapor_paylas", denemeBaslik)}
 					className={cn(
 						buttonVariants({ size: "lg" }),
-						"bg-[#25D366] text-white hover:bg-[#1ebe5b]",
+						"bg-green-700 text-white hover:bg-green-800",
 					)}
 				>
 					<WhatsAppIcon className="size-5" /> WhatsApp'ta paylaş

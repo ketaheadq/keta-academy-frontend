@@ -145,7 +145,7 @@ export const useAuthStore = create<AuthStore>()(
 
 					if (!strapiUser) {
 						// JWT is invalid, sign out
-						get().signOut();
+						await get().signOut();
 						return;
 					}
 

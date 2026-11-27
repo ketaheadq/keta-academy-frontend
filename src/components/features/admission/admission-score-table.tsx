@@ -363,11 +363,11 @@ export default function AdmissionScoreTable({
 			</p>
 
 			{/* Table */}
-			<CardContent className="rounded-lg border bg-white p-0">
+			<CardContent className="bg-card rounded-lg border p-0">
 				<div className="max-h-96 overflow-auto rounded-lg border">
 					<div className="min-w-full">
 						<Table>
-							<TableHeader className="sticky top-0 z-10 bg-white">
+							<TableHeader className="bg-card sticky top-0 z-10">
 								<TableRow className="bg-muted hover:bg-muted">
 									{columns.map((column) => (
 										<TableHead

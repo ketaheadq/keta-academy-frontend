@@ -68,7 +68,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 					link: ({ children, url }) => (
 						<a
 							href={url}
-							className="text-primary hover:text-background underline"
+							className="text-primary underline hover:opacity-80"
 							target="_blank"
 							rel="noopener noreferrer"
 						>

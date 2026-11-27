@@ -48,19 +48,19 @@ export function VeliForm({
 
 	if (sent) {
 		return (
-			<section role="status" className="rounded-2xl border border-green-200 bg-green-50 p-5">
+			<output className="block rounded-2xl border border-green-200 bg-green-50 p-5">
 				<CheckCircle2 className="mb-2 h-7 w-7 text-green-700" aria-hidden="true" />
 				<p className="text-foreground">
 					Teşekkürler. Çağlar Hoca velini arayıp raporu birlikte değerlendirecek. Raporu veline
 					şimdi de gönderebilirsin:
 				</p>
 				<RaporHazir raporKey={raporKey} denemeBaslik={denemeBaslik} />
-			</section>
+			</output>
 		);
 	}
 
 	return (
-		<form onSubmit={submit} className="space-y-3 rounded-2xl border bg-white p-5 shadow-sm">
+		<form onSubmit={submit} className="bg-card space-y-3 rounded-2xl border p-5 shadow-sm">
 			<input
 				aria-label="Velinin adı soyadı"
 				placeholder="Velinin adı soyadı"
@@ -68,7 +68,7 @@ export function VeliForm({
 				autoComplete="off"
 				value={adSoyad}
 				onChange={(e) => setAdSoyad(e.target.value)}
-				className="border-border focus:ring-primary w-full rounded-lg border bg-white px-3 py-2 focus:ring-2 focus:outline-none"
+				className="border-border focus:ring-primary bg-card w-full rounded-lg border px-3 py-2 focus:ring-2 focus:outline-none"
 			/>
 			<input
 				aria-label="Velinin cep telefonu"
@@ -78,7 +78,7 @@ export function VeliForm({
 				required
 				value={telefon}
 				onChange={(e) => setTelefon(e.target.value)}
-				className="border-border focus:ring-primary w-full rounded-lg border bg-white px-3 py-2 focus:ring-2 focus:outline-none"
+				className="border-border focus:ring-primary bg-card w-full rounded-lg border px-3 py-2 focus:ring-2 focus:outline-none"
 			/>
 			<label className="flex items-start gap-2 text-sm">
 				<input

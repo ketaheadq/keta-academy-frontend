@@ -95,7 +95,7 @@ export function SavedReportsSection() {
 				{reports.map((report) => (
 					<li
 						key={report.raporKey}
-						className="flex flex-col gap-3 rounded-xl bg-white p-3 sm:flex-row sm:items-center sm:justify-between"
+						className="bg-card flex flex-col gap-3 rounded-xl p-3 sm:flex-row sm:items-center sm:justify-between"
 					>
 						<div className="min-w-0">
 							<p className="text-foreground truncate font-semibold">{report.denemeBaslik}</p>
@@ -144,10 +144,7 @@ export function SavedReportNotice({ denemeSlug }: Readonly<{ denemeSlug: string 
 	const report = useSavedReports().find((r) => r.denemeSlug === denemeSlug);
 	if (!report) return null;
 	return (
-		<div
-			role="status"
-			className="mb-6 flex flex-col gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 sm:flex-row sm:items-center sm:justify-between"
-		>
+		<output className="mb-6 flex flex-col gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 sm:flex-row sm:items-center sm:justify-between">
 			<p className="text-foreground text-sm">
 				Bu denemeyi {formatDate(report.tarih)} tarihinde çözdün:{" "}
 				<strong>{formatNet(report.net)} net</strong>. Raporun hazır.
@@ -161,6 +158,6 @@ export function SavedReportNotice({ denemeSlug }: Readonly<{ denemeSlug: string 
 			>
 				<FileText aria-hidden="true" /> Raporu aç
 			</a>
-		</div>
+		</output>
 	);
 }

@@ -32,7 +32,7 @@ export default async function ContactPage() {
 	}
 
 	return (
-		<div className="from-primary/20 to-primary/20 min-h-screen bg-linear-to-br via-white">
+		<div className="from-primary/20 to-primary/20 via-background min-h-screen bg-linear-to-br">
 			{/* Hero Section */}
 			<div className="from-primary to-primary text-background bg-linear-to-r py-16">
 				<div className="container mx-auto px-4">
@@ -65,7 +65,7 @@ export default async function ContactPage() {
 					{/* Contact Information */}
 					<div className="mb-12 grid gap-8 md:grid-cols-2">
 						{/* Contact Details Card */}
-						<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
+						<Card className="bg-card/80 border-0 shadow-lg backdrop-blur-sm">
 							<CardHeader className="pb-4">
 								<CardTitle className="text-foreground flex items-center gap-2 text-2xl">
 									<MessageCircle className="text-primary h-6 w-6" />
@@ -82,10 +82,10 @@ export default async function ContactPage() {
 										<Phone className="text-background h-5 w-5" />
 									</div>
 									<div>
-										<h3 className="text-foreground font-semibold">Telefon</h3>
+										<h2 className="text-foreground font-semibold">Telefon</h2>
 										<a
 											href={`tel:${contactData.phone}`}
-											className="text-primary hover:text-background font-medium"
+											className="text-primary font-medium hover:opacity-80"
 										>
 											{contactData.phone}
 										</a>
@@ -101,10 +101,10 @@ export default async function ContactPage() {
 										<Mail className="text-background h-5 w-5" />
 									</div>
 									<div>
-										<h3 className="text-foreground font-semibold">E-posta</h3>
+										<h2 className="text-foreground font-semibold">E-posta</h2>
 										<a
 											href={`mailto:${contactData.email}`}
-											className="text-primary hover:text-background font-medium break-all"
+											className="text-primary font-medium break-all hover:opacity-80"
 										>
 											{contactData.email}
 										</a>
@@ -120,7 +120,7 @@ export default async function ContactPage() {
 
 				{/* FAQ Section */}
 				<div className="mt-16">
-					<Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
+					<Card className="bg-card/80 border-0 shadow-lg backdrop-blur-sm">
 						<CardHeader className="pb-8 text-center">
 							<CardTitle className="text-foreground mb-4 text-3xl">Sıkça Sorulan Sorular</CardTitle>
 							<CardDescription className="text-lg">

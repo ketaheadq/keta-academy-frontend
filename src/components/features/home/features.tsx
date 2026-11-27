@@ -62,7 +62,7 @@ export default function Features() {
 								className="group animate-slideUp"
 								style={{ animationDelay: `${index * 0.1}s` }}
 							>
-								<Card className="border-border hover:border-primary h-full bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10">
+								<Card className="border-border hover:border-primary bg-card h-full p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10">
 									<div className="bg-primary/10 group-hover:bg-primary group-hover:text-background mb-6 flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-500 group-hover:scale-110">
 										<Icon className="text-primary group-hover:text-background h-7 w-7 transition-colors duration-500" />
 									</div>

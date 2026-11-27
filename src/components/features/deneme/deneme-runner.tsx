@@ -181,7 +181,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 			transition={{ duration: DURATION.slow, ease: EASE_OUT }}
 		>
 			{/* Sticky timer bar */}
-			<div className="sticky top-0 z-30 -mx-4 flex items-center justify-between gap-3 border-b bg-white/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:border">
+			<div className="bg-card/95 sticky top-0 z-30 -mx-4 flex items-center justify-between gap-3 border-b px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:border">
 				<div className="text-sm">
 					<span className="text-foreground font-semibold">
 						Soru {saved.current + 1}/{total}
@@ -211,7 +211,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 					initial="initial"
 					animate="animate"
 					exit="exit"
-					className="rounded-2xl border bg-white p-4 shadow-sm sm:p-6"
+					className="bg-card rounded-2xl border p-4 shadow-sm sm:p-6"
 				>
 					<h2 id="soru-baslik" className="text-muted-foreground mb-3 text-sm font-semibold">
 						{question.no}. soru
@@ -294,7 +294,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 			</AnimatePresence>
 
 			{/* Question navigator */}
-			<nav aria-label="Sorular" className="rounded-2xl border bg-white p-4 shadow-sm">
+			<nav aria-label="Sorular" className="bg-card rounded-2xl border p-4 shadow-sm">
 				<div className="flex flex-wrap gap-2">
 					{deneme.sorular.map((soru, index) => (
 						<button
@@ -308,7 +308,7 @@ export function DenemeRunner({ deneme }: Readonly<{ deneme: DenemeDetail }>) {
 								index === saved.current && "ring-primary scale-105 ring-2",
 								saved.answers[index]
 									? "border-primary bg-primary text-primary-foreground"
-									: "bg-white",
+									: "bg-card",
 							)}
 						>
 							{soru.no}
@@ -348,7 +348,7 @@ function Intro({ deneme, onStart }: Readonly<{ deneme: DenemeDetail; onStart: ()
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: DURATION.slow, ease: EASE_OUT }}
 			>
-				<section className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6 lg:col-span-2">
+				<section className="bg-card rounded-2xl border p-5 shadow-sm sm:p-6 lg:col-span-2">
 					<m.div
 						className="grid grid-cols-2 gap-3 sm:grid-cols-3"
 						initial="hidden"
@@ -429,7 +429,7 @@ function SampleReport({ onOpen }: Readonly<{ onOpen?: () => void }>) {
 	return (
 		<aside
 			aria-labelledby="ornek-rapor-baslik"
-			className="rounded-2xl border bg-white p-5 shadow-sm"
+			className="bg-card rounded-2xl border p-5 shadow-sm"
 		>
 			<div className="mb-3 flex items-baseline justify-between gap-2">
 				<h2 id="ornek-rapor-baslik" className="text-foreground font-semibold">
@@ -496,7 +496,7 @@ function Result({ deneme, result }: Readonly<{ deneme: DenemeDetail; result: Son
 		>
 			<section
 				aria-labelledby="sonuc-baslik"
-				className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6"
+				className="bg-card rounded-2xl border p-5 shadow-sm sm:p-6"
 			>
 				<h2 id="sonuc-baslik" className="text-foreground text-2xl font-bold">
 					Sonucun
@@ -699,12 +699,11 @@ function ReportRequestForm({
 
 	if (raporKey) {
 		return (
-			<m.section
-				role="status"
+			<m.output
 				initial={{ opacity: 0, y: 12, scale: 0.98 }}
 				animate={{ opacity: 1, y: 0, scale: 1 }}
 				transition={{ duration: DURATION.slow, ease: EASE_OUT }}
-				className="rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6"
+				className="block rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6"
 			>
 				<m.div
 					initial={{ scale: 0.4, opacity: 0 }}
@@ -721,7 +720,7 @@ function ReportRequestForm({
 						Derslere göz at
 					</Link>
 				</p>
-			</m.section>
+			</m.output>
 		);
 	}
 
@@ -731,7 +730,7 @@ function ReportRequestForm({
 			initial={{ opacity: 0, y: 10 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: DURATION.slow, ease: EASE_OUT }}
-			className="rounded-2xl border bg-white p-5 shadow-sm sm:p-6"
+			className="bg-card rounded-2xl border p-5 shadow-sm sm:p-6"
 		>
 			<h2 id="rapor-form-baslik" className="text-foreground text-xl font-bold">
 				Raporunu hazırlayalım
@@ -780,7 +779,7 @@ function ReportRequestForm({
 									"cursor-pointer rounded-full border px-4 py-1.5 text-sm",
 									yakinlik === option.value
 										? "border-primary bg-primary text-primary-foreground"
-										: "bg-white",
+										: "bg-card",
 								)}
 							>
 								<input

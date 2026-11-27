@@ -9,7 +9,7 @@ export function useAuthInit() {
 	useEffect(() => {
 		// Only refresh if we have a JWT but no user data, or on app startup
 		if (jwt && !isAuthenticated) {
-			refreshUser();
+			void refreshUser();
 		}
 	}, [jwt, isAuthenticated, refreshUser]);
 

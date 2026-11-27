@@ -2,11 +2,13 @@
 
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import MotionProvider from "@/components/motion/motion-provider";
 import { CourseProgressProvider } from "@/components/shared/course-progress-provider";
+import { PageLoadingSkeleton } from "@/components/shared/loading-skeletons";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import errors from "../lib/error-messages";
-import Loading from "./loading";
 
 function ProvidersContent({ children }: Readonly<{ children: React.ReactNode }>) {
 	const searchParams = useSearchParams();
@@ -36,10 +38,12 @@ export function Providers({ children }: Readonly<{ children: React.ReactNode }>)
 	// Outside the Suspense boundary so the fallback below — which animates too —
 	// is already inside LazyMotion when it mounts.
 	return (
-		<MotionProvider>
-			<Suspense fallback={<Loading />}>
-				<ProvidersContent>{children}</ProvidersContent>
-			</Suspense>
-		</MotionProvider>
+		<ThemeProvider>
+			<MotionProvider>
+				<Suspense fallback={<PageLoadingSkeleton />}>
+					<ProvidersContent>{children}</ProvidersContent>
+				</Suspense>
+			</MotionProvider>
+		</ThemeProvider>
 	);
 }

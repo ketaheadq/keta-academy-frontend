@@ -1,15 +1,18 @@
 "use client";
 
 import { BookOpen, Eye, Play, Target, Video } from "lucide-react";
+import { AnimatePresence, m } from "motion/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { DetailLoadingSkeleton } from "@/components/shared/loading-skeletons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import ShareButton from "@/components/ui/share-button";
+import { DURATION, EASE_OUT } from "@/lib/motion";
 import type { StrapiVideo } from "@/lib/strapi";
 import { extractYouTubeVideoId } from "@/lib/utils";
 
@@ -73,16 +76,8 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 		}
 	};
 
-	// Show loading state while video is being initialized
 	if (!currentVideo) {
-		return (
-			<div className="bg-secondary flex min-h-screen items-center justify-center">
-				<div className="text-center">
-					<div className="border-primary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2" />
-					<p className="text-muted-foreground">Video yükleniyor...</p>
-				</div>
-			</div>
-		);
+		return <DetailLoadingSkeleton showBreadcrumb={false} />;
 	}
 
 	const youtubeVideoId = extractYouTubeVideoId(currentVideo.href);
@@ -92,78 +87,87 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 			<div className="grid gap-6 lg:grid-cols-3">
 				{/* Main Content - Video Player */}
 				<div className="space-y-6 lg:col-span-2">
-					{/* Video Player */}
-					<Card className="py-6">
-						<CardContent>
-							<div className="relative aspect-video overflow-hidden rounded-t-lg bg-black">
-								{youtubeVideoId ? (
-									<iframe
-										key={currentVideo.id} // Force re-render when video changes
-										width="100%"
-										height="100%"
-										src={`https://www.youtube.com/embed/${youtubeVideoId}`}
-										title={currentVideo.title}
-										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-										allowFullScreen
-										className="absolute inset-0 border-0"
-									/>
-								) : (
-									<div className="text-background absolute inset-0 flex items-center justify-center">
-										<div className="text-center">
-											<p className="mb-2 text-lg">Video yüklenemedi</p>
-											<p className="text-muted-foreground text-sm">
-												Video URL'si geçersiz: {currentVideo.href}
-											</p>
-										</div>
-									</div>
-								)}
-							</div>
-							<div className="p-6">
-								<div className="mb-4 flex items-center justify-between">
-									<div className="flex-1">
-										<h1 className="text-foreground mb-2 text-2xl font-bold">
-											{currentVideo.title}
-										</h1>
-										{currentVideo.isPopular && (
-											<Badge variant="secondary" className="mb-2">
-												Popüler
-											</Badge>
+					<AnimatePresence mode="wait" initial={false}>
+						<m.div
+							key={currentVideo.id}
+							initial={{ opacity: 0, x: 12 }}
+							animate={{ opacity: 1, x: 0 }}
+							exit={{ opacity: 0, x: -8 }}
+							transition={{ duration: DURATION.base, ease: EASE_OUT }}
+						>
+							<Card className="py-6">
+								<CardContent>
+									<div className="relative aspect-video overflow-hidden rounded-t-lg bg-black">
+										{youtubeVideoId ? (
+											<iframe
+												key={currentVideo.id} // Force re-render when video changes
+												width="100%"
+												height="100%"
+												src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+												title={currentVideo.title}
+												allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+												allowFullScreen
+												className="absolute inset-0 border-0"
+											/>
+										) : (
+											<div className="absolute inset-0 flex items-center justify-center text-white">
+												<div className="text-center">
+													<p className="mb-2 text-lg">Video yüklenemedi</p>
+													<p className="text-sm text-white/70">
+														Video URL'si geçersiz: {currentVideo.href}
+													</p>
+												</div>
+											</div>
 										)}
 									</div>
-								</div>
+									<div className="p-6">
+										<div className="mb-4 flex items-center justify-between">
+											<div className="flex-1">
+												<h1 className="text-foreground mb-2 text-2xl font-bold">
+													{currentVideo.title}
+												</h1>
+												{currentVideo.isPopular && (
+													<Badge variant="secondary" className="mb-2">
+														Popüler
+													</Badge>
+												)}
+											</div>
+										</div>
 
-								<div className="flex items-center justify-between">
-									<div className="flex items-center space-x-4">
-										<Button
-											variant="outline"
-											onClick={handlePreviousVideo}
-											disabled={allVideos.findIndex((v) => v.id === currentVideo?.id) === 0}
-										>
-											Önceki
-										</Button>
-										<Button
-											variant="outline"
-											onClick={handleNextVideo}
-											disabled={
-												allVideos.findIndex((v) => v.id === currentVideo?.id) ===
-												allVideos.length - 1
-											}
-										>
-											Sonraki
-										</Button>
-									</div>
+										<div className="flex items-center justify-between">
+											<div className="flex items-center space-x-4">
+												<Button
+													variant="outline"
+													onClick={handlePreviousVideo}
+													disabled={allVideos.findIndex((v) => v.id === currentVideo?.id) === 0}
+												>
+													Önceki
+												</Button>
+												<Button
+													variant="outline"
+													onClick={handleNextVideo}
+													disabled={
+														allVideos.findIndex((v) => v.id === currentVideo?.id) ===
+														allVideos.length - 1
+													}
+												>
+													Sonraki
+												</Button>
+											</div>
 
-									<div className="flex items-center space-x-2">
-										<ShareButton
-											url={getCurrentVideoUrl()}
-											title={currentVideo.title}
-											description="Bu harika videoyu izle!"
-										/>
+											<div className="flex items-center space-x-2">
+												<ShareButton
+													url={getCurrentVideoUrl()}
+													title={currentVideo.title}
+													description="Bu harika videoyu izle!"
+												/>
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
-						</CardContent>
-					</Card>
+								</CardContent>
+							</Card>
+						</m.div>
+					</AnimatePresence>
 
 					{/* Video Information */}
 					<Card>
@@ -273,7 +277,7 @@ export default function VideoPage({ video, currentVideoSlug }: Readonly<VideoPag
 																}}
 															/>
 															<div className="absolute inset-0 flex items-center justify-center">
-																<Play className="text-background h-4 w-4 drop-shadow-lg" />
+																<Play className="h-4 w-4 text-white drop-shadow-lg" />
 															</div>
 														</div>
 													</div>

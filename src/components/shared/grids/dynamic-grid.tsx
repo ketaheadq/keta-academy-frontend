@@ -223,7 +223,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 								}}
 								initial="hidden"
 								animate="shown"
-								className="mt-4 grid grid-cols-1 gap-4 rounded-lg border bg-white p-4 md:grid-cols-2"
+								className="bg-card mt-4 grid grid-cols-1 gap-4 rounded-lg border p-4 md:grid-cols-2"
 							>
 								{filterConfigs.map((config) => {
 									const selectId = `filter-${config.field}`; // Unique ID for this select

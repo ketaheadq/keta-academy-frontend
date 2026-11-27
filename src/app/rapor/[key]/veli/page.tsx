@@ -42,7 +42,7 @@ export default async function VeliPage({ params }: PageProps) {
 						</p>
 					</>
 				) : (
-					<div className="rounded-2xl border bg-white p-8 text-center">
+					<div className="bg-card rounded-2xl border p-8 text-center">
 						<h1 className="text-foreground text-2xl font-bold">Rapor bulunamadı</h1>
 						<p className="text-muted-foreground mt-2">
 							Linki rapordaki haliyle açtığınızdan emin olun.

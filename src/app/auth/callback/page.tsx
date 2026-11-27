@@ -25,7 +25,7 @@ function AuthCallbackContent() {
 			await handleAuthRedirect(searchParams);
 		};
 
-		processCallback();
+		void processCallback();
 	}, [searchParams, handleAuthRedirect]);
 
 	if (error) {

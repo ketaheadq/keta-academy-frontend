@@ -9,7 +9,7 @@ export default function NotFound() {
 			<Client404Tracker contentType="General" requestedSlug="unknown" />
 
 			<div className="flex min-h-[calc(100vh-6rem)] items-center justify-center px-4 sm:px-6 lg:px-8">
-				<div className="animate-rise w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl sm:p-10">
+				<div className="animate-rise bg-card w-full max-w-md space-y-8 rounded-2xl p-8 shadow-xl sm:p-10">
 					<div className="text-center">
 						<div className="flex justify-center">
 							<span className="from-destructive to-accent bg-linear-to-r bg-clip-text text-9xl font-extrabold text-transparent">
@@ -33,7 +33,7 @@ export default function NotFound() {
 								Ana Sayfaya Git
 							</Link>
 
-							<BackButton className="border-border text-muted-foreground hover:bg-secondary focus:ring-primary w-full rounded-md border bg-white px-6 py-3 text-base font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:outline-none active:translate-y-0 sm:w-auto">
+							<BackButton className="border-border text-muted-foreground hover:bg-secondary focus:ring-primary bg-card w-full rounded-md border px-6 py-3 text-base font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:outline-none active:translate-y-0 sm:w-auto">
 								Geri Git
 							</BackButton>
 						</div>

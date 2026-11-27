@@ -4,6 +4,7 @@ import { BookOpen, GraduationCap, Loader2, Shield, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { FormLoadingSkeleton } from "@/components/shared/loading-skeletons";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { GoogleIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
@@ -134,7 +135,7 @@ function LoginContent() {
 					<Button
 						onClick={handleGoogleSignIn}
 						disabled={isSigningIn || isLoading}
-						className="border-border text-foreground hover:bg-secondary h-12 w-full border bg-white shadow-sm"
+						className="border-border text-foreground hover:bg-secondary bg-card h-12 w-full border shadow-sm"
 						variant="outline"
 					>
 						{isSigningIn || isLoading ? (
@@ -156,7 +157,7 @@ function LoginContent() {
 							<div className="border-border w-full border-t" />
 						</div>
 						<div className="relative flex justify-center text-sm">
-							<span className="text-muted-foreground bg-white px-2">Neden Google Girişi?</span>
+							<span className="text-muted-foreground bg-card px-2">Neden Google Girişi?</span>
 						</div>
 					</div>
 
@@ -180,7 +181,7 @@ function LoginContent() {
 					<div className="border-t pt-4 text-center">
 						<p className="text-muted-foreground text-sm">
 							Hesabınız yok mu?{" "}
-							<Link href="/kayit-ol" className="text-primary hover:text-background font-medium">
+							<Link href="/kayit-ol" className="text-primary font-medium hover:opacity-80">
 								Buradan kayıt olun
 							</Link>
 						</p>
@@ -191,11 +192,11 @@ function LoginContent() {
 			{/* Terms */}
 			<p className="text-muted-foreground text-center text-xs">
 				Giriş yaparak{" "}
-				<Link href="/hizmet-sartlari" className="text-primary hover:text-background">
+				<Link href="/hizmet-sartlari" className="text-primary hover:opacity-80">
 					Hizmet Şartlarımızı
 				</Link>{" "}
 				ve{" "}
-				<Link href="/gizlilik-politikasi" className="text-primary hover:text-background">
+				<Link href="/gizlilik-politikasi" className="text-primary hover:opacity-80">
 					Gizlilik Politikamızı
 				</Link>{" "}
 				kabul etmiş olursunuz
@@ -208,13 +209,7 @@ export default function LoginPage() {
 	return (
 		<div className="flex min-h-screen flex-col">
 			<div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-				<Suspense
-					fallback={
-						<div className="flex items-center justify-center">
-							<Loader2 className="text-primary h-8 w-8 animate-spin" />
-						</div>
-					}
-				>
+				<Suspense fallback={<FormLoadingSkeleton />}>
 					<LoginContent />
 				</Suspense>
 			</div>

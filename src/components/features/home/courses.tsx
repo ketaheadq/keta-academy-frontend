@@ -31,9 +31,9 @@ export default async function Courses({ preview = false }: Readonly<{ preview?: 
 				</Reveal>
 			)}
 			{courses === null ? (
-				<p role="status" className="text-muted-foreground rounded-lg border p-4">
+				<output className="text-muted-foreground block rounded-lg border p-4">
 					Dersler şu anda yüklenemiyor. Lütfen biraz sonra tekrar dene.
-				</p>
+				</output>
 			) : courses.length === 0 ? (
 				<p className="text-muted-foreground rounded-lg border p-4">Henüz yayımlanmış ders yok.</p>
 			) : (

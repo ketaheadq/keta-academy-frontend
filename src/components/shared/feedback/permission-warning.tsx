@@ -24,7 +24,7 @@ export default function PermissionWarning({
 						panelinde gerekli izinlerin ayarlanmamış olmasından kaynaklanır.
 					</p>
 
-					<div className="border-accent rounded border bg-white p-3">
+					<div className="border-accent bg-card rounded border p-3">
 						<h4 className="mb-2 flex items-center font-semibold">
 							<Settings className="mr-2 h-4 w-4" />
 							Çözüm Adımları:
@@ -44,7 +44,7 @@ export default function PermissionWarning({
 
 					{endpoint && (
 						<div className="bg-accent/10 text-accent rounded p-2 text-xs">
-							<strong>Endpoint:</strong> <code className="rounded bg-white px-1">{endpoint}</code>
+							<strong>Endpoint:</strong> <code className="bg-card rounded px-1">{endpoint}</code>
 						</div>
 					)}
 

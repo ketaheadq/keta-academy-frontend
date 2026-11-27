@@ -71,7 +71,7 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 					{/* The dim wash and the play badge arrive together, so the thumbnail reads as a control. */}
 					<div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/30">
 						<span className="flex h-14 w-14 scale-75 items-center justify-center rounded-full bg-white/90 opacity-0 shadow-lg transition-[transform,opacity] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100">
-							<Play className="text-primary ml-0.5 h-6 w-6" aria-hidden="true" />
+							<Play className="ml-0.5 h-6 w-6 text-slate-950" aria-hidden="true" />
 						</span>
 					</div>
 					<div className="absolute top-2 left-2">

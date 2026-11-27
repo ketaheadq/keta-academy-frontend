@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { connection } from "next/server";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
+import { ThemeScript } from "@/components/theme/theme-provider";
 import { SITE_ORIGIN } from "@/lib/seo";
 import { getSettings } from "@/lib/strapi";
 import "./globals.css";
@@ -81,8 +82,9 @@ export default async function RootLayout({
 	const settings = await getSettings().catch(() => null);
 	const analyticsID = settings?.analyticsID || "";
 	return (
-		<html lang="tr">
+		<html lang="tr" suppressHydrationWarning>
 			<head>
+				<ThemeScript />
 				<link rel="preconnect" href="https://www.google-analytics.com" />
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>

@@ -32,7 +32,7 @@ export default function CallToAction() {
 						>
 							<Button
 								size="lg"
-								className="group text-primary hover:bg-accent hover:text-primary-foreground h-14 rounded-full bg-white px-10 text-base font-bold shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+								className="group hover:bg-accent hover:text-primary-foreground h-14 rounded-full bg-white px-10 text-base font-bold text-slate-950 shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
 							>
 								Ücretsiz Hesap Oluştur
 								<ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -40,7 +40,7 @@ export default function CallToAction() {
 							<Button
 								size="lg"
 								variant="outline"
-								className="text-background hover:bg-accent hover:text-primary-foreground h-14 rounded-full border-white/30 bg-white/10 px-10 text-base font-bold backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95"
+								className="text-background hover:bg-accent hover:text-primary-foreground h-14 rounded-full border-white/30 bg-white/10 px-10 text-base font-bold backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95 dark:border-slate-900/20"
 							>
 								Daha Fazla Bilgi
 							</Button>

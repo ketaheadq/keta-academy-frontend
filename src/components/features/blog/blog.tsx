@@ -53,15 +53,15 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 
 						{/* Blog Meta */}
 						<div className="text-muted-foreground mb-8 flex flex-wrap items-center justify-center gap-8">
-							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
+							<div className="bg-card flex items-center gap-2 rounded-full px-4 py-2 shadow-sm">
 								<Calendar className="text-primary h-4 w-4" />
 								<span className="font-medium">{formatDate(blog.publishedAt)}</span>
 							</div>
-							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
+							<div className="bg-card flex items-center gap-2 rounded-full px-4 py-2 shadow-sm">
 								<Clock className="text-primary h-4 w-4" />
 								<span className="font-medium">{readingTime} dk okuma</span>
 							</div>
-							<div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
+							<div className="bg-card flex items-center gap-2 rounded-full px-4 py-2 shadow-sm">
 								<User className="text-primary h-4 w-4" />
 								<span className="font-medium">KetaLearn</span>
 							</div>
@@ -74,7 +74,7 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 					</header>
 
 					{/* Blog Content */}
-					<article className="border-border rounded-3xl border bg-white p-12 shadow-xl">
+					<article className="border-border bg-card rounded-3xl border p-12 shadow-xl">
 						<BlogRichTextRenderer content={blog.content} />
 					</article>
 

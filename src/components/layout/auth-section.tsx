@@ -109,7 +109,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 							type="button"
 							aria-expanded={menuOpen}
 							aria-haspopup="menu"
-							className="text-muted-foreground hover:text-background flex items-center space-x-2 rounded transition-colors"
+							className="text-muted-foreground hover:text-foreground flex items-center space-x-2 rounded transition-colors"
 						>
 							{avatar}
 							<span className="font-medium">{user.name}</span>
@@ -132,7 +132,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 									exit="exit"
 									variants={dropdownDown}
 									role="menu"
-									className="absolute top-full right-0 z-50 mt-2 w-48 overflow-hidden rounded-md border bg-white shadow-lg"
+									className="bg-popover absolute top-full right-0 z-50 mt-2 w-48 overflow-hidden rounded-md border shadow-lg"
 								>
 									<div className="py-2">
 										<div className="border-border border-b px-4 py-2">
@@ -171,13 +171,13 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 					<Link href="/giris" onClick={handleLinkClick}>
 						<Button
 							variant="ghost"
-							className="text-text hover:text-background font-medium transition-colors"
+							className="text-foreground hover:bg-secondary font-medium transition-colors"
 						>
 							Giriş Yap
 						</Button>
 					</Link>
 					<Link href="/kayit-ol" onClick={handleLinkClick}>
-						<Button className="bg-primary text-background hover:bg-primary rounded-lg px-4 py-2 transition-all hover:scale-[1.03] active:scale-[0.97]">
+						<Button className="bg-primary text-primary-foreground hover:bg-primary rounded-lg px-4 py-2 transition-all hover:scale-[1.03] active:scale-[0.97]">
 							Üye Ol
 						</Button>
 					</Link>

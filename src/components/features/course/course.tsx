@@ -1,12 +1,14 @@
 "use client";
 
 import { BookOpen, CheckCircle, Circle, Clock, GraduationCap, Target } from "lucide-react";
+import { AnimatePresence, m } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Quiz from "@/components/features/quiz/quiz";
 import RichTextRenderer from "@/components/shared/content/rich-text-renderer";
+import { DetailLoadingSkeleton } from "@/components/shared/loading-skeletons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import ShareButton from "@/components/ui/share-button";
 import { useLessonProgress } from "@/hooks/useLessonProgress";
+import { DURATION, EASE_IN, EASE_OUT } from "@/lib/motion";
 import type { StrapiCourse, StrapiGrade, StrapiLesson, StrapiQuiz } from "@/lib/strapi";
 import { startCourse, submitQuiz } from "@/lib/strapi";
 import { extractYouTubeVideoId } from "@/lib/utils";
@@ -96,7 +99,7 @@ export default function CoursePage({
 
 	// Update current lesson when initial lesson changes
 	useEffect(() => {
-		if (initialLesson && (!currentLesson || initialLesson.id !== currentLesson.id)) {
+		if (initialLesson && initialLesson.id !== currentLesson?.id) {
 			setCurrentLesson(initialLesson);
 		}
 	}, [initialLesson, currentLesson]);
@@ -166,16 +169,8 @@ export default function CoursePage({
 		setCurrentQuiz(null);
 	};
 
-	// Show loading state while lessons are being initialized
 	if (extendedLessons.length === 0 || !currentLesson) {
-		return (
-			<div className="bg-secondary flex min-h-screen items-center justify-center">
-				<div className="text-center">
-					<div className="border-primary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2" />
-					<p className="text-muted-foreground">Kurs yükleniyor...</p>
-				</div>
-			</div>
-		);
+		return <DetailLoadingSkeleton showBreadcrumb={false} />;
 	}
 
 	return (
@@ -198,131 +193,140 @@ export default function CoursePage({
 					{/* Main Content - Video Player */}
 					{/* min-w-0: grid items default to min-width:auto, so wide content pushed the page past the viewport on mobile */}
 					<div className="min-w-0 space-y-6 lg:col-span-2">
-						{/* Video Player */}
-						<Card className="py-0">
-							<CardContent className="p-0">
-								{currentLesson.youtubeVideoId && (
-									<LessonVideo
-										key={currentLesson.documentId}
-										videoId={currentLesson.youtubeVideoId}
-										title={currentLesson.title}
-										onEnded={() => {
-											if (isAuthenticated && !lessonProgress[currentLesson.documentId]) {
-												void markLessonComplete(currentLesson.documentId);
-											}
-										}}
-									/>
-								)}
-								<div className="p-4 sm:p-6">
-									<div className="mb-4">
-										<h1 className="text-foreground mb-2 text-xl font-bold break-words sm:text-2xl">
-											{currentLesson.title}
-										</h1>
-										<p className="text-muted-foreground">{currentLesson.description}</p>
-									</div>
-
-									{currentLesson.content?.length ? (
-										<RichTextRenderer content={currentLesson.content} />
-									) : null}
-									{miniDenemeler[currentLesson.documentId] && (
-										<Link
-											href={`/deneme-sinavlari/${miniDenemeler[currentLesson.documentId].slug}`}
-											className="border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 mt-4 flex items-center gap-2 rounded-xl border p-3 font-medium"
-										>
-											<Target className="h-4 w-4 shrink-0" aria-hidden="true" />
-											Bu konunun mini denemesini çöz:{" "}
-											{miniDenemeler[currentLesson.documentId].baslik}
-										</Link>
-									)}
-									{currentLesson.attachments?.map((attachment) => (
-										<a
-											key={attachment.id}
-											href={attachment.url}
-											target="_blank"
-											rel="noreferrer"
-											className="block py-2 break-all underline"
-										>
-											{attachment.name}
-										</a>
-									))}
-									<div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-										<div className="flex items-center gap-2">
-											<Button
-												variant="outline"
-												onClick={handlePreviousLesson}
-												disabled={
-													extendedLessons.findIndex((l) => l.id === currentLesson?.id) === 0
-												}
-											>
-												Önceki
-											</Button>
-											<Button
-												variant="outline"
-												onClick={handleNextLesson}
-												disabled={
-													extendedLessons.findIndex((l) => l.id === currentLesson?.id) ===
-													extendedLessons.length - 1
-												}
-											>
-												Sonraki
-											</Button>
-										</div>
-
-										<div className="flex flex-wrap items-center gap-2">
-											<ShareButton
-												url={getCurrentLessonUrl()}
+						<AnimatePresence mode="wait" initial={false}>
+							<m.div
+								key={currentLesson.documentId}
+								initial={{ opacity: 0, x: 12 }}
+								animate={{ opacity: 1, x: 0 }}
+								exit={{ opacity: 0, x: -8 }}
+								transition={{ duration: DURATION.base, ease: EASE_OUT }}
+							>
+								<Card className="py-0">
+									<CardContent className="p-0">
+										{currentLesson.youtubeVideoId && (
+											<LessonVideo
+												key={currentLesson.documentId}
+												videoId={currentLesson.youtubeVideoId}
 												title={currentLesson.title}
-												description={course.title}
+												onEnded={() => {
+													if (isAuthenticated && !lessonProgress[currentLesson.documentId]) {
+														void markLessonComplete(currentLesson.documentId);
+													}
+												}}
 											/>
-											{user ? (
-												<Button
-													variant={
-														lessonProgress[currentLesson.documentId] ? "secondary" : "default"
-													}
-													onClick={
-														lessonProgress[currentLesson.documentId]
-															? () => {}
-															: () => markLessonComplete(currentLesson.documentId)
-													}
-													className="flex items-center space-x-2"
-													disabled={!isAuthenticated}
-												>
-													{lessonProgress[currentLesson.documentId] ? (
-														<CheckCircle className="h-4 w-4" />
-													) : (
-														<Circle className="h-4 w-4" />
-													)}
-													<span>
-														{lessonProgress[currentLesson.documentId]
-															? "Tamamlandı"
-															: "Tamamlandı İşaretle"}
-													</span>
-												</Button>
-											) : (
-												<Button
-													variant="outline"
-													onClick={() => router.push("/giris")}
-													className="flex items-center space-x-2"
-												>
-													Giriş Yap
-												</Button>
-											)}
+										)}
+										<div className="p-4 sm:p-6">
+											<div className="mb-4">
+												<h1 className="text-foreground mb-2 text-xl font-bold wrap-break-word sm:text-2xl">
+													{currentLesson.title}
+												</h1>
+												<p className="text-muted-foreground">{currentLesson.description}</p>
+											</div>
 
-											{currentLesson.quiz?.questions?.length ? (
-												<Button
-													variant="outline"
-													onClick={() => handleStartQuiz(currentLesson.quiz as StrapiQuiz)}
-													className="flex items-center space-x-2"
-												>
-													<Target className="h-4 w-4" />
-													<span>Quiz Çöz</span>
-												</Button>
+											{currentLesson.content?.length ? (
+												<RichTextRenderer content={currentLesson.content} />
 											) : null}
+											{miniDenemeler[currentLesson.documentId] && (
+												<Link
+													href={`/deneme-sinavlari/${miniDenemeler[currentLesson.documentId].slug}`}
+													className="border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 mt-4 flex items-center gap-2 rounded-xl border p-3 font-medium"
+												>
+													<Target className="h-4 w-4 shrink-0" aria-hidden="true" />
+													Bu konunun mini denemesini çöz:{" "}
+													{miniDenemeler[currentLesson.documentId].baslik}
+												</Link>
+											)}
+											{currentLesson.attachments?.map((attachment) => (
+												<a
+													key={attachment.id}
+													href={attachment.url}
+													target="_blank"
+													rel="noreferrer"
+													className="block py-2 break-all underline"
+												>
+													{attachment.name}
+												</a>
+											))}
+											<div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+												<div className="flex items-center gap-2">
+													<Button
+														variant="outline"
+														onClick={handlePreviousLesson}
+														disabled={
+															extendedLessons.findIndex((l) => l.id === currentLesson?.id) === 0
+														}
+													>
+														Önceki
+													</Button>
+													<Button
+														variant="outline"
+														onClick={handleNextLesson}
+														disabled={
+															extendedLessons.findIndex((l) => l.id === currentLesson?.id) ===
+															extendedLessons.length - 1
+														}
+													>
+														Sonraki
+													</Button>
+												</div>
+
+												<div className="flex flex-wrap items-center gap-2">
+													<ShareButton
+														url={getCurrentLessonUrl()}
+														title={currentLesson.title}
+														description={course.title}
+													/>
+													{user ? (
+														<Button
+															variant={
+																lessonProgress[currentLesson.documentId] ? "secondary" : "default"
+															}
+															onClick={
+																lessonProgress[currentLesson.documentId]
+																	? () => {}
+																	: () => markLessonComplete(currentLesson.documentId)
+															}
+															className="flex items-center space-x-2"
+															disabled={!isAuthenticated}
+														>
+															{lessonProgress[currentLesson.documentId] ? (
+																<CheckCircle className="h-4 w-4" />
+															) : (
+																<Circle className="h-4 w-4" />
+															)}
+															<span>
+																{lessonProgress[currentLesson.documentId]
+																	? "Tamamlandı"
+																	: "Tamamlandı İşaretle"}
+															</span>
+														</Button>
+													) : (
+														<Button
+															variant="outline"
+															onClick={() => router.push("/giris")}
+															className="flex items-center space-x-2"
+														>
+															Giriş Yap
+														</Button>
+													)}
+
+													{currentLesson.quiz?.questions?.length ? (
+														<Button
+															variant="outline"
+															onClick={() => handleStartQuiz(currentLesson.quiz as StrapiQuiz)}
+															className="flex items-center space-x-2"
+														>
+															<Target className="h-4 w-4" />
+															<span>Quiz Çöz</span>
+														</Button>
+													) : null}
+												</div>
+											</div>
 										</div>
-									</div>
-								</div>
-							</CardContent>
-						</Card>
+									</CardContent>
+								</Card>
+							</m.div>
+						</AnimatePresence>
 
 						{/* Course Information */}
 						<Card>
@@ -335,7 +339,7 @@ export default function CoursePage({
 							<CardContent>
 								<div className="grid gap-6 md:grid-cols-2">
 									<div>
-										<h3 className="text-foreground mb-2 font-semibold">Kurs Açıklaması</h3>
+										<h2 className="text-foreground mb-2 font-semibold">Kurs Açıklaması</h2>
 										<p className="text-muted-foreground mb-4">{course.description}</p>
 
 										<div className="space-y-2">
@@ -448,19 +452,32 @@ export default function CoursePage({
 				</div>
 
 				{/* Quiz Modal */}
-				{showQuiz && currentQuiz && jwt && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
-						<div className="max-h-[90vh] overflow-y-auto">
-							<Quiz
-								quiz={currentQuiz}
-								onSubmit={(answers, submissionId) =>
-									submitQuiz(currentQuiz.documentId, answers, submissionId, jwt)
-								}
-								onClose={handleCloseQuiz}
-							/>
-						</div>
-					</div>
-				)}
+				<AnimatePresence>
+					{showQuiz && currentQuiz && jwt && (
+						<m.div
+							className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: DURATION.fast, ease: EASE_IN }}
+						>
+							<m.div
+								className="max-h-[90vh] overflow-y-auto"
+								initial={{ opacity: 0, scale: 0.97, y: 12 }}
+								animate={{ opacity: 1, scale: 1, y: 0 }}
+								transition={{ duration: DURATION.base, ease: EASE_OUT }}
+							>
+								<Quiz
+									quiz={currentQuiz}
+									onSubmit={(answers, submissionId) =>
+										submitQuiz(currentQuiz.documentId, answers, submissionId, jwt)
+									}
+									onClose={handleCloseQuiz}
+								/>
+							</m.div>
+						</m.div>
+					)}
+				</AnimatePresence>
 			</div>
 		</div>
 	);

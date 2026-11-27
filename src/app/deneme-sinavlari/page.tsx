@@ -35,6 +35,7 @@ export default async function DenemeSinavlariPage() {
 						raporu telefonuna gönderelim.
 					</p>
 				</div>
+				<h2 className="sr-only">Denemeler</h2>
 				<DenemeList denemeler={denemeler} />
 			</div>
 		</div>

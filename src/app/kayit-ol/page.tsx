@@ -94,7 +94,7 @@ export default function SignUpPage() {
 									return (
 										<div
 											key={feature.id}
-											className="flex items-start space-x-3 rounded-lg bg-white p-4 shadow-sm"
+											className="bg-card flex items-start space-x-3 rounded-lg p-4 shadow-sm"
 										>
 											<div className="bg-secondary rounded-lg p-2">
 												<IconComponent className={`h-5 w-5 ${feature.color}`} />
@@ -129,7 +129,7 @@ export default function SignUpPage() {
 									<Button
 										onClick={handleGoogleSignUp}
 										disabled={isSigningUp || isLoading}
-										className="border-border text-foreground hover:bg-secondary h-12 w-full border bg-white shadow-sm"
+										className="border-border text-foreground hover:bg-secondary bg-card h-12 w-full border shadow-sm"
 										variant="outline"
 									>
 										{isSigningUp || isLoading ? (
@@ -168,10 +168,7 @@ export default function SignUpPage() {
 									<div className="border-t pt-4 text-center">
 										<p className="text-muted-foreground text-sm">
 											Zaten hesabınız var mı?{" "}
-											<Link
-												href="/giris"
-												className="text-primary hover:text-background font-medium"
-											>
+											<Link href="/giris" className="text-primary font-medium hover:opacity-80">
 												Buradan giriş yapın
 											</Link>
 										</p>
@@ -182,11 +179,11 @@ export default function SignUpPage() {
 							{/* Terms */}
 							<p className="text-muted-foreground text-center text-xs">
 								Hesap oluşturarak{" "}
-								<Link href="/hizmet-sartlari" className="text-primary hover:text-background">
+								<Link href="/hizmet-sartlari" className="text-primary hover:opacity-80">
 									Hizmet Şartlarımızı
 								</Link>{" "}
 								ve{" "}
-								<Link href="/gizlilik-politikasi" className="text-primary hover:text-background">
+								<Link href="/gizlilik-politikasi" className="text-primary hover:opacity-80">
 									Gizlilik Politikamızı
 								</Link>{" "}
 								kabul etmiş olursunuz

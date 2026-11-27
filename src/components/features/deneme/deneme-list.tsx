@@ -34,13 +34,12 @@ export function DenemeList({ denemeler }: Readonly<{ denemeler: DenemeSummary[] 
 		})),
 	];
 
-	const visible = denemeler.filter((d) =>
-		filter.kind === "all"
-			? true
-			: filter.kind === "tur"
-				? d.sinavTuru === filter.value
-				: d.sinavTuru === "Okul" && d.sinif?.slug === filter.value,
-	);
+	const matchesFilter = (deneme: DenemeSummary) => {
+		if (filter.kind === "all") return true;
+		if (filter.kind === "tur") return deneme.sinavTuru === filter.value;
+		return deneme.sinavTuru === "Okul" && deneme.sinif?.slug === filter.value;
+	};
+	const visible = denemeler.filter(matchesFilter);
 
 	const isActive = (f: Filter) => JSON.stringify(f) === JSON.stringify(filter);
 
@@ -108,7 +107,7 @@ export function DenemeList({ denemeler }: Readonly<{ denemeler: DenemeSummary[] 
 								initial: { opacity: 0, y: 12 },
 								animate: { opacity: 1, y: 0 },
 							}}
-							className="text-muted-foreground col-span-full rounded-xl border bg-white p-8 text-center"
+							className="text-muted-foreground bg-card col-span-full rounded-xl border p-8 text-center"
 						>
 							Bu filtrede henüz deneme yok. Yakında eklenecek.
 						</m.p>

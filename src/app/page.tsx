@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SavedReportsSection } from "@/components/features/deneme/saved-reports";
 import Courses from "@/components/features/home/courses";
 import { HomeDenemeler, HomeVeliler } from "@/components/features/home/home-sections";
 import { HomeSlider } from "@/components/features/home/home-slider";
+import { CardGridSkeleton } from "@/components/shared/loading-skeletons";
 import { getDenemeler } from "@/lib/deneme";
 import { getHomeSlides } from "@/lib/home";
 import { canonicalUrl } from "@/lib/seo";
@@ -20,7 +22,16 @@ export default async function Home() {
 			<HomeSlider slides={slides} />
 			<SavedReportsSection />
 			<HomeDenemeler denemeler={denemeler} />
-			<Courses preview />
+			<Suspense
+				fallback={
+					<output aria-label="Dersler yükleniyor" aria-busy="true" className="block py-8 sm:py-10">
+						<span className="sr-only">Dersler yükleniyor</span>
+						<CardGridSkeleton count={3} />
+					</output>
+				}
+			>
+				<Courses preview />
+			</Suspense>
 			<HomeVeliler />
 		</>
 	);

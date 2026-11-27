@@ -4,7 +4,9 @@ import { Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { ReviewListSkeleton } from "@/components/shared/loading-skeletons";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
 	deleteTutorReview,
 	EMPTY_RATING,
@@ -67,14 +69,18 @@ export function TutorReviews({
 	const [comment, setComment] = useState("");
 	const [hasReview, setHasReview] = useState(false);
 	const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+	const [isLoading, setIsLoading] = useState(true);
 
 	const loadReviews = useCallback(async () => {
+		setIsLoading(true);
 		try {
 			const response = await getTutorReviews(tutorDocumentId);
 			setReviews(response.data);
 			setSummary(response.meta);
 		} catch (error) {
 			console.error("Could not load reviews", error);
+		} finally {
+			setIsLoading(false);
 		}
 	}, [tutorDocumentId]);
 
@@ -129,14 +135,19 @@ export function TutorReviews({
 	return (
 		<section
 			aria-labelledby="reviews-title"
-			className="rounded-2xl border bg-white p-4 shadow-sm sm:p-6"
+			className="bg-card rounded-2xl border p-4 shadow-sm sm:p-6"
 		>
 			<div className="mb-6 flex flex-wrap items-end justify-between gap-4">
 				<div>
 					<h2 id="reviews-title" className="text-foreground text-xl font-bold">
 						Öğrenci Değerlendirmeleri
 					</h2>
-					{summary.count > 0 ? (
+					{isLoading ? (
+						<div className="mt-3 space-y-2">
+							<Skeleton className="h-7 w-32" />
+							<Skeleton className="h-4 w-48" />
+						</div>
+					) : summary.count > 0 ? (
 						<div className="mt-2 flex flex-wrap items-center gap-2">
 							<span className="text-foreground text-2xl font-bold">
 								{summary.average.toLocaleString("tr-TR")}
@@ -148,7 +159,7 @@ export function TutorReviews({
 						<p className="text-muted-foreground mt-1 text-sm">Henüz değerlendirme yok.</p>
 					)}
 				</div>
-				{summary.satisfaction !== null && (
+				{!isLoading && summary.satisfaction !== null && (
 					<div className="bg-primary/10 rounded-xl px-4 py-2 text-center">
 						<div className="text-primary text-xl font-bold">%{summary.satisfaction}</div>
 						<div className="text-muted-foreground text-xs">Memnuniyet</div>
@@ -184,7 +195,7 @@ export function TutorReviews({
 						maxLength={1000}
 						rows={3}
 						placeholder="Deneyiminizi diğer öğrenci ve velilerle paylaşın (isteğe bağlı)"
-						className="border-border focus:ring-primary mt-3 w-full rounded-lg border bg-white p-3 text-sm focus:ring-2 focus:outline-none"
+						className="border-border focus:ring-primary bg-card mt-3 w-full rounded-lg border p-3 text-sm focus:ring-2 focus:outline-none"
 					/>
 					<div className="mt-3 flex flex-wrap items-center gap-3">
 						<Button type="submit" disabled={!rating || status === "saving"}>
@@ -196,9 +207,9 @@ export function TutorReviews({
 							</Button>
 						)}
 						{status === "saved" && (
-							<span role="status" className="text-sm text-green-700">
+							<output className="text-sm text-green-700">
 								Teşekkürler, değerlendirmeniz kaydedildi.
-							</span>
+							</output>
 						)}
 						{status === "error" && (
 							<span role="alert" className="text-destructive text-sm">
@@ -222,7 +233,9 @@ export function TutorReviews({
 			)}
 
 			{/* List */}
-			{reviews.length > 0 && (
+			{isLoading ? (
+				<ReviewListSkeleton />
+			) : reviews.length > 0 ? (
 				<ul className="divide-y">
 					{reviews.map((review) => (
 						<li key={`${review.author}-${review.updatedAt}`} className="py-4">
@@ -241,7 +254,7 @@ export function TutorReviews({
 						</li>
 					))}
 				</ul>
-			)}
+			) : null}
 		</section>
 	);
 }

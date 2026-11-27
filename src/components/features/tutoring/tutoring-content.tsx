@@ -25,7 +25,7 @@ function TutorCard({
 
 	return (
 		// The name link stretches over the whole card (after:inset-0); contact buttons sit above it (z-10).
-		<article className="border-border group relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+		<article className="border-border group bg-card relative flex flex-col overflow-hidden rounded-2xl border shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 			<div className="flex items-start gap-4 p-6 pb-4">
 				<div className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20">
 					<Image
@@ -33,7 +33,7 @@ function TutorCard({
 						alt=""
 						fill
 						sizes="(min-width: 640px) 80px, 64px"
-						className="rounded-full border-4 border-white object-cover shadow-lg"
+						className="border-card rounded-full border-4 object-cover shadow-lg"
 					/>
 				</div>
 
@@ -85,15 +85,15 @@ function TutorCard({
 						<div className="text-primary text-lg font-bold">
 							{rating.satisfaction !== null ? `%${rating.satisfaction}` : "—"}
 						</div>
-						<div className="text-muted-foreground text-xs">Memnuniyet</div>
+						<div className="dark:text-muted-foreground text-xs text-slate-600">Memnuniyet</div>
 					</div>
 					<div className="bg-primary/10 rounded-lg px-1 py-2 sm:p-3">
 						<div className="text-primary text-lg font-bold">{tutor.studentCount}</div>
-						<div className="text-muted-foreground text-xs">Öğrenci</div>
+						<div className="dark:text-muted-foreground text-xs text-slate-600">Öğrenci</div>
 					</div>
 					<div className="bg-primary/10 rounded-lg px-1 py-2 sm:p-3">
 						<div className="text-primary text-lg font-bold">{tutor.exprienceYears}</div>
-						<div className="text-muted-foreground text-xs">Yıl Deneyim</div>
+						<div className="dark:text-muted-foreground text-xs text-slate-600">Yıl Deneyim</div>
 					</div>
 				</div>
 			</div>
@@ -180,8 +180,9 @@ export default function TutoringContent({
 
 	return (
 		<div id="ogretmenler" className="mx-auto scroll-mt-20 px-4 py-12 sm:px-6 lg:px-8">
+			<h2 className="sr-only">Öğretmenler</h2>
 			{/* Filters */}
-			<div className="border-border mb-8 rounded-2xl border bg-white p-4 shadow-sm sm:p-6">
+			<div className="border-border bg-card mb-8 rounded-2xl border p-4 shadow-sm sm:p-6">
 				<div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 					{/* Subject Filters */}
 					<div className="flex flex-wrap gap-2">
@@ -193,7 +194,7 @@ export default function TutoringContent({
 								className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ease-out active:scale-95 ${
 									selectedSubject === subject.id
 										? "bg-primary text-background scale-[1.02] shadow-lg"
-										: "bg-secondary text-muted-foreground hover:bg-secondary"
+										: "bg-secondary hover:bg-secondary dark:text-muted-foreground text-slate-600"
 								}`}
 							>
 								{subject.name} ({subject.count})
@@ -215,6 +216,7 @@ export default function TutoringContent({
 						</div>
 
 						<select
+							aria-label="Öğretmen sıralama"
 							value={sortBy}
 							onChange={(e) => setSortBy(e.target.value)}
 							className="border-border focus:ring-primary w-full min-w-0 rounded-xl border px-4 py-2 focus:border-transparent focus:ring-2 sm:w-auto"

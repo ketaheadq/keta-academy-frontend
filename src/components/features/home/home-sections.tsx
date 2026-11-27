@@ -87,7 +87,7 @@ export function HomeVeliler() {
 				as="figure"
 				variant="scale"
 				delay={0.12}
-				className="rounded-2xl bg-white p-5 text-slate-900"
+				className="bg-card text-card-foreground rounded-2xl p-5"
 			>
 				<figcaption className="mb-3 text-sm font-semibold">
 					Örnek rapor · konu bazında başarı
@@ -108,7 +108,7 @@ export function HomeVeliler() {
 						</li>
 					))}
 				</ul>
-				<p className="mt-4 rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+				<p className="bg-secondary text-secondary-foreground mt-4 rounded-lg p-3 text-sm">
 					"Öncelikle kareköklü ifadelere çalışalım: şu dersi izle → Kareköklü İfadelerde
 					Sadeleştirme"
 				</p>
@@ -116,7 +116,7 @@ export function HomeVeliler() {
 					href="/ornek-deneme-raporu.pdf"
 					target="_blank"
 					rel="noopener"
-					className="mt-3 inline-block text-sm font-medium underline underline-offset-2 transition-colors hover:text-slate-600"
+					className="hover:text-foreground mt-3 inline-block text-sm font-medium underline underline-offset-2 transition-colors"
 				>
 					Örnek PDF raporu inceleyin
 				</a>

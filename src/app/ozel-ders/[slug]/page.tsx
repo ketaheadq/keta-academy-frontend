@@ -87,7 +87,7 @@ export default async function TutorPage({ params }: PageProps) {
 				<div className="grid gap-6 lg:grid-cols-3">
 					{/* Left: profile, about, reviews */}
 					<div className="min-w-0 space-y-6 lg:col-span-2">
-						<section className="rounded-2xl border bg-white p-4 shadow-sm sm:p-6">
+						<section className="bg-card rounded-2xl border p-4 shadow-sm sm:p-6">
 							<div className="flex flex-col gap-5 sm:flex-row sm:items-center">
 								<div className="relative h-28 w-28 shrink-0">
 									<Image
@@ -95,7 +95,7 @@ export default async function TutorPage({ params }: PageProps) {
 										alt={tutor.name}
 										fill
 										sizes="112px"
-										className="rounded-full border-4 border-white object-cover shadow-lg"
+										className="border-card rounded-full border-4 object-cover shadow-lg"
 										priority
 									/>
 								</div>
@@ -143,8 +143,8 @@ export default async function TutorPage({ params }: PageProps) {
 							</div>
 						</section>
 
-						{(tutor.content?.length || expertise.length > 0) && (
-							<section className="rounded-2xl border bg-white p-4 shadow-sm sm:p-6">
+						{(!!tutor.content?.length || expertise.length > 0) && (
+							<section className="bg-card rounded-2xl border p-4 shadow-sm sm:p-6">
 								<h2 className="text-foreground mb-4 flex items-center gap-2 text-xl font-bold">
 									<BookOpen className="h-5 w-5" aria-hidden="true" />
 									Hakkında
@@ -154,7 +154,7 @@ export default async function TutorPage({ params }: PageProps) {
 										{expertise.map((item) => (
 											<span
 												key={item}
-												className="text-muted-foreground rounded-full border bg-white px-3 py-1 text-sm"
+												className="text-muted-foreground bg-card rounded-full border px-3 py-1 text-sm"
 											>
 												{item}
 											</span>
@@ -170,7 +170,7 @@ export default async function TutorPage({ params }: PageProps) {
 
 					{/* Right: price + contact (desktop) */}
 					<aside className="hidden min-w-0 lg:block">
-						<div className="sticky top-6 rounded-2xl border bg-white p-6 shadow-sm">
+						<div className="bg-card sticky top-6 rounded-2xl border p-6 shadow-sm">
 							<div className="text-foreground text-3xl font-bold">
 								₺{tutor.price}
 								<span className="text-muted-foreground text-base font-normal">/saat</span>
@@ -192,7 +192,7 @@ export default async function TutorPage({ params }: PageProps) {
 
 			{/* Mobile: price + contact sticky at the bottom while the page is in view (stops above the footer) */}
 			{phone && (
-				<div className="sticky bottom-0 z-40 border-t bg-white/95 px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] backdrop-blur lg:hidden">
+				<div className="bg-card/95 sticky bottom-0 z-40 border-t px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] backdrop-blur lg:hidden">
 					<div className="mx-auto flex max-w-6xl items-center gap-3">
 						<div className="text-foreground shrink-0 text-xl font-bold">
 							₺{tutor.price}
