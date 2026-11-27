@@ -15,7 +15,7 @@ export default async function Navbar() {
 	]);
 
 	return (
-		<header className="bg-card/95 border-b shadow-sm backdrop-blur-md">
+		<header className="bg-card/95 relative z-40 border-b shadow-sm backdrop-blur-md">
 			<div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-4 lg:px-2 xl:px-0">
 				<div className="flex items-center justify-between py-6">
 					<Link href="/" className="group flex items-center">
