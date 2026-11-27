@@ -42,13 +42,13 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 		>
 			<CardContent className="p-0">
 				{/* Blog Image */}
-				<div className="relative overflow-hidden">
+				<div className="relative aspect-[2/1] overflow-hidden">
 					<Image
 						src={blog.image ? blog.image.url : "/images/blog.jpg"}
 						alt={blog.image ? blog.image.alternativeText || blog.title : "Blog Image"}
-						width={blog.image ? blog.image.width || 400 : 400}
-						height={blog.image ? blog.image.height || 250 : 250}
-						className="h-48 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+						fill
+						sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+						className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
 						onError={(e) => {
 							e.currentTarget.src = "/images/blog.jpg";
 						}}

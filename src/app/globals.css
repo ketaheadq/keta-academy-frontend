@@ -264,7 +264,6 @@ html:not([data-motion-ready]) [style*="opacity:0"] {
 	overflow-wrap: anywhere;
 }
 
-.blog-content img,
 .blog-content video,
 .blog-content iframe {
 	max-width: 100%;
