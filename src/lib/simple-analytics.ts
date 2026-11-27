@@ -57,7 +57,7 @@ export function track404ToGTM(data: {
 	const win = globalThis.window as WindowWithAnalytics;
 
 	// Push to dataLayer for GTM
-	win.dataLayer = win.dataLayer || [];
+	win.dataLayer = win.dataLayer ?? [];
 	win.dataLayer.push({
 		event: "404_error",
 		error_type: "404",

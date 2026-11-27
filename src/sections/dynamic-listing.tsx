@@ -47,7 +47,7 @@ export default function DynamicListing<T extends ListableItem>({
 			</Reveal>
 			<RevealGroup className={gridClasses} gap={0.08}>
 				{displayedItems.map((item) => (
-					<RevealItem key={String(item.id)} className="[&>*]:h-full">
+					<RevealItem key={String(item.id)} className="*:h-full">
 						{renderItem(item)}
 					</RevealItem>
 				))}

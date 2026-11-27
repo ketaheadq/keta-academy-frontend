@@ -10,6 +10,13 @@ type StrapiSlide = {
 	gorsel: { url: string } | null;
 };
 
+function resolveSlideImageUrl(image: StrapiSlide["gorsel"]): string | null {
+	const url = image?.url;
+	if (!url) return null;
+	if (url.startsWith("/")) return `${process.env.NEXT_PUBLIC_STRAPI_URL ?? ""}${url}`;
+	return url;
+}
+
 /** The current hero, used when no slide is set up in the panel yet. */
 export const DEFAULT_SLIDES: Slide[] = [
 	{
@@ -40,11 +47,7 @@ export async function getHomeSlides(): Promise<Slide[]> {
 			altMetin: s.altMetin,
 			butonYazisi: s.butonYazisi,
 			link: s.link,
-			gorselUrl: s.gorsel?.url
-				? s.gorsel.url.startsWith("/")
-					? `${process.env.NEXT_PUBLIC_STRAPI_URL ?? ""}${s.gorsel.url}`
-					: s.gorsel.url
-				: null,
+			gorselUrl: resolveSlideImageUrl(s.gorsel),
 		}));
 		return slides.length ? slides : DEFAULT_SLIDES;
 	} catch {

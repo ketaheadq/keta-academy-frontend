@@ -542,34 +542,37 @@ export async function getCourse(slug: string) {
 	return response.data[0];
 }
 
+async function fetchAllStrapiPages<T>(
+	fetchPage: (page: number) => Promise<StrapiCollectionResponse<T>>,
+): Promise<T[]> {
+	// pageCount comes from the first response; later pages can then load concurrently.
+	const firstPage = await fetchPage(1);
+	const pageCount = firstPage.meta?.pagination?.pageCount ?? 1;
+	const remainingPages = await Promise.all(
+		Array.from({ length: pageCount - 1 }, (_, index) => fetchPage(index + 2)),
+	);
+	return [firstPage, ...remainingPages].flatMap((response) => response.data);
+}
+
 export async function getLessonsByCourseId(courseId: number) {
-	// Strapi returns 25 rows per page by default, so walk every page (100 is the max page size).
-	const courseLessons: StrapiCourseLesson[] = [];
-	for (let page = 1; ; page++) {
-		const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourseLesson>>(
+	// Strapi returns 25 rows per page by default (100 is the max page size).
+	const courseLessons = await fetchAllStrapiPages((page) =>
+		fetchStrapiData<StrapiCollectionResponse<StrapiCourseLesson>>(
 			`course-lessons?populate[lesson][populate][quiz][populate][questions][populate][options]=true&populate[lesson][populate][attachments]=true&populate[lesson][populate][SEO][populate]=metaImage&filters[course][id][$eq]=${courseId}&sort=order:asc&pagination[page]=${page}&pagination[pageSize]=100`,
-		);
-		// Unpublished (or deleted) lessons come back as `lesson: null`; skip those links.
-		courseLessons.push(...response.data.filter((link) => link.lesson));
-		if (page >= (response.meta?.pagination?.pageCount ?? 1)) break;
-	}
-	return courseLessons.sort((a, b) => a.order - b.order);
+		),
+	);
+	// Unpublished (or deleted) lessons come back as `lesson: null`; skip those links.
+	return courseLessons.filter((link) => link.lesson).sort((a, b) => a.order - b.order);
 }
 
 export async function getAllCourseLessons(token: string) {
-	const lessons: StrapiCourseLesson[] = [];
-	let page = 1;
-	let pageCount: number;
-	do {
-		const response = await fetchStrapiDataUsingToken<StrapiCollectionResponse<StrapiCourseLesson>>(
+	const lessons = await fetchAllStrapiPages((page) =>
+		fetchStrapiDataUsingToken<StrapiCollectionResponse<StrapiCourseLesson>>(
 			`course-lessons?populate=*&sort=id:asc&pagination[page]=${page}&pagination[pageSize]=50`,
 			token,
-		);
-		lessons.push(...response.data.filter((link) => link.course && link.lesson));
-		pageCount = response.meta.pagination.pageCount;
-		page++;
-	} while (page <= pageCount);
-	return lessons.sort((a, b) => a.order - b.order);
+		),
+	);
+	return lessons.filter((link) => link.course && link.lesson).sort((a, b) => a.order - b.order);
 }
 
 export async function getSubjects() {
@@ -587,19 +590,23 @@ export async function getGrades() {
 /** Published courses with the given documentIds, in the same order as `documentIds`. */
 export async function getCoursesByDocumentIds(documentIds: string[]): Promise<StrapiCourse[]> {
 	if (!documentIds.length) return [];
-	const courses: StrapiCourse[] = [];
 	// Chunk to keep the query string short and within the 100-row page size.
-	for (let i = 0; i < documentIds.length; i += 50) {
-		const filters = documentIds
-			.slice(i, i + 50)
-			.map((id, index) => `filters[documentId][$in][${index}]=${encodeURIComponent(id)}`)
-			.join("&");
-		const response = await fetchStrapiData<StrapiResponse<StrapiCourse[]>>(
-			`courses?${filters}&populate=*&pagination[pageSize]=100`,
-			{ revalidate: 0 },
-		);
-		courses.push(...response.data);
-	}
+	const responses = await Promise.all(
+		Array.from({ length: Math.ceil(documentIds.length / 50) }, (_, index) => {
+			const offset = index * 50;
+			const filters = documentIds
+				.slice(offset, offset + 50)
+				.map(
+					(id, filterIndex) => `filters[documentId][$in][${filterIndex}]=${encodeURIComponent(id)}`,
+				)
+				.join("&");
+			return fetchStrapiData<StrapiResponse<StrapiCourse[]>>(
+				`courses?${filters}&populate=*&pagination[pageSize]=100`,
+				{ revalidate: 0 },
+			);
+		}),
+	);
+	const courses = responses.flatMap((response) => response.data);
 	const position = new Map(documentIds.map((id, index) => [id, index]));
 	return courses.sort(
 		(a, b) => (position.get(a.documentId) ?? 0) - (position.get(b.documentId) ?? 0),
@@ -612,19 +619,16 @@ export async function getCourses() {
 }
 
 export async function getPublishedCourses(limit?: number, revalidate = 0): Promise<StrapiCourse[]> {
-	const courses: StrapiCourse[] = [];
-	let page = 1;
-	let pageCount: number;
-	do {
-		const response = await fetchStrapiData<StrapiCollectionResponse<StrapiCourse>>(
+	const fetchCourses = (page: number) =>
+		fetchStrapiData<StrapiCollectionResponse<StrapiCourse>>(
 			`courses?status=published&populate=*&sort=title:asc&pagination[page]=${page}&pagination[pageSize]=${limit ?? 50}`,
 			{ revalidate, allowForbidden: false },
 		);
-		courses.push(...response.data);
-		pageCount = limit ? 1 : response.meta.pagination.pageCount;
-		page++;
-	} while (page <= pageCount);
-	return courses;
+	if (limit) {
+		const response = await fetchCourses(1);
+		return response.data;
+	}
+	return fetchAllStrapiPages(fetchCourses);
 }
 
 export async function getCoursesBySubject(subjectSlug: string) {
@@ -976,13 +980,14 @@ export function tutorPath(tutor: Pick<StrapiTutoringProfile, "slug" | "documentI
 /** Finds a tutor by slug, falling back to documentId (for tutors without a slug). */
 export async function getTutoringProfile(slugOrId: string): Promise<StrapiTutoringProfile | null> {
 	const value = encodeURIComponent(slugOrId);
-	for (const field of ["slug", "documentId"]) {
-		const response = await fetchStrapiData<StrapiResponse<StrapiTutoringProfile[]>>(
+	const fetchProfile = (field: "slug" | "documentId") =>
+		fetchStrapiData<StrapiResponse<StrapiTutoringProfile[]>>(
 			`tutoring-profiles?filters[${field}][$eq]=${value}&${TUTOR_POPULATE}`,
 		);
-		if (response.data?.length) return response.data[0];
-	}
-	return null;
+	const slugMatch = await fetchProfile("slug");
+	if (slugMatch.data?.length) return slugMatch.data[0];
+	const documentIdMatch = await fetchProfile("documentId");
+	return documentIdMatch.data?.[0] ?? null;
 }
 
 // Tutor reviews

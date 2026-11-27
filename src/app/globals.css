@@ -261,6 +261,20 @@ html:not([data-motion-ready]) [style*="opacity:0"] {
 
 .blog-content {
 	line-height: 1.8;
+	overflow-wrap: anywhere;
+}
+
+.blog-content img,
+.blog-content video,
+.blog-content iframe {
+	max-width: 100%;
+	height: auto;
+}
+
+.blog-content pre,
+.blog-content table {
+	max-width: 100%;
+	overflow-x: auto;
 }
 
 .blog-content h1,

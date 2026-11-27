@@ -48,9 +48,9 @@ const crumbVariants: Variants = {
 
 export function BreadcrumbNav({ breadcrumbs }: Readonly<BreadcrumbNavProps>) {
 	return (
-		<div className="border-border/60 from-muted/70 via-background to-muted/30 relative isolate overflow-hidden border-b bg-linear-to-r">
+		<div className="border-border/60 from-muted/70 via-background to-muted/30 relative isolate -mx-4 -mt-6 overflow-hidden border-b bg-linear-to-r sm:-mx-6 md:-mx-4 lg:-mx-2 xl:mx-0">
 			<m.div
-				className="relative z-10 mx-auto flex min-h-12 items-center py-2"
+				className="relative z-10 mx-auto flex min-h-12 w-full max-w-6xl items-center px-4 py-2 sm:px-6 md:px-4 lg:px-2 xl:px-0"
 				variants={containerVariants}
 				initial="hidden"
 				animate="shown"
@@ -101,7 +101,12 @@ export function BreadcrumbNav({ breadcrumbs }: Readonly<BreadcrumbNavProps>) {
 													asChild
 													className="group hover:border-border hover:bg-card hover:text-accent focus-visible:ring-ring inline-flex items-center rounded-full border border-transparent px-2.5 py-1.5 font-medium hover:shadow-sm focus-visible:ring-2 focus-visible:outline-none"
 												>
-													<Link href={breadcrumb.href}>{breadcrumb.label}</Link>
+													<Link
+														href={breadcrumb.href}
+														className="block max-w-[38vw] truncate sm:max-w-56"
+													>
+														{breadcrumb.label}
+													</Link>
 												</BreadcrumbLink>
 											)}
 										</m.span>

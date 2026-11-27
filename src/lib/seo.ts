@@ -50,7 +50,8 @@ export const SITE_ORIGIN = (
 
 /** Canonical URL for an App Router path, e.g. `canonicalUrl("/kurslar")`. */
 export function canonicalUrl(path: string): string {
-	return `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
+	const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+	return `${SITE_ORIGIN}${normalizedPath}`;
 }
 
 /**
@@ -212,37 +213,29 @@ function generateDefaultTitle(content: SEOContent, siteName: string): string {
 	return `${content.title} | ${siteName}`;
 }
 
+const PAGE_TYPE_DESCRIPTIONS: Record<StrapiPage["pageType"], string> = {
+	"Üniversite Taban Puanları":
+		"Güncel üniversite taban puanları, sıralama bilgileri ve detaylı analiz. 2024 YKS taban puanları ve başarı sıralamaları.",
+	"Bölüm Taban Puanları":
+		"Bölüm bazında taban puanları, kontenjanlar ve yerleştirme bilgileri. YKS tercih rehberi.",
+	Videolar:
+		"Eğitim videoları, ders anlatımları ve motivasyon içerikleri. Ücretsiz online eğitim videoları.",
+	Bloglar: "Eğitim blog yazıları, sınav hazırlık ipuçları ve akademik rehberlik içerikleri.",
+	"Hesaplama Araçları": "KetaLearn",
+};
+
 function generateDefaultDescription(content: SEOContent): string {
 	if ("pageType" in content) {
-		// Page content
-		switch (content.pageType) {
-			case "Üniversite Taban Puanları":
-				return `${content.title} - Güncel üniversite taban puanları, sıralama bilgileri ve detaylı analiz. 2024 YKS taban puanları ve başarı sıralamaları.`;
-			case "Bölüm Taban Puanları":
-				return `${content.title} - Bölüm bazında taban puanları, kontenjanlar ve yerleştirme bilgileri. YKS tercih rehberi.`;
-			case "Videolar":
-				return `${content.title} - Eğitim videoları, ders anlatımları ve motivasyon içerikleri. Ücretsiz online eğitim videoları.`;
-			case "Bloglar":
-				return `${content.title} - Eğitim blog yazıları, sınav hazırlık ipuçları ve akademik rehberlik içerikleri.`;
-			default:
-				return `${content.title} - KetaLearn`;
-		}
+		return `${content.title} - ${PAGE_TYPE_DESCRIPTIONS[content.pageType]}`;
 	}
 	if ("description" in content && content.description) {
-		// Course or other content with description
 		return content.description;
 	}
 	if ("content" in content && Array.isArray(content.content)) {
-		// Blog content - extract text from first block
-		for (const block of content.content) {
-			if (block.children && block.children.length > 0) {
-				const text = block.children[0]?.text;
-				if (text?.trim()) {
-					return text.substring(0, 160);
-				}
-			}
-		}
-		return `${content.title} - KetaLearn blog yazısı`;
+		const text = content.content
+			.map((block) => block.children?.[0]?.text)
+			.find((text) => Boolean(text?.trim()));
+		return text?.substring(0, 160) || `${content.title} - KetaLearn blog yazısı`;
 	}
 
 	return `${content.title} - KetaLearn`;
