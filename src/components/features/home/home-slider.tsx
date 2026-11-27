@@ -128,14 +128,14 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 									{index === 0 ? (
 										<m.h1
 											variants={copyLine}
-											className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl"
+											className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl dark:text-slate-900"
 										>
 											{slide.baslik}
 										</m.h1>
 									) : (
 										<m.h2
 											variants={copyLine}
-											className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl"
+											className="max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl dark:text-slate-900"
 										>
 											{slide.baslik}
 										</m.h2>
@@ -143,7 +143,7 @@ export function HomeSlider({ slides }: Readonly<{ slides: Slide[] }>) {
 									{slide.altMetin && (
 										<m.p
 											variants={copyLine}
-											className="mt-3 max-w-xl text-base text-pretty text-slate-700 sm:mt-4 sm:text-lg dark:text-slate-300"
+											className="mt-3 max-w-xl text-base text-pretty text-slate-700 sm:mt-4 sm:text-lg"
 										>
 											{slide.altMetin}
 										</m.p>

@@ -171,7 +171,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 					<Link href="/giris" onClick={handleLinkClick}>
 						<Button
 							variant="ghost"
-							className="text-foreground hover:bg-secondary font-medium transition-colors"
+							className="text-foreground hover:bg-secondary hover:text-primary font-medium transition-colors"
 						>
 							Giriş Yap
 						</Button>
