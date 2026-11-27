@@ -55,7 +55,7 @@ export default function CookieConsent() {
 
 					<p className="text-muted-foreground mb-4 text-sm">
 						Çerezleri kullanarak deneyiminizi ve site kullanımınızı iyileştirmek için kullanıyoruz.{" "}
-						<a href="/gizlilik-politikasi" className="hover:text-foreground underline">
+						<a href="/gizlilik-politikasi" className="accent-link inline-block">
 							Daha fazla bilgi al
 						</a>
 					</p>

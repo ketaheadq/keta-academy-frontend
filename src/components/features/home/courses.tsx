@@ -22,10 +22,7 @@ export default async function Courses({ preview = false }: Readonly<{ preview?: 
 			{preview && (
 				<Reveal className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
 					<h2 className="text-2xl font-semibold tracking-tight">Dersler</h2>
-					<Link
-						href="/kurslar"
-						className="text-primary font-medium underline-offset-4 hover:underline"
-					>
+					<Link href="/kurslar" className="accent-link text-primary inline-block font-medium">
 						Tüm dersler
 					</Link>
 				</Reveal>

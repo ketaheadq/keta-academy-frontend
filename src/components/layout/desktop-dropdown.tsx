@@ -54,7 +54,7 @@ export default function DesktopDropdown({ category }: Readonly<DesktopDropdownPr
 				onMouseLeave={scheduleClose}
 				onFocus={keepOpen}
 				onBlur={scheduleClose}
-				className="text-muted-foreground hover:text-primary flex items-center space-x-1 font-medium transition-colors"
+				className="accent-link text-muted-foreground flex items-center space-x-1 font-medium"
 			>
 				<span>{category.title}</span>
 				<m.span
@@ -118,7 +118,7 @@ export default function DesktopDropdown({ category }: Readonly<DesktopDropdownPr
 										role="menuitem"
 										href={`/sayfalar/${page.slug}`}
 										onClick={() => setOpen(false)}
-										className="text-muted-foreground hover:bg-primary hover:text-background block px-4 py-2 text-sm transition-colors"
+										className="dropdown-item text-muted-foreground block px-4 py-2 text-sm"
 									>
 										{page.title}
 									</Link>

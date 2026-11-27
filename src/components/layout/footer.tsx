@@ -56,7 +56,7 @@ export default async function Footer() {
 									<li key={subject.slug}>
 										<Link
 											href={`/konular/${subject.slug}`}
-											className="text-sm text-slate-400 transition-colors duration-200 hover:text-white"
+											className="accent-link inline-block text-sm text-slate-400"
 										>
 											{subject.title}
 										</Link>
@@ -74,7 +74,7 @@ export default async function Footer() {
 								<li key={blog.slug}>
 									<Link
 										href={`/sayfalar/${blog.page?.slug}/${blog.slug}`}
-										className="line-clamp-2 text-sm text-slate-400 transition-colors duration-200 hover:text-white"
+										className="accent-link line-clamp-2 inline-block text-sm text-slate-400"
 									>
 										{blog.title}
 									</Link>
@@ -91,7 +91,7 @@ export default async function Footer() {
 								<li key={link.href}>
 									<Link
 										href={link.href}
-										className="text-sm text-slate-400 transition-colors duration-200 hover:text-white"
+										className="accent-link inline-block text-sm text-slate-400"
 									>
 										{link.name}
 									</Link>
@@ -111,7 +111,7 @@ export default async function Footer() {
 							<Link
 								href="https://www.instagram.com/keta.akademi/"
 								aria-label="KetaLearn Instagram sayfası (yeni sekmede açılır)"
-								className="text-slate-400 transition-colors hover:text-white"
+								className="accent-link inline-flex text-slate-400 transition-transform duration-200 hover:-translate-y-0.5"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -120,7 +120,7 @@ export default async function Footer() {
 							<Link
 								href="https://www.youtube.com/@ketalearn"
 								aria-label="KetaLearn YouTube kanalı (yeni sekmede açılır)"
-								className="text-slate-400 transition-colors hover:text-white"
+								className="accent-link inline-flex text-slate-400 transition-transform duration-200 hover:-translate-y-0.5"
 								target="_blank"
 								rel="noopener noreferrer"
 							>

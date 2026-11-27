@@ -91,7 +91,7 @@ export default function AdmissionScoreCard({
 						{/* Top section */}
 						<div className="flex-1">
 							<div className="mb-2 flex items-start justify-between">
-								<h3 className="text-foreground group-hover:text-primary mr-2 line-clamp-2 flex-1 text-lg leading-tight font-bold transition-colors">
+								<h3 className="text-foreground group-hover:text-accent mr-2 line-clamp-2 flex-1 text-lg leading-tight font-bold transition-colors">
 									{admissionScore.title}
 								</h3>
 								{admissionScore.isPopular && (

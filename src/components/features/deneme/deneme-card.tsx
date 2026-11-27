@@ -8,13 +8,13 @@ import { cn } from "@/lib/utils";
 /** Exam card for the list page and the home page. The whole card links to the exam page. */
 export function DenemeCard({ deneme }: Readonly<{ deneme: DenemeSummary }>) {
 	return (
-		<article className="group bg-card relative flex h-full flex-col rounded-2xl border p-5 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/5">
+		<article className="interactive-card group bg-card relative flex h-full flex-col rounded-2xl border p-5 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-900/5">
 			<div className="mb-3 flex flex-wrap gap-2">
 				<Badge>{SINAV_TURU_LABEL[deneme.sinavTuru]}</Badge>
 				{deneme.sinif && <Badge variant="secondary">{deneme.sinif.title}</Badge>}
 				{deneme.ders && <Badge variant="outline">{deneme.ders.title}</Badge>}
 			</div>
-			<h3 className="text-foreground text-lg leading-snug font-bold">
+			<h3 className="text-foreground group-hover:text-accent text-lg leading-snug font-bold transition-colors">
 				<Link href={`/deneme-sinavlari/${deneme.slug}`} className="after:absolute after:inset-0">
 					{deneme.baslik}
 				</Link>
@@ -41,7 +41,7 @@ export function DenemeCard({ deneme }: Readonly<{ deneme: DenemeSummary }>) {
 					aria-hidden="true"
 					className={cn(
 						buttonVariants({ size: "sm" }),
-						"group-hover:bg-primary w-full transition-colors",
+						"group-hover:bg-primary w-full transition-colors group-hover:after:scale-x-100",
 					)}
 				>
 					Ücretsiz çöz{" "}

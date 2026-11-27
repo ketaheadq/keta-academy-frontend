@@ -181,7 +181,7 @@ function LoginContent() {
 					<div className="border-t pt-4 text-center">
 						<p className="text-muted-foreground text-sm">
 							Hesabınız yok mu?{" "}
-							<Link href="/kayit-ol" className="text-primary font-medium hover:opacity-80">
+							<Link href="/kayit-ol" className="accent-link text-primary inline-block font-medium">
 								Buradan kayıt olun
 							</Link>
 						</p>
@@ -192,11 +192,11 @@ function LoginContent() {
 			{/* Terms */}
 			<p className="text-muted-foreground text-center text-xs">
 				Giriş yaparak{" "}
-				<Link href="/hizmet-sartlari" className="text-primary hover:opacity-80">
+				<Link href="/hizmet-sartlari" className="accent-link text-primary inline-block">
 					Hizmet Şartlarımızı
 				</Link>{" "}
 				ve{" "}
-				<Link href="/gizlilik-politikasi" className="text-primary hover:opacity-80">
+				<Link href="/gizlilik-politikasi" className="accent-link text-primary inline-block">
 					Gizlilik Politikamızı
 				</Link>{" "}
 				kabul etmiş olursunuz

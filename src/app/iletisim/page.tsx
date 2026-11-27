@@ -85,7 +85,7 @@ export default async function ContactPage() {
 										<h2 className="text-foreground font-semibold">Telefon</h2>
 										<a
 											href={`tel:${contactData.phone}`}
-											className="text-primary font-medium hover:opacity-80"
+											className="accent-link text-primary inline-block font-medium"
 										>
 											{contactData.phone}
 										</a>
@@ -104,7 +104,7 @@ export default async function ContactPage() {
 										<h2 className="text-foreground font-semibold">E-posta</h2>
 										<a
 											href={`mailto:${contactData.email}`}
-											className="text-primary font-medium break-all hover:opacity-80"
+											className="accent-link text-primary inline-block font-medium break-all"
 										>
 											{contactData.email}
 										</a>

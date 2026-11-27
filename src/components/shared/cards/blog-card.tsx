@@ -71,7 +71,7 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 
 				<div className="p-4">
 					{/* Blog Title */}
-					<CardTitle className="group-hover:text-primary mb-2 text-lg transition-colors">
+					<CardTitle className="group-hover:text-accent mb-2 text-lg transition-colors">
 						{blog.title}
 					</CardTitle>
 

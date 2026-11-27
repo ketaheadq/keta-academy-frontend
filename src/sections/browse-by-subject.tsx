@@ -16,16 +16,18 @@ export default function BrowseBySubject({ subjects }: Readonly<{ subjects: Strap
 					return (
 						<Card
 							key={subject.id}
-							className="cursor-pointer transition-shadow hover:shadow-lg"
+							className="group cursor-pointer transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
 							onClick={() => {
 								globalThis.window.location.href = `/konular/${subject.slug}`;
 							}}
 						>
 							<CardContent className="p-6 text-center">
-								<div className="bg-primary/10 mb-3 inline-flex rounded-full p-3">
-									{IconComponent && <IconComponent className="text-primary h-6 w-6" />}
+								<div className="bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground mb-3 inline-flex rounded-full p-3 transition-colors duration-300">
+									{IconComponent && <IconComponent className="h-6 w-6" />}
 								</div>
-								<h3 className="text-foreground font-semibold">{subject.title}</h3>
+								<h3 className="text-foreground group-hover:text-accent font-semibold transition-colors">
+									{subject.title}
+								</h3>
 							</CardContent>
 						</Card>
 					);

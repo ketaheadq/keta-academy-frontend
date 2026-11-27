@@ -32,10 +32,12 @@ export default function RelatedDataSection({
 							<Link
 								key={item.href}
 								href={item.href}
-								className="group bg-secondary hover:bg-secondary flex items-center space-x-2 rounded-lg p-3 transition-colors"
+								className="group bg-secondary hover:bg-accent/10 flex items-center space-x-2 rounded-lg p-3 transition-colors"
 							>
-								<ExternalLink className="text-primary h-4 w-4 shrink-0" />
-								<span className="text-foreground truncate text-sm font-medium">{item.title}</span>
+								<ExternalLink className="text-accent h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
+								<span className="text-foreground group-hover:text-accent truncate text-sm font-medium transition-colors">
+									{item.title}
+								</span>
 							</Link>
 						))}
 					</div>

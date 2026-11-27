@@ -69,7 +69,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 					<Link
 						href="/derslerim"
 						onClick={handleLinkClick}
-						className="text-foreground hover:bg-secondary flex min-h-11 items-center rounded-lg px-2 text-sm font-medium transition-colors"
+						className="dropdown-item text-foreground flex min-h-11 items-center rounded-lg px-2 text-sm font-medium"
 					>
 						Derslerim
 					</Link>
@@ -109,7 +109,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 							type="button"
 							aria-expanded={menuOpen}
 							aria-haspopup="menu"
-							className="text-muted-foreground hover:text-foreground flex items-center space-x-2 rounded transition-colors"
+							className="accent-link text-muted-foreground flex items-center space-x-2 rounded"
 						>
 							{avatar}
 							<span className="font-medium">{user.name}</span>
@@ -146,7 +146,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 												setMenuOpen(false);
 												handleLinkClick();
 											}}
-											className="text-muted-foreground hover:bg-secondary hover:text-primary-foreground block px-4 py-2 text-sm transition-colors"
+											className="dropdown-item text-muted-foreground block px-4 py-2 text-sm"
 										>
 											Derslerim
 										</Link>
@@ -169,10 +169,7 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 				// User is not logged in - show login/signup buttons
 				<>
 					<Link href="/giris" onClick={handleLinkClick}>
-						<Button
-							variant="ghost"
-							className="text-foreground hover:bg-secondary hover:text-primary font-medium transition-colors"
-						>
+						<Button variant="ghost" className="text-foreground font-medium">
 							Giriş Yap
 						</Button>
 					</Link>

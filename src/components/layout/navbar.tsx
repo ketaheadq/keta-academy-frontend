@@ -35,7 +35,7 @@ export default async function Navbar() {
 							<Link
 								key={p.id}
 								href={p.href}
-								className="text-foreground hover:text-primary focus-visible:ring-primary after:bg-accent relative block rounded p-2 font-medium after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 focus-visible:ring-2"
+								className="accent-link text-foreground focus-visible:ring-primary block rounded p-2 font-medium focus-visible:ring-2"
 							>
 								{p.displayName}
 							</Link>

@@ -68,13 +68,16 @@ export function LegalPage({
 					Sorularınız için{" "}
 					{email ? (
 						<>
-							<a href={`mailto:${email}`} className="text-primary font-medium hover:underline">
+							<a
+								href={`mailto:${email}`}
+								className="accent-link text-primary inline-block font-medium"
+							>
 								{email}
 							</a>{" "}
 							adresinden
 						</>
 					) : (
-						<Link href="/iletisim" className="text-primary font-medium hover:underline">
+						<Link href="/iletisim" className="accent-link text-primary inline-block font-medium">
 							iletişim sayfamızdan
 						</Link>
 					)}{" "}

@@ -17,7 +17,7 @@ export function ThemeToggle() {
 			onClick={toggleTheme}
 			aria-label={isDark ? "Açık temaya geç" : "Koyu temaya geç"}
 			title={isDark ? "Açık tema" : "Koyu tema"}
-			className="hover:bg-secondary hover:text-foreground relative overflow-hidden"
+			className="hover:bg-accent/10 hover:text-accent relative overflow-hidden"
 		>
 			<AnimatePresence mode="wait" initial={false}>
 				<m.span

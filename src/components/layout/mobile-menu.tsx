@@ -73,7 +73,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 			<button
 				type="button"
 				onClick={toggleMobileMenu}
-				className="text-muted-foreground hover:bg-secondary hover:text-foreground relative h-10 w-10 rounded-md transition-colors lg:hidden"
+				className="text-muted-foreground hover:bg-accent/10 hover:text-accent relative h-10 w-10 rounded-md transition-colors lg:hidden"
 				aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 				aria-expanded={isMobileMenuOpen}
 			>
@@ -132,7 +132,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 										<Link
 											href={p.href}
 											onClick={closeMobileMenu}
-											className="text-foreground hover:text-primary focus-visible:ring-primary block rounded p-2 font-medium transition-colors focus-visible:ring-2"
+											className="accent-link text-foreground focus-visible:ring-primary block rounded p-2 font-medium focus-visible:ring-2"
 										>
 											{p.displayName}
 										</Link>
@@ -151,7 +151,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 											<button
 												type="button"
 												onClick={() => toggleCategory(category.id)}
-												className="text-muted-foreground hover:text-foreground focus:text-primary focus:ring-primary flex w-full items-center justify-between p-2 font-medium transition-colors focus:ring-1 focus:outline-none"
+												className="accent-link text-muted-foreground focus:ring-primary flex w-full items-center justify-between p-2 font-medium focus:ring-1 focus:outline-none"
 												aria-expanded={isOpen}
 												aria-controls={`mobile-submenu-${category.id}`}
 											>
@@ -180,7 +180,7 @@ export default function MobileMenu({ pageCategories }: Readonly<MobileMenuProps>
 															key={`mobile-page-${page.id}`}
 															href={`/sayfalar/${page.slug}`}
 															onClick={closeMobileMenu}
-															className="text-muted-foreground hover:text-foreground focus:text-primary focus:ring-primary block rounded py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
+															className="dropdown-item text-muted-foreground focus:ring-primary block rounded py-2 text-sm focus:ring-2 focus:outline-none"
 														>
 															{page.title}
 														</Link>

@@ -22,7 +22,7 @@ export function HomeDenemeler({ denemeler }: Readonly<{ denemeler: DenemeSummary
 				</div>
 				<Link
 					href="/deneme-sinavlari"
-					className="text-primary group flex shrink-0 items-center gap-1 text-sm font-medium"
+					className="accent-link text-primary group flex shrink-0 items-center gap-1 text-sm font-medium"
 				>
 					Tümünü gör{" "}
 					<ArrowRight
@@ -116,7 +116,7 @@ export function HomeVeliler() {
 					href="/ornek-deneme-raporu.pdf"
 					target="_blank"
 					rel="noopener"
-					className="hover:text-foreground mt-3 inline-block text-sm font-medium underline underline-offset-2 transition-colors"
+					className="accent-link mt-3 inline-block text-sm font-medium"
 				>
 					Örnek PDF raporu inceleyin
 				</a>

@@ -91,7 +91,7 @@ export default function VideoCard({ video }: Readonly<VideoCardProps>) {
 					</div>
 				</div>
 				<div className="p-4">
-					<h3 className="text-foreground group-hover:text-primary mb-2 line-clamp-2 font-semibold transition-colors">
+					<h3 className="text-foreground group-hover:text-accent mb-2 line-clamp-2 font-semibold transition-colors">
 						{video.title}
 					</h3>
 

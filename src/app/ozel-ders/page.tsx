@@ -101,7 +101,7 @@ export default async function TutoringPage() {
 
 				<RevealGroup className="grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-3 lg:gap-12" gap={0.1}>
 					<RevealItem className="*:h-full">
-						<div className="group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+						<div className="interactive-card group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 							<div className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-background mb-6 flex h-16 w-16 items-center justify-center rounded-2xl transition-colors duration-300">
 								<Search className="h-8 w-8" />
 							</div>
@@ -119,7 +119,7 @@ export default async function TutoringPage() {
 					</RevealItem>
 
 					<RevealItem className="*:h-full">
-						<div className="group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+						<div className="interactive-card group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 							<div className="bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground mb-6 flex h-16 w-16 items-center justify-center rounded-2xl transition-colors duration-300">
 								<MessageCircle className="h-8 w-8" />
 							</div>
@@ -137,7 +137,7 @@ export default async function TutoringPage() {
 					</RevealItem>
 
 					<RevealItem className="*:h-full">
-						<div className="group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+						<div className="interactive-card group border-border bg-card relative rounded-3xl border p-8 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 							<div className="bg-foreground/10 text-foreground group-hover:bg-foreground group-hover:text-background mb-6 flex h-16 w-16 items-center justify-center rounded-2xl transition-colors duration-300">
 								<GraduationCap className="h-8 w-8" />
 							</div>

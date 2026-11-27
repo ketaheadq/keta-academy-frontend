@@ -100,7 +100,7 @@ export default function CourseCard({ course, title }: Readonly<CourseCardProps>)
 					aria-label={`${buttonText}: ${course.title}`}
 					className={cn(
 						buttonVariants(),
-						"w-full after:absolute after:inset-0 after:rounded-xl active:scale-none",
+						"w-full before:absolute before:inset-0 before:rounded-xl active:scale-none",
 						isComplete && "bg-green-700 text-white hover:bg-green-800",
 					)}
 				>

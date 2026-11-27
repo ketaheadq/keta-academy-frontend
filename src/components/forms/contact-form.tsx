@@ -238,7 +238,7 @@ export default function ContactForm() {
 
 						<p className="text-muted-foreground text-center text-sm">
 							Mesajınızı göndererek{" "}
-							<a href="/privacy" className="text-primary hover:underline">
+							<a href="/privacy" className="accent-link text-primary inline-block">
 								gizlilik politikamızı
 							</a>{" "}
 							kabul etmiş olursunuz.

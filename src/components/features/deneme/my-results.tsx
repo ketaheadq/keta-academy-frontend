@@ -61,7 +61,7 @@ export function MyDenemeResults({ jwt }: Readonly<{ jwt: string }>) {
 								{r.denemeSlug ? (
 									<Link
 										href={`/deneme-sinavlari/${r.denemeSlug}`}
-										className="text-foreground font-semibold hover:underline"
+										className="accent-link text-foreground inline-block font-semibold"
 									>
 										{r.denemeBaslik}
 									</Link>

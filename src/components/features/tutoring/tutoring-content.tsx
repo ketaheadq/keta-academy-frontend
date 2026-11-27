@@ -25,7 +25,7 @@ function TutorCard({
 
 	return (
 		// The name link stretches over the whole card (after:inset-0); contact buttons sit above it (z-10).
-		<article className="border-border group bg-card relative flex flex-col overflow-hidden rounded-2xl border shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+		<article className="interactive-card border-border group bg-card relative flex flex-col overflow-hidden rounded-2xl border shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
 			<div className="flex items-start gap-4 p-6 pb-4">
 				<div className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20">
 					<Image
@@ -38,7 +38,7 @@ function TutorCard({
 				</div>
 
 				<div className="min-w-0 flex-1">
-					<h3 className="text-foreground group-hover:text-primary text-xl font-bold transition-colors">
+					<h3 className="text-foreground group-hover:text-accent text-xl font-bold transition-colors">
 						<Link href={href} className="after:absolute after:inset-0 hover:underline">
 							{tutor.name}
 						</Link>
