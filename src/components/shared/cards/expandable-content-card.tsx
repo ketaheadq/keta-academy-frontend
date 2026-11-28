@@ -33,10 +33,10 @@ export default function ExpandableContentCard({
 					if (block.children && block.children.length > 0) {
 						// Find the first text node with content
 						const firstTextChild = block.children.find(
-							(child) => child.text && child.text.trim() !== "",
+							(child) => "text" in child && child.text && child.text.trim() !== "",
 						);
 
-						if (firstTextChild) {
+						if (firstTextChild && "text" in firstTextChild) {
 							const text = firstTextChild.text;
 							const sentenceEndRegex = /[.!?]+/;
 							const match = sentenceEndRegex.exec(text);

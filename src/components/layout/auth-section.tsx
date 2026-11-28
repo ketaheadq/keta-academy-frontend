@@ -4,7 +4,7 @@ import { ChevronDown, LogOut, User } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { type KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { dropdownDown } from "@/lib/motion";
 import { useAuthStore } from "@/stores/auth-store";
@@ -28,6 +28,9 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 	};
 	const scheduleClose = () => {
 		closeTimer.current = setTimeout(() => setMenuOpen(false), CLOSE_DELAY_MS);
+	};
+	const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+		if (event.key === "Escape") setMenuOpen(false);
 	};
 
 	useEffect(() => () => clearTimeout(closeTimer.current), []);
@@ -92,23 +95,16 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 				// User is logged in - show user info and logout
 				<div className="flex items-center space-x-4">
 					{/* User Profile Dropdown */}
-					{/* biome-ignore lint/a11y/noStaticElementInteractions: the wrapper only bridges pointer and focus intent between the button and its panel; the button is the control. */}
-					<div
-						className="relative"
-						onMouseEnter={keepOpen}
-						onMouseLeave={scheduleClose}
-						onFocus={keepOpen}
-						onBlur={(e) => {
-							if (!e.currentTarget.contains(e.relatedTarget as Node | null)) scheduleClose();
-						}}
-						onKeyDown={(e) => {
-							if (e.key === "Escape") setMenuOpen(false);
-						}}
-					>
+					<div className="relative">
 						<button
 							type="button"
 							aria-expanded={menuOpen}
 							aria-haspopup="menu"
+							onMouseEnter={keepOpen}
+							onMouseLeave={scheduleClose}
+							onFocus={keepOpen}
+							onBlur={scheduleClose}
+							onKeyDown={handleKeyDown}
 							className="accent-link text-muted-foreground flex items-center space-x-2 rounded"
 						>
 							{avatar}
@@ -132,6 +128,11 @@ export default function AuthSection({ mobile = false, onNavigate }: Readonly<Aut
 									exit="exit"
 									variants={dropdownDown}
 									role="menu"
+									onMouseEnter={keepOpen}
+									onMouseLeave={scheduleClose}
+									onFocus={keepOpen}
+									onBlur={scheduleClose}
+									onKeyDown={handleKeyDown}
 									className="bg-popover absolute top-full right-0 z-50 mt-2 w-48 overflow-hidden rounded-md border shadow-lg"
 								>
 									<div className="py-2">

@@ -1,3 +1,5 @@
+import type { BlocksContent } from "@strapi/blocks-react-renderer";
+
 // New types for Rich Text content
 export interface StrapiRichTextBlock {
 	type: string;
@@ -269,22 +271,11 @@ export interface StrapiGrade {
 
 export interface StrapiResponse<T> {
 	data: T;
-	// biome-ignore lint/suspicious/noExplicitAny: generic Strapi response metadata
-	meta: any;
+	meta: unknown;
 }
 
 // Strapi Block Content Type (for rich text fields)
-export interface StrapiBlock {
-	type: string;
-	children: Array<{
-		text: string;
-		type?: string;
-		// biome-ignore lint/suspicious/noExplicitAny: arbitrary Strapi block attributes
-		[key: string]: any;
-	}>;
-	// biome-ignore lint/suspicious/noExplicitAny: arbitrary Strapi block attributes
-	[key: string]: any;
-}
+export type StrapiBlock = BlocksContent[number];
 
 // Answer Option Type
 export interface StrapiAnswerOption {

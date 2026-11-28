@@ -1,13 +1,16 @@
 // Strapi authentication utilities
 
-// biome-ignore lint/suspicious/noExplicitAny: type guard input
-function isValidStrapiUser(obj: any): obj is StrapiUser {
+function isValidStrapiUser(obj: unknown): obj is StrapiUser {
 	return (
 		typeof obj === "object" &&
 		obj !== null &&
+		"id" in obj &&
 		typeof obj.id === "number" &&
+		"username" in obj &&
 		typeof obj.username === "string" &&
+		"email" in obj &&
 		typeof obj.email === "string" &&
+		"confirmed" in obj &&
 		typeof obj.confirmed === "boolean"
 		// Add other key checks if needed
 	);

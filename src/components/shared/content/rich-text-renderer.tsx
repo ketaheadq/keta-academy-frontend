@@ -3,10 +3,10 @@
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 import type React from "react";
+import type { StrapiBlock } from "@/lib/strapi";
 
 interface RichTextRendererProps {
-	// biome-ignore lint/suspicious/noExplicitAny: blocks-react-renderer expects any[] blocks
-	content: any[]; // Using any to avoid type conflicts with BlocksRenderer
+	content: StrapiBlock[];
 	className?: string;
 }
 

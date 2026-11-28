@@ -6,8 +6,6 @@ import Link from "next/link";
 interface ContinuableItem {
 	id: string | number;
 	progress: number;
-	// biome-ignore lint/suspicious/noExplicitAny: generic item properties
-	[key: string]: any;
 }
 
 interface DynamicContinueProps<T extends ContinuableItem> {

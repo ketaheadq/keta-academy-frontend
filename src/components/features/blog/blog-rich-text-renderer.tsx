@@ -12,10 +12,10 @@ import {
 	StrikethroughModifierComponent,
 	UnderlineModifierComponent,
 } from "@/components/ui/modifiers";
+import type { StrapiBlock } from "@/lib/strapi";
 
 interface BlogRichTextRendererProps {
-	// biome-ignore lint/suspicious/noExplicitAny: blocks-react-renderer expects any[] blocks
-	content: any[];
+	content: StrapiBlock[];
 	className?: string;
 }
 

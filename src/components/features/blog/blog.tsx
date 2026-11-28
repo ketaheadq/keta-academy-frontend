@@ -3,7 +3,7 @@
 import { Calendar, Clock, User } from "lucide-react";
 import BlogRichTextRenderer from "@/components/features/blog/blog-rich-text-renderer";
 import ShareComponent from "@/components/ui/share-component";
-import type { StrapiBlog } from "@/lib/strapi";
+import type { StrapiBlock, StrapiBlog } from "@/lib/strapi";
 
 interface BlogPageProps {
 	blog: StrapiBlog;
@@ -18,17 +18,15 @@ export default function BlogPage({ blog }: Readonly<BlogPageProps>) {
 		});
 	};
 
-	// biome-ignore lint/suspicious/noExplicitAny: Strapi rich text blocks structure
-	const getReadingTime = (content: any[]) => {
+	const getReadingTime = (content: StrapiBlock[]) => {
 		// Calculate reading time based on content length
 		const wordsPerMinute = 200;
 		let wordCount = 0;
 
 		content.forEach((block) => {
 			if (block.children) {
-				// biome-ignore lint/suspicious/noExplicitAny: block child node
-				block.children.forEach((child: any) => {
-					if (child.text) {
+				block.children.forEach((child) => {
+					if ("text" in child && child.text) {
 						wordCount += child.text.split(" ").length;
 					}
 				});

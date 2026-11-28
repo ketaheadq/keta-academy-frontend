@@ -18,6 +18,9 @@ export default function AdmissionScoreCard({
 }: Readonly<AdmissionScoreCardProps>) {
 	const pathname = usePathname();
 	const router = useRouter();
+	const firstContentChild = admissionScore.content[0]?.children[0];
+	const contentPreview =
+		firstContentChild && "text" in firstContentChild ? firstContentChild.text : undefined;
 
 	const handleCardClick = () => {
 		router.push(`${pathname}/${admissionScore.slug}`);
@@ -105,8 +108,7 @@ export default function AdmissionScoreCard({
 							{/* Content preview */}
 							{admissionScore.content && admissionScore.content.length > 0 && (
 								<p className="text-muted-foreground mb-2 line-clamp-2 text-sm">
-									{admissionScore.content[0]?.children?.[0]?.text ||
-										"Taban puanları ve detaylar mevcut"}
+									{contentPreview || "Taban puanları ve detaylar mevcut"}
 								</p>
 							)}
 

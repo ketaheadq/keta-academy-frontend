@@ -233,7 +233,10 @@ function generateDefaultDescription(content: SEOContent): string {
 	}
 	if ("content" in content && Array.isArray(content.content)) {
 		const text = content.content
-			.map((block) => block.children?.[0]?.text)
+			.map((block) => {
+				const firstChild = block.children[0];
+				return firstChild && "text" in firstChild ? firstChild.text : undefined;
+			})
 			.find((text) => Boolean(text?.trim()));
 		return text?.substring(0, 160) || `${content.title} - KetaLearn blog yazısı`;
 	}

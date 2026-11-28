@@ -22,7 +22,9 @@ export const extractTextFromBlocks = (blocks: StrapiBlock[]): string => {
 	if (!blocks || !Array.isArray(blocks)) return "";
 
 	return blocks
-		.map((block) => block.children?.map((child) => child.text).join("") || "")
+		.map(
+			(block) => block.children?.map((child) => ("text" in child ? child.text : "")).join("") || "",
+		)
 		.join("\n\n");
 };
 

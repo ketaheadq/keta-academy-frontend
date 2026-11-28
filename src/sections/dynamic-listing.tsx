@@ -5,8 +5,6 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 // Generic interfaces for dynamic listing
 interface ListableItem {
 	id: string | number;
-	// biome-ignore lint/suspicious/noExplicitAny: generic item properties
-	[key: string]: any;
 }
 
 interface DynamicListingProps<T extends ListableItem> {

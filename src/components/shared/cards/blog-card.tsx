@@ -26,7 +26,8 @@ export default function BlogCard({ blog }: Readonly<BlogCardProps>) {
 
 		for (const block of blog.content) {
 			if (block.children && block.children.length > 0) {
-				const text = block.children[0]?.text;
+				const firstChild = block.children[0];
+				const text = firstChild && "text" in firstChild ? firstChild.text : undefined;
 				if (text?.trim()) {
 					return text;
 				}

@@ -19,8 +19,6 @@ import { normalizeTurkish } from "@/lib/utils";
 // Generic interfaces for dynamic filtering
 interface FilterableItem {
 	id: string | number;
-	// biome-ignore lint/suspicious/noExplicitAny: generic item properties
-	[key: string]: any;
 }
 
 interface FilterConfig {
@@ -80,11 +78,10 @@ export default function DynamicGrid<T extends FilterableItem>({
 	const shouldShowPagination = enablePagination ?? items.length > itemsPerPage;
 
 	// Helper function to get nested property value - now memoized
-	// biome-ignore lint/suspicious/noExplicitAny: generic nested property traversal
-	const getNestedValue = useCallback((obj: any, path: string): any => {
-		return path.split(".").reduce((current, key) => {
+	const getNestedValue = useCallback((obj: unknown, path: string): unknown => {
+		return path.split(".").reduce<unknown>((current, key) => {
 			if (current && typeof current === "object") {
-				return current[key];
+				return (current as Record<string, unknown>)[key];
 			}
 			return current;
 		}, obj);
@@ -104,7 +101,7 @@ export default function DynamicGrid<T extends FilterableItem>({
 			if (Array.isArray(itemValue)) {
 				return itemValue.some((val) => {
 					// If array contains objects with title property
-					if (typeof val === "object" && val?.title) {
+					if (typeof val === "object" && val !== null && "title" in val && val.title) {
 						return val.title === selectedValue;
 					}
 					// If array contains primitive values
@@ -113,7 +110,12 @@ export default function DynamicGrid<T extends FilterableItem>({
 			}
 
 			// Handle object fields (like subject.title)
-			if (typeof itemValue === "object" && itemValue?.title) {
+			if (
+				typeof itemValue === "object" &&
+				itemValue !== null &&
+				"title" in itemValue &&
+				itemValue.title
+			) {
 				return itemValue.title === selectedValue;
 			}
 
